@@ -1,0 +1,13 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<browser:page
+    name="add_device.html"
+    permission="zope.View"
+    for="*"
+    class=".implementation.AddDevice"
+/>
+
+
+
+
+</configure>
