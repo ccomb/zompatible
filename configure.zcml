@@ -4,7 +4,7 @@
     name="add_device.html"
     permission="zope.View"
     for="*"
-    class=".implementation.AddDevice"
+    class=".implementation.DeviceAdd"
 />
 
 

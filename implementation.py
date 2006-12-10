@@ -1,6 +1,6 @@
 from interfaces import *
 from persistent import Persistent  
-from zope.formlib.form import EditForm, Fields
+from zope.formlib.form import EditForm, Fields, AddForm
 
 class Device(Persistent):
   implements(IDevice)
@@ -12,7 +12,7 @@ class DeviceAdd(AddForm):
   form_fields=Fields(IDevice)
 
 class SupportLevel(Persistent):
-  "
+  """
   green :
   1 = works without doing anything
   2 = works by just declaring the new device
@@ -29,7 +29,7 @@ class SupportLevel(Persistent):
   In this case, his opinion may be based on another compatibility list (ex : alsa matrix)
   The support level should be an instance of SupportLevel 
   implement this as a Level
-  "
+  """
   implements(ILevel)
 
 class TrustLevel(Persistent):
@@ -37,9 +37,9 @@ class TrustLevel(Persistent):
   implements(ILevel)
 
 class StabilityLevel(Persistent):
-  "
+  """
   a level of stability
-  "
+  """
   implements(ILevel)
 
   
