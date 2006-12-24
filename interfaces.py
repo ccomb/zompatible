@@ -95,7 +95,7 @@ class IDriver(ISoftware):
 
 
 class IManufacturer(Interface):
-  name=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
+  names=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
 
 class IChip(Interface):
   "a chip on the device ex: emu10k1, MD3200"

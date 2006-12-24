@@ -1,15 +1,51 @@
 from interfaces import *
 from persistent import Persistent  
-from zope.formlib.form import EditForm, Fields, AddForm
+from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
+from zope.publisher.browser import BrowserPage
+from zope.app.pagetemplate import ViewPageTemplateFile
+
+class Manufacturer(Persistent):
+  implements(IManufacturer)
+  names=[]  
+
+class ManufacturerAdd(AddForm):
+  "La classe de formulaire pour l'ajout"
+  form_fields=Fields(IManufacturer)
+  label=u"ajout d'un fabricant"
+  def create(self, data):
+    "on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
+    manufacturer=Manufacturer()
+    "puis on applique les données du formulaire à l'objet"
+    applyChanges(manufacturer, self.form_fields, data)
+    "puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
+    self.context.contentName=manufacturer.names[0]
+    return manufacturer
+
+class ManufacturerEdit(EditForm):
+  form_fields=Fields(IManufacturer)
+
+class ManufacturerView(BrowserPage):
+  __call__=ViewPageTemplateFile("manufacturer.pt")
+  def getmainname(self):
+    return self.context.names[0]
 
 class Device(Persistent):
   implements(IDevice)
+  def __init__(self):
+        pass
 
 class DeviceEdit(EditForm):
   form_fields=Fields(IDevice)
 
 class DeviceAdd(AddForm):
   form_fields=Fields(IDevice)
+  def create(self, data):
+         # applyChanges applies all changed fields named in form_fields
+         # to the object, taking the field values from data.
+         # In a new object, that's *all* fields.
+         device = Device()
+         applyChanges(device, self.form_fields, data)
+         return device
 
 class SupportLevel(Persistent):
   """

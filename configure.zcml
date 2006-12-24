@@ -1,13 +1,42 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
 <browser:page
-    name="add_device.html"
+    name="implementation.Manufacturer"
+    for="zope.app.container.interfaces.IAdding"
+    class=".implementation.ManufacturerAdd"
     permission="zope.View"
-    for="*"
-    class=".implementation.DeviceAdd"
+/>
+<browser:page
+    name="edit_manufacturer.html"
+    for=".interfaces.IManufacturer"
+    class=".implementation.ManufacturerEdit"
+    permission="zope.View"
+    menu="zmi_views" title="edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.IManufacturer"
+    class=".implementation.ManufacturerView"
+    permission="zope.View"
+    menu="zmi_views" title="view"
+/>
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Manufacturer"
+    class=".implementation.Manufacturer"
+    permission="zope.View"    
 />
 
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
+<zope:class class=".implementation.Manufacturer">
+  <require permission="zope.Public" interface=".implementation.IManufacturer" />
+  <require permission="zope.Public" set_schema=".implementation.IManufacturer" />
+</zope:class>
 
-
+<!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<zope:interface  
+  interface=".implementation.IManufacturer"
+  type="zope.app.content.interfaces.IContentType"
+/>
 
 </configure>
