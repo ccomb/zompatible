@@ -3,15 +3,25 @@ from persistent import Persistent
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.app.folder.folder import Folder
+
+# MANUFACTURER
+
+
+class ManufacturerContainer(Folder):
+  "a container that contains manufacturers"
+  implements(IManufacturerContainer)
 
 class Manufacturer(Persistent):
   implements(IManufacturer)
-  names=[]  
+  names=[]
+  __name__=__parent__=None
 
 class ManufacturerAdd(AddForm):
   "La classe de formulaire pour l'ajout"
-  form_fields=Fields(IManufacturer)
-  label=u"ajout d'un fabricant"
+  form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
+  label=u"Ajout d'un fabricant"
+  template=ViewPageTemplateFile("toto.pt")
   def create(self, data):
     "on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
     manufacturer=Manufacturer()
@@ -22,7 +32,9 @@ class ManufacturerAdd(AddForm):
     return manufacturer
 
 class ManufacturerEdit(EditForm):
-  form_fields=Fields(IManufacturer)
+  label="Modification d'un fabricant"
+  form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
+  template=ViewPageTemplateFile("toto.pt")
 
 class ManufacturerView(BrowserPage):
   __call__=ViewPageTemplateFile("manufacturer.pt")

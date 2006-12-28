@@ -1,5 +1,16 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<include package=".skin" />
+
+<!-- on inscrit l'interface IMySkin avec un nom et un type -->
+<zope:interface
+    name="MySkin"
+    interface=".skin.interfaces.IMySkin"
+    type="zope.publisher.interfaces.browser.IBrowserSkinType"
+/>
+
+        
+
 <browser:page
     name="implementation.Manufacturer"
     for="zope.app.container.interfaces.IAdding"
@@ -9,6 +20,7 @@
 <browser:page
     name="edit_manufacturer.html"
     for=".interfaces.IManufacturer"
+    template="toto.pt"
     class=".implementation.ManufacturerEdit"
     permission="zope.View"
     menu="zmi_views" title="edit"
@@ -24,13 +36,18 @@
 <browser:addMenuItem
     title="Manufacturer"
     class=".implementation.Manufacturer"
-    permission="zope.View"    
+    permission="zope.ManageContent"
+/>
+<browser:addMenuItem
+    title="Manufacturer Container"
+    class=".implementation.ManufacturerContainer"
+    permission="zope.ManageContent"
 />
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
 <zope:class class=".implementation.Manufacturer">
   <require permission="zope.Public" interface=".implementation.IManufacturer" />
-  <require permission="zope.Public" set_schema=".implementation.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".implementation.IManufacturer" />
 </zope:class>
 
 <!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
@@ -38,5 +55,10 @@
   interface=".implementation.IManufacturer"
   type="zope.app.content.interfaces.IContentType"
 />
+<zope:class class=".implementation.ManufacturerContainer">
+  <require permission="zope.Public" interface="zope.app.container.interfaces.IReadContainer" />
+  <require permission="zope.ManageContent" interface="zope.app.container.interfaces.IWriteContainer" />
+</zope:class>
+
 
 </configure>

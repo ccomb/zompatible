@@ -1,5 +1,10 @@
 from zope.interface import *
 from zope.schema import TextLine, Bool, Object, URI, Datetime, List, Text, Int
+from zope.app.container.interfaces import IContainer, IContained
+from zope.app.container.constraints import contains, containers
+from zope.component.interface import provideInterface
+
+# définir une interface IVersionned pour dire qu'un truc est versionné ?
 
 class IArchitecture(Interface):
   names = List(title=u'names', description=u'possible names of the architecture', value_type=TextLine(title=u'name', description=u'possible name'))
@@ -93,9 +98,14 @@ class IDriver(ISoftware):
   """
   subsystems = List(title=u'for which subsystems?', description=u'the driver is for which subsystems? (kernel, xorg, ...)', value_type=Object(title=u'subsystem', description=u'subsystem this driver applies to', schema=(ISoftware)))
 
-
-class IManufacturer(Interface):
+class IManufacturer(IContained):
+  "a manufacturer may contain devices so be a device container??"
+  containers('goodforlinux.interfaces.IManufacturerContainer')
   names=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
+
+class IManufacturerContainer(IContainer):
+  "a container for the manufacturers should only contain manufacturers"
+  contains(IManufacturer)
 
 class IChip(Interface):
   "a chip on the device ex: emu10k1, MD3200"
@@ -104,11 +114,21 @@ class IChip(Interface):
   features = List(title=u'features', description=u'list of features of the chip', value_type=Object(title=u'feature', description=u'a feature of the chip', schema=IFeature))
 
 class IPhysicalInterface(Interface):
-  "for example a PCI socket, USB plug, etc."
+  """
+  for example a PCI socket, USB plug, etc.
+  Il pourrait y avoir un container de physinterfaces.
+  lorsqu'un device possede une physinterface, on lui assigne, et le ref count de l'objet monte à 2:
+  1 dans le container, 1 dans le device. Cliquer sur la physinterface permet de savoir quels matériels ont cette physinterface. (??)
+  """  
   name = List(title=u'names',description=u'list of names of the physical interface', value_type=TextLine(title=u'interface', description=u'a physical interface offered by the device'))
 
 class IDevice(Interface):
-  "IDevice offers basic attributes of a device"
+  """
+  IDevice offers basic attributes of a device
+  Instead of having many attributes for characteristics, why not setting the device as a container of features ?
+  So a Device would be a container that can contain IFeatures, IChips, IPhysicalInterfaces and IDriver
+  Un device pourrait être une implémentation fournissant IDevice, IPhysicalInterface, IChip, etc... ?
+  """
   names = List(title=u'names', description=u'possible names of the device', value_type=TextLine(title=u'name', description=u'a name for the device (commercial name, code name, etc.'))
   manufacturer = Object(title=u'Manufacturer', description=u'the manufacturer of the device', schema=IManufacturer)
   features = List(title=u'features', description=u'list of features of the device, in addition of those from the chip', value_type=Object(title=u'feature', description=u'a feature of the device', schema=IFeature))
@@ -157,6 +177,7 @@ class IHardwareSystem(Interface):
   categories = List(title=u'categories', description=u'categories the system is part of', value_type=Object(title=u'category', description=u'category', schema=ICategory))
 
 class IPciDevice(IDevice):
+  "est-ce que PCI doit être une interface, ou bien une implémentation d'une interface IPhysicalInterface ?"
   pciid = TextLine(title=u'pciid', description=u'the pciid of the device')
 
 class IErrorReport(IReport):
