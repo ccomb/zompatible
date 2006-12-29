@@ -30,10 +30,16 @@
     permission="zope.View"
 />
 
-
+<!-- Ici on définit un menu.
+Ensuite on peut afficher les browser:page dans ce menu avec la directive menu -->
 <browser:menu
     id="my_actions"
-    title="My test Menu"
+    title="My actions Menu"
+/>
+<!-- un autre menu qui permet de regrouper les actions d'ajout -->
+<browser:menu
+    id="my_addings"
+    title="My addings Menu"
 />
 
 

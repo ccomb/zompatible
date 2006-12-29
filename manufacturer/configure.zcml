@@ -17,11 +17,13 @@
 </zope:class>
 
 
+
 <browser:page
     name="manufacturer.Manufacturer"
     for="zope.app.container.interfaces.IAdding"
     class=".manufacturer.ManufacturerAdd"
     permission="zope.View"
+    menu="my_addings" title="new manufacturer"
 />
 <browser:page
     name="edit_manufacturer.html"
@@ -29,15 +31,29 @@
     template="manufacturer_form.pt"
     class=".manufacturer.ManufacturerEdit"
     permission="zope.View"
-    menu="zmi_views" title="edit"
+    menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IManufacturer"
     class=".manufacturer.ManufacturerView"
     permission="zope.View"
-    menu="zmi_views" title="view"
+    menu="my_actions" title="View"
 />
+
+<!-- on ajoute une entrée au menu my_actions pour ajouter un manufacturer directement depuis la vue manuf. -->
+<browser:menuItems
+    menu="my_actions"
+    for=".interfaces.IManufacturer"
+>
+    <menuItem
+        action="../+/manufacturer.Manufacturer"
+        title="new manufacturer"
+        permission="zope.View"
+    />
+</browser:menuItems>
+    
+
 <!-- juste pour la ZMI -->
 <browser:addMenuItem
     title="Manufacturer"
