@@ -1,8 +1,9 @@
-from zope.interface import *
+from zope.interface.interfaces import Interface, Attribute
 from zope.schema import TextLine, Bool, Object, URI, Datetime, List, Text, Int
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.component.interface import provideInterface
+from manufacturer.interfaces import IManufacturer, IManufacturerContainer
 
 # définir une interface IVersionned pour dire qu'un truc est versionné ?
 
@@ -98,14 +99,6 @@ class IDriver(ISoftware):
   """
   subsystems = List(title=u'for which subsystems?', description=u'the driver is for which subsystems? (kernel, xorg, ...)', value_type=Object(title=u'subsystem', description=u'subsystem this driver applies to', schema=(ISoftware)))
 
-class IManufacturer(IContained):
-  "a manufacturer may contain devices so be a device container??"
-  containers('goodforlinux.interfaces.IManufacturerContainer')
-  names=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
-
-class IManufacturerContainer(IContainer):
-  "a container for the manufacturers should only contain manufacturers"
-  contains(IManufacturer)
 
 class IChip(Interface):
   "a chip on the device ex: emu10k1, MD3200"

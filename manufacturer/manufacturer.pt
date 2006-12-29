@@ -10,10 +10,11 @@
 <body metal:fill-slot="body">
 
 
-<!-- ce div correspond au slot qui sera placé dans le template (lequel ?)-->
+<!-- ce div correspond au slot qui sera placé dans le template -->
 
 <h2 tal:content="view/getmainname">manufacturer name</h2> 
 
+(other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
 
 </body>

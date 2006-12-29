@@ -1,5 +1,13 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<!-- on inscrit l'interface IMySkin avec un nom et un type -->
+<zope:interface
+    name="MySkin"
+    interface=".interfaces.IMySkin"
+    type="zope.publisher.interfaces.browser.IBrowserSkinType"
+/>
+
+
 <!-- a browser view is not intended to be published, while browser pages are. -->
 <!--  IItemMapping is implemented by StandardMacros. With it we provide access to...???? -->
 
@@ -20,6 +28,12 @@
     class=".standardmacros.MyMainMacro"
     layer=".interfaces.IMySkin"
     permission="zope.View"
+/>
+
+
+<browser:menu
+    id="my_actions"
+    title="My test Menu"
 />
 
 

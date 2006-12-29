@@ -38,4 +38,6 @@ class ManufacturerView(BrowserPage):
     "la vue qui permet d'afficher un manufacturer"
     __call__=ViewPageTemplateFile("manufacturer.pt")
     def getmainname(self):
-        return self.context.names[0]
+        return self.context.__name__
+    def getothernames(self):
+        return self.context.names

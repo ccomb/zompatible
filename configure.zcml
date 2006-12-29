@@ -2,62 +2,8 @@
 
 <include package=".skin" />
 
-<!-- on inscrit l'interface IMySkin avec un nom et un type -->
-<zope:interface
-    name="MySkin"
-    interface=".skin.interfaces.IMySkin"
-    type="zope.publisher.interfaces.browser.IBrowserSkinType"
-/>
+<include package=".manufacturer" />
 
-
-<browser:page
-    name="manufacturer.Manufacturer"
-    for="zope.app.container.interfaces.IAdding"
-    class=".manufacturer.ManufacturerAdd"
-    permission="zope.View"
-/>
-<browser:page
-    name="edit_manufacturer.html"
-    for=".interfaces.IManufacturer"
-    template="manufacturer_form.pt"
-    class=".manufacturer.ManufacturerEdit"
-    permission="zope.View"
-    menu="zmi_views" title="edit"
-/>
-<browser:page
-    name="index.html"
-    for=".interfaces.IManufacturer"
-    class=".manufacturer.ManufacturerView"
-    permission="zope.View"
-    menu="zmi_views" title="view"
-/>
-<!-- juste pour la ZMI -->
-<browser:addMenuItem
-    title="Manufacturer"
-    class=".manufacturer.Manufacturer"
-    permission="zope.ManageContent"
-/>
-<browser:addMenuItem
-    title="Manufacturer Container"
-    class=".manufacturer.ManufacturerContainer"
-    permission="zope.ManageContent"
-/>
-
-<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
-<zope:class class=".manufacturer.Manufacturer">
-  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
-</zope:class>
-
-<!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
-<zope:interface  
-  interface=".interfaces.IManufacturer"
-  type="zope.app.content.interfaces.IContentType"
-/>
-<zope:class class=".manufacturer.ManufacturerContainer">
-  <require permission="zope.Public" interface="zope.app.container.interfaces.IReadContainer" />
-  <require permission="zope.ManageContent" interface="zope.app.container.interfaces.IWriteContainer" />
-</zope:class>
 
 
 </configure>
