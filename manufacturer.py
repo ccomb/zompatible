@@ -35,6 +35,7 @@ class ManufacturerEdit(EditForm):
   template=ViewPageTemplateFile("manufacturer_form.pt")
 
 class ManufacturerView(BrowserPage):
-  __call__=ViewPageTemplateFile("manufacturer.pt")
-  def getmainname(self):
-    return self.context.names[0]
+    "la vue qui permet d'afficher un manufacturer"
+    __call__=ViewPageTemplateFile("manufacturer.pt")
+    def getmainname(self):
+        return self.context.names[0]
