@@ -15,6 +15,7 @@ class ManufacturerContainer(Folder):
 class Manufacturer(Persistent):
   implements(IManufacturer)
   names=[]
+  # IManufacturer fournit IContained donc il faut mettre ces attributs :
   __name__=__parent__=None
 
 class ManufacturerAdd(AddForm):
