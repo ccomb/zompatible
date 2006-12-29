@@ -1,0 +1,27 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<!-- a browser view is not intended to be published, while browser pages are. -->
+<!--  IItemMapping is implemented by StandardMacros. With it we provide access to...???? -->
+
+<!-- Ici on décide que la vue "standard_macros" est gérée par la classe MyOwnStandardMacros. -->
+<browser:view
+    name="standard_macros"
+    for="*"
+    class=".standardmacros.MyOwnStandardMacros"
+    permission="zope.View"
+    allowed_interface="zope.interface.common.mapping.IItemMapping"
+    layer=".interfaces.IMySkin"
+/>
+
+<!-- Ensuite on décide que la macro particulière dont le nom est "page" correspond à la vue/macro/template MyMainMacro -->
+<browser:view
+    name="mymainmacro"
+    for="*"
+    class=".standardmacros.MyMainMacro"
+    layer=".interfaces.IMySkin"
+    permission="zope.View"
+/>
+
+
+
+</configure>

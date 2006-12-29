@@ -9,53 +9,52 @@
     type="zope.publisher.interfaces.browser.IBrowserSkinType"
 />
 
-        
 
 <browser:page
-    name="implementation.Manufacturer"
+    name="manufacturer.Manufacturer"
     for="zope.app.container.interfaces.IAdding"
-    class=".implementation.ManufacturerAdd"
+    class=".manufacturer.ManufacturerAdd"
     permission="zope.View"
 />
 <browser:page
     name="edit_manufacturer.html"
     for=".interfaces.IManufacturer"
-    template="toto.pt"
-    class=".implementation.ManufacturerEdit"
+    template="manufacturer_form.pt"
+    class=".manufacturer.ManufacturerEdit"
     permission="zope.View"
     menu="zmi_views" title="edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IManufacturer"
-    class=".implementation.ManufacturerView"
+    class=".manufacturer.ManufacturerView"
     permission="zope.View"
     menu="zmi_views" title="view"
 />
 <!-- juste pour la ZMI -->
 <browser:addMenuItem
     title="Manufacturer"
-    class=".implementation.Manufacturer"
+    class=".manufacturer.Manufacturer"
     permission="zope.ManageContent"
 />
 <browser:addMenuItem
     title="Manufacturer Container"
-    class=".implementation.ManufacturerContainer"
+    class=".manufacturer.ManufacturerContainer"
     permission="zope.ManageContent"
 />
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
-<zope:class class=".implementation.Manufacturer">
-  <require permission="zope.Public" interface=".implementation.IManufacturer" />
-  <require permission="zope.ManageContent" set_schema=".implementation.IManufacturer" />
+<zope:class class=".manufacturer.Manufacturer">
+  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
 </zope:class>
 
 <!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
 <zope:interface  
-  interface=".implementation.IManufacturer"
+  interface=".interfaces.IManufacturer"
   type="zope.app.content.interfaces.IContentType"
 />
-<zope:class class=".implementation.ManufacturerContainer">
+<zope:class class=".manufacturer.ManufacturerContainer">
   <require permission="zope.Public" interface="zope.app.container.interfaces.IReadContainer" />
   <require permission="zope.ManageContent" interface="zope.app.container.interfaces.IWriteContainer" />
 </zope:class>
