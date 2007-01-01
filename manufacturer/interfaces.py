@@ -6,7 +6,7 @@ from zope.interface import implements
 
 class IManufacturer(IContained):
   "a manufacturer may contain devices so be a device container??"
-  containers('goodforlinux.interfaces.IManufacturerContainer')
+  containers('zompatible.interfaces.IManufacturerContainer')
   names=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
 
 class IManufacturerContainer(IContainer):

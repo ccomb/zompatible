@@ -4,8 +4,11 @@ from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.component.interface import provideInterface
 from manufacturer.interfaces import IManufacturer, IManufacturerContainer
+from manufacturer.interfaces import IDevice, IDeviceContainer
+
 
 # définir une interface IVersionned pour dire qu'un truc est versionné ?
+
 
 class IArchitecture(Interface):
   names = List(title=u'names', description=u'possible names of the architecture', value_type=TextLine(title=u'name', description=u'possible name'))

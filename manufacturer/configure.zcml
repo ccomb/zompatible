@@ -42,6 +42,7 @@
 />
 
 <!-- on ajoute une entrée au menu my_actions pour ajouter un manufacturer directement depuis la vue manuf. -->
+<!-- CE TRUC EST A VIRER CAR C'EST PAS LOGIQUE -->
 <browser:menuItems
     menu="my_actions"
     for=".interfaces.IManufacturer"

@@ -4,6 +4,7 @@
 
 <include package=".manufacturer" />
 
+<include package=".device" />
 
 
 </configure>
