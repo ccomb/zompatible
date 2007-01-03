@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from zope.interface.interfaces import Interface, Attribute
 from zope.schema import TextLine, Bool, Object, URI, Datetime, List, Text, Int
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.component.interface import provideInterface
 from manufacturer.interfaces import IManufacturer, IManufacturerContainer
-from manufacturer.interfaces import IDevice, IDeviceContainer
+from device.interfaces import IDevice, IDeviceContainer
 
 
 # définir une interface IVersionned pour dire qu'un truc est versionné ?

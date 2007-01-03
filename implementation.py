@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from interfaces import *
 from persistent import Persistent  
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges

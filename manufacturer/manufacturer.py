@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from interfaces import *
 from persistent import Persistent  
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
@@ -9,11 +10,10 @@ class ManufacturerContainer(Folder):
   "a container that contains manufacturers"
   implements(IManufacturerContainer)
 
-class Manufacturer(Persistent):
+class Manufacturer(Folder):
   implements(IManufacturer)
   names=[]
-  # IManufacturer fournit IContained donc il faut mettre ces attributs :
-  __name__=__parent__=None
+
 
 class ManufacturerAdd(AddForm):
   "La vue (classe) de formulaire pour l'ajout"

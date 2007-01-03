@@ -42,6 +42,7 @@ Ensuite on peut afficher les browser:page dans ce menu avec la directive menu --
     title="My addings Menu"
 />
 
+    
 
 
 </configure>
