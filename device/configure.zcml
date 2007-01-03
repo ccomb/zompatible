@@ -1,0 +1,60 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IDevice -->
+<zope:class class=".device.Device">
+  <require permission="zope.Public" interface=".interfaces.IDevice" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
+</zope:class>
+
+<!-- on déclare que IDevice fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<zope:interface  
+  interface=".interfaces.IDevice"
+  type="zope.app.content.interfaces.IContentType"
+/>
+
+
+<browser:page
+    name="device.Device"
+    for="zope.app.container.interfaces.IAdding"
+    class=".device.DeviceAdd"
+    permission="zope.View"
+    menu="my_addings" title="new device"
+/>
+<browser:page
+    name="edit_device.html"
+    for=".interfaces.IDevice"
+    template="device_form.pt"
+    class=".device.DeviceEdit"
+    permission="zope.View"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.IDevice"
+    class=".device.DeviceView"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+
+<!-- on ajoute une entrée au menu my_actions pour ajouter un device directement depuis la vue device. -->
+<!-- CE TRUC EST A VIRER CAR C'EST PAS LOGIQUE -->
+<browser:menuItems
+    menu="my_actions"
+    for=".interfaces.IDevice"
+>
+    <menuItem
+        action="../+/device.Device"
+        title="new device"
+        permission="zope.View"
+    />
+</browser:menuItems>
+    
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Device"
+    class=".device.Device"
+    permission="zope.ManageContent"
+/>
+
+</configure>
