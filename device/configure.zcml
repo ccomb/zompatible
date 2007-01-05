@@ -36,25 +36,26 @@
     menu="my_actions" title="View"
 />
 
-<!-- on ajoute une entrée au menu my_actions pour ajouter un device directement depuis la vue device. -->
-<!-- CE TRUC EST A VIRER CAR C'EST PAS LOGIQUE -->
+!-- on ajoute une entrée au menu my_actions pour ajouter un device directement depuis la vue d'un manufacturer. -->
 <browser:menuItems
     menu="my_actions"
-    for=".interfaces.IDevice"
+    for=".interfaces.IDeviceContainer"
 >
     <menuItem
-        action="../+/device.Device"
+        action="+/device.Device"
         title="new device"
         permission="zope.View"
     />
 </browser:menuItems>
-    
+
+
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem
     title="Device"
     class=".device.Device"
     permission="zope.ManageContent"
+    view="device.Device"
 />
 
 </configure>

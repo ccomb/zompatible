@@ -45,3 +45,5 @@ class ManufacturerView(BrowserPage):
         return self.context.names
     def getcontentinfo(self):
         return Contents(self.context, self.request).listContentInfo()
+        
+

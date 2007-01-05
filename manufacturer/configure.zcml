@@ -18,6 +18,7 @@
 
 
 
+<!-- Manufacturer views -->
 <browser:page
     name="manufacturer.Manufacturer"
     for="zope.app.container.interfaces.IAdding"
@@ -41,15 +42,14 @@
     menu="my_actions" title="View"
 />
 
-<!-- on ajoute une entrée au menu my_actions pour ajouter un manufacturer directement depuis la vue manuf. -->
-<!-- CE TRUC EST A VIRER CAR C'EST PAS LOGIQUE -->
+<!-- on ajoute une entrée au menu my_actions pour ajouter un manufacturer depuis la vue manuf. -->
 <browser:menuItems
     menu="my_actions"
-    for=".interfaces.IManufacturer"
+    for=".interfaces.IManufacturerContainer"
 >
     <menuItem
-        action="../+/manufacturer.Manufacturer"
-        title="new manufacturer"
+        action="+/manufacturer.Manufacturer"
+        title="new device"
         permission="zope.View"
     />
 </browser:menuItems>
@@ -60,6 +60,7 @@
     title="Manufacturer"
     class=".manufacturer.Manufacturer"
     permission="zope.ManageContent"
+    view="manufacturer.Manufacturer"
 />
 <browser:addMenuItem
     title="Manufacturer Container"
