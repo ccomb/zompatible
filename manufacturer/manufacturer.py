@@ -6,14 +6,26 @@ from zope.app.container.browser.contents import Contents
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
+from zompatible.device.device import DeviceContainer
 
 class ManufacturerContainer(Folder):
-  "a container that contains manufacturers"
+  "a manufacturer container"
   implements(IManufacturerContainer)
+  #def __init__():
+  # créer les sous-dossiers
 
 class Manufacturer(Folder):
-  implements(IManufacturer)
+  implements(IManufacturer,IFolder)
   names=[]
+  
+  def __init__(self):
+      super(Manufacturer,self).__init__()
+      "on crée les containers nécessaires"
+      devices=DeviceContainer()
+      #drivers=Folder()
+      self['devices']=devices
+      print(list(dir(self)))
+      #self['drivers']=drivers
 
 
 class ManufacturerAdd(AddForm):

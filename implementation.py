@@ -5,29 +5,8 @@ from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
+from zope.interface import implements
 
-
-
-
-
-
-class Device(Persistent):
-  implements(IDevice)
-  def __init__(self):
-        pass
-
-class DeviceEdit(EditForm):
-  form_fields=Fields(IDevice)
-
-class DeviceAdd(AddForm):
-  form_fields=Fields(IDevice)
-  def create(self, data):
-         # applyChanges applies all changed fields named in form_fields
-         # to the object, taking the field values from data.
-         # In a new object, that's *all* fields.
-         device = Device()
-         applyChanges(device, self.form_fields, data)
-         return device
 
 class SupportLevel(Persistent):
   """

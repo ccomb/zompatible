@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
-from interfaces import *
-from persistent import Persistent  
+from persistent import Persistent
+from zope.interface import implements  
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
+from persistent.wref import WeakRef
+from interfaces import *
 
+class DeviceContainer(Folder):
+    """
+    a folder that contains devices
+    """
+    implements(IDeviceContainer)
 
-class Device(Persistent):
-  implements(IDevice)
+class Device(Folder):
+  implements(IDevice,ISubDevices)
   names=[]
+  subdevices=[]
   # IDevice fournit IContained donc il faut mettre ces attributs :
   __name__=__parent__=None
 
@@ -40,3 +48,21 @@ class DeviceView(BrowserPage):
         return self.context.__name__
     def getothernames(self):
         return self.context.names
+        
+class Chip(Persistent):
+    """
+    Un chip est un autre genre de device
+    """
+    implements(IDevice)
+    names=[]
+    __name__=__parent__=None        
+        
+        
+class System(Persistent):
+    """
+    for example a laptop
+    """
+    implements(IDevice, ISubDevices)
+    names=[]
+    subdevices=[]
+    __name__=__parent__=None

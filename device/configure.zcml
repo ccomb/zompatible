@@ -5,8 +5,12 @@
   <require permission="zope.Public" interface=".interfaces.IDevice" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
 </zope:class>
-
-<!-- on déclare que IDevice fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<zope:class class=".device.DeviceContainer">
+  <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
+</zope:class>
+<!-- on déclare que IDevice fournit IContentType qui est une interface marqueur
+pour dire que c'est un type de contenu -->
 <zope:interface  
   interface=".interfaces.IDevice"
   type="zope.app.content.interfaces.IContentType"
@@ -36,17 +40,7 @@
     menu="my_actions" title="View"
 />
 
-!-- on ajoute une entrée au menu my_actions pour ajouter un device directement depuis la vue d'un manufacturer. -->
-<browser:menuItems
-    menu="my_actions"
-    for=".interfaces.IDeviceContainer"
->
-    <menuItem
-        action="+/device.Device"
-        title="new device"
-        permission="zope.View"
-    />
-</browser:menuItems>
+
 
 
 
@@ -57,5 +51,10 @@
     permission="zope.ManageContent"
     view="device.Device"
 />
+
+
+
+
+
 
 </configure>

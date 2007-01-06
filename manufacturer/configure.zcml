@@ -5,16 +5,19 @@
   <require permission="zope.Public" interface=".interfaces.IManufacturer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
 </zope:class>
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
+<zope:class class=".manufacturer.ManufacturerContainer">
+  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+</zope:class>
+
 
 <!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
 <zope:interface  
   interface=".interfaces.IManufacturer"
   type="zope.app.content.interfaces.IContentType"
 />
-<zope:class class=".manufacturer.ManufacturerContainer">
-  <require permission="zope.Public" interface="zope.app.container.interfaces.IReadContainer" />
-  <require permission="zope.ManageContent" interface="zope.app.container.interfaces.IWriteContainer" />
-</zope:class>
+
 
 
 
@@ -42,18 +45,7 @@
     menu="my_actions" title="View"
 />
 
-<!-- on ajoute une entrée au menu my_actions pour ajouter un manufacturer depuis la vue manuf. -->
-<browser:menuItems
-    menu="my_actions"
-    for=".interfaces.IManufacturerContainer"
->
-    <menuItem
-        action="+/manufacturer.Manufacturer"
-        title="new device"
-        permission="zope.View"
-    />
-</browser:menuItems>
-    
+
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem
@@ -67,5 +59,6 @@
     class=".manufacturer.ManufacturerContainer"
     permission="zope.ManageContent"
 />
+
 
 </configure>
