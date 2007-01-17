@@ -8,6 +8,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from zompatible.device.device import DeviceContainer
 
+
 class ManufacturerContainer(Folder):
   "a manufacturer container"
   implements(IManufacturerContainer)
@@ -57,5 +58,8 @@ class ManufacturerView(BrowserPage):
         return self.context.names
     def getcontentinfo(self):
         return Contents(self.context, self.request).listContentInfo()
+    def testannotations(self):
+        IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']='toto'
+        return IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']
         
 

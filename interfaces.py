@@ -30,7 +30,7 @@ class IUser(Interface):
   reports = List(title=u'informations', description=u'list of provided information', value_type=Object(title=u'information', description=u'an information', schema=IReport))
 
 class ILevel(Interface):
-  """
+  u"""
   must be implemented by support, trust and stability levels
   """
   level = Int(title=u'support level', description=u'support level for this OS')
@@ -40,7 +40,7 @@ class IStabilityReport(IReport):
   stability = Object(title=u'stability level', description=u'level of stability', schema=ILevel)
 
 class ISoftware(Interface):
-  "maybe this is more generic than IXserver, IKernel, IAlsa, etc. ?"
+  u"maybe this is more generic than IXserver, IKernel, IAlsa, etc. ?"
   names = List(title=u'names', description=u'possible software names', value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
   architecture = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
   version = TextLine(title=u'version', description=u'a text string describing the version')
@@ -50,12 +50,13 @@ class ISoftware(Interface):
   link = URI(title=u'a link to software', description=u'link to the driver')
 
 class IOperatingSystem(ISoftware):
-  "an operating system: linux distribution, freebsd, etc..."
-  "the version is included here because 2 versions of a distro are 2 different OS" 
+  u"""an operating system: linux distribution, freebsd, etc...
+  the version is included here because 2 versions of a distro are 2 different OS
+  """
   codename=TextLine(title=u'code name (if any)', description=u'the version of the operating system')  
 
 class IInclusionLevel(Interface):
-  """
+  u"""
   tells how software is included in the distro
   For Debian, inclusion can be main, contrib, non-free, etc.
   A REVOIR !
@@ -78,10 +79,10 @@ class IPatchedXserver(IXserver):
   packageversion = TextLine(title=u'package version', description=u'the version of the Xserver package (ex: 2_ubuntu1)')
 
 class IDistribution(ISoftware):
-  "all the flavours of linux, bsd or anything else"
+  u"all the flavours of linux, bsd or anything else"
     
 class IDriver(ISoftware):
-  """
+  u"""
   a driver for an operating system
   we must think of how to speak about ndiswrapper, which is not a driver
   And a driver can apply to a kernel, or be in userspace for xorg. So... ?
@@ -99,7 +100,7 @@ class IDriver(ISoftware):
 
 
 class IPhysicalInterface(Interface):
-  """
+  u"""
   for example a PCI socket, USB plug, etc.
   Il pourrait y avoir un container de physinterfaces.
   lorsqu'un device possede une physinterface, on lui assigne, et le ref count de l'objet monte à 2:
@@ -109,7 +110,7 @@ class IPhysicalInterface(Interface):
 
 
 class IOsSupport(Interface):
-  """
+  u"""
   objet qui fait le lien entre un OS et un matériel
   this is the high level object to display in the support page
   supportlevel is an average computed from supportreports and other objects
@@ -121,7 +122,7 @@ class IOsSupport(Interface):
   supportreports = List(title=u'user reports', description=u'list of user reports', value_type=Object(title=u'user report', description=u'user report', schema=IReport))
 
 class ICategory(Interface):
-  """
+  u"""
   permettra de définir (implémenter sous forme d'objet) une catégorie de matériel, ou de logiciel, d'action, etc.
   Une catégorie de matériel (une instance) peut être : laptop (ou portable), serveur, etc...
   Une catégorie d'action peut être : installation, configuration, démarrage d'un programme, 
@@ -135,7 +136,7 @@ class IAction(Interface):
   title = TextLine(title=u'action type', description=u'the type of action')
 
 class IDeviceExperienceReport(IReport):
-  """
+  u"""
   le rapport d'un utilisateur à propos de l'utilisation d'un matériel sur une distro
   What is your experience?
   """
@@ -150,7 +151,7 @@ class IHardwareSystem(Interface):
 
 
 class IErrorReport(IReport):
-  """
+  u"""
   this report is about a specific object that implements IErrorReportable
   it allows to store the bad attribute and the proposition
   """
@@ -158,7 +159,7 @@ class IErrorReport(IReport):
   proposition = Attribute(u'the replacement proposition')
 
 class IErrorReportable(Interface):
-  """
+  u"""
   each object should implement this in order for the users to report errors on it
   """
   reportederrors = List(title=u'reported errors', description=u'list of errors reported by the users', value_type=Object(title=u'error', description=u'reported error', schema=IErrorReport))

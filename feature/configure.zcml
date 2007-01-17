@@ -13,11 +13,6 @@ pour dire que c'est un type de contenu -->
   type="zope.app.content.interfaces.IContentType"
 />
 
-
-
-
-
-
 <browser:page
     name="feature.Feature"
     for="zope.app.container.interfaces.IAdding"
@@ -41,17 +36,17 @@ pour dire que c'est un type de contenu -->
     menu="my_actions" title="View"
 />
 
+<browser:menuItems
+    menu="my_actions"
+    for="zompatible.feature.interfaces.IFeatured"
+>
+    <menuItem
+        title="add a feature"
+        action="edit_feature.html"
+    />
+</browser:menuItems>
 
 
-
-
-<!-- juste pour la ZMI -->
-<browser:addMenuItem
-    title="Feature"
-    class=".feature.Feature"
-    permission="zope.ManageContent"
-    view="feature.Feature"
-/>
 
 
 

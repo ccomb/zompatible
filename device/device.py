@@ -7,6 +7,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from persistent.wref import WeakRef
 from interfaces import *
+from zompatible.feature.interfaces import *
 
 class DeviceContainer(Folder):
     """
@@ -14,16 +15,17 @@ class DeviceContainer(Folder):
     """
     implements(IDeviceContainer)
 
-class Device(Folder):
-  implements(IDevice,ISubDevices)
+class Device(Persistent):
+  implements(IDevice, ISubDevices, IFeatured)
   names=[]
   subdevices=[]
+  features=[]
   # IDevice fournit IContained donc il faut mettre ces attributs :
   __name__=__parent__=None
 
 class DeviceAdd(AddForm):
   "La vue (classe) de formulaire pour l'ajout"
-  form_fields=Fields(IDevice).omit('__name__', '__parent__')
+  form_fields=Fields(IDevice, ISubDevices, IFeatured).omit('__name__', '__parent__')
   label=u"Ajout d'un matériel"
   template=ViewPageTemplateFile("device_form.pt")
   def create(self, data):
@@ -37,7 +39,7 @@ class DeviceAdd(AddForm):
 
 class DeviceEdit(EditForm):
   label=u"Modification d'un matériel"
-  form_fields=Fields(IDevice).omit('__name__', '__parent__')
+  form_fields=Fields(IDevice, ISubDevices, IFeatured).omit('__name__', '__parent__')
   template=ViewPageTemplateFile("device_form.pt")
 
 class DeviceView(BrowserPage):
@@ -48,7 +50,7 @@ class DeviceView(BrowserPage):
         return self.context.__name__
     def getothernames(self):
         return self.context.names
-        
+
 class Chip(Persistent):
     """
     Un chip est un autre genre de device

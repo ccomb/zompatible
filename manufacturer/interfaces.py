@@ -8,7 +8,7 @@ from zope.interface import implements, Interface
 
 
 class IManufacturer(IContainer):
-  """
+  u"""
   a manufacturer may contain devices so be a device container??
   """
   containers('zompatible.manufacturer.interfaces.IManufacturerContainer')
@@ -16,7 +16,7 @@ class IManufacturer(IContainer):
 
 
 class IManufacturerContainer(IContainer):
-  """
+  u"""
   a container for the manufacturers should only contain manufacturers
   """
   contains(IManufacturer)

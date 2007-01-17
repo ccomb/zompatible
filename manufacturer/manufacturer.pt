@@ -26,6 +26,5 @@ Le code ci-dessous est dupliqué ailleurs -->
 <h2> List of devices</h2>
 <ul tal:repeat="info view/getcontentinfo"><li><a href="#" tal:attributes="href info/url" tal:content="info/id">device1</a></li></ul>
 
-
 </body>
 </html>

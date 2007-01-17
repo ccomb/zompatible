@@ -4,6 +4,10 @@
 <zope:class class=".device.Device">
   <require permission="zope.Public" interface=".interfaces.IDevice" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
+  <require permission="zope.Public" interface=".interfaces.ISubDevices" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
+  <require permission="zope.Public" interface="zompatible.feature.interfaces.IFeatured" />
+  <require permission="zope.ManageContent" set_schema="zompatible.feature.interfaces.IFeatured" />
 </zope:class>
 <zope:class class=".device.DeviceContainer">
   <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />
@@ -51,7 +55,16 @@ pour dire que c'est un type de contenu -->
     permission="zope.ManageContent"
     view="device.Device"
 />
-
+<browser:menuItems
+    menu="zmi_views"
+    for="zompatible.device.interfaces.IDevice"
+>
+    <menuItem
+        title="edit"
+        action="edit_device.html"
+    />
+</browser:menuItems>
+    
 
 
 
