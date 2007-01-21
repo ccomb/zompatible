@@ -6,7 +6,7 @@ from zope.interface import Interface
 
 
 
-class IDevice(Interface):
+class IDevice(IContainer):
     u"""
     IDevice offers basic attributes of a device
     So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
@@ -22,7 +22,7 @@ class IDevice(Interface):
 
 class IDeviceContainer(IContainer):
     u"""
-    fsgsdgsd
+    a toplevel device container. This is a base storage for devices.
     """
     contains(IDevice)
 

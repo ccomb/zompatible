@@ -16,12 +16,12 @@ class DeviceContainer(Folder):
     implements(IDeviceContainer)
 
 class Device(Persistent):
-  implements(IDevice, ISubDevices, IFeatured)
-  names=[]
-  subdevices=[]
-  features=[]
-  # IDevice fournit IContained donc il faut mettre ces attributs :
-  __name__=__parent__=None
+    implements(IDevice, ISubDevices, IFeatured)
+    names=[]
+    subdevices=[] #because of ISubDevices
+    features=[]   #because of IFeatured
+    # IDevice fournit IContained donc il faut mettre ces attributs :
+    __name__=__parent__=None
 
 class DeviceAdd(AddForm):
   "La vue (classe) de formulaire pour l'ajout"

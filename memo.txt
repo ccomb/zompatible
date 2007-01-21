@@ -1,0 +1,213 @@
+Plusieurs sites possibles :
+- un site matos/distrib (le site de base)
+- un site matos/caractéristiques/perfs/drivers généraliste
+- un site pour devs linux (analyse kernel / matos)
+
+
+Deux modes :
+- recherche de matériel
+- soumission de matériel
+
+recherche matériel
+==================
+recherche d'un mot (plusieurs mots?) -> recherche du mot partout -> mot trouvé dans quoi ? (dans type de matériel, chipset, constructeur, modèle, fonctionnalité, etc.)
+
+=> 1 seul résultat ou plusieurs résultats
+
+1 seul résultat =>
+ 
+type de matériel -> liste des meilleurs matériels (ex wifi)
+chipset => liste des constructeurs, modèles (les meilleurs en 1er)
+constructeur => fiche constructeur avec moyenne de ses matériels
+modèle => fiche modèle avec : fonctionne O/N, pilote libre O/N, pilote stable O/N
+
+Notion de fiabilité de l'information à apporter aux informations présentées (critères = ?) (=> meta-données)
+comptes utilisateurs crédibles ?
+
+
+
+modèle : nom, constructeur, fonctionnalités, chipset, pciid, pilotes
+fonctionnalité : nom ("3D", protocole?), type mat. (ex: carte graph), 
+constructeur : nom
+pilote : nom ("nv"), libre O/N, version, stable O/N
+distrib : id?, nom, version
+
+
+Modification des notes ou des évaluations par l'intermédiaire de votes avec liens directs à poster dans les forums. Ex : le pilote fglrx est-il stable sur votre machine ? quelle distrib ?
+
+Soumission matériel
+==================
+1, 2 ou 3 champs de recherche -> requêtes faites pendant la frappe -> affichage de suggestions
+fabricant: [________]
+modèle: [__________]
+ou recherche générique à un seul champ : [__________]
+On attend 2 lettres -> recherche sur tous les types d'objets (avec approximation à 1 char) -> pendant la recherche on affiche des résultats intermédiaires
+|  distro  |  fabricant  |  produit  |  chipset  |
+|  -.....  |  -non listé |  -non list|  -......  | Les trois 1eres colonnes sont affichées de base, la 4eme dépend du type d'objet
+|  -.....  |  -MSI.....  |  -WMP54G  |  -radeon  |  Si clic sur "non listé" -> nouveau matériel ou -> nouveau constructeur
+|  -.....  |  -gigabyte  |  -......  |  -NV380.  |  Si choix + 1 seul résultat -> affichage d'un bouton vers le matériel
+|  -.....  |  -........  |  -......  |  -......  |
+
+Nom du fabricant [__________]  -> recherche de similarités -> propositions similaires
+
+Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Video)
+Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des widgets personalisés.
+
+Fabricant : doit comporter un attribut correspondant à son numéro dans le pciid
+
+TODO LIST
+==============
+- interfaces d'ajouts d'objets zope lorsqu'il n'y a rien en zodb
+- interface de recherche accélérée
+- interface d'ajout accélérée (champ unique avec recherches asynchrones)
+- interfaces next-next pour cas particuliers         (¿ doit être générique pour tous les objets) (différencier les champs obligatoires des autres)
+- Ajout fabricant de matériel 
+
+
+ARCHITECTURE, DIVERS:
+====================
+lien principal = chip <-> driver  implique lien  device <-> distro
+
+(manuf  (device  (chip ) )  )  <->  (os  (kernel  (driver  ) ) +programme? )
+
+commencer par indexer le kernel, les pilotes, les pciid et remplir la base avec ça
+Accueillir ensuite les user_experience
+
+Workflow d'objets ?  en création, créé, douteux, confirmé ? caché en attente de doublons ?
+
+pciid = feature de pcidevice ?
+
+fiche systeme (ex=portable)  liste des composants et de leurs supports respectifs.  Systeme = somme de devices
+
+Imaginer une vue complete pour chaque objet. device, manuf, systeme
+
+
+objet ISupportLevel:
+- reports  <- rapports des visiteurs
+- OS's
+- Device
+- Action to support : None, install, compile, configure, ...?
+
+Add subdevice  -> search existing  :
+- if found -> add
+- not found  ->  Tell to add later
+
+Implémenter un objet User_Experience qui permet de rendre compte de l'avis d'un personne, avec son matériel, les détails sur sa distrib, etc.
+Gestion des cas particuliers : si l'avis est comme tout le monde -> ok.  Sinon demander détails pour trouver la particularité qui fait que c'est différent (matériel spécifique ?)
+
+Objet Personne : liste d'avis, d'informations, taux fiabilité de la personne (?), liste de matériels.
+
+Fiche matériel : photo matériel ? possède un pilote linux proprio / libre ou : peut fonctionner sous linux (moyennant bidouillage)  ou : fonctionne directement avec : Ubuntu, Mandriva, etc.
+
+Page recherche : ipod -> choix ipod nano, ipod video, G3, G4, etc. -> liste des systèmes + liste logiciels utiles
+Page recherche : ubuntu lecteur mp3 -> ubuntu + liste meilleurs lecteurs mp3. -> choix d'un lecteur -> résumé lecteur + posts, rating, procédure d'install (script, commentaires)
+Une page ubuntu+ipod serait une sorte de multiview sur 2 objets (multi-adapter) ?
+
+Trois grand objets principaux :
+-device (dont le conteneur est un manufacturer)
+-OS
+-user (avec expériences=rapports)
+
+Pour chaque objet, 1 attribut contenant les propositions d'erreurs : error report = { __:__, etc. } (key=nom de l'attribut (ou à effacer),  value=valeur proposée
+
+Utiliser des sources ou vocabularies pour les attributs
+- le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
+- stocker toutes les recherches et leur résultat dans une liste (ex: de 100) pour la retrouvere + vites la 1eme fois : Les recherches les + fréquentes doivent être gardées en cache dans une liste.
+
+Un device peut fournir l'interface ISubDevices qui indique qu'il peut contenir des subdevices.
+Non. Un Device peut fournir bêtement l'interface IDeviceContainer qui indique qu'il peut contenir lui-même des devices.
+Un device peut (doit?) fournir l'interface IFeatured qui indique qu'il contient des features
+
+---
+
+interface style Google -> Recherche d'un mot ou 2, ex: Linksys -> recherche partout
+Si un mot pas connu -> suggestions sur orthographes voisines + Demande : « qu'est-ce que Linksys ? » + radio choice :
+1 fabricant ?  si oui : formulaire d'ajout de fabricant
+1 matériel ? si oui : qui est le fabricant ? + formulaire d'ajout de matériel
+(1 distrib ?)  : formulaire d'ajout de distrib
+1 feature ?  : formulaire d'ajout de feature
+1 Physical interface ?  : formulaire d'ajout de feature
+1 driver ?  : 1 driver appartient à quoi ? un OS ? un fabricant ? une distrib ? un noyau ?
+Comment différencier feature de physical interface ? Ca pourrait être le même objet, mais avec un interface en plus spécifiant que c'est une interface physique.
+Une physical interface est une feature d'un matériel.
+
+Quatre grand types d'objets contenus :
+o Organisation
+o Matériel
+o Logiciel
+o Caractéristique
+Organisation = fabricant, éditeur, association
+Matériel = carte, chip, périphérique, laptop
+Logiciel = OS, driver, logiciel, sous-système (X11)
+Caractéristique = port PCI, prise VGA, socket 775, wi-fi, 3D, WPA, Qté RAM
+Certaines caractéristiques peuvent être un Vocabulaire (Socket = socket 939, socket 775, etc..  Port = PCI, AGP, PCI-e, PCI-X
+D'autres peuvent être une valeur avec une unité ou non: Qté RAM = 512Mo
+
+Deux niveaux d'information :
+- fourni par l'utilisateur = UserReport
+- calculée automatiquement = - présence d'un driver,  - présence d'une feature d'un logiciel (ex: gestion WPA)
+Matériel <-- [ Driver ] --> Os
+Matériel <-- [ Feature ] --> Logiciel/Driver
+
+[ Matériel ] features   [ Driver ]
+[          ]<---------> [        ]    feature = module kernel ??
+[          ]            [        ]
+
+Le fait qu'il existe une page web relatant "ça marche" est un "user report"
+Il y a plusieurs niveaux dans un UserReport :
+« je sais que ça ne marche pas »         [ÇA] = quoi ??  Matériel lui-même, ou juste Feature.
+« je pense que ça ne marche pas »
+« j'ai lu/entendu que ça marce »
+« je l'ai vu marcher »
+« je l'ai fait marcher »
+autre niveau : 
+- ça a marché tout de suite sans rien faire
+- j'ai bidouillé
+Notion d'actions à accomplir, puis de scripts
+
+Actions :
+- rien faire
+- installer un paquet/logiciel  intégré distro / externe
+
+Donc UserReport contient :
+- contexte (=feature ou device)       rem: contexte=> Adapter ?!? Multiadapter(IUserReportable, context,report) ??  stockage dans Report.
+- niveau (voir plus haut)
+
+Une UserReport peut être stocké (à décider) dans :
+- le user (permet à un utilisateur de retrouver ses reports et de les faire évoluer)
+- le contexte (permet d'afficher plus facilement tous les reports d'un device)
+- à part dans leur propre container.
+- dans une base SQL sachant que les reports sont une liste chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
+
+
+
+
+
+
+
+PAGE MATERIEL
+=============
+ex: WMP54G :
+
+OS : pilote inclus / non inclus
+
+comparaison    device features <-> driver features   -> %age de support du matériel par le driver
+gestion de l'architecture ????   ex : feature de driver uniquement sur x86 et pas sur alpha.
+
+Que veut-on : principalement :  Savoir si ça marche tout de suite    ou     Savoir s'il faut bidouiller
+
+
+internationalisation
+====================
+affichage automatique dans la langue de l'utilisateur. Si non traduit : proposition pour traduire.
+Propositions de trad retenues mais non affichées. À partir de x propositions identiques, validation automatique.
+Seuls les commentaires ou user_experiences de la langue de l'utilisateur sont affichées. + lien vers ceux d'autres langues.
+
+
+Clients possibles
+=================
+boutiques en ligne qui veulent récupérer/afficher les caractéristiques d'un matériel pour le vendre mieux, ainsi que des commentaires et notes.
+
+
+
+

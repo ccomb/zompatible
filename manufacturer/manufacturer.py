@@ -25,7 +25,6 @@ class Manufacturer(Folder):
       devices=DeviceContainer()
       #drivers=Folder()
       self['devices']=devices
-      print(list(dir(self)))
       #self['drivers']=drivers
 
 

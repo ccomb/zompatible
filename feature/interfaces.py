@@ -4,7 +4,6 @@ from zope.app.container.constraints import contains, containers
 from zope.schema import List, TextLine, Object
 from zope.interface import Interface
 
-
 class IFeature(Interface):
     u"""
     a feature or protocol offered by the device or driver (ex: wpa, pptp, opengl, etc.)
