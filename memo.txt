@@ -177,7 +177,7 @@ Une UserReport peut être stocké (à décider) dans :
 - le user (permet à un utilisateur de retrouver ses reports et de les faire évoluer)
 - le contexte (permet d'afficher plus facilement tous les reports d'un device)
 - à part dans leur propre container.
-- dans une base SQL sachant que les reports sont une liste chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
+- dans une base SQL sachant que les reports sont une liste plus ou moins linéaire et chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
 
 
 
