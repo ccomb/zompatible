@@ -31,3 +31,12 @@ class ISubDevices(Interface):
     Must be implemented by a device that is made of other devices
     """
     subdevices = List(title=u'subdevices', description=u'subdevices', value_type=Object(title=u'subdevice', description=u'a subdevice (chip, component)', schema=IDevice))
+
+
+
+
+
+
+class IHardwareSystem(Interface):
+  names = List(title=u'names', description=u'possible names of the system', value_type=TextLine(title=u'name', description=u'a name for the chip (commercial name, code name, etc.'))
+  categories = List(title=u'categories', description=u'categories the system is part of', value_type=Object(title=u'category', description=u'category', schema=ICategory))

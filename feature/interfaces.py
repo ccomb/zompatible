@@ -22,3 +22,19 @@ class IFeatured(Interface):
     features = List(title=u'features', description=u'list of features of the device, in addition of those from the chip', value_type=Object(title=u'feature', description=u'a feature of the device', schema=IFeature))
 
 
+
+
+
+
+
+
+
+class IPhysicalInterface(Interface):
+  u"""
+  for example a PCI socket, USB plug, etc.
+  Il pourrait y avoir un container de physinterfaces.
+  lorsqu'un device possede une physinterface, on lui assigne, et le ref count de l'objet monte à 2:
+  1 dans le container, 1 dans le device. Cliquer sur la physinterface permet de savoir quels matériels ont cette physinterface. (??)
+  """  
+  name = List(title=u'names',description=u'list of names of the physical interface', value_type=TextLine(title=u'interface', description=u'a physical interface offered by the device'))
+
