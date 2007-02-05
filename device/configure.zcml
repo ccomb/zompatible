@@ -6,8 +6,8 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
   <require permission="zope.Public" interface=".interfaces.ISubDevices" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
-  <require permission="zope.Public" interface="zompatible.feature.interfaces.IFeatured" />
-  <require permission="zope.ManageContent" set_schema="zompatible.feature.interfaces.IFeatured" />
+  <!-- <require permission="zope.Public" interface="zompatible.feature.interfaces.IFeatured" />
+  <require permission="zope.ManageContent" set_schema="zompatible.feature.interfaces.IFeatured" /> -->
 </zope:class>
 <zope:class class=".device.DeviceContainer">
   <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />

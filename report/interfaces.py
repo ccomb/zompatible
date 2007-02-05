@@ -39,6 +39,6 @@ class IDeviceExperienceReport(IReport):
   What is your experience?
   """
   operatingsystem = Object(title=u'Operating System', description=u'supported operating system', schema=IOperatingSystem)
-  supportlevel = Object(title=u'support level', description=u'the support level according to the user', schema=ILevel)
+  support = Object(title=u'support level', description=u'the support level according to the user', schema=ILevel)
   seeninaction = Bool(title=u'personaly seen', description=u'the user has personaly seen the device work')
   actions = List(title=u'actions to do to make the device work', description=u'list of actions', value_type=Object(title=u'action', description=u'action', schema=IAction))

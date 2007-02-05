@@ -5,9 +5,9 @@ from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
-from persistent.wref import WeakRef
 from interfaces import *
-from zompatible.feature.interfaces import *
+from zope.index.text.interfaces import ISearchableText
+from zope.component import adapts
 
 class DeviceContainer(Folder):
     """
@@ -16,16 +16,15 @@ class DeviceContainer(Folder):
     implements(IDeviceContainer)
 
 class Device(Persistent):
-    implements(IDevice, ISubDevices, IFeatured)
+    implements(IDevice, ISubDevices)
     names=[]
     subdevices=[] #because of ISubDevices
-    features=[]   #because of IFeatured
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
 
 class DeviceAdd(AddForm):
   "La vue (classe) de formulaire pour l'ajout"
-  form_fields=Fields(IDevice, ISubDevices, IFeatured).omit('__name__', '__parent__')
+  form_fields=Fields(IDevice).omit('__name__', '__parent__')
   label=u"Ajout d'un matériel"
   template=ViewPageTemplateFile("device_form.pt")
   def create(self, data):
@@ -39,7 +38,7 @@ class DeviceAdd(AddForm):
 
 class DeviceEdit(EditForm):
   label=u"Modification d'un matériel"
-  form_fields=Fields(IDevice, ISubDevices, IFeatured).omit('__name__', '__parent__')
+  form_fields=Fields(IDevice, ISubDevices).omit('__name__', '__parent__')
   template=ViewPageTemplateFile("device_form.pt")
 
 class DeviceView(BrowserPage):
@@ -51,20 +50,24 @@ class DeviceView(BrowserPage):
     def getothernames(self):
         return self.context.names
 
-class Chip(Persistent):
+
+
+
+class SearchableTextOfDevice(object):
+    u"""
+    l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet device.
+    C'est génial car ça permet notamment d'indexer n'importe quels attributs,
+    et même les traductions qui se trouvent dans des fichiers .po externes !!
     """
-    Un chip est un autre genre de device
-    """
-    implements(IDevice)
-    names=[]
-    __name__=__parent__=None        
-        
-        
-class System(Persistent):
-    """
-    for example a laptop
-    """
-    implements(IDevice, ISubDevices)
-    names=[]
-    subdevices=[]
-    __name__=__parent__=None
+    implements(ISearchableText)
+    adapts(IDevice)
+    def __init__(self, context):
+        self.context = context
+    def getSearchableText(self):
+        u"peut surement être optimisé avec une seule ligne de return..."
+        text = u""
+        for t in self.context.names:
+            text += " " + t
+        return text
+    
+

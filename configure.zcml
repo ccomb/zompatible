@@ -6,7 +6,7 @@
 
 <include package=".device" />
 
-<include package=".feature" />
+<!-- <include package=".feature" /> -->
 
 
 <!-- on déclare qu'un Manufacturer est un DeviceContainer -->

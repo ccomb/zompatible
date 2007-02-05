@@ -5,8 +5,7 @@ from zope.schema import List, TextLine, Object
 from zope.interface import Interface
 
 
-
-class IDevice(IContainer):
+class IDevice(IContained):
     u"""
     IDevice offers basic attributes of a device
     So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
@@ -32,11 +31,3 @@ class ISubDevices(Interface):
     """
     subdevices = List(title=u'subdevices', description=u'subdevices', value_type=Object(title=u'subdevice', description=u'a subdevice (chip, component)', schema=IDevice))
 
-
-
-
-
-
-class IHardwareSystem(Interface):
-  names = List(title=u'names', description=u'possible names of the system', value_type=TextLine(title=u'name', description=u'a name for the chip (commercial name, code name, etc.'))
-  categories = List(title=u'categories', description=u'categories the system is part of', value_type=Object(title=u'category', description=u'category', schema=ICategory))

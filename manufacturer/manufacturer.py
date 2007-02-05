@@ -7,7 +7,8 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from zompatible.device.device import DeviceContainer
-
+from zope.index.text.interfaces import ISearchableText
+from zope.component import adapts
 
 class ManufacturerContainer(Folder):
   "a manufacturer container"
@@ -22,9 +23,9 @@ class Manufacturer(Folder):
   def __init__(self):
       super(Manufacturer,self).__init__()
       "on crée les containers nécessaires"
-      devices=DeviceContainer()
+      #devices=DeviceContainer()  # dérange le IntId utility
       #drivers=Folder()
-      self['devices']=devices
+      #self['devices']=devices
       #self['drivers']=drivers
 
 
@@ -62,3 +63,20 @@ class ManufacturerView(BrowserPage):
         return IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']
         
 
+class SearchableTextOfManufacturer(object):
+    u"""
+    l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet device.
+    C'est génial car ça permet notamment d'indexer n'importe quels attributs,
+    et même les traductions qui se trouvent dans des fichiers .po externes !!
+    """
+    implements(ISearchableText)
+    adapts(IManufacturer)
+    def __init__(self, context):
+        self.context = context
+    def getSearchableText(self):
+        u"peut surement être optimisé avec une seule ligne de return..."
+        text = u""
+        for t in self.context.names:
+            text += " " + t
+        return text
+    

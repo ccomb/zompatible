@@ -180,9 +180,176 @@ Une UserReport peut être stocké (à décider) dans :
 - dans une base SQL sachant que les reports sont une liste plus ou moins linéaire et chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
 
 
+Gestion des Catégories. Quelle différence avec une gestion des tags ?
+
+
+Gestion de l'évolution de la compatibilité ? Comment gérer un nouveau driver, son amélioration ?
+Faire une moyenne des userreports sur X semaines ? (sorte de moyenne flottance ?)
+De toute façon il est peu probable qu'une distro particulière améliore son support direct d'un matériel.
+
+
+Objet catégory -> avoir un workflow : -proposé (1x, 2x, ... 5x-> validation)  -actif  -annulé
+Carte vidéo ET d'acquisition se définit ?  => features = sortie VGA + entrée Vidéo
+Notion entrée/sortie/bi-di sur PhysicalInterface
+Donc une catégorie se définit par des features ??
+IPhysicalInterface(IFeature)
+AGP doit être une implémentation de IPhysicalInterface ?
++ faire un conteneur de PhysicalInterface car c'est un choix et non un int.
+class IPhysicalInterface(IFeature)
+  name=Source(... vocabulary définit par le conteneur...)
+Dossier Features
+    Physical Interfaces
+            AGP
+            USB
+            VGA
+IPhysicalInterfaces = List(IPhysicalInterface) ?
+
+Category
+    Imprimante : IPhysicalInterface + ISpeed + ... ?
+    Carte graphique : IPhys + 
+ISpeed = value + unit
+
+Ce qui définit l'imprimante est la liste des types de features, ce qui définit la Laserjet4000 c'est les valeurs de ces features.
+imprimante = (usb|ethernet|parallele) + Xppm + Xdpi
+laserjet4000 = (parallele+ethernet) + 10ppm + 1200dpi
+
+Catégorie = ensemble de features,   ensemble d'interfaces de features ??
+Faut-il définir une interface IPrinter ??
+class IPrinter
+    ports = Source([usb,parallel,ethernet])
+    qualité d'impression = Int
+
+Certaines catégories de matériel ont un choix limité de features
+Par ex: imprimante : port = usb ou parallele ou ethernet   APN = usb ou firewire(?)
+
+Catégories => ensemble de features
+Tags => ensemble de mots  (mieux pour des images)
+
+L'imprimante est une catégorie, mais il y a des catégories d'imprimantes (laser, jet d'encre, sublimation, etc.)
+Pb du classement => quel critère ?
+Feature => méthode d'impression. Est-ce définissable hors du contexte d'une imprimante ? (Non a priori)
+
+=> choisir un nombre précis, arbitraire et limité de features pour définir une catégorie ? (ex: port + méthode d'impression)
+Notion de JEU = utilisation, ce n'est pas une feature, et pourtant c'est un classement possible (laptop pour le jeu/laptop pour le travail)
+Utilisation : Professionnelle  / jeu/loisir/divertissement
+
+Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON
+=> Définir des phrases types avec la features, posées aux visiteur automatiquement et influençant la catégorisation.
+
+Déclenchement d'actions suscitées : Question sur le bord du site : « Avez-vous utilisé ce matériel sous [v][linux] [OUI ] => démarrage d'un userreport.
+(liste déroulante comportant linux, freebsd, osX, etc...)
+  
+
+Un objet Category est un objet qui définit une catégorie de matériel et qui est implémenté sous la forme soit d'une liste d'interfaces dérivées d'IFeature
+soit sous la forme d'un objet fournissant les interfaces dérivées d'IFeature.
+
+
+Critères de sélection d'un matériel :
+- Usage (interface IUsage)
+- Prix (IPricing)
+- User Rating
+- 
+
+Pour chaque interface, définir un viewlet qui s'affiche dans un cadre à droite et qui permet d'agir.
+
+Peut-être vaudrait-il mieux se concentrer sur quelques devices et définir ceux-ci de manière complète grâce à des interfaces spécialisées du type IPrinter.
+
+Permettre de déterminer automatiquement la compatibilité ENTRE matériels, ex: carte mère <-> RAM ?
+
+EUREKA:  Il y a un module Category permettant de définir qu'un objet quelconque est catégorisable ET il y a un module Feature permettant de
+définir qu'un objet quelconque possède des features. Donc pour dire qu'une catégorie offre des features, il suffit de dire qu'un objet Category est featured.
+Inversement, une feature peut être catégorisée car on peut décider qu'elle est catégorisable. Donc une feature peut être catégorisée et une catégorie peut offrir des features.
+La boucle est bouclée, vive zope3. :)
+Seul petit problème, je voulais que les features soient des interfaces, et là c'est des objets. Mais finalement c'est pas plus mal. (D'ailleurs les interfaces sont elles-même
+des objets, mais bon... on va pas compliquer)
+Donc ensuite on peut dire qu'un objet quelconque est une imprimante en disant qu'elle est catégorisable et que l'une de ses catégories est l'objet imprimante.
+Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...FGvfsffdasd
+PhysicalInterface est une CATEGORIE. USB est une feature située dans la catégorie PhysicalInterface (çàd qui possède physInt parmi ses catégories.)
+PhysicalInterface est une catégorie offrant des features ? : USB, AGP, 1394, DIMM, SO-DIMM
+
+Implémentations d'objets Category : printer, fax, multifonction, carte graphique, carte d'acquisition, barette RAM (ou barette mémoire), 
+********* Il y a des catégories de Features, des catégories de Device, des catégories d'Action, des catégories d'Usage ****************
+PhysicalInterface est une catégorie de Feature.
+Printer est une catégorie de Device
+Installation est une catégorie d'Action
+Catégories de features : physical interface, Speed, Capacity, Alimentation
+
+Implémentation d'objets Feature : USB,  AGP, 1394, DIMM, SO-DIMM, 3D, 2D, WPA, WEP, capacité RAM, nb de DPI, nb de PPM
+USB, AGP sont des features de la catégorie PhysicalInterface
+Capacité RAM est une feature de la catégorie Capacity
+nb de PPM est une feature ayant les catégories Speed, Printer, 
+feature AGP : categories = carte graphique, physical interface, carte d'acquisition
+feature PCI : carte d'extension, physical interface, 
+
+Usage JEU : 
+Catégory printer : features = physicalinterface, nb PPM, nb DPI, taille bac
+(usb et ethernet ne sont pas exclusif, une imprimante peut offrir usb + ethernet)
+physical interface est une feature ou une catégorie ????!!??  une catégorie de feature ??
+
+Carte graphique : features : AGP, PCI,   characteristics : gpu speed 500MHz
+
+
+Laserjet :
+    physical interface = usb
+    physical interface = ethernet
+    speed : nb de PPM  = 14ppm
+    finesse d'impression : nb de DPI = 1200 DPI
+
+powercolor machin :
+    physical interface  = AGP
+    physical interface = DVI
+    physical interface = VGA
+    
+    
+DeviceCategory
+    printer
+    carte graphique
+    multifonction
+FeatureCategory
+    physical interface
+    interface série
+    speed
+    finesse
+    capacity
+ActionCategory
+    installation
+    configuration
+UsageCategory
+    travail
+    jeu
+    gestion d'entreprise
+Device
+    powercolor machin
+    geforce7800
+    laserjet
+Feature  = un truc qui peut ou non fonctionner (ex: sous linux)
+    USB
+    3D
+    WPA
+Caractéristics = une valeur caractéristique de ...
+    nb DPI
+    nb PPM    
+    pciid
+Action
+Usage
 
 
 
+
+
+
+
+Un device peut être : featured, caracteristics, categorized
+Une feature peut être characteristics
+une caractéristique peut être : 
+une category peut être caracteristics et featured
+
+
+Un objet a des caractéristiques matérielles et des caracteristiques fonctionnelles.
+
+
+
+USB : implémentation de IFeature, offrant ICategorizable et dont la catégorie est PhysicalInterface 
 
 
 PAGE MATERIEL
@@ -210,4 +377,363 @@ boutiques en ligne qui veulent récupérer/afficher les caractéristiques d'un m
 
 
 
+Catégories de matériel (réf Grosbill)
 
+COMPOSANTS
+   	1er prix
+  	Alimentation
+  	Boitier     ATX, microATX, mini-ITX ?
+  	Boitier externe
+  	Câbles et connectiques
+  	Carte contrôleur
+  	Carte d'acquisition
+  	Carte graphique
+  	Carte mère
+  	Carte son
+  	Carte tuner TV/TNT
+  	Clé USB
+  	Disque dur
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe divx
+  	Disque dur externe divx by GB
+  	Dissipateur
+  	Graveur BluRay
+  	Graveur CD
+  	Graveur DVD
+  	Graveur externe
+  	Kit évolution
+  	Lecteur CD
+  	Lecteur de disquette
+  	Lecteur DVD
+  	Lecteur multi-cartes externe
+  	Mémoire DDR
+  	Mémoire DDR2
+  	Mémoire Rambus
+  	Mémoire SDRAM
+  	Mémoire So-dimm
+  	Mini PC
+  	Pate thermique
+  	Processeur
+  	Rack & rhéobus
+  	Sélection des grosbilliens
+  	Tuning
+  	Ventilateur carte graphique
+  	Ventilateur de boîtier
+  	Ventilateur disque dur
+  	Ventilateur processeur
+  	Watercooling
+Son, baladeurs et audio PRO
+    Baladeur  	
+  	Tous les baladeurs
+  	Baladeur USB
+  	Juke Box
+  	Multimédia (audio/video)
+  	Casque audio
+  	Accessoires
+ 
+  	Hifi & Home cinéma 	
+  	Chaîne HIFI
+  	Ampli HIFI
+  	Amplificateur Audio/Video
+  	Lecteur CD de salon
+  	Platine Vinyle
+  	Radio K7 CD
+ 
+  	Audio PRO 	
+  	Toute l'audio PRO
+  	Accessoires
+  	Carte son
+  	Casques pro
+  	Enceintes
+  	Micro
+ 
+  	Périphériques MIDI 	
+  	Carte son
+  	Clavier midi
+  	Interface
+ 
+  	Auto 	
+  	Autoradio
+ 
+  	Radio reveil 	
+  	Radio reveil
+Logiciels & Jeux  	
+
+  	Jeux 	
+  	Action
+  	Aventure
+  	Course
+  	Gestion
+  	Jeu de rôle
+  	Jeu en ligne (MMO)
+  	Simulateur
+  	Sport
+  	Stratégie
+  	Jeu PC à petit prix
+  	Prochaines sorties
+  	Tous les jeux PC
+  	Consoles et jeux
+  	Figurines
+ 
+  	Logiciels 	
+  	Tous les logiciels
+  	Antivirus et sécurité
+  	Bureautique
+  	Graphisme
+  	Gravure et sauvegarde
+  	Loisirs et culturel
+  	Ludo-éducatif
+  	Musique
+  	Navigation et GPS
+  	PDA et téléphones mobiles
+  	Professionnels et entreprises
+  	Systèmes d'exploitation
+  	Vidéo
+Téléviseurs et vidéo  	
+  	Télévision 	
+  	LCD
+  	Plasma
+  	TV Portable
+  	Rétroprojecteur
+ 
+  	Lecteur et Enregistreur DVD 	
+  	Enregistreur avec disque dur
+  	Enregistreur sans disque dur
+  	Lecteur DVD/DivX
+  	Lecteur DVD/Divx portable
+  	Lecteur HD-DVD / Blu-Ray
+  	Lecteur Multimédia
+  	Combi DVD Magnétoscope
+  	Accessoire DVD portable
+  	Films DVD
+ 
+  	TNT et Satellite 	
+  	Récepteur TNT et satellite
+ 
+  	Video-Projection 	
+  	Video projecteur
+  	Ecran de projection
+ 
+  	Home Cinéma 	
+  	Ampli Audio / Video
+  	Enceintes Home Cinéma
+  	Pieds d'enceintes
+ 
+  	Accessoires téléviseur 	
+  	Câbles et connectiques
+  	Télécommande Universelle
+  	Meubles
+  	Support mural
+  	DVD et CD Vierges
+  	Boitiers et étuis
+ Impression  	
+  	Câble d'imprimante
+  	Cartouches d'encres
+  	Impression sur CD
+  	Packs de cartouches
+  	Packs de cartouches et papiers
+  	Papier
+  	Ruban
+  	Tambour
+  	Toner
+  	Tous les toners
+  	Toutes les cartouches
+ 
+  	Médias vierges 	
+  	BD-R
+  	BD-RE
+  	CD-R
+  	CD-RW
+  	Disquette
+  	DVD+R
+  	DVD+RW
+  	DVD-R
+  	DVD-RW
+  	Marqueur
+  	Packs gravure
+ 
+  	Accessoires 	
+  	Accessoires nettoyage
+  	Chargeur
+  	Lingettes nettoyantes
+  	Piles
+ 
+  	Rangement 	
+  	Malette pour portable
+  	Pour CD
+Ordinateurs de bureau  	
+  	Ordinateur de bureau 	
+  	Bureautique
+  	Multimédia
+  	Jeux
+  	Hardcore gamer
+  	Mini PC
+  	AMD Live!
+  	Serveur
+  	Tous les ordinateurs
+ 
+  	Accessoires 	
+  	Câbles et connectiques
+  	Clavier/souris
+  	Clé USB
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe Divx
+  	Disque dur externe Divx by GB
+  	Enceintes
+  	Imprimante multi-fonctions
+  	Moniteur
+  	Multi-prise
+  	Onduleur
+  	Webcam
+ 
+  	Logiciels 	
+  	Bureautique
+  	Jeux
+  	Sécurité
+  	Système d'exploitation
+  	
+Ordinateur portable  	
+  	Ordinateur portable 	
+  	Pour elle
+  	Multimédia
+  	Jeux
+  	Professionnels
+  	Ultra portable
+  	Tous les portables
+ 
+  	Accessoires 	
+  	Accessoires divers
+  	Adaptateur secteur
+  	Assurance
+  	Batteries
+  	Câbles et connectiques
+  	Cartes PCMCIA
+  	Extention de garantie
+  	Mallette
+  	Station d'accueil
+ 
+Ordinateur portable 	
+  	Recherche par marque 	
+ 	acer (12)
+ 	asus (7)
+ 	averatec (1)
+ 	fujitsu-siemens (16)
+  	lenovo (3)
+  	msi (7)
+  	packard bell (6)
+ 	samsung (8)
+ 	sony (14)
+ 	toshiba (13)
+  	Recherche par prix 	
+  	Inférieur à 800 € (16)
+  	De 800 à 1100 € (53)
+  	De 1100 à 1500 € (35)
+  	De 1500 à 2000 € (24)
+  	Supérieur à 2000 € (7)
+  	
+Appareils photos  	
+  	Appareils photo 	
+  	Les compacts
+  	les bridges
+  	Les réflex
+  	Les accessoires
+  	Mémoire flash
+  	Tous les appareils photo
+  	Imprimantes portables
+  	Cadres photo numériques
+  	Configurateur accessoires
+ 
+Caméscope numérique 	
+  	Camescopes 	
+  	Caméscopes à disque dur
+  	Caméscopes mini DV
+  	Caméscopes à mémoire flash
+  	Caméscopes mini DVD
+  	Accessoires
+  	Mémoires flash
+  	Tous les caméscopes
+  	Configurateur d'accessoires
+ GPS  	
+  	Accessoires GPS
+  	Configurateur GPS
+  	GPS autonome (Tomtom)
+  	GPS bluetooth
+  	Kit PDA + GPS
+  	Tous les GPS
+ 
+PDA 	
+  	Configurateur accessoires
+  	PDA Bluetooth
+  	PDA Communicant
+  	PDA Wifi
+  	Tous les PDA
+ 
+Téléphonie 	
+  	Téléphones fixes
+  	Téléphones mobiles
+  	Accessoires téléphones
+  	Configurateur d'accessoires
+  	Mémoires flash
+  	Talkies walkies
+ 
+Calculatrices 	
+  	Calculatrices financieres
+  	Calculatrices graphiques
+  	Calculatrices scientifiques
+
+Périphériques  	
+
+  	Moniteurs - Ecrans 	
+  	Moniteur LCD
+ 
+  	Son et multimédia 	
+  	Enceintes
+  	Casque
+  	Casque micro
+  	Webcam
+ 
+  	Impression et scanners 	
+  	Jet d'encre
+  	Laser
+  	Multifonction fax
+  	Multifonction jet d'encre
+  	Multifonction laser
+  	Photo portable
+  	Scanner
+  	Télécopieur
+ 
+  	Périphériques de saisie 	
+  	Clavier
+  	Clavier souris
+  	Pavé numérique
+  	Souris
+  	Souris accessoires
+  	Tablette graphique
+  	Tapis de souris
+ 
+  	Stockage et sauvegarde 	
+  	cassette dat
+  	Clé USB
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe Divx
+  	Disque dur externe Divx by GB
+  	Graveur externe
+  	Sauvegarde
+ 
+  	Périphériques de jeux 	
+  	Joypad
+  	Joystick
+  	Volant
+ 
+  	Câbles et connectiques 	
+  	Câbles
+  	Hub USB
+  	multiprise
+  	Onduleur
+  	Switch KVM
+ 
+  	Gadgets 	
+  	Gadgets
