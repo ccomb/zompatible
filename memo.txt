@@ -1,0 +1,739 @@
+Plusieurs sites possibles :
+- un site matos/distrib (le site de base)
+- un site matos/caractéristiques/perfs/drivers généraliste
+- un site pour devs linux (analyse kernel / matos)
+
+
+Deux modes :
+- recherche de matériel
+- soumission de matériel
+
+recherche matériel
+==================
+recherche d'un mot (plusieurs mots?) -> recherche du mot partout -> mot trouvé dans quoi ? (dans type de matériel, chipset, constructeur, modèle, fonctionnalité, etc.)
+
+=> 1 seul résultat ou plusieurs résultats
+
+1 seul résultat =>
+ 
+type de matériel -> liste des meilleurs matériels (ex wifi)
+chipset => liste des constructeurs, modèles (les meilleurs en 1er)
+constructeur => fiche constructeur avec moyenne de ses matériels
+modèle => fiche modèle avec : fonctionne O/N, pilote libre O/N, pilote stable O/N
+
+Notion de fiabilité de l'information à apporter aux informations présentées (critères = ?) (=> meta-données)
+comptes utilisateurs crédibles ?
+
+
+
+modèle : nom, constructeur, fonctionnalités, chipset, pciid, pilotes
+fonctionnalité : nom ("3D", protocole?), type mat. (ex: carte graph), 
+constructeur : nom
+pilote : nom ("nv"), libre O/N, version, stable O/N
+distrib : id?, nom, version
+
+
+Modification des notes ou des évaluations par l'intermédiaire de votes avec liens directs à poster dans les forums. Ex : le pilote fglrx est-il stable sur votre machine ? quelle distrib ?
+
+Soumission matériel
+==================
+1, 2 ou 3 champs de recherche -> requêtes faites pendant la frappe -> affichage de suggestions
+fabricant: [________]
+modèle: [__________]
+ou recherche générique à un seul champ : [__________]
+On attend 2 lettres -> recherche sur tous les types d'objets (avec approximation à 1 char) -> pendant la recherche on affiche des résultats intermédiaires
+|  distro  |  fabricant  |  produit  |  chipset  |
+|  -.....  |  -non listé |  -non list|  -......  | Les trois 1eres colonnes sont affichées de base, la 4eme dépend du type d'objet
+|  -.....  |  -MSI.....  |  -WMP54G  |  -radeon  |  Si clic sur "non listé" -> nouveau matériel ou -> nouveau constructeur
+|  -.....  |  -gigabyte  |  -......  |  -NV380.  |  Si choix + 1 seul résultat -> affichage d'un bouton vers le matériel
+|  -.....  |  -........  |  -......  |  -......  |
+
+Nom du fabricant [__________]  -> recherche de similarités -> propositions similaires
+
+Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Video)
+Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des widgets personalisés.
+
+Fabricant : doit comporter un attribut correspondant à son numéro dans le pciid
+
+TODO LIST
+==============
+- interfaces d'ajouts d'objets zope lorsqu'il n'y a rien en zodb
+- interface de recherche accélérée
+- interface d'ajout accélérée (champ unique avec recherches asynchrones)
+- interfaces next-next pour cas particuliers         (¿ doit être générique pour tous les objets) (différencier les champs obligatoires des autres)
+- Ajout fabricant de matériel 
+
+
+ARCHITECTURE, DIVERS:
+====================
+lien principal = chip <-> driver  implique lien  device <-> distro
+
+(manuf  (device  (chip ) )  )  <->  (os  (kernel  (driver  ) ) +programme? )
+
+commencer par indexer le kernel, les pilotes, les pciid et remplir la base avec ça
+Accueillir ensuite les user_experience
+
+Workflow d'objets ?  en création, créé, douteux, confirmé ? caché en attente de doublons ?
+
+pciid = feature de pcidevice ?
+
+fiche systeme (ex=portable)  liste des composants et de leurs supports respectifs.  Systeme = somme de devices
+
+Imaginer une vue complete pour chaque objet. device, manuf, systeme
+
+
+objet ISupportLevel:
+- reports  <- rapports des visiteurs
+- OS's
+- Device
+- Action to support : None, install, compile, configure, ...?
+
+Add subdevice  -> search existing  :
+- if found -> add
+- not found  ->  Tell to add later
+
+Implémenter un objet User_Experience qui permet de rendre compte de l'avis d'un personne, avec son matériel, les détails sur sa distrib, etc.
+Gestion des cas particuliers : si l'avis est comme tout le monde -> ok.  Sinon demander détails pour trouver la particularité qui fait que c'est différent (matériel spécifique ?)
+
+Objet Personne : liste d'avis, d'informations, taux fiabilité de la personne (?), liste de matériels.
+
+Fiche matériel : photo matériel ? possède un pilote linux proprio / libre ou : peut fonctionner sous linux (moyennant bidouillage)  ou : fonctionne directement avec : Ubuntu, Mandriva, etc.
+
+Page recherche : ipod -> choix ipod nano, ipod video, G3, G4, etc. -> liste des systèmes + liste logiciels utiles
+Page recherche : ubuntu lecteur mp3 -> ubuntu + liste meilleurs lecteurs mp3. -> choix d'un lecteur -> résumé lecteur + posts, rating, procédure d'install (script, commentaires)
+Une page ubuntu+ipod serait une sorte de multiview sur 2 objets (multi-adapter) ?
+
+Trois grand objets principaux :
+-device (dont le conteneur est un manufacturer)
+-OS
+-user (avec expériences=rapports)
+
+Pour chaque objet, 1 attribut contenant les propositions d'erreurs : error report = { __:__, etc. } (key=nom de l'attribut (ou à effacer),  value=valeur proposée
+
+Utiliser des sources ou vocabularies pour les attributs
+- le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
+- stocker toutes les recherches et leur résultat dans une liste (ex: de 100) pour la retrouvere + vites la 1eme fois : Les recherches les + fréquentes doivent être gardées en cache dans une liste.
+
+Un device peut fournir l'interface ISubDevices qui indique qu'il peut contenir des subdevices.
+Non. Un Device peut fournir bêtement l'interface IDeviceContainer qui indique qu'il peut contenir lui-même des devices.
+Un device peut (doit?) fournir l'interface IFeatured qui indique qu'il contient des features
+
+---
+
+interface style Google -> Recherche d'un mot ou 2, ex: Linksys -> recherche partout
+Si un mot pas connu -> suggestions sur orthographes voisines + Demande : « qu'est-ce que Linksys ? » + radio choice :
+1 fabricant ?  si oui : formulaire d'ajout de fabricant
+1 matériel ? si oui : qui est le fabricant ? + formulaire d'ajout de matériel
+(1 distrib ?)  : formulaire d'ajout de distrib
+1 feature ?  : formulaire d'ajout de feature
+1 Physical interface ?  : formulaire d'ajout de feature
+1 driver ?  : 1 driver appartient à quoi ? un OS ? un fabricant ? une distrib ? un noyau ?
+Comment différencier feature de physical interface ? Ca pourrait être le même objet, mais avec un interface en plus spécifiant que c'est une interface physique.
+Une physical interface est une feature d'un matériel.
+
+Quatre grand types d'objets contenus :
+o Organisation
+o Matériel
+o Logiciel
+o Caractéristique
+Organisation = fabricant, éditeur, association
+Matériel = carte, chip, périphérique, laptop
+Logiciel = OS, driver, logiciel, sous-système (X11)
+Caractéristique = port PCI, prise VGA, socket 775, wi-fi, 3D, WPA, Qté RAM
+Certaines caractéristiques peuvent être un Vocabulaire (Socket = socket 939, socket 775, etc..  Port = PCI, AGP, PCI-e, PCI-X
+D'autres peuvent être une valeur avec une unité ou non: Qté RAM = 512Mo
+
+Deux niveaux d'information :
+- fourni par l'utilisateur = UserReport
+- calculée automatiquement = - présence d'un driver,  - présence d'une feature d'un logiciel (ex: gestion WPA)
+Matériel <-- [ Driver ] --> Os
+Matériel <-- [ Feature ] --> Logiciel/Driver
+
+[ Matériel ] features   [ Driver ]
+[          ]<---------> [        ]    feature = module kernel ??
+[          ]            [        ]
+
+Le fait qu'il existe une page web relatant "ça marche" est un "user report"
+Il y a plusieurs niveaux dans un UserReport :
+« je sais que ça ne marche pas »         [ÇA] = quoi ??  Matériel lui-même, ou juste Feature.
+« je pense que ça ne marche pas »
+« j'ai lu/entendu que ça marce »
+« je l'ai vu marcher »
+« je l'ai fait marcher »
+autre niveau : 
+- ça a marché tout de suite sans rien faire
+- j'ai bidouillé
+Notion d'actions à accomplir, puis de scripts
+
+Actions :
+- rien faire
+- installer un paquet/logiciel  intégré distro / externe
+
+Donc UserReport contient :
+- contexte (=feature ou device)       rem: contexte=> Adapter ?!? Multiadapter(IUserReportable, context,report) ??  stockage dans Report.
+- niveau (voir plus haut)
+
+Une UserReport peut être stocké (à décider) dans :
+- le user (permet à un utilisateur de retrouver ses reports et de les faire évoluer)
+- le contexte (permet d'afficher plus facilement tous les reports d'un device)
+- à part dans leur propre container.
+- dans une base SQL sachant que les reports sont une liste plus ou moins linéaire et chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
+
+
+Gestion des Catégories. Quelle différence avec une gestion des tags ?
+
+
+Gestion de l'évolution de la compatibilité ? Comment gérer un nouveau driver, son amélioration ?
+Faire une moyenne des userreports sur X semaines ? (sorte de moyenne flottance ?)
+De toute façon il est peu probable qu'une distro particulière améliore son support direct d'un matériel.
+
+
+Objet catégory -> avoir un workflow : -proposé (1x, 2x, ... 5x-> validation)  -actif  -annulé
+Carte vidéo ET d'acquisition se définit ?  => features = sortie VGA + entrée Vidéo
+Notion entrée/sortie/bi-di sur PhysicalInterface
+Donc une catégorie se définit par des features ??
+IPhysicalInterface(IFeature)
+AGP doit être une implémentation de IPhysicalInterface ?
++ faire un conteneur de PhysicalInterface car c'est un choix et non un int.
+class IPhysicalInterface(IFeature)
+  name=Source(... vocabulary définit par le conteneur...)
+Dossier Features
+    Physical Interfaces
+            AGP
+            USB
+            VGA
+IPhysicalInterfaces = List(IPhysicalInterface) ?
+
+Category
+    Imprimante : IPhysicalInterface + ISpeed + ... ?
+    Carte graphique : IPhys + 
+ISpeed = value + unit
+
+Ce qui définit l'imprimante est la liste des types de features, ce qui définit la Laserjet4000 c'est les valeurs de ces features.
+imprimante = (usb|ethernet|parallele) + Xppm + Xdpi
+laserjet4000 = (parallele+ethernet) + 10ppm + 1200dpi
+
+Catégorie = ensemble de features,   ensemble d'interfaces de features ??
+Faut-il définir une interface IPrinter ??
+class IPrinter
+    ports = Source([usb,parallel,ethernet])
+    qualité d'impression = Int
+
+Certaines catégories de matériel ont un choix limité de features
+Par ex: imprimante : port = usb ou parallele ou ethernet   APN = usb ou firewire(?)
+
+Catégories => ensemble de features
+Tags => ensemble de mots  (mieux pour des images)
+
+L'imprimante est une catégorie, mais il y a des catégories d'imprimantes (laser, jet d'encre, sublimation, etc.)
+Pb du classement => quel critère ?
+Feature => méthode d'impression. Est-ce définissable hors du contexte d'une imprimante ? (Non a priori)
+
+=> choisir un nombre précis, arbitraire et limité de features pour définir une catégorie ? (ex: port + méthode d'impression)
+Notion de JEU = utilisation, ce n'est pas une feature, et pourtant c'est un classement possible (laptop pour le jeu/laptop pour le travail)
+Utilisation : Professionnelle  / jeu/loisir/divertissement
+
+Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON
+=> Définir des phrases types avec la features, posées aux visiteur automatiquement et influençant la catégorisation.
+
+Déclenchement d'actions suscitées : Question sur le bord du site : « Avez-vous utilisé ce matériel sous [v][linux] [OUI ] => démarrage d'un userreport.
+(liste déroulante comportant linux, freebsd, osX, etc...)
+  
+
+Un objet Category est un objet qui définit une catégorie de matériel et qui est implémenté sous la forme soit d'une liste d'interfaces dérivées d'IFeature
+soit sous la forme d'un objet fournissant les interfaces dérivées d'IFeature.
+
+
+Critères de sélection d'un matériel :
+- Usage (interface IUsage)
+- Prix (IPricing)
+- User Rating
+- 
+
+Pour chaque interface, définir un viewlet qui s'affiche dans un cadre à droite et qui permet d'agir.
+
+Peut-être vaudrait-il mieux se concentrer sur quelques devices et définir ceux-ci de manière complète grâce à des interfaces spécialisées du type IPrinter.
+
+Permettre de déterminer automatiquement la compatibilité ENTRE matériels, ex: carte mère <-> RAM ?
+
+EUREKA:  Il y a un module Category permettant de définir qu'un objet quelconque est catégorisable ET il y a un module Feature permettant de
+définir qu'un objet quelconque possède des features. Donc pour dire qu'une catégorie offre des features, il suffit de dire qu'un objet Category est featured.
+Inversement, une feature peut être catégorisée car on peut décider qu'elle est catégorisable. Donc une feature peut être catégorisée et une catégorie peut offrir des features.
+La boucle est bouclée, vive zope3. :)
+Seul petit problème, je voulais que les features soient des interfaces, et là c'est des objets. Mais finalement c'est pas plus mal. (D'ailleurs les interfaces sont elles-même
+des objets, mais bon... on va pas compliquer)
+Donc ensuite on peut dire qu'un objet quelconque est une imprimante en disant qu'elle est catégorisable et que l'une de ses catégories est l'objet imprimante.
+Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...FGvfsffdasd
+PhysicalInterface est une CATEGORIE. USB est une feature située dans la catégorie PhysicalInterface (çàd qui possède physInt parmi ses catégories.)
+PhysicalInterface est une catégorie offrant des features ? : USB, AGP, 1394, DIMM, SO-DIMM
+
+Implémentations d'objets Category : printer, fax, multifonction, carte graphique, carte d'acquisition, barette RAM (ou barette mémoire), 
+********* Il y a des catégories de Features, des catégories de Device, des catégories d'Action, des catégories d'Usage ****************
+PhysicalInterface est une catégorie de Feature.
+Printer est une catégorie de Device
+Installation est une catégorie d'Action
+Catégories de features : physical interface, Speed, Capacity, Alimentation
+
+Implémentation d'objets Feature : USB,  AGP, 1394, DIMM, SO-DIMM, 3D, 2D, WPA, WEP, capacité RAM, nb de DPI, nb de PPM
+USB, AGP sont des features de la catégorie PhysicalInterface
+Capacité RAM est une feature de la catégorie Capacity
+nb de PPM est une feature ayant les catégories Speed, Printer, 
+feature AGP : categories = carte graphique, physical interface, carte d'acquisition
+feature PCI : carte d'extension, physical interface, 
+
+Usage JEU : 
+Catégory printer : features = physicalinterface, nb PPM, nb DPI, taille bac
+(usb et ethernet ne sont pas exclusif, une imprimante peut offrir usb + ethernet)
+physical interface est une feature ou une catégorie ????!!??  une catégorie de feature ??
+
+Carte graphique : features : AGP, PCI,   characteristics : gpu speed 500MHz
+
+
+Laserjet :
+    physical interface = usb
+    physical interface = ethernet
+    speed : nb de PPM  = 14ppm
+    finesse d'impression : nb de DPI = 1200 DPI
+
+powercolor machin :
+    physical interface  = AGP
+    physical interface = DVI
+    physical interface = VGA
+    
+    
+DeviceCategory
+    printer
+    carte graphique
+    multifonction
+FeatureCategory
+    physical interface
+    interface série
+    speed
+    finesse
+    capacity
+ActionCategory
+    installation
+    configuration
+UsageCategory
+    travail
+    jeu
+    gestion d'entreprise
+Device
+    powercolor machin
+    geforce7800
+    laserjet
+Feature  = un truc qui peut ou non fonctionner (ex: sous linux)
+    USB
+    3D
+    WPA
+Caractéristics = une valeur caractéristique de ...
+    nb DPI
+    nb PPM    
+    pciid
+Action
+Usage
+
+
+
+
+
+
+
+Un device peut être : featured, caracteristics, categorized
+Une feature peut être characteristics
+une caractéristique peut être : 
+une category peut être caracteristics et featured
+
+
+Un objet a des caractéristiques matérielles et des caracteristiques fonctionnelles.
+
+
+
+USB : implémentation de IFeature, offrant ICategorizable et dont la catégorie est PhysicalInterface 
+
+
+PAGE MATERIEL
+=============
+ex: WMP54G :
+
+OS : pilote inclus / non inclus
+
+comparaison    device features <-> driver features   -> %age de support du matériel par le driver
+gestion de l'architecture ????   ex : feature de driver uniquement sur x86 et pas sur alpha.
+
+Que veut-on : principalement :  Savoir si ça marche tout de suite    ou     Savoir s'il faut bidouiller
+
+
+internationalisation
+====================
+affichage automatique dans la langue de l'utilisateur. Si non traduit : proposition pour traduire.
+Propositions de trad retenues mais non affichées. À partir de x propositions identiques, validation automatique.
+Seuls les commentaires ou user_experiences de la langue de l'utilisateur sont affichées. + lien vers ceux d'autres langues.
+
+
+Clients possibles
+=================
+boutiques en ligne qui veulent récupérer/afficher les caractéristiques d'un matériel pour le vendre mieux, ainsi que des commentaires et notes.
+
+
+
+Catégories de matériel (réf Grosbill)
+
+COMPOSANTS
+   	1er prix
+  	Alimentation
+  	Boitier     ATX, microATX, mini-ITX ?
+  	Boitier externe
+  	Câbles et connectiques
+  	Carte contrôleur
+  	Carte d'acquisition
+  	Carte graphique
+  	Carte mère
+  	Carte son
+  	Carte tuner TV/TNT
+  	Clé USB
+  	Disque dur
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe divx
+  	Disque dur externe divx by GB
+  	Dissipateur
+  	Graveur BluRay
+  	Graveur CD
+  	Graveur DVD
+  	Graveur externe
+  	Kit évolution
+  	Lecteur CD
+  	Lecteur de disquette
+  	Lecteur DVD
+  	Lecteur multi-cartes externe
+  	Mémoire DDR
+  	Mémoire DDR2
+  	Mémoire Rambus
+  	Mémoire SDRAM
+  	Mémoire So-dimm
+  	Mini PC
+  	Pate thermique
+  	Processeur
+  	Rack & rhéobus
+  	Sélection des grosbilliens
+  	Tuning
+  	Ventilateur carte graphique
+  	Ventilateur de boîtier
+  	Ventilateur disque dur
+  	Ventilateur processeur
+  	Watercooling
+Son, baladeurs et audio PRO
+    Baladeur  	
+  	Tous les baladeurs
+  	Baladeur USB
+  	Juke Box
+  	Multimédia (audio/video)
+  	Casque audio
+  	Accessoires
+ 
+  	Hifi & Home cinéma 	
+  	Chaîne HIFI
+  	Ampli HIFI
+  	Amplificateur Audio/Video
+  	Lecteur CD de salon
+  	Platine Vinyle
+  	Radio K7 CD
+ 
+  	Audio PRO 	
+  	Toute l'audio PRO
+  	Accessoires
+  	Carte son
+  	Casques pro
+  	Enceintes
+  	Micro
+ 
+  	Périphériques MIDI 	
+  	Carte son
+  	Clavier midi
+  	Interface
+ 
+  	Auto 	
+  	Autoradio
+ 
+  	Radio reveil 	
+  	Radio reveil
+Logiciels & Jeux  	
+
+  	Jeux 	
+  	Action
+  	Aventure
+  	Course
+  	Gestion
+  	Jeu de rôle
+  	Jeu en ligne (MMO)
+  	Simulateur
+  	Sport
+  	Stratégie
+  	Jeu PC à petit prix
+  	Prochaines sorties
+  	Tous les jeux PC
+  	Consoles et jeux
+  	Figurines
+ 
+  	Logiciels 	
+  	Tous les logiciels
+  	Antivirus et sécurité
+  	Bureautique
+  	Graphisme
+  	Gravure et sauvegarde
+  	Loisirs et culturel
+  	Ludo-éducatif
+  	Musique
+  	Navigation et GPS
+  	PDA et téléphones mobiles
+  	Professionnels et entreprises
+  	Systèmes d'exploitation
+  	Vidéo
+Téléviseurs et vidéo  	
+  	Télévision 	
+  	LCD
+  	Plasma
+  	TV Portable
+  	Rétroprojecteur
+ 
+  	Lecteur et Enregistreur DVD 	
+  	Enregistreur avec disque dur
+  	Enregistreur sans disque dur
+  	Lecteur DVD/DivX
+  	Lecteur DVD/Divx portable
+  	Lecteur HD-DVD / Blu-Ray
+  	Lecteur Multimédia
+  	Combi DVD Magnétoscope
+  	Accessoire DVD portable
+  	Films DVD
+ 
+  	TNT et Satellite 	
+  	Récepteur TNT et satellite
+ 
+  	Video-Projection 	
+  	Video projecteur
+  	Ecran de projection
+ 
+  	Home Cinéma 	
+  	Ampli Audio / Video
+  	Enceintes Home Cinéma
+  	Pieds d'enceintes
+ 
+  	Accessoires téléviseur 	
+  	Câbles et connectiques
+  	Télécommande Universelle
+  	Meubles
+  	Support mural
+  	DVD et CD Vierges
+  	Boitiers et étuis
+ Impression  	
+  	Câble d'imprimante
+  	Cartouches d'encres
+  	Impression sur CD
+  	Packs de cartouches
+  	Packs de cartouches et papiers
+  	Papier
+  	Ruban
+  	Tambour
+  	Toner
+  	Tous les toners
+  	Toutes les cartouches
+ 
+  	Médias vierges 	
+  	BD-R
+  	BD-RE
+  	CD-R
+  	CD-RW
+  	Disquette
+  	DVD+R
+  	DVD+RW
+  	DVD-R
+  	DVD-RW
+  	Marqueur
+  	Packs gravure
+ 
+  	Accessoires 	
+  	Accessoires nettoyage
+  	Chargeur
+  	Lingettes nettoyantes
+  	Piles
+ 
+  	Rangement 	
+  	Malette pour portable
+  	Pour CD
+Ordinateurs de bureau  	
+  	Ordinateur de bureau 	
+  	Bureautique
+  	Multimédia
+  	Jeux
+  	Hardcore gamer
+  	Mini PC
+  	AMD Live!
+  	Serveur
+  	Tous les ordinateurs
+ 
+  	Accessoires 	
+  	Câbles et connectiques
+  	Clavier/souris
+  	Clé USB
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe Divx
+  	Disque dur externe Divx by GB
+  	Enceintes
+  	Imprimante multi-fonctions
+  	Moniteur
+  	Multi-prise
+  	Onduleur
+  	Webcam
+ 
+  	Logiciels 	
+  	Bureautique
+  	Jeux
+  	Sécurité
+  	Système d'exploitation
+  	
+Ordinateur portable  	
+  	Ordinateur portable 	
+  	Pour elle
+  	Multimédia
+  	Jeux
+  	Professionnels
+  	Ultra portable
+  	Tous les portables
+ 
+  	Accessoires 	
+  	Accessoires divers
+  	Adaptateur secteur
+  	Assurance
+  	Batteries
+  	Câbles et connectiques
+  	Cartes PCMCIA
+  	Extention de garantie
+  	Mallette
+  	Station d'accueil
+ 
+Ordinateur portable 	
+  	Recherche par marque 	
+ 	acer (12)
+ 	asus (7)
+ 	averatec (1)
+ 	fujitsu-siemens (16)
+  	lenovo (3)
+  	msi (7)
+  	packard bell (6)
+ 	samsung (8)
+ 	sony (14)
+ 	toshiba (13)
+  	Recherche par prix 	
+  	Inférieur à 800 € (16)
+  	De 800 à 1100 € (53)
+  	De 1100 à 1500 € (35)
+  	De 1500 à 2000 € (24)
+  	Supérieur à 2000 € (7)
+  	
+Appareils photos  	
+  	Appareils photo 	
+  	Les compacts
+  	les bridges
+  	Les réflex
+  	Les accessoires
+  	Mémoire flash
+  	Tous les appareils photo
+  	Imprimantes portables
+  	Cadres photo numériques
+  	Configurateur accessoires
+ 
+Caméscope numérique 	
+  	Camescopes 	
+  	Caméscopes à disque dur
+  	Caméscopes mini DV
+  	Caméscopes à mémoire flash
+  	Caméscopes mini DVD
+  	Accessoires
+  	Mémoires flash
+  	Tous les caméscopes
+  	Configurateur d'accessoires
+ GPS  	
+  	Accessoires GPS
+  	Configurateur GPS
+  	GPS autonome (Tomtom)
+  	GPS bluetooth
+  	Kit PDA + GPS
+  	Tous les GPS
+ 
+PDA 	
+  	Configurateur accessoires
+  	PDA Bluetooth
+  	PDA Communicant
+  	PDA Wifi
+  	Tous les PDA
+ 
+Téléphonie 	
+  	Téléphones fixes
+  	Téléphones mobiles
+  	Accessoires téléphones
+  	Configurateur d'accessoires
+  	Mémoires flash
+  	Talkies walkies
+ 
+Calculatrices 	
+  	Calculatrices financieres
+  	Calculatrices graphiques
+  	Calculatrices scientifiques
+
+Périphériques  	
+
+  	Moniteurs - Ecrans 	
+  	Moniteur LCD
+ 
+  	Son et multimédia 	
+  	Enceintes
+  	Casque
+  	Casque micro
+  	Webcam
+ 
+  	Impression et scanners 	
+  	Jet d'encre
+  	Laser
+  	Multifonction fax
+  	Multifonction jet d'encre
+  	Multifonction laser
+  	Photo portable
+  	Scanner
+  	Télécopieur
+ 
+  	Périphériques de saisie 	
+  	Clavier
+  	Clavier souris
+  	Pavé numérique
+  	Souris
+  	Souris accessoires
+  	Tablette graphique
+  	Tapis de souris
+ 
+  	Stockage et sauvegarde 	
+  	cassette dat
+  	Clé USB
+  	Disque dur externe
+  	Disque dur externe by GB
+  	Disque dur externe Divx
+  	Disque dur externe Divx by GB
+  	Graveur externe
+  	Sauvegarde
+ 
+  	Périphériques de jeux 	
+  	Joypad
+  	Joystick
+  	Volant
+ 
+  	Câbles et connectiques 	
+  	Câbles
+  	Hub USB
+  	multiprise
+  	Onduleur
+  	Switch KVM
+ 
+  	Gadgets 	
+  	Gadgets

@@ -1,0 +1,64 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
+<zope:class class=".manufacturer.Manufacturer">
+  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+</zope:class>
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
+<zope:class class=".manufacturer.ManufacturerContainer">
+  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+</zope:class>
+
+
+<!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<zope:interface  
+  interface=".interfaces.IManufacturer"
+  type="zope.app.content.interfaces.IContentType"
+/>
+
+
+
+
+<!-- Manufacturer views -->
+<browser:page
+    name="manufacturer.Manufacturer"
+    for="zope.app.container.interfaces.IAdding"
+    class=".manufacturer.ManufacturerAdd"
+    permission="zope.View"
+    menu="my_addings" title="new manufacturer"
+/>
+<browser:page
+    name="edit_manufacturer.html"
+    for=".interfaces.IManufacturer"
+    template="manufacturer_form.pt"
+    class=".manufacturer.ManufacturerEdit"
+    permission="zope.View"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.IManufacturer"
+    class=".manufacturer.ManufacturerView"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+
+
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Manufacturer"
+    class=".manufacturer.Manufacturer"
+    permission="zope.ManageContent"
+    view="manufacturer.Manufacturer"
+/>
+<browser:addMenuItem
+    title="Manufacturer Container"
+    class=".manufacturer.ManufacturerContainer"
+    permission="zope.ManageContent"
+/>
+
+
+</configure>

@@ -1,0 +1,23 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<include package=".skin" />
+
+<include package=".manufacturer" />
+
+<include package=".device" />
+
+<!-- <include package=".feature" /> -->
+
+
+<!-- on déclare qu'un Manufacturer est un DeviceContainer -->
+<!-- <zope:class class=".manufacturer.manufacturer.Manufacturer">
+    <implements interface=".device.interfaces.IDeviceContainer" />
+</zope:class> -->
+
+
+
+
+
+
+
+</configure>
