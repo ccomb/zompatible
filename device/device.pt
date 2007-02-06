@@ -24,5 +24,18 @@ Le code ci-dessous est dupliqué ailleurs -->
 (other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
 
+
+<br/><br/>
+test de recherche sur les devices
+
+
+<form action="@@search.html" method="post">
+<input type="text" name="query" /> <input type="submit" value="search" />
+</form>
+
+ 
+
+
+
 </body>
 </html>

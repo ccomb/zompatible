@@ -21,6 +21,9 @@ pour dire que c'est un type de contenu -->
 />
 
 
+<zope:adapter factory=".device.SearchableTextOfDevice" />
+
+
 <browser:page
     name="device.Device"
     for="zope.app.container.interfaces.IAdding"
@@ -43,12 +46,22 @@ pour dire que c'est un type de contenu -->
     permission="zope.View"
     menu="my_actions" title="View"
 />
-
+<browser:page
+    name="search.html"
+    for="*"
+    class=".device.SearchDevice"
+    permission="zope.View"
+/>
 
 
 
 
 <!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Device Container"
+    class=".device.DeviceContainer"
+    permission="zope.ManageContent"
+/>
 <browser:addMenuItem
     title="Device"
     class=".device.Device"

@@ -252,7 +252,7 @@ Critères de sélection d'un matériel :
 
 Pour chaque interface, définir un viewlet qui s'affiche dans un cadre à droite et qui permet d'agir.
 
-Peut-être vaudrait-il mieux se concentrer sur quelques devices et définir ceux-ci de manière complète grâce à des interfaces spécialisées du type IPrinter.
+Peut-être vaudrait-il mieux se concentrer sur quelques devices et définir ceux-ci de manière complète grâce à des interfaces spécialisées du type IPrinter.?
 
 Permettre de déterminer automatiquement la compatibilité ENTRE matériels, ex: carte mère <-> RAM ?
 

@@ -7,7 +7,8 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from interfaces import *
 from zope.index.text.interfaces import ISearchableText
-from zope.component import adapts
+from zope.component import adapts, getUtility
+from zope.app.catalog.interfaces import ICatalog
 
 class DeviceContainer(Folder):
     """
@@ -51,8 +52,7 @@ class DeviceView(BrowserPage):
         return self.context.names
 
 
-
-
+# tests sur la recherche avec le catalog
 class SearchableTextOfDevice(object):
     u"""
     l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet device.
@@ -70,4 +70,29 @@ class SearchableTextOfDevice(object):
             text += " " + t
         return text
     
+
+class SearchDevice(BrowserPage):
+    u"""
+    la méthode lancée depuis le template pour effectuer la recherche
+    """
+    def update(self, query):
+        catalog=getUtility(ICatalog)
+        self.results=catalog.searchResults(device_names=query)
+
+    render = ViewPageTemplateFile('search.pt')
+    
+    def __call__(self, query):
+        self.update(query)
+        return self.render()
+    
+    def getResults(self):
+        print len(self.results)
+        for item in self.results:
+            names=""
+            for name in item.names:
+                names += name + " "
+            yield names
+
+
+
 
