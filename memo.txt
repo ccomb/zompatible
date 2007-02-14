@@ -108,7 +108,9 @@ Trois grand objets principaux :
 -OS
 -user (avec expériences=rapports)
 
+??? 
 Pour chaque objet, 1 attribut contenant les propositions d'erreurs : error report = { __:__, etc. } (key=nom de l'attribut (ou à effacer),  value=valeur proposée
+???
 
 Utiliser des sources ou vocabularies pour les attributs
 - le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
@@ -130,6 +132,9 @@ Si un mot pas connu -> suggestions sur orthographes voisines + Demande : « qu'e
 1 driver ?  : 1 driver appartient à quoi ? un OS ? un fabricant ? une distrib ? un noyau ?
 Comment différencier feature de physical interface ? Ca pourrait être le même objet, mais avec un interface en plus spécifiant que c'est une interface physique.
 Une physical interface est une feature d'un matériel.
+   ---> Oui mais, c'est étroitement lié au chip qui ne sait gérer que le PCI, le SCSI ou l'USB... Je veux dire que pour un chip donné, tu n'as qu'une interface physique possible, par contre les Features peuvent 
+bien être différentes d'un matériel à un autre avec ce même chip. C'est vrai qu'on voit bien le role particulier de l'interface physique et que c'est tout de même une feature... On pourrait tout de même le voir
+comme la feature PRINCIPALE d'un matériel étant donné que c'est le support physique qui lui permet de communiquer avec les autres matériels: c'est LA feature qui se retrouve dans TOUT MATERIEL.
 
 Quatre grand types d'objets contenus :
 o Organisation
@@ -184,7 +189,7 @@ Gestion des Catégories. Quelle différence avec une gestion des tags ?
 
 
 Gestion de l'évolution de la compatibilité ? Comment gérer un nouveau driver, son amélioration ?
-Faire une moyenne des userreports sur X semaines ? (sorte de moyenne flottance ?)
+Faire une moyenne des userreports sur X semaines ? (sorte de moyenne flottance ?) 
 De toute façon il est peu probable qu'une distro particulière améliore son support direct d'un matériel.
 
 
@@ -233,7 +238,7 @@ Feature => méthode d'impression. Est-ce définissable hors du contexte d'une im
 Notion de JEU = utilisation, ce n'est pas une feature, et pourtant c'est un classement possible (laptop pour le jeu/laptop pour le travail)
 Utilisation : Professionnelle  / jeu/loisir/divertissement
 
-Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON
+Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON   (=> Attention penser que ce type d'info n'est pas pérène dans le temps...)
 => Définir des phrases types avec la features, posées aux visiteur automatiquement et influençant la catégorisation.
 
 Déclenchement d'actions suscitées : Question sur le bord du site : « Avez-vous utilisé ce matériel sous [v][linux] [OUI ] => démarrage d'un userreport.
