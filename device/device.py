@@ -25,13 +25,14 @@ class DeviceContainer(Folder):
 class Device(Persistent):
     implements(IDevice, ISubDevices)
     names=PersistentList()
-    name=u""
-    subdevices=PersistentList()
+    #name=u""
+    subdevices=[]
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
 
-
+# choix du widget pour l'élément de la liste des subdevices
 device_widget = CustomWidgetFactory(ObjectWidget, Device)
+# choix du widget pour les subdevices
 subdevices_widget = CustomWidgetFactory(ListSequenceWidget, subwidget=device_widget)
 
 
