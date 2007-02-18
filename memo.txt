@@ -111,6 +111,17 @@ Trois grand objets principaux :
 ??? 
 Pour chaque objet, 1 attribut contenant les propositions d'erreurs : error report = { __:__, etc. } (key=nom de l'attribut (ou à effacer),  value=valeur proposée
 ???
+Le principe est que n'importe qui ne peut pas modifier directement la base de données, mais peut exprimer une opinion, un peu comme un vote,
+pour dire que telle partie de la base est erronée, ou incomplète, etc. Comme on ne peut pas forcément faire confiance à tout le monde,
+on autorise tout le monde à seulement ajouter un rapport de modification sur un objet, mais pas à le modifier directement.
+Ce rapport de modification est un objet stocké dans les meta-données de l'objet à modifier.
+Lorsque plusieurs rapports de modifications identiques sont soumis par plusieurs personnes, on modifie l'objet directement
+selon les désirs de toutes ces personnes, puis on efface les rapports de modification.
+Un tel comportement peut être implémenté de manière générique grâce à une interface, et appliqué à n'importe quel type d'objet (manufacturer, device, etc.)
+
+
+
+
 
 Utiliser des sources ou vocabularies pour les attributs
 - le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
