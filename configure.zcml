@@ -5,7 +5,7 @@
 <include package=".manufacturer" />
 
 <include package=".device" />
-
+<!-- <include package=".poll" /> -->
 <!-- <include package=".feature" /> -->
 
 

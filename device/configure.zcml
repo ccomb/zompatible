@@ -34,7 +34,7 @@ pour dire que c'est un type de contenu -->
 <browser:page
     name="edit_device.html"
     for=".interfaces.IDevice"
-    template="device_form.pt"
+
     class=".device.DeviceEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
