@@ -1,5 +1,6 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IDevice -->
 <zope:class class=".device.Device">
   <require permission="zope.Public" interface=".interfaces.IDevice" />
@@ -27,7 +28,7 @@ pour dire que c'est un type de contenu -->
 <browser:page
     name="device.Device"
     for="zope.app.container.interfaces.IAdding"
-    class=".device.DeviceAdd"
+    class=".browser.DeviceAdd"
     permission="zope.View"
     menu="my_addings" title="new device"
 />
@@ -35,21 +36,21 @@ pour dire que c'est un type de contenu -->
     name="edit_device.html"
     for=".interfaces.IDevice"
 
-    class=".device.DeviceEdit"
+    class=".browser.DeviceEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IDevice"
-    class=".device.DeviceView"
+    class=".browser.DeviceView"
     permission="zope.View"
     menu="my_actions" title="View"
 />
 <browser:page
     name="search.html"
     for="*"
-    class=".device.SearchDevice"
+    class=".browser.SearchDevice"
     permission="zope.View"
 />
 
