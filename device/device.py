@@ -15,6 +15,7 @@ from zope.app.form.browser import ObjectWidget, ListSequenceWidget
 from zope.schema.fieldproperty import FieldProperty
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
+from zope.traversing.api import getRoot
 
  
 class DeviceContainer(Folder):
@@ -86,10 +87,12 @@ class DeviceSource(object):
     implements(ISource)
     def __contains__(self, value):
         found=0
-        for manuf in getRoot(self)['manufacturers']:
-            if value in manuf['devices']:
+        root = getRoot(value)
+        for manuf in root['manufacturers']:
+            if value.__name__ in root['manufacturers'][manuf]['devices'].keys():
                 found=1
-                break
+                return True
+        return False
 
 
 class DeviceVocabularyFactory(object):
