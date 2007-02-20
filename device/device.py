@@ -14,7 +14,9 @@ from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser import ObjectWidget, ListSequenceWidget
 from zope.schema.fieldproperty import FieldProperty
 from persistent.list import PersistentList
+from zope.schema.interfaces import ISource, IVocabularyFactory
 
+ 
 class DeviceContainer(Folder):
     """
     a folder that contains devices
@@ -38,8 +40,6 @@ class Device(Persistent):
 #    subdevices_widget = CustomWidgetFactory(ObjectWidget, Device)
 
 
-
-
 # tests sur la recherche avec le catalog
 class SearchableTextOfDevice(object):
     u"""
@@ -58,5 +58,43 @@ class SearchableTextOfDevice(object):
             text += " " + t
         return text
     
+
+class SearchDevice(object):
+    u"""
+    une classe qui effectue la recherche de device
+    il faudrait peut-être déporter ceci dans un module externe
+    qui fournirait une interface ISearchable,
+    ainsi que les fonctions de recherche.
+    (voir s'il existe déjà une interface de ce type ?)
+    """
+    def update(self, query):
+        catalog=getUtility(ICatalog)
+        self.results=catalog.searchResults(device_names=query)
+    def __init__(self, query):
+        self.update(query)
+    def getResults(self):
+        return self.results
+
+
+class DeviceSource(object):
+    """
+    implémentation de la Source de Devices utilisée dans le schema de sub_devices.
+    Il s'agit juste d'implémenter ISource
+    Cette source est censée représenter l'ensemble de tous les devices.
+    Elle parcourt tous les manufacturers et recherche le device voulu.
+    """
+    implements(ISource)
+    def __contains__(self, value):
+        found=0
+        for manuf in getRoot(self)['manufacturers']:
+            if value in manuf['devices']:
+                found=1
+                break
+
+
+class DeviceVocabularyFactory(object):
+    implements(IVocabularyFactory)
+    def __call__(self, context):
+        return DeviceSource()
 
 

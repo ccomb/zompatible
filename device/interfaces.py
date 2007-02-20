@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
-from zope.schema import List, TextLine, Object, Bool
+from zope.schema import List, TextLine, Object, Bool, Choice
 from zope.interface import Interface
+
 
 
 class IDevice(IContained):
@@ -27,9 +28,11 @@ class IDeviceContainer(IContainer):
     """
     contains(IDevice)
 
+    
+
 
 class ISubDevices(Interface):
     u"""
     interface of an object that has subdevices
     """
-    subdevices = List(title=u'subdevices', value_type=Object(title=u'subdevice', description=u'a subdevice (chip, component)', schema=IDevice), required=False)
+    subdevices = List(title=u'subdevices', value_type=Choice(title=u'subdevice', description=u'a subdevice (chip, component)', source="devicesource"), required=False)

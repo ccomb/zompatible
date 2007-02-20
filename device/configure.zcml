@@ -23,7 +23,8 @@ pour dire que c'est un type de contenu -->
 
 
 <zope:adapter factory=".device.SearchableTextOfDevice" />
-
+<zope:adapter factory=".browser.DeviceTerms" />
+<zope:adapter factory=".browser.DeviceQueryView" />
 
 <browser:page
     name="device.Device"
@@ -50,7 +51,7 @@ pour dire que c'est un type de contenu -->
 <browser:page
     name="search.html"
     for="*"
-    class=".browser.SearchDevice"
+    class=".browser.SearchDeviceView"
     permission="zope.View"
 />
 
@@ -79,8 +80,11 @@ pour dire que c'est un type de contenu -->
     />
 </browser:menuItems>
     
-
-
+<!-- registered named utility used in the subdevices interface -->
+<zope:utility
+    factory=".device.DeviceVocabularyFactory"
+    name="devicesource"
+/>
 
 
 
