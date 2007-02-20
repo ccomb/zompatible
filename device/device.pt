@@ -21,7 +21,11 @@ Le code ci-dessous est dupliqué ailleurs -->
 
 <h2 tal:content="view/getmainname">device name</h2> 
 
-(other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
+Other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>
+
+<p>
+Sub-devices : <span tal:repeat="subdevice view/getsubdevices" tal:omit-tag=""><span tal:content="subdevice/__name__">list</span><span tal:condition="not:repeat/subdevice/end">, </span></span>
+</p>
 
 
 
