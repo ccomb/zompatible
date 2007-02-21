@@ -1,0 +1,20 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+
+
+<browser:defaultSkin
+    name="MySkin"
+/>
+
+
+<!-- La page d'accueil, un overrides pour IFolder
+Ceci deviendra inutile quand Rotterdam sera désactivée. -->
+<browser:page
+    name="index.html"
+    for="zope.app.folder.interfaces.IFolder"
+    class=".browser.MainPage"
+    permission="zope.View"
+    layer=".skin.interfaces.IMySkin"
+/>
+
+</configure>
