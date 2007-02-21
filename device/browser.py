@@ -1,35 +1,17 @@
 # -*- coding: utf-8 -*-
-from persistent import Persistent
-from zope.interface import implements  
+from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.app.folder.folder import Folder
-from interfaces import *
-from zope.index.text.interfaces import ISearchableText
 from zope.component import adapts, getUtility
-from zope.app.catalog.interfaces import ICatalog
-from zope.app.form.browser.editview import EditView
-from zope.app.form import CustomWidgetFactory
-from zope.app.form.browser import ObjectWidget, ListSequenceWidget
-from zope.schema.fieldproperty import FieldProperty
-from persistent.list import PersistentList
-from zope.app.form.browser.widget import SimpleInputWidget
-from device import Device, SearchDevice, DeviceSource
-from zope.app.form.browser.interfaces import ITerms
+from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
-from zope.app.form.browser.interfaces import ISourceQueryView
 from zope.app.intid.interfaces import IIntIds
 
+from device import Device, SearchDevice, DeviceSource
+from interfaces import *
     
-
-# choix du widget pour l'élément de la liste des subdevices
-#device_widget = CustomWidgetFactory(ObjectWidget, Device)
-# choix du widget pour les subdevices
-#subdevices_widget = CustomWidgetFactory(SearchAndSelectObjectWidget)
-
-
 
 
 class DeviceAdd(AddForm):
@@ -127,6 +109,7 @@ class DeviceQueryView(object):
     implements(ISourceQueryView)
     adapts(DeviceSource, IBrowserRequest)
     def __init__(self, source, request):
+        u"source est le contexte"
         self.source=source
         self.request=request
     def render(self, name):
