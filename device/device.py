@@ -28,7 +28,6 @@ class DeviceContainer(Folder):
 class Device(Persistent):
     implements(IDevice, ISubDevices)
     names=PersistentList()
-    #name=u""
     subdevices=[]
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
@@ -70,7 +69,9 @@ class SearchDevice(object):
     """
     def update(self, query):
         catalog=getUtility(ICatalog)
-        self.results=catalog.searchResults(device_names=query)
+        self.results=[]
+        if query!="":
+            self.results=catalog.searchResults(device_names=query)
     def __init__(self, query):
         self.update(query)
     def getResults(self):

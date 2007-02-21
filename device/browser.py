@@ -20,7 +20,7 @@ from zope.app.form.browser.interfaces import ITerms
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.form.browser.interfaces import ISourceQueryView
-
+from zope.app.intid.interfaces import IIntIds
 
     
 
@@ -102,24 +102,22 @@ class DeviceTerms(object):
     adapts(DeviceSource, IBrowserRequest)
     def __init__(self, source, request):
         self.source=source
+        self.intid=getUtility(IIntIds)
     def getTerm(self, value):
         u"""
         on crée un term à partir d'un device
+        On utilise le Unique Integer Id comme token
+        (puisqu'il a fallu forcément en créer un pour la recherche dans le Catalog)
         """
-        token = value.__name__.encode('base64').strip()
+        token = self.intid.getId(value)
         title = unicode(value.__name__)
         return SimpleTerm(value, token, title)
     def getValue(self, token):
         u"""
         on récupère le device à partir du token
-        *********WARNING**********
-        Il faut améliorer cette partie car effectuer
-        une recherche à chaque affichage de terme est lourdingue.
-        Deuxieme warning : 
-        Si deux devices ont le meme nom, le getvalue retourne le 1er...
         """
-        nom=token.decode('base64')
-        return list(SearchDevice(nom).getResults())[0]
+        return self.intid.getObject(int(token))
+
     
     
 class DeviceQueryView(object):
@@ -137,7 +135,7 @@ class DeviceQueryView(object):
         Il pourrait être intéressant d'y mettre un viewlet (??) ou au moins un template
         'name' est le préfixe pour les widgets.
         """
-        return('<input name="%s.string"><input type="submit" name="%s" value="Search">' % (name, name) )
+        return('<input name="%s.string" /><input type="submit" name="%s" value="chercher" />' % (name, name) )
     def results(self, name):
         if name in self.request:
             search_string = self.request.get(name+'.string')
