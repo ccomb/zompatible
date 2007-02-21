@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
+from zope.interface import implements
 from persistent import Persistent  
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.app.container.browser.contents import Contents
@@ -9,6 +10,7 @@ from zope.app.folder.folder import Folder
 from zompatible.device.device import DeviceContainer
 from zope.index.text.interfaces import ISearchableText
 from zope.component import adapts
+from zope.app.folder.interfaces import IFolder
 
 class ManufacturerContainer(Folder):
   "a manufacturer container"

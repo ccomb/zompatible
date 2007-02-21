@@ -50,7 +50,7 @@ On attend 2 lettres -> recherche sur tous les types d'objets (avec approximation
 
 Nom du fabricant [__________]  -> recherche de similarités -> propositions similaires
 
-Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Video)
+Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Viadeo)
 Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des widgets personalisés.
 
 Fabricant : doit comporter un attribut correspondant à son numéro dans le pciid

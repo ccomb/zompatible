@@ -1,6 +1,6 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-<!-- on inscrit l'interface IMySkin avec un nom et un type -->
+<!-- on register l'interface IMySkin avec un nom et un type -->
 <zope:interface
     name="MySkin"
     interface=".interfaces.IMySkin"

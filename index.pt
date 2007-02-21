@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:tal="http://xml.zope.org/namespaces/tal" 
+    xmlns:metal="http://xml.zope.org/namespaces/metal" 
+    xml:lang="en" lang="en"
+    metal:use-macro="context/@@standard_macros/page"
+>
+
+<body metal:fill-slot="body">
+
+<h1>Welcome to the Zompatible (or any other name) Main Page !</h1>
+<small>(this page is the view for IFolder, overriden over the default Rotterdam view with overrides.zcml)</small><br/>
+
+<h2>Here is the current list of manufacturers on this site:</h2>
+<ul tal:repeat="manuf view/getmanufacturers">
+    <li><a tal:content="python: manuf[0]" tal:attributes="href python:'/manufacturers/'+manuf[0]" href="#">some manufacturer</a></li>
+</ul>
+</body>
+</html>
