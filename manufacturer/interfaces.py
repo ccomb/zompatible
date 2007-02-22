@@ -11,6 +11,8 @@ class IManufacturer(IContainer):
   """
   containers('zompatible.manufacturer.interfaces.IManufacturerContainer')
   names=List(title=u'names', description=u'possible names of the manufacturer', value_type=TextLine(title=u'name', description=u'a name for the manufacturer'))
+  def get_devices():
+      pass
 
 
 class IManufacturerContainer(IContainer):

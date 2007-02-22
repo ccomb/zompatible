@@ -21,7 +21,6 @@ class ManufacturerContainer(Folder):
 class Manufacturer(Folder):
   implements(IManufacturer,IFolder)
   names=[]
-  
   def __init__(self):
       super(Manufacturer,self).__init__()
       "on crée les containers nécessaires"
@@ -29,6 +28,8 @@ class Manufacturer(Folder):
       #drivers=Folder()
       #self['devices']=devices
       #self['drivers']=drivers
+  def get_devices(self):
+      return self['devices'].items()
 
 
 class ManufacturerAdd(AddForm):
@@ -54,8 +55,6 @@ class ManufacturerView(BrowserPage):
     "la vue qui permet d'afficher un manufacturer"
     label="View of a manufacturer"
     __call__=ViewPageTemplateFile("manufacturer.pt")
-    def getdevicescontentinfo(self):
-        return Contents(self.context['devices'], self.request).listContentInfo()
     def testannotations(self):
         IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']='toto'
         return IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']

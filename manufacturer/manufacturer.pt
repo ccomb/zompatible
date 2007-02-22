@@ -21,7 +21,7 @@
 (other names: <span tal:repeat="name context/names" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
 <h2> List of devices</h2>
-<ul tal:repeat="info view/getdevicescontentinfo"><li><a href="#" tal:attributes="href info/url" tal:content="info/id">device1</a></li></ul>
+<ul tal:repeat="device context/get_devices"><li><a href="#" tal:attributes="href python:'devices/'+device[0]" tal:content="python: device[0]">device1</a></li></ul>
 
 
 
