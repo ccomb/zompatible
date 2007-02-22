@@ -24,7 +24,7 @@ Le code ci-dessous est dupliqué ailleurs -->
 (other names: <span tal:repeat="name context/names" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
 <h2> List of devices</h2>
-<ul tal:repeat="info view/getcontentinfo"><li><a href="#" tal:attributes="href info/url" tal:content="info/id">device1</a></li></ul>
+<ul tal:repeat="info view/getdevicescontentinfo"><li><a href="#" tal:attributes="href info/url" tal:content="info/id">device1</a></li></ul>
 
 </body>
 </html>

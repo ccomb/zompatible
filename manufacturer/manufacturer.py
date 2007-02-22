@@ -25,7 +25,7 @@ class Manufacturer(Folder):
   def __init__(self):
       super(Manufacturer,self).__init__()
       "on crée les containers nécessaires"
-      #devices=DeviceContainer()  # dérange le IntId utility
+      #devices=DeviceContainer()  # dérange le IntId utility. Il faut faire plutôt avec des Events
       #drivers=Folder()
       #self['devices']=devices
       #self['drivers']=drivers
@@ -54,8 +54,8 @@ class ManufacturerView(BrowserPage):
     "la vue qui permet d'afficher un manufacturer"
     label="View of a manufacturer"
     __call__=ViewPageTemplateFile("manufacturer.pt")
-    def getcontentinfo(self):
-        return Contents(self.context, self.request).listContentInfo()
+    def getdevicescontentinfo(self):
+        return Contents(self.context['devices'], self.request).listContentInfo()
     def testannotations(self):
         IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']='toto'
         return IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']
