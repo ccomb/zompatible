@@ -52,12 +52,8 @@ class ManufacturerEdit(EditForm):
 
 class ManufacturerView(BrowserPage):
     "la vue qui permet d'afficher un manufacturer"
-    label="Visualisation d'un fabricant"
+    label="View of a manufacturer"
     __call__=ViewPageTemplateFile("manufacturer.pt")
-    def getmainname(self):
-        return self.context.__name__
-    def getothernames(self):
-        return self.context.names
     def getcontentinfo(self):
         return Contents(self.context, self.request).listContentInfo()
     def testannotations(self):

@@ -19,9 +19,9 @@ Le code ci-dessous est dupliqué ailleurs -->
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="view/getmainname">manufacturer name</h2> 
+<h2 tal:content="context/__name__">manufacturer name</h2> 
 
-(other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
+(other names: <span tal:repeat="name context/names" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
 <h2> List of devices</h2>
 <ul tal:repeat="info view/getcontentinfo"><li><a href="#" tal:attributes="href info/url" tal:content="info/id">device1</a></li></ul>
