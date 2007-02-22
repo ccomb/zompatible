@@ -8,6 +8,9 @@
 <!-- <include package=".poll" /> -->
 <!-- <include package=".feature" /> -->
 
+<include package=".software" />
+
+
 
 <!-- on déclare qu'un Manufacturer est un DeviceContainer -->
 <!-- <zope:class class=".manufacturer.manufacturer.Manufacturer">
@@ -16,9 +19,39 @@
 
 
 
+<!-- Main Area and its viewlets -->
+<browser:viewletManager
+    name="zompatible.MainArea"
+    provides=".interfaces.IMainArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.View"
+/>
+<browser:viewlet
+    name="mainSearch"
+    class=".browser.MainSearchViewlet"
+    template="mainsearch.pt"
+    for="*"
+    manager=".interfaces.IMainArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.View"
+/>
 
-
-
+<!-- Admin Area and its viewlets -->
+<browser:viewletManager
+    name="zompatible.AdminArea"
+    provides=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.ManageContent"
+/>
+<browser:viewlet
+    name="manufacturerList"
+    class=".browser.ManufacturerListViewlet"
+    template="manufacturer/manufacturer_list.pt"
+    for="*"
+    manager=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.ManageContent"
+/>
 
 
 </configure>

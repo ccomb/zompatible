@@ -17,7 +17,22 @@ class MainPage(object):
     def __init__(self, context, request):
         self.context=context
         self.request=request
+
+
+
+class MainSearchViewlet(object):
+    u"""
+    le viewlet qui permet d'afficher le champ de recherche principal
+    """
+
+    
+    
+class ManufacturerListViewlet(object):
+    u"""
+    un viewlet (temporaire ?) qui permet d'afficher la liste des fabricants
+    """
     def getmanufacturers(self):
         u"Il serait préférable de registrer le dossier des manufacturers comme un named utility"
         print list(getRoot(self.context)['manufacturers'].items())
         return getRoot(self.context)['manufacturers'].items()
+

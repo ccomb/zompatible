@@ -15,15 +15,18 @@
 
 
 
+<div id="mainarea" tal:content="structure provider:zompatible.MainArea">
+zone principale qui devra contenir le champ de recherche, ainsi que d'autres viewlets.
+</div>
+
+
+<hr/>
+
+<div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
+zone qui n'apparaît que pour les administrateurs.
+</div>
 
 
 
-
-
-
-<h2>Here is the current list of manufacturers on this site:</h2>
-<ul tal:repeat="manuf view/getmanufacturers">
-    <li><a tal:content="python: manuf[0]" tal:attributes="href python:'/manufacturers/'+manuf[0]" href="#">some manufacturer</a></li>
-</ul>
 </body>
 </html>

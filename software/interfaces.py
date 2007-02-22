@@ -1,6 +1,6 @@
-
-
-
+# -*- coding: utf-8 -*-
+from zope.interface.interfaces import Interface
+from zope.schema import TextLine, List, Object
 
 
 class ISoftware(Interface):
