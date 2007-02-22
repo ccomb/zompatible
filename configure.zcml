@@ -35,6 +35,11 @@
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
+<zope:adapter
+    name="pagetitle"
+    factory=".browser.PageTitleViewlet"
+    permission="zope.View"
+/>
 
 <!-- Admin Area and its viewlets -->
 <browser:viewletManager

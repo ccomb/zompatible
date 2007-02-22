@@ -3,6 +3,7 @@ from zope.interface.interfaces import Interface
 from zope.schema import TextLine, Object, List, Text, Int
 from zope.viewlet.interfaces import IViewletManager
 
+sitename="Zompatible"
 
 class IMainArea(IViewletManager):
     u"""

@@ -4,8 +4,13 @@ from zope.publisher.browser import BrowserPage
 from zope.traversing.api import getRoot
 from zope.traversing.browser.interfaces import IAbsoluteURL
 from zope.viewlet.interfaces import IViewlet
-from zope.interface import implements
+from zope.contentprovider.interfaces import IContentProvider
+from zope.interface import implements, Interface
+from zope.component import adapts
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.app.container.interfaces import IContained
 
+from interfaces import *
 
 class MainPage(object):
     u"""
@@ -55,3 +60,24 @@ class ManufacturerListViewlet(object):
         print list(getRoot(self.context)['manufacturers'].items())
         return getRoot(self.context)['manufacturers'].items()
 
+
+class PageTitleViewlet(object):
+    u"""
+    Un Content Provider qui permet d'afficher le titre de la page (dans le header html)
+    C'est important car ça aide le référencement
+    """
+    global sitename
+    implements(IContentProvider)
+    adapts(Interface, IDefaultBrowserLayer, Interface)
+    def __init__(self, context, request, view):
+        self.context=context
+    def update(self):
+        if hasattr(self.context,'__name__') and self.context.__name__ is not None:
+            self._pagetitle = self.context.__name__ + " - " + sitename
+        else:
+            self._pagetitle = sitename
+    def render(self):
+        return self._pagetitle
+    
+    
+    
