@@ -8,6 +8,7 @@ from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
+from zope.traversing.browser.absoluteurl import AbsoluteURL
 
 from device import Device, SearchDevice, DeviceSource
 from interfaces import *
@@ -44,13 +45,7 @@ class DeviceView(BrowserPage):
     "la vue qui permet d'afficher un device"
     label=u"Visualisation d'un matériel"
     __call__=ViewPageTemplateFile("device.pt")
-    def getmainname(self):
-        return self.context.__name__
-    def getothernames(self):
-        return self.context.names
-    def getsubdevices(self):
-        u"VERIFIER SI LE DEVICE EST SUBDEVICED !"
-        return self.context.subdevices
+
 
 
 class SearchDeviceView(BrowserPage):
@@ -58,20 +53,17 @@ class SearchDeviceView(BrowserPage):
     la méthode lancée depuis le template pour effectuer la recherche
     """
     def update(self, query):
-        self.search.update(query)
+        self.search.update(query+"*")
 
     render = ViewPageTemplateFile('search.pt')
-    
+
     def __call__(self, query):
-        self.search=SearchDevice(query)
+        self.search=SearchDevice(query+"*")    
         return self.render()
-    
     def getResults(self):
-        for item in self.search.getResults():
-            names=""
-            for name in item.names:
-                names += name + " "
-            yield names
+        for device in self.search.getResults():
+            device_info = { 'device' : device, 'url' : AbsoluteURL(device, self.request) }
+            yield device_info
 
 
 

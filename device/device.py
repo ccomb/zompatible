@@ -34,6 +34,7 @@ class Device(Persistent):
 
 
 
+
 # Autre méthode pour créer un objectwidget ? (pas encore testé)
 #class DeviceWidget(ObjectWidget):
 #    __used_for__ = IDevice
@@ -69,10 +70,12 @@ class SearchDevice(object):
     """
     def update(self, query):
         catalog=getUtility(ICatalog)
+        del self.results
         self.results=[]
         if query!="":
             self.results=catalog.searchResults(device_names=query)
     def __init__(self, query):
+        self.results=[]
         self.update(query)
     def getResults(self):
         return self.results

@@ -12,12 +12,12 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="view/getmainname">device name</h2> 
+<h2 tal:content="context/__name__">device name</h2> 
 
-Other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>
+Other names: <span tal:repeat="name context/names" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>
 
 <p>
-Sub-devices : <span tal:repeat="subdevice view/getsubdevices" tal:omit-tag=""><span tal:content="subdevice/__name__">list</span><span tal:condition="not:repeat/subdevice/end">, </span></span>
+Sub-devices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><span tal:content="subdevice/__name__">list</span><span tal:condition="not:repeat/subdevice/end">, </span></span>
 </p>
 
 
