@@ -7,10 +7,19 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
+
+<!-- Ce body est un slot inséré dans le template principal -->
 <body metal:fill-slot="body">
 
-<h1>Welcome to the Zompatible (or any other name) Main Page !</h1>
-<small>(this page is the view for IFolder, overriden over the default Rotterdam view with overrides.zcml)</small><br/>
+<h1>Zompatible (or any other name)</h1>
+
+
+
+
+
+
+
+
 
 <h2>Here is the current list of manufacturers on this site:</h2>
 <ul tal:repeat="manuf view/getmanufacturers">

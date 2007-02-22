@@ -10,6 +10,8 @@ class MainPage(object):
     La vue correspondant à la page d'accueil du projet.
     Cette page n'est pas la vue d'un objet, mais juste une page.
     Elle devra inclure probablement des viewlets.
+    Elle est déclarée (ah voilà la meilleure traduction pour register) comme vue par défaut
+    pour les objets fournissant IFolder, en écrasant celle de Rotterdam grâce à l'overrides.zcml
     """
     __call__ = ViewPageTemplateFile("index.pt")
     def __init__(self, context, request):

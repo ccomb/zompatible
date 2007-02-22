@@ -42,7 +42,7 @@ Ensuite on peut afficher les browser:page dans ce menu avec la directive menu --
     title="My addings Menu"
 />
 
-    
+<browser:resource name="main.css" file="main.css" permission="zope.View" layer=".interfaces.IMySkin" />
 
 
 </configure>
