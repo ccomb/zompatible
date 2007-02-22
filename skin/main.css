@@ -15,7 +15,13 @@ border: solid 1px #AAAAAA;
 div#admin_header {
 width: 100%;
 background-color: #EEEEEE;
+text-align: center;
+}
 
 div#adminarea {
 border: solid 1px #AAAAAA;
+}
+
+ul#adminmenu li {
+display: inline;
 }
