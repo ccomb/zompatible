@@ -9,4 +9,13 @@ width: 50%;
 text-align: center;
 margin-left: auto;
 margin-right: auto;
+border: solid 1px #AAAAAA;
+}
+
+div#admin_header {
+width: 100%;
+background-color: #EEEEEE;
+
+div#adminarea {
+border: solid 1px #AAAAAA;
 }

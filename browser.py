@@ -3,6 +3,8 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserPage
 from zope.traversing.api import getRoot
 from zope.traversing.browser.interfaces import IAbsoluteURL
+from zope.viewlet.interfaces import IViewlet
+from zope.interface import implements
 
 
 class MainPage(object):
@@ -23,9 +25,26 @@ class MainPage(object):
 class MainSearchViewlet(object):
     u"""
     le viewlet qui permet d'afficher le champ de recherche principal
+    Le template utilisé est défini dans le configure.zcml
     """
 
+class AdminHeaderViewlet(object):
+    u"""
+    le viewlet qui affiche le titre de la zone d'admin
+    Pas de template pour celui-ci, on fait une vraie implémentation d'IViewlet pour tester.
+    """
+    implements(IViewlet)
+    def update(self):
+        pass
+    def render(self):
+        u"""
+        ici on pourrait utiliser un template grâce à ViewPageTemplateFile
+        On se contente de renvoyer du bête HTML (en utf-8)
+        """
+        return u'<div id="admin_header">Zone admin</div>'
     
+
+
     
 class ManufacturerListViewlet(object):
     u"""

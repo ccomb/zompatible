@@ -52,6 +52,21 @@
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />
-
+<browser:viewlet
+    name="login"
+    template="login.pt"
+    for="*"
+    manager=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.View"
+/>
+<browser:viewlet
+    name="adminheader"
+    class=".browser.AdminHeaderViewlet"
+    for="*"
+    manager=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.ManageContent"
+/>
 
 </configure>

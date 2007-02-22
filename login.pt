@@ -1,0 +1,5 @@
+<div id="login" >
+User:&nbsp;<span tal:replace="request/principal/title">user</span>
+<tal:block replace="structure context/@@login_logout" />
+
+</div>
