@@ -20,11 +20,6 @@ zone principale qui devra contenir le champ de recherche, ainsi que d'autres vie
 </div>
 
 
-<hr/>
-
-<div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
-zone qui n'apparaît que pour les administrateurs.
-</div>
 
 
 

@@ -14,8 +14,20 @@
 <link rel="stylesheet" type="text/css" href="/@@/main.css"/>
 </head>
 
-<body metal:define-slot="body">
+
+<body>
+
+<div  metal:define-slot="body">
 Ici le contenu de la page
+</div>
+
+
+<hr/>
+<div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
+zone qui n'apparaît que pour les administrateurs.
+</div>
+
+
 </body>
 
 </html>

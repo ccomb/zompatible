@@ -34,7 +34,7 @@ class Manufacturer(Folder):
 class ManufacturerAdd(AddForm):
   "La vue (classe) de formulaire pour l'ajout"
   form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
-  label=u"Ajout d'un fabricant"
+  label=u"Adding a manufacturer"
   template=ViewPageTemplateFile("manufacturer_form.pt")
   def create(self, data):
     "on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
@@ -46,7 +46,7 @@ class ManufacturerAdd(AddForm):
     return manufacturer
 
 class ManufacturerEdit(EditForm):
-  label="Modification d'un fabricant"
+  label="Edit manufacturer details"
   form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
   template=ViewPageTemplateFile("manufacturer_form.pt")
 

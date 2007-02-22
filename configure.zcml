@@ -43,15 +43,7 @@
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />
-<browser:viewlet
-    name="manufacturerList"
-    class=".browser.ManufacturerListViewlet"
-    template="manufacturer/manufacturer_list.pt"
-    for="*"
-    manager=".interfaces.IAdminArea"
-    layer=".skin.interfaces.IMySkin"
-    permission="zope.ManageContent"
-/>
+
 <browser:viewlet
     name="login"
     template="login.pt"
@@ -63,6 +55,23 @@
 <browser:viewlet
     name="adminheader"
     class=".browser.AdminHeaderViewlet"
+    for="*"
+    manager=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.ManageContent"
+/>
+<browser:viewlet
+    name="adminmenu"
+    template="adminmenu.pt"
+    for="*"
+    manager=".interfaces.IAdminArea"
+    layer=".skin.interfaces.IMySkin"
+    permission="zope.ManageContent"
+/>
+<browser:viewlet
+    name="manufacturerList"
+    class=".browser.ManufacturerListViewlet"
+    template="manufacturer/manufacturer_list.pt"
     for="*"
     manager=".interfaces.IAdminArea"
     layer=".skin.interfaces.IMySkin"

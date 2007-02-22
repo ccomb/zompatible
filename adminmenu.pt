@@ -1,0 +1,3 @@
+
+<!-- Le code ci-dessous est dupliqué ailleurs -->
+<ul>Menu : <li tal:repeat="item context/@@view_get_menu/my_actions"><a href="#" tal:attributes="href item/action" tal:content="item/title">action1</a></li><li tal:condition="nothing"><a href="#">action2</a></li></ul>
