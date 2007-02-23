@@ -47,7 +47,7 @@
 
 <browser:menuItem
     title="add Device"
-    action="+/device.Device"
+    action="devices/+/device.Device"
     for=".interfaces.IManufacturer"
     menu="my_actions"
 />

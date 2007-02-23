@@ -36,7 +36,6 @@ pour dire que c'est un type de contenu -->
 <browser:page
     name="edit_device.html"
     for=".interfaces.IDevice"
-
     class=".browser.DeviceEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"

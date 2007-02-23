@@ -21,6 +21,8 @@ class DeviceAdd(AddForm):
   #form_fields['subdevices'].custom_widget=subdevices_widget
   form_fields=form_fields.omit('__name__', '__parent__')
   label=u"Ajout d'un matériel"
+  def nextURL(self):
+      return "../.."
   #####template=ViewPageTemplateFile("device_form.pt")
   def create(self, data):
     u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
