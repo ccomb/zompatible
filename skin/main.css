@@ -5,6 +5,7 @@ h1 {
 text-align: center;
 }
 div#mainarea {
+margin-top: 50px;
 width: 50%;
 text-align: center;
 margin-left: auto;

@@ -11,6 +11,8 @@ from zompatible.device.device import DeviceContainer
 from zope.index.text.interfaces import ISearchableText
 from zope.component import adapts
 from zope.app.folder.interfaces import IFolder
+from zope.component import adapts, getUtility
+from zope.app.catalog.interfaces import ICatalog
 
 class ManufacturerContainer(Folder):
   "a manufacturer container"
@@ -62,11 +64,9 @@ class ManufacturerView(BrowserPage):
 
 class SearchableTextOfManufacturer(object):
     u"""
-    l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet device.
-    C'est génial car ça permet notamment d'indexer n'importe quels attributs,
-    et même les traductions qui se trouvent dans des fichiers .po externes !!
+    l'adapter qui permet d'indexer les manufacturers
     """
-    implements(ISearchableText)
+    implements(ISearchableTextOfManufacturer)
     adapts(IManufacturer)
     def __init__(self, context):
         self.context = context
@@ -77,3 +77,22 @@ class SearchableTextOfManufacturer(object):
             text += " " + t
         return text
     
+
+class SearchManufacturer(object):
+    u"""
+    une classe qui effectue la recherche de manufacturer
+    """
+    def update(self, query):
+        catalog=getUtility(ICatalog)
+        del self.results
+        self.results=[]
+        if query!="":
+            self.results=catalog.searchResults(manufacturer_names=query)
+    def __init__(self, query):
+        self.results=[]
+        self.update(query)
+    def getResults(self):
+        return self.results
+        
+        
+        

@@ -18,7 +18,7 @@
   type="zope.app.content.interfaces.IContentType"
 />
 
-
+<zope:adapter factory=".manufacturer.SearchableTextOfManufacturer" />
 
 
 <!-- Manufacturer views -->

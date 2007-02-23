@@ -3,7 +3,7 @@ from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.schema import List, TextLine, Object, Bool, Choice
 from zope.interface import Interface
-
+from zope.index.text.interfaces import ISearchableText
 
 
 class IDevice(IContained):
@@ -37,3 +37,9 @@ class ISubDevices(Interface):
     The source is called as a named utility registered for IVocabularyFactory (see in device.py)
     """
     subdevices = List(title=u'subdevices', value_type=Choice(title=u'subdevice', description=u'a subdevice (chip, component)', source="devicesource"), required=False)
+
+
+class ISearchableTextOfDevice(ISearchableText):
+    u"""
+    l'interface marqueur qui permet d'indexer juste les devices
+    """

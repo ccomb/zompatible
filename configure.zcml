@@ -17,6 +17,14 @@
     <implements interface=".device.interfaces.IDeviceContainer" />
 </zope:class> -->
 
+<browser:page
+    name="mainsearch.html"
+    for="*"
+    class=".browser.MainSearch"
+    permission="zope.View"
+/>
+
+
 
 
 <!-- Main Area and its viewlets -->

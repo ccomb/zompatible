@@ -11,6 +11,8 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.app.container.interfaces import IContained
 
 from interfaces import *
+from device.device import SearchDevice
+from manufacturer.manufacturer import SearchManufacturer
 
 class MainPage(object):
     u"""
@@ -25,13 +27,42 @@ class MainPage(object):
         self.context=context
         self.request=request
 
-
-
 class MainSearchViewlet(object):
     u"""
     le viewlet qui permet d'afficher le champ de recherche principal
     Le template utilisé est défini dans le configure.zcml
     """
+
+class MainSearch(object):
+    u"""
+    La vue qui gère la recherche depuis le champ de recherche principal
+    """
+    def __init__(self, context, request):
+        self.context=context
+        self.request=request
+    def __call__(self):
+        self.mainsearch = self.request['mainsearch']
+        if self.mainsearch == "":
+            return ViewPageTemplateFile("index.pt")(self)
+        u"on décompose la chaine de recherche en mots"
+        devices={}
+        manufacturers={}
+        result=u""
+        for word in self.mainsearch.split():
+            devices[word]=SearchDevice(word+"*").getResults()
+            manufacturers[word]=SearchManufacturer(word+"*").getResults()
+        for word in self.mainsearch.split():
+            result += "pour le mot : " + word + "\n***********\n"
+            result += "devices: "
+            for device in devices[word]:
+                result += device.__name__ + " "
+            result += "\n"
+            result += "manufacturers: "
+            for manufacturer in manufacturers[word]:
+                result += manufacturer.__name__ + " "
+            result += "\n\n"
+        return result
+
 
 class AdminHeaderViewlet(object):
     u"""
@@ -57,7 +88,6 @@ class ManufacturerListViewlet(object):
     """
     def getmanufacturers(self):
         u"Il serait préférable de registrer le dossier des manufacturers comme un named utility"
-        print list(getRoot(self.context)['manufacturers'].items())
         return getRoot(self.context)['manufacturers'].items()
 
 

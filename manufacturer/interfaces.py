@@ -2,7 +2,7 @@
 from zope.app.container.interfaces import IContainer
 from zope.app.container.constraints import contains, containers
 from zope.schema import List, TextLine
-
+from zope.index.text.interfaces import ISearchableText
 
 
 class IManufacturer(IContainer):
@@ -20,3 +20,9 @@ class IManufacturerContainer(IContainer):
   a container for the manufacturers should only contain manufacturers
   """
   contains(IManufacturer)
+  
+  
+class ISearchableTextOfManufacturer(ISearchableText):
+    u"""
+    on déclare un index juste pour cette interface de façon à indexer juste les fabricants
+    """

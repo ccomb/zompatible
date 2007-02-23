@@ -48,7 +48,7 @@ class SearchableTextOfDevice(object):
     Le principe est génial car ça permet notamment d'indexer n'importe quels attributs,
     et même les traductions qui se trouvent dans des fichiers .po externes !!
     """
-    implements(ISearchableText)
+    implements(ISearchableTextOfDevice)
     adapts(IDevice)
     def __init__(self, context):
         self.context = context

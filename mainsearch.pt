@@ -1,3 +1,5 @@
 enter the name of a device, manufacturer, or operating system !<br/>
-<input type="text" name="mainsearch" /><input type="submit" value="search" /><br/>
+<form action="@@mainsearch.html" method="post">
+<input type="text" name="mainsearch" /><input type="submit" value="search" />
+</form><br/>
 (doesn't do anything yet...)
