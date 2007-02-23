@@ -8,11 +8,6 @@
 >
 
 <body metal:fill-slot="body">
-<!-- ce div correspond au slot qui sera placé dans le template -->
-
-
-
-
 
 <h1 tal:content="view/label">label de la vue</h1>
 

@@ -25,7 +25,7 @@
 <browser:page
     name="manufacturer.Manufacturer"
     for="zope.app.container.interfaces.IAdding"
-    class=".manufacturer.ManufacturerAdd"
+    class=".browser.ManufacturerAdd"
     permission="zope.View"
     menu="my_addings" title="new manufacturer"
 />
@@ -33,18 +33,34 @@
     name="edit_manufacturer.html"
     for=".interfaces.IManufacturer"
     template="manufacturer_form.pt"
-    class=".manufacturer.ManufacturerEdit"
+    class=".browser.ManufacturerEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IManufacturer"
-    class=".manufacturer.ManufacturerView"
+    class=".browser.ManufacturerView"
     permission="zope.View"
     menu="my_actions" title="View"
 />
 
+<browser:menuItem
+    title="add Device"
+    action="+/device.Device"
+    for=".interfaces.IManufacturer"
+    menu="my_actions"
+/>
+
+<!-- Manufacturer Container view -->
+<browser:page
+    name="index.html"
+    for=".interfaces.IManufacturerContainer"
+    class=".browser.ManufacturerContainerView"
+    template="manufacturer_list.pt"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
 
 
 <!-- juste pour la ZMI -->
@@ -59,6 +75,8 @@
     class=".manufacturer.ManufacturerContainer"
     permission="zope.ManageContent"
 />
+
+
 
 
 </configure>

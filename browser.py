@@ -4,6 +4,7 @@ from zope.publisher.browser import BrowserPage
 from zope.traversing.api import getRoot
 from zope.traversing.browser.interfaces import IAbsoluteURL
 from zope.viewlet.interfaces import IViewlet
+from zope.viewlet.manager import ViewletManagerBase
 from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import implements, Interface
 from zope.component import adapts
@@ -26,6 +27,21 @@ class MainPage(object):
     def __init__(self, context, request):
         self.context=context
         self.request=request
+
+class MainAreaManager(ViewletManagerBase):
+    u"""
+    Ceci est l'implémentation du viewlet manager de la mainArea.
+    Le viewletmanager est normalement automatiquement créé par la déclaration zcml correspondante,
+    mais en ajoutant la directive class dans le zcml, on peut choisir d'implémenter le viewlet manager
+    pour de vrai. Ca permet par exemple de gérer et classer les viewlets comme o veut.
+    Cette implémentation est basée sur un viewlet manager de base.
+    Dans l'implémentation, la fonction filter sert à n'afficer qu'un partie des viewlets
+    et la fonction sort les trie.
+    """
+    ordre = ['mainSearch', 'mainLinks' ]
+    def sort(self, viewlets):
+        viewlets = dict(viewlets)
+        return [(name, viewlets[name]) for name in self.ordre]
 
 class MainSearchViewlet(object):
     u"""
@@ -64,6 +80,13 @@ class MainSearch(object):
         return result
 
 
+class AdminAreaManager(ViewletManagerBase):
+    u"Le viewlet manager qui gère l'adminarea"
+    ordre = ['adminheader', 'login', 'adminmenu' ]
+    def sort(self, viewlets):
+        viewlets = dict(viewlets)
+        return [(name, viewlets[name]) for name in self.ordre]
+        
 class AdminHeaderViewlet(object):
     u"""
     le viewlet qui affiche le titre de la zone d'admin
@@ -81,17 +104,7 @@ class AdminHeaderViewlet(object):
     
 
 
-    
-class ManufacturerListViewlet(object):
-    u"""
-    un viewlet (temporaire ?) qui permet d'afficher la liste des fabricants
-    """
-    def getmanufacturers(self):
-        u"Il serait préférable de registrer le dossier des manufacturers comme un named utility"
-        return getRoot(self.context)['manufacturers'].items()
-
-
-class PageTitleViewlet(object):
+class PageTitleContentProvider(object):
     u"""
     Un Content Provider qui permet d'afficher le titre de la page (dans le header html)
     C'est important car ça aide le référencement
@@ -110,4 +123,11 @@ class PageTitleViewlet(object):
         return self._pagetitle
     
     
-    
+class MainLinksViewlet(object):
+    u"""
+    le viewlet qui affiche les liens sous le champ de recherche
+    Pas besoin de template, on génère juste des liens
+    Pour l'instant on affiche les dossiers de la racine
+    """
+    def getlinks(self):
+        return getRoot(self.context).keys()

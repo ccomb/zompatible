@@ -25,7 +25,11 @@
 />
 
 
-
+<zope:adapter
+    name="pagetitle"
+    factory=".browser.PageTitleContentProvider"
+    permission="zope.View"
+/>
 
 <!-- Main Area and its viewlets -->
 <browser:viewletManager
@@ -33,6 +37,7 @@
     provides=".interfaces.IMainArea"
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
+    class=".browser.MainAreaManager"
 />
 <browser:viewlet
     name="mainSearch"
@@ -43,15 +48,20 @@
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
-<zope:adapter
-    name="pagetitle"
-    factory=".browser.PageTitleViewlet"
+<browser:viewlet
+    name="mainLinks"
+    class=".browser.MainLinksViewlet"
+    for="*"
+    template="mainlinks.pt"
+    manager=".interfaces.IMainArea"
+    layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
 
 <!-- Admin Area and its viewlets -->
 <browser:viewletManager
     name="zompatible.AdminArea"
+    class=".browser.AdminAreaManager"
     provides=".interfaces.IAdminArea"
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
@@ -81,14 +91,6 @@
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />
-<browser:viewlet
-    name="manufacturerList"
-    class=".browser.ManufacturerListViewlet"
-    template="manufacturer/manufacturer_list.pt"
-    for="*"
-    manager=".interfaces.IAdminArea"
-    layer=".skin.interfaces.IMySkin"
-    permission="zope.ManageContent"
-/>
+
 
 </configure>

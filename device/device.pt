@@ -10,9 +10,9 @@
 <body metal:fill-slot="body">
 
 
-<h1 tal:content="view/label">label de la vue</h1>
+<h1 tal:content="view/label">label of the view</h1>
 
-<h2 tal:content="context/__name__">device name</h2> 
+<h2 tal:content="context/__name__">name of the device</h2> 
 
 Other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>
 
