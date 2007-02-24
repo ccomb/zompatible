@@ -67,6 +67,9 @@ class SearchDevice(object):
     qui fournirait une interface ISearchable,
     ainsi que les fonctions de recherche.
     (voir s'il existe déjà une interface de ce type ?)
+    Il faudra sûrement faire ça pour le champ de recherche principal,
+    où on peut faire une recherche par device, manufacturer, feature, etc, tout en meme temps.
+    
     Un ResultSet est un objet qui implémente __iter__ mais pas __getitem__
     Donc on peut le parcourir, mais pas accéder à un élément en particulier.
     """
