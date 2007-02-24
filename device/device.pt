@@ -22,13 +22,7 @@ Sub-devices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><s
 
 
 
-<br/><br/>
-test de recherche sur les devices
 
-
-<form action="@@search.html" method="post">
-<input type="text" name="query" /> <input type="submit" value="search" />
-</form>
 
  
 

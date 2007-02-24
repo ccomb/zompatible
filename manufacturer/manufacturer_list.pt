@@ -18,6 +18,11 @@
 </ul>
 
 
+<!-- recherche placée ici juste pour tester la recherche avec un contexte different de manufacturer -->
+<form action="@@search.html" method="post">search a device made by <i tal:content="context/__name__">manufacturer</i> : 
+<input type="text" name="query" /> <input type="submit" value="search" />
+</form>
+
 
 </body>
 </html>

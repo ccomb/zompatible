@@ -15,7 +15,13 @@
 
 (other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
+
 <h2> List of devices</h2>
+
+<form action="@@search.html" method="post">search a device made by <i tal:content="context/__name__">manufacturer</i> : 
+<input type="text" name="query" /> <input type="submit" value="search" />
+</form>
+
 <ul tal:repeat="device context/get_devices"><li><a href="#" tal:attributes="href python:'devices/'+device[0]" tal:content="python: device[0]">device1</a></li></ul>
 
 

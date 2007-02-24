@@ -67,16 +67,23 @@ class SearchDevice(object):
     qui fournirait une interface ISearchable,
     ainsi que les fonctions de recherche.
     (voir s'il existe déjà une interface de ce type ?)
+    Un ResultSet est un objet qui implémente __iter__ mais pas __getitem__
+    Donc on peut le parcourir, mais pas accéder à un élément en particulier.
     """
-    def update(self, query):
+    def update(self, query, manufacturer=None):
         catalog=getUtility(ICatalog)
         del self.results
         self.results=[]
         if query!="":
             self.results=catalog.searchResults(device_names=query)
-    def __init__(self, query):
+        if manufacturer is not None:
+            # list comprehension : it creates a full list of device
+            #self.results = [ device for device in self.results if (device.__parent__.__parent__ == manufacturer) ]
+            # generator expression : it creates an iterator that parse the list on demand (should save memory)
+            self.results = ( device for device in self.results if (device.__parent__.__parent__ == manufacturer) )
+    def __init__(self, query, manufacturer=None):
         self.results=[]
-        self.update(query)
+        self.update(query, manufacturer)
     def getResults(self):
         return self.results
 

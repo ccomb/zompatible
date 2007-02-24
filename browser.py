@@ -107,8 +107,6 @@ class AdminAreaManager(ViewletManagerBase):
     implements(IAdminAreaManager)
     def sort(self, viewlets):
         viewlets = dict(viewlets)
-        print self.ordre
-        print viewlets
         return [(name, viewlets[name]) for name in self.ordre if name in viewlets]
         
 class AdminHeaderViewlet(object):
