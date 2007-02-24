@@ -28,6 +28,26 @@ class MainPage(object):
         self.context=context
         self.request=request
 
+
+class PageTitleContentProvider(object):
+    u"""
+    Un Content Provider qui permet d'afficher le titre de la page (dans le header html)
+    C'est important car ça aide le référencement
+    """
+    global sitename
+    implements(IContentProvider)
+    adapts(Interface, IDefaultBrowserLayer, Interface)
+    def __init__(self, context, request, view):
+        self.context=context
+    def update(self):
+        if hasattr(self.context,'__name__') and self.context.__name__ is not None:
+            self._pagetitle = self.context.__name__ + " - " + sitename
+        else:
+            self._pagetitle = sitename
+    def render(self):
+        return self._pagetitle
+
+
 class MainAreaManager(ViewletManagerBase):
     u"""
     Ceci est l'implémentation du viewlet manager de la mainArea.
@@ -38,10 +58,11 @@ class MainAreaManager(ViewletManagerBase):
     Dans l'implémentation, la fonction filter sert à n'afficer qu'un partie des viewlets
     et la fonction sort les trie.
     """
+    implements(IMainAreaManager)
     ordre = ['mainSearch', 'mainLinks' ]
     def sort(self, viewlets):
         viewlets = dict(viewlets)
-        return [(name, viewlets[name]) for name in self.ordre]
+        return [(name, viewlets[name]) for name in self.ordre if name in viewlets]
 
 class MainSearchViewlet(object):
     u"""
@@ -83,9 +104,12 @@ class MainSearch(object):
 class AdminAreaManager(ViewletManagerBase):
     u"Le viewlet manager qui gère l'adminarea"
     ordre = ['adminheader', 'login', 'adminmenu' ]
+    implements(IAdminAreaManager)
     def sort(self, viewlets):
         viewlets = dict(viewlets)
-        return [(name, viewlets[name]) for name in self.ordre]
+        print self.ordre
+        print viewlets
+        return [(name, viewlets[name]) for name in self.ordre if name in viewlets]
         
 class AdminHeaderViewlet(object):
     u"""
@@ -104,24 +128,6 @@ class AdminHeaderViewlet(object):
     
 
 
-class PageTitleContentProvider(object):
-    u"""
-    Un Content Provider qui permet d'afficher le titre de la page (dans le header html)
-    C'est important car ça aide le référencement
-    """
-    global sitename
-    implements(IContentProvider)
-    adapts(Interface, IDefaultBrowserLayer, Interface)
-    def __init__(self, context, request, view):
-        self.context=context
-    def update(self):
-        if hasattr(self.context,'__name__') and self.context.__name__ is not None:
-            self._pagetitle = self.context.__name__ + " - " + sitename
-        else:
-            self._pagetitle = sitename
-    def render(self):
-        return self._pagetitle
-    
     
 class MainLinksViewlet(object):
     u"""

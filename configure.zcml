@@ -34,7 +34,7 @@
 <!-- Main Area and its viewlets -->
 <browser:viewletManager
     name="zompatible.MainArea"
-    provides=".interfaces.IMainArea"
+    provides=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
     class=".browser.MainAreaManager"
@@ -44,7 +44,7 @@
     class=".browser.MainSearchViewlet"
     template="mainsearch.pt"
     for="*"
-    manager=".interfaces.IMainArea"
+    manager=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
@@ -53,7 +53,7 @@
     class=".browser.MainLinksViewlet"
     for="*"
     template="mainlinks.pt"
-    manager=".interfaces.IMainArea"
+    manager=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
@@ -62,7 +62,7 @@
 <browser:viewletManager
     name="zompatible.AdminArea"
     class=".browser.AdminAreaManager"
-    provides=".interfaces.IAdminArea"
+    provides=".interfaces.IAdminAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />
@@ -71,7 +71,7 @@
     name="login"
     template="login.pt"
     for="*"
-    manager=".interfaces.IAdminArea"
+    manager=".interfaces.IAdminAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.View"
 />
@@ -79,7 +79,7 @@
     name="adminheader"
     class=".browser.AdminHeaderViewlet"
     for="*"
-    manager=".interfaces.IAdminArea"
+    manager=".interfaces.IAdminAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />
@@ -87,7 +87,7 @@
     name="adminmenu"
     template="adminmenu.pt"
     for="*"
-    manager=".interfaces.IAdminArea"
+    manager=".interfaces.IAdminAreaManager"
     layer=".skin.interfaces.IMySkin"
     permission="zope.ManageContent"
 />

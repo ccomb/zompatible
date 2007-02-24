@@ -5,13 +5,13 @@ from zope.viewlet.interfaces import IViewletManager
 
 sitename="Zompatible"
 
-class IMainArea(IViewletManager):
+class IMainAreaManager(IViewletManager):
     u"""
     Ceci est le viewlet manager correspondant à la zone centrale de la page d'accueil.
     Il devra au moins contenir le viewlet de recherche principal.
     """
 
-class IAdminArea(IViewletManager):
+class IAdminAreaManager(IViewletManager):
     u"""
     Le viewlet manager qui gère les viewlets d'administration
     """
