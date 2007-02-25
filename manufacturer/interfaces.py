@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from zope.app.container.interfaces import IContainer
+from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.schema import List, TextLine, URI
 from zope.index.text.interfaces import ISearchableText
 
 
-class IManufacturer(IContainer):
+class IManufacturer(IContainer, IContained):
     u"""
     a manufacturer may contain devices so be a device container??
     """
@@ -15,7 +15,7 @@ class IManufacturer(IContainer):
     def get_devices():
         pass
 
-class IManufacturerContainer(IContainer):
+class IManufacturerContainer(IContainer, IContained):
   u"""
   a container for the manufacturers should only contain manufacturers
   """

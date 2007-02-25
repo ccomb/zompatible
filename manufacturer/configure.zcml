@@ -19,6 +19,7 @@
 />
 
 <zope:adapter factory=".manufacturer.SearchableTextOfManufacturer" />
+
 <zope:subscriber
     handler=".manufacturer.createManufacturerSubfolders"
 />

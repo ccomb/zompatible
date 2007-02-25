@@ -22,6 +22,7 @@ class DeviceContainer(Folder):
     """
     a folder that contains devices
     """
+    __name__=__parent__=None
     implements(IDeviceContainer)
 
 

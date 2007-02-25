@@ -22,7 +22,7 @@ class IDevice(IContained):
 
 
 
-class IDeviceContainer(IContainer):
+class IDeviceContainer(IContainer, IContained):
     u"""
     a toplevel device container. This is a base storage for devices.
     """

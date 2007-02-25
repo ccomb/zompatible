@@ -17,31 +17,31 @@ from interfaces import *
 
 
 class DeviceAdd(AddForm):
-  "La vue (classe) de formulaire pour l'ajout"
-  form_fields=Fields(IDevice, ISubDevices)
-  #form_fields['subdevices'].custom_widget=subdevices_widget
-  form_fields=form_fields.omit('__name__', '__parent__')
-  label=u"Ajout d'un matériel"
-  def nextURL(self):
-      return "../.."
-  #####template=ViewPageTemplateFile("device_form.pt")
-  def create(self, data):
-    u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
-    device=Device()
-    u"puis on applique les données du formulaire à l'objet"
-    applyChanges(device, self.form_fields, data)
-    u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
-    self.context.contentName=device.names[0]
-    return device
+    "La vue (classe) de formulaire pour l'ajout"
+    form_fields=Fields(IDevice, ISubDevices)
+    #form_fields['subdevices'].custom_widget=subdevices_widget
+    form_fields=form_fields.omit('__name__', '__parent__')
+    label=u"Ajout d'un matériel"
+    def nextURL(self):
+        return "../.."
+    #####template=ViewPageTemplateFile("device_form.pt")
+    def create(self, data):
+        u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
+        device=Device()
+        u"puis on applique les données du formulaire à l'objet"
+        applyChanges(device, self.form_fields, data)
+        u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
+        self.context.contentName=device.names[0]
+        return device
 
 
 class DeviceEdit(EditForm):
-  label=u"Modification d'un matériel"
-  form_fields=Fields(IDevice, ISubDevices, render_context=True)
-  #form_fields['subdevices'].custom_widget=subdevices_widget
-  form_fields=form_fields.omit('__name__', '__parent__')
-  ## template désactivé
-  #template=ViewPageTemplateFile("device_form.pt")
+    label=u"Modification d'un matériel"
+    form_fields=Fields(IDevice, ISubDevices, render_context=True)
+    #form_fields['subdevices'].custom_widget=subdevices_widget
+    form_fields=form_fields.omit('__name__', '__parent__')
+    ## template désactivé
+    #template=ViewPageTemplateFile("device_form.pt")
 
 
 class DeviceView(BrowserPage):

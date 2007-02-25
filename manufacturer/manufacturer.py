@@ -12,32 +12,35 @@ from zope.component import adapts, adapter
 from zope.app.folder.interfaces import IFolder
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
-from zope.lifecycleevent.interfaces import IObjectCreatedEvent
+from zope.app.container.interfaces import IObjectAddedEvent
+from zope.app.keyreference.persistent import connectionOfPersistent
 
 from zompatible.device.device import DeviceContainer
+from zompatible.device.interfaces import IDeviceContainer
+
+from ZODB.interfaces import IConnection
 
 class ManufacturerContainer(Folder):
   "a manufacturer container"
   implements(IManufacturerContainer)
+  __name__=__parent__=None
   #def __init__():
   # créer les sous-dossiers
 
-@adapter(IManufacturer, IObjectCreatedEvent)
+@adapter(IManufacturer, IObjectAddedEvent)
 def createManufacturerSubfolders(manufacturer, event):
     devices=DeviceContainer()
     manufacturer['devices']=devices
-
 
 
 class Manufacturer(Folder):
   implements(IManufacturer,IFolder)
   names=[]
   url=""
+  __name__=__parent__=None
   def get_devices(self):
       return self['devices'].items()
-
-
-        
+  
 
 class SearchableTextOfManufacturer(object):
     u"""
