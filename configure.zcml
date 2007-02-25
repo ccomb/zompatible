@@ -1,5 +1,8 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<!-- gestion de l'évolution de la base de données -->
+<include package=".generations" />
+
 <include package=".skin" />
 
 <include package=".manufacturer" />
