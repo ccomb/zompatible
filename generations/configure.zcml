@@ -1,15 +1,15 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
-<utility
+<!-- <utility
     factory="zope.app.generations.generations.SchemaManager"
     name="zompatible"
-/>
+/> -->
 
 <!-- Désactiver l'utility ci-dessus et activer celui dessous pour faire évoluer le schema de la base de données -->
-<!-- <utility
+<utility
     component=".ZompatibleSchemaManager"
     name="zompatible"
-/> -->
+/>
 
 
 
