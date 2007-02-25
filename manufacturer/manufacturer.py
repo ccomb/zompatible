@@ -8,10 +8,13 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from zope.index.text.interfaces import ISearchableText
-from zope.component import adapts
+from zope.component import adapts, adapter
 from zope.app.folder.interfaces import IFolder
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
+from zope.lifecycleevent.interfaces import IObjectCreatedEvent
+
+from zompatible.device.device import DeviceContainer
 
 class ManufacturerContainer(Folder):
   "a manufacturer container"
@@ -19,16 +22,17 @@ class ManufacturerContainer(Folder):
   #def __init__():
   # créer les sous-dossiers
 
+@adapter(IManufacturer, IObjectCreatedEvent)
+def createManufacturerSubfolders(manufacturer, event):
+    devices=DeviceContainer()
+    manufacturer['devices']=devices
+
+
+
 class Manufacturer(Folder):
   implements(IManufacturer,IFolder)
   names=[]
-  def __init__(self):
-      super(Manufacturer,self).__init__()
-      "on crée les containers nécessaires"
-      #devices=DeviceContainer()  # dérange le IntId utility. Il faut faire plutôt avec des Events
-      #drivers=Folder()
-      #self['devices']=devices
-      #self['drivers']=drivers
+  url=""
   def get_devices(self):
       return self['devices'].items()
 

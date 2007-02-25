@@ -19,7 +19,9 @@
 />
 
 <zope:adapter factory=".manufacturer.SearchableTextOfManufacturer" />
-
+<zope:subscriber
+    handler=".manufacturer.createManufacturerSubfolders"
+/>
 
 <!-- Manufacturer views -->
 <browser:page
@@ -48,6 +50,13 @@
     title="add Device"
     action="devices/+/device.Device"
     for=".interfaces.IManufacturer"
+    menu="my_actions"
+/>
+
+<browser:menuItem
+    title="add Manufacturer"
+    action="+/manufacturer.Manufacturer"
+    for=".interfaces.IManufacturerContainer"
     menu="my_actions"
 />
 
