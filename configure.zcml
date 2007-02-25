@@ -1,7 +1,7 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
 
-<zope:subscriber handler=".zompatible.ZompatibleSiteAdded" />
+<!-- <zope:subscriber handler=".zompatible.ZompatibleSiteAdded" /> -->
 
 
 <!-- gestion de l'évolution de la base de données -->

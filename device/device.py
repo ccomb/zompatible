@@ -55,10 +55,17 @@ class SearchableTextOfDevice(object):
         self.context = context
     def getSearchableText(self):
         u"peut surement être optimisé avec une seule ligne de return..."
-        text = u""
-        for t in self.context.names:
-            text += " " + t
-        return text
+        sourcetext = texttoindex = u''
+        u"on commence par créer un texte depuis tous les noms"
+        for word in self.context.names:
+            sourcetext += word + " "
+        u"""puis on génère les sous-mots pour pouvoir rechercher les parties des noms
+        par exemple, foobar donnera : foobar oobar obar bar ar r"""
+        for word in sourcetext.split():        
+            for subword in [ word[i:] for i in range(len(word)) ]:
+                texttoindex += subword + " "
+        print texttoindex
+        return texttoindex
     
 
 class SearchDevice(object):
