@@ -41,7 +41,7 @@ class DeviceEdit(EditForm):
   #form_fields['subdevices'].custom_widget=subdevices_widget
   form_fields=form_fields.omit('__name__', '__parent__')
   ## template désactivé
-  template=ViewPageTemplateFile("device_form.pt")
+  #template=ViewPageTemplateFile("device_form.pt")
 
 
 class DeviceView(BrowserPage):

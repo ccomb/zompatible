@@ -13,7 +13,8 @@
 
 <h2 tal:content="context/__name__">manufacturer name</h2> 
 
-(other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
+(other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)<br/>
+web site : <a href="#" tal:attributes="href context/url"><span tal:content="context/url">url</span></a>
 
 
 <h2> List of devices</h2>

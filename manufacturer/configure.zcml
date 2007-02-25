@@ -32,7 +32,6 @@
 <browser:page
     name="edit_manufacturer.html"
     for=".interfaces.IManufacturer"
-    template="manufacturer_form.pt"
     class=".browser.ManufacturerEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
@@ -75,6 +74,15 @@
     class=".manufacturer.ManufacturerContainer"
     permission="zope.ManageContent"
 />
+<browser:menuItems
+    menu="zmi_views"
+    for="zompatible.manufacturer.interfaces.IManufacturer"
+>
+    <menuItem
+        title="edit"
+        action="edit_manufacturer.html"
+    />
+</browser:menuItems>
 
 
 
