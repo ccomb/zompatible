@@ -2,8 +2,27 @@
 from zope.interface.interfaces import Interface
 from zope.schema import TextLine, Object, List, Text, Int
 from zope.viewlet.interfaces import IViewletManager
+from zope.app.container.interfaces import IContainer
+from zope.app.component.interfaces import IPossibleSite
+from zope.component.interfaces import IObjectEvent
 
 sitename="Zompatible"
+
+
+class IZompatibleSite(IPossibleSite, IContainer):
+    u"""
+    l'interface (vide) du conteneur principal du site
+    """
+    
+class IZompatibleSiteManagerSetEvent(IObjectEvent):
+    u"""
+    l'événement qui devra être généré lorsque qu'on ajoute un site zompatible.
+    Le subscriber devra créer les outils nécessaires au fonctionnement du site,
+    en particulier le IntId, le catalog et ses index.
+    """ 
+
+
+
 
 class IMainAreaManager(IViewletManager):
     u"""
