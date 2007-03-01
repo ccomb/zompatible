@@ -121,6 +121,17 @@ Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des w
 
 Fabricant : doit comporter un attribut correspondant à son numéro dans le pciid
 
+Ajouter la notion de fabricant ou matériel inconnu. On peut très bien vouloir rentrer un matériel dont on connait le nom et pas le fabricant.
+Un fabricant inconnu pourrait être implémenté par une interface IUnknownManufacturer et un adapter du device vers cette interface qui stocke le matériel dans un conteneur
+unknownmanufacturer en attendant qu'il soit connu.
+Il faut aussi penser au cas où le matériel existe déjà, mais qu'on ne veut pas passer 10 ans à chercher lequel correspond exactement,
+dans le cas où il y a plein de modèles différents. Exemple : une soundblaster Live peut être sb4560, sb4670, etc.... 
+Il faut permettre de sélectionner « soundblaster live » seulement, sans avoir à en choisir une en particulier.
+Comment implémenter ce comportement ? 
+   
+Penser également à créer un adapter de Device vers IManufacturer pour récupérer le fabricant d'un device. (plutôt que d'avoir une méthode de device qui donne le fabricant).
+
+
 TODO LIST
 ==============
 - interfaces d'ajouts d'objets zope lorsqu'il n'y a rien en zodb
