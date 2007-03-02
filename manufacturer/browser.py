@@ -55,5 +55,4 @@ class ManufacturerContainerView(object):
     """
     label = u"List of manufacturers"
     def getmanufacturers(self):
-        u"Il serait préférable de registrer le dossier des manufacturers comme un named utility"
         return self.context.items()
