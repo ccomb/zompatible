@@ -7,14 +7,6 @@
 />
 
 
-<!-- La page d'accueil, un overrides pour IFolder
-Ceci deviendra inutile quand Rotterdam sera désactivée. -->
-<browser:page
-    name="index.html"
-    for="zope.app.folder.interfaces.IFolder"
-    class=".browser.MainPage"
-    permission="zope.View"
-    layer=".skin.interfaces.IMySkin"
-/>
+
 
 </configure>

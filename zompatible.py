@@ -31,7 +31,7 @@ class ZompatibleSite(SiteManagerContainer, BTreeContainer):
     u"""
     Le principe est qu'on ajoute un site zompatible,
     puis on déclenche un subscriber au moment de l'ajout qui va le transformer en site.
-    A ce moment un evenement est déclencé et appelle un autre subscriber qui va
+    A ce moment un evenement est déclenché et appelle un autre subscriber qui va
     créer le nécessaire pour faire fonctionner le site
     """
     implements(IZompatibleSite)

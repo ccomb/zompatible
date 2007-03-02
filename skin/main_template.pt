@@ -16,7 +16,7 @@
 
 
 <body>
-<a href="/">Home</a>
+<a href="#" tal:attributes="href provider:siteurl">Home</a>
 <div  metal:define-slot="body">
 Ici le contenu de la page
 </div>

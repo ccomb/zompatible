@@ -2,6 +2,7 @@
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.basicskin.standardmacros import StandardMacros
+from zope.traversing.api import getRoot
 
 # l'ordre est le suivant :
 ##########################
@@ -34,4 +35,3 @@ class MyMainMacro(BrowserView):
     template = ViewPageTemplateFile("main_template.pt")
     def __getitem__(self, key):
         return self.template.macros[key]
-        

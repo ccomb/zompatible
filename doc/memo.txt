@@ -112,6 +112,11 @@ et l'appel à la fonction getSearchableText pour la distro doit aller récupére
 - Autre solution encore, l'objet ubuntu est un objet LinuxDistro, dérivé de l'objet OperatingSystem, et cet objet contient "linux" dans la liste des names. Mais ça
 me parait un peu moins souple, car il faut définir des types d'OS.
 
+Lors de la sortie d'une nouvelle version de distrib, il faut permettre de réutiliser les résultats de la version prédécente :
+lors de l'affichage du statut d'un matériel, il faut préciser le statut précédent.
+
+Penser à faire un module de recherche pour firefox
+
 
 Soumission matériel
 ==================

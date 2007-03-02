@@ -2,7 +2,7 @@
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserPage
 from zope.traversing.api import getRoot
-from zope.traversing.browser.interfaces import IAbsoluteURL
+from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
 from zope.contentprovider.interfaces import IContentProvider
@@ -10,6 +10,7 @@ from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.app.container.interfaces import IContained
+from zope.app.component.hooks import getSite
 
 from interfaces import *
 from device.device import SearchDevice
@@ -40,6 +41,7 @@ class PageTitleContentProvider(object):
     def __init__(self, context, request, view):
         self.context=context
     def update(self):
+        u"on récupère le nom du contexte s'il en a un"
         if hasattr(self.context,'__name__') and self.context.__name__ is not None:
             self._pagetitle = self.context.__name__ + " - " + sitename
         else:
@@ -47,6 +49,21 @@ class PageTitleContentProvider(object):
     def render(self):
         return self._pagetitle
 
+class SiteUrlProvider(object):
+    u"""
+    Un Content Provider qui permet d'afficher l'url e titre de la page (dans le header html)
+    Ca c'est juste pour créer le lien home dans le template général. Tant qu'on a pas mis en place
+    le virtual hosting, il faut pouvoir diriger à la racine du site, mais pas à la racine de la zodb.
+    """
+    implements(IContentProvider)
+    adapts(Interface, IDefaultBrowserLayer, Interface)
+    def __init__(self, context, request, view):
+        self.request=request
+        self.context=context
+    def update(self):
+        self._site=AbsoluteURL(getSite(), self.request)
+    def render(self):
+        return self._site
 
 class MainAreaManager(ViewletManagerBase):
     u"""

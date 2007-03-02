@@ -30,6 +30,14 @@
     <implements interface=".device.interfaces.IDeviceContainer" />
 </zope:class> -->
 
+
+<browser:page
+    name="index.html"
+    class=".browser.MainPage"
+    for=".zompatible.ZompatibleSite"
+    permission="zope.View"
+/>
+
 <browser:page
     name="mainsearch.html"
     for="*"
@@ -41,6 +49,11 @@
 <zope:adapter
     name="pagetitle"
     factory=".browser.PageTitleContentProvider"
+    permission="zope.View"
+/>
+<zope:adapter
+    name="siteurl"
+    factory=".browser.SiteUrlProvider"
     permission="zope.View"
 />
 
