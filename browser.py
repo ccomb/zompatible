@@ -151,4 +151,4 @@ class MainLinksViewlet(object):
     Pour l'instant on affiche les dossiers de la racine
     """
     def getlinks(self):
-        return getRoot(self.context).keys()
+        return getSite().keys()
