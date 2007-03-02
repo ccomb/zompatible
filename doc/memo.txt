@@ -101,6 +101,18 @@ distrib : id?, nom, version
 
 Modification des notes ou des évaluations par l'intermédiaire de votes avec liens directs à poster dans les forums. Ex : le pilote fglrx est-il stable sur votre machine ? quelle distrib ?
 
+il va y avoir des objets correspondant chacun à une distribution linux. Il faut décider comment répartir les différentes versions des distributions à travers ces objets.
+A mon avis, Dapper et Edgy doivent être deux objets différents.
+Il faut pouvoir aussi faire aboutir une recherche "webcam linux" sur le champ de recherche principal. Donc il faut que le mot "linux" soit indexé automatiquement
+avec toute nouvelle distribution linux.
+- Pour ce faire, une solution est d'inclure le mot "linux" dans la définition ou dans des mots clés inclus dans une des catégories
+dans lesquelles est inclus la distribution. Ex: ubuntu possède la catégorie "distribution linux",
+et l'appel à la fonction getSearchableText pour la distro doit aller récupérer les mots distribution et linux dans la liste des catégories.
+- Autre solution, la recherche de linux ne permet pas de récupérer des objets OS, mais des objets catégorie. La sélection de ces catégories génère l'affichage d'une liste d'OS.
+- Autre solution encore, l'objet ubuntu est un objet LinuxDistro, dérivé de l'objet OperatingSystem, et cet objet contient "linux" dans la liste des names. Mais ça
+me parait un peu moins souple, car il faut définir des types d'OS.
+
+
 Soumission matériel
 ==================
 1, 2 ou 3 champs de recherche -> requêtes faites pendant la frappe -> affichage de suggestions
