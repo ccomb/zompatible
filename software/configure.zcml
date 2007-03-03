@@ -19,7 +19,7 @@
 />
 
 <zope:adapter factory=".software.SearchableTextOfOperatingSystem" />
-
+<zope:adapter factory=".software.OperatingSystemNameChooser" />
 
 <!-- OperatingSystem views -->
 <browser:page

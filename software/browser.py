@@ -12,6 +12,7 @@ from zope.app.folder.interfaces import IFolder
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
+from zope.app.container.interfaces import INameChooser
 
 from software import OperatingSystem
 
@@ -25,7 +26,7 @@ class OperatingSystemAdd(AddForm):
     def create(self, data):
         self.operatingsystem=OperatingSystem()
         applyChanges(self.operatingsystem, self.form_fields, data)
-        self.context.contentName=self.operatingsystem.names[0]
+        self.context.contentName=INameChooser(self.operatingsystem).chooseName(u"toto",self.operatingsystem)
         return self.operatingsystem
 
 

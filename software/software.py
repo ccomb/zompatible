@@ -3,6 +3,8 @@ from zope.app.folder.interfaces import IFolder
 from zope.app.folder.folder import Folder
 from zope.interface import implements
 from zope.component import adapts
+from zope.app.container.interfaces import INameChooser
+from zope.app.container.contained import NameChooser
 
 from interfaces import IOperatingSystemContainer, IOperatingSystem, ISearchableTextOfOperatingSystem
 
@@ -21,6 +23,23 @@ class OperatingSystem(Folder):
     link=u""
     url=""
     __name__=__parent__=None
+
+class OperatingSystemNameChooser(NameChooser):
+    u"""
+    adapter qui permet de choisir le nom de l'OS auprès du container
+    Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
+    car il apparaît dans l'URL, et sert pour le traversing.
+    """
+    implements(INameChooser)
+    adapts(OperatingSystem)
+    def chooseName(self, name, os):
+        codename=u""
+        if os.codename != u"":
+            codename="-" + os.codename
+        return os.names[0] + "-" + os.version + codename
+    def checkName(self, name, os):
+        return true
+
 
 
 class SearchableTextOfOperatingSystem(object):
