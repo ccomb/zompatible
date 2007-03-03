@@ -15,6 +15,7 @@ from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.container.interfaces import INameChooser
 from zope.app.form.utility import setUpWidgets
 from zope.formlib.form import Actions, Action
+from zope.copypastemove import ContainerItemRenamer
 
 from software import OperatingSystem
 
@@ -42,13 +43,10 @@ class OperatingSystemEdit(EditForm):
           super(OperatingSystemEdit, self).handle_edit_action.success(data)
           oldname=self.context.__name__
           newname=INameChooser(self.context).chooseName(u"",self.context)
-          print oldname
-          print newname
           if oldname!=newname:
-              self.context.__parent__[newname]=self.context
-              del self.context.__parent__[oldname]    
-              print self.context.__name__
-              print list(self.context.__parent__)
+              renamer = ContainerItemRenamer(self.context.__parent__)
+              renamer.renameItem(oldname, newname)
+
                 
 
 
