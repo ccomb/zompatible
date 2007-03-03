@@ -24,8 +24,7 @@ class ManufacturerContainer(Folder):
   "a manufacturer container"
   implements(IManufacturerContainer)
   __name__=__parent__=None
-  #def __init__():
-  # créer les sous-dossiers
+
 
 @adapter(IManufacturer, IObjectAddedEvent)
 def createManufacturerSubfolders(manufacturer, event):

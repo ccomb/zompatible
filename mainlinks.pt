@@ -1,3 +1,5 @@
 
 
-<div tal:repeat="item view/getlinks" id="mainlinks"><a tal:attributes="href item" tal:content="item">item</a><span tal:condition="not:repeat/item/end"> | </span></div>
+<div id="mainlinks">
+<span tal:repeat="item view/getlinks"  tal:omit-tag=""><a tal:attributes="href item" tal:content="item">item</a><span tal:condition="not:repeat/item/end" tal:omit-tag=""> | </span></span>
+</div>

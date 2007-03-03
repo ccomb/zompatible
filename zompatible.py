@@ -18,8 +18,10 @@ from zope.app.catalog.text import TextIndex, ITextIndex
 from zope.index.text.interfaces import ISearchableText
 
 from manufacturer.manufacturer import ManufacturerContainer
+from software.software import OperatingSystemContainer
 from manufacturer.interfaces import ISearchableTextOfManufacturer
 from device.interfaces import ISearchableTextOfDevice
+from software.interfaces import ISearchableTextOfOperatingSystem
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -27,7 +29,7 @@ class ZompatibleSiteManagerSetEvent(object):
         self.object=site
 
 
-class ZompatibleSite(SiteManagerContainer, BTreeContainer):
+class ZompatibleSite(Folder, SiteManagerContainer):
     u"""
     Le principe est qu'on ajoute un site zompatible,
     puis on déclenche un subscriber au moment de l'ajout qui va le transformer en site.
@@ -51,20 +53,30 @@ def ZompatibleSetup(event):
     u"do the necessary!"
     site=event.object
     sm = site.getSiteManager()
-    u"first create the manufacturers folder"
-    manufacturers=ManufacturerContainer()
-    event.object['manufacturers']=manufacturers
-    u"then create and register the intid utility"
+    
+    u"create and register the intid utility"
     intid = IntIds()
     sm['intid']=intid
     sm.registerUtility(intid, IIntIds)
+    
+    u"then create the manufacturers folder"
+    manufacturers=ManufacturerContainer()
+    event.object['manufacturers']=manufacturers
+     
+    u"then create the operating system container"
+    operatingsystems=OperatingSystemContainer()
+    event.object['operating-systems']=operatingsystems
+        
     u"then create and register the catalog"
     catalog = Catalog()
     sm['catalog']=catalog
     sm.registerUtility(catalog, ICatalog)
+    
     u"then create and register the wanted indices in the catalog"
     catalog['device_names'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
     catalog['manufacturer_names'] = TextIndex(interface=ISearchableTextOfManufacturer, field_name='getSearchableText', field_callable=True)
+    catalog['operatingsystem_names'] = TextIndex(interface=ISearchableTextOfOperatingSystem, field_name='getSearchableText', field_callable=True)
     catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
+
     
     

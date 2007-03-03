@@ -1,20 +1,43 @@
 # -*- coding: utf-8 -*-
 from zope.interface.interfaces import Interface
-from zope.schema import TextLine, List, Object
-
+from zope.schema import TextLine, List, Object, URI, Bool, Text
+from zope.app.container.interfaces import IContainer, IContained
+from zope.app.container.constraints import contains, containers
+from zope.index.text.interfaces import ISearchableText
 
 class ISoftware(Interface):
     u"maybe this is more generic than IXserver, IKernel, IAlsa, etc. ?"
     names = List(title=u'names', description=u'possible software names', value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
-    architecture = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
+    #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
     version = TextLine(title=u'version', description=u'a text string describing the version')
     codename=TextLine(title=u'code name (if any)', description=u'the code name of the software')
-    license = Object(title=u'which license?', description=u'the licence of the software', schema=ILicense)
+    #license = Choice......(title=u'which license?', description=u'the licence of the software', schema=ILicense)
  #  features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
-    stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))
-    link = URI(title=u'a link to software', description=u'link to the driver')
+    #stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))
+    link = URI(title=u'a link to software', description=u'link to the software')
+
+class IOperatingSystem(IContainer, IContained, ISoftware):
+    u"""an operating system: linux distribution, freebsd, etc...
+    the version is included here because 2 versions of a distro are 2 different OS
+    Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
+    donc le schema est dans ISoftware
+    """
+    containers("zompatible.software.interfaces.IOperatingSystemContainer")
+
+class IOperatingSystemContainer(IContainer, IContained):
+    u"""
+    L'interface du dossier racine qui contient les OS
+    """
+    contains(IOperatingSystem)
+
+class ISearchableTextOfOperatingSystem(ISearchableText):
+    u"""
+    on déclare un index juste pour cette interface de façon à indexer juste les operatingsystems
+    """
 
 
+
+# ce qui est dessous ne sert pas pour l'instant
 
 class ILicense(Interface):
     u"""
@@ -24,23 +47,7 @@ class ILicense(Interface):
     version = TextLine(title=u'license version', description=u'the version of the license')
     free = Bool(title=u'real free software licence?')
     terms = Text(title=u'license terms', description=u'the terms of the license')
-
-
-class IOperatingSystem(IContainer, IContained, ISoftware):
-    u"""an operating system: linux distribution, freebsd, etc...
-    the version is included here because 2 versions of a distro are 2 different OS
-    Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
-    donc le schema est dans ISoftware
-    """
-
-
-class IOperatingSystemContainer(IContainer, IContained):
-    u"""
-    L'interface du dossier racine qui contient les OS
-    """
-    contains(IOperatingSystem)
-
-
+    
 class IKernel(ISoftware):
     pass
   

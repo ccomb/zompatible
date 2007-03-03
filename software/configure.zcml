@@ -1,5 +1,93 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
 
+<zope:class class=".software.OperatingSystem">
+  <require permission="zope.Public" interface=".interfaces.IOperatingSystem" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOperatingSystem" />
+</zope:class>
+
+<zope:class class=".software.OperatingSystemContainer">
+  <require permission="zope.Public" interface=".interfaces.IOperatingSystem" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOperatingSystem" />
+</zope:class>
+
+
+<!-- on déclare que IOperatingSystem fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<zope:interface  
+  interface=".interfaces.IOperatingSystem"
+  type="zope.app.content.interfaces.IContentType"
+/>
+
+<zope:adapter factory=".software.SearchableTextOfOperatingSystem" />
+
+
+<!-- OperatingSystem views -->
+<browser:page
+    name="software.OperatingSystem"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.OperatingSystemAdd"
+    permission="zope.View"
+    menu="my_addings" title="new software"
+/>
+<browser:page
+    name="edit_software.html"
+    for=".interfaces.IOperatingSystem"
+    class=".browser.OperatingSystemEdit"
+    permission="zope.View"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.IOperatingSystem"
+    class=".browser.OperatingSystemView"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+
+<browser:menuItem
+    title="add Device"
+    action="devices/+/device.Device"
+    for=".interfaces.IOperatingSystem"
+    menu="my_actions"
+/>
+
+<browser:menuItem
+    title="add OperatingSystem"
+    action="+/software.OperatingSystem"
+    for=".interfaces.IOperatingSystemContainer"
+    menu="my_actions"
+/>
+
+<!-- OperatingSystem Container view -->
+<browser:page
+    name="index.html"
+    for=".interfaces.IOperatingSystemContainer"
+    class=".browser.OperatingSystemContainerView"
+    template="operatingsystem_container.pt"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Operating System"
+    class=".software.OperatingSystem"
+    permission="zope.ManageContent"
+    view="software.OperatingSystem"
+/>
+
+<browser:menuItems
+    menu="zmi_views"
+    for="zompatible.software.interfaces.IOperatingSystem"
+>
+    <menuItem
+        title="edit"
+        action="edit_software.html"
+    />
+</browser:menuItems>
+
+
+
 
 </configure>

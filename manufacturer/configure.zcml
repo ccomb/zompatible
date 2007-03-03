@@ -66,7 +66,7 @@
     name="index.html"
     for=".interfaces.IManufacturerContainer"
     class=".browser.ManufacturerContainerView"
-    template="manufacturer_list.pt"
+    template="manufacturer_container.pt"
     permission="zope.View"
     menu="my_actions" title="View"
 />
@@ -79,11 +79,7 @@
     permission="zope.ManageContent"
     view="manufacturer.Manufacturer"
 />
-<browser:addMenuItem
-    title="Manufacturer Container"
-    class=".manufacturer.ManufacturerContainer"
-    permission="zope.ManageContent"
-/>
+
 <browser:menuItems
     menu="zmi_views"
     for="zompatible.manufacturer.interfaces.IManufacturer"
