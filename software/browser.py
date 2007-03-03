@@ -36,22 +36,22 @@ class OperatingSystemEdit(EditForm):
       label="Edit Operating System details"
       form_fields=Fields(IOperatingSystem).omit('__name__', '__parent__')
       #template=ViewPageTemplateFile("operatingsystem_form.pt")
-      actions = Actions(Action('EDIT', success='handle_edit_action'), Action('ZZZZZ', success='handle_edit_action'),)
-      def handle_edit_action(self, request, context):
-          print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-          super(OperatingSystemEdit, self).handle_edit_action(request, context)
-      def __call__(self):
-          u"""
-          Lors de l'application des changements, on renomme l'objet auprès du conteneur.
-          Peut-être faudrait-il faire ça dans un événement de l'objet plutôt ?
-          """
-          print "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-          data =  super(OperatingSystemEdit, self).__call__()
-          if False:
-              newname=INameChooser(self.context).chooseName(u"",self.context)
+      u"On crée la liste des actions du formulaire"
+      actions = Actions(Action('Apply', success='handle_edit_action'), )
+      def handle_edit_action(self, action, data):
+          super(OperatingSystemEdit, self).handle_edit_action.success(data)
+          oldname=self.context.__name__
+          newname=INameChooser(self.context).chooseName(u"",self.context)
+          print oldname
+          print newname
+          if oldname!=newname:
               self.context.__parent__[newname]=self.context
-              del self.context.__parent__[self.context.__name__]
-          return data
+              del self.context.__parent__[oldname]    
+              print self.context.__name__
+              print list(self.context.__parent__)
+                
+
+
 
 
 
@@ -60,7 +60,7 @@ class OperatingSystemEdit(EditForm):
 class OperatingSystemView(BrowserPage):
     label="View of a operatingsystem"
     __call__=ViewPageTemplateFile("operatingsystem.pt")
-
+    
 class OperatingSystemContainerView(object):
     u"""
     la vue du container de operatingsystems.
