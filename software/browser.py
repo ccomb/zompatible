@@ -46,6 +46,7 @@ class OperatingSystemEdit(EditForm):
           if oldname!=newname:
               renamer = ContainerItemRenamer(self.context.__parent__)
               renamer.renameItem(oldname, newname)
+              return self.request.response.redirect(AbsoluteURL(self.context, self.request)())
 
                 
 
