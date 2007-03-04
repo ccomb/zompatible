@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
-from zope.interface import implements
+from zope.interface import implements, Invalid
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.app.container.browser.contents import Contents
 from zope.publisher.browser import BrowserPage
@@ -14,8 +14,9 @@ from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.container.interfaces import INameChooser
 from zope.app.form.utility import setUpWidgets
-from zope.formlib.form import Actions, Action
+from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.copypastemove import ContainerItemRenamer
+import string
 
 from software import OperatingSystem
 
@@ -29,32 +30,38 @@ class OperatingSystemAdd(AddForm):
     def create(self, data):
         self.operatingsystem=OperatingSystem()
         applyChanges(self.operatingsystem, self.form_fields, data)
-        self.context.contentName=INameChooser(self.operatingsystem).chooseName(u"",self.operatingsystem)
+        self.context.contentName=string.lower(INameChooser(self.operatingsystem).chooseName(u"",self.operatingsystem))
         return self.operatingsystem
 
 
 class OperatingSystemEdit(EditForm):
-      label="Edit Operating System details"
-      form_fields=Fields(IOperatingSystem).omit('__name__', '__parent__')
-      #template=ViewPageTemplateFile("operatingsystem_form.pt")
-      u"On crée la liste des actions du formulaire"
-      actions = Actions(Action('Apply', success='handle_edit_action'), )
-      def handle_edit_action(self, action, data):
-          super(OperatingSystemEdit, self).handle_edit_action.success(data)
-          oldname=self.context.__name__
-          newname=INameChooser(self.context).chooseName(u"",self.context)
-          if oldname!=newname:
-              renamer = ContainerItemRenamer(self.context.__parent__)
-              renamer.renameItem(oldname, newname)
-              return self.request.response.redirect(AbsoluteURL(self.context, self.request)())
-
-                
-
-
-
-
-
-          
+    label="Edit Operating System details"
+    form_fields=Fields(IOperatingSystem).omit('__name__', '__parent__')
+    #template=ViewPageTemplateFile("operatingsystem_form.pt")
+    u"On crée la liste des actions du formulaire"
+    actions = Actions(Action('Apply', success='handle_edit_action'), )
+    def handle_edit_action(self, action, data):
+        super(OperatingSystemEdit, self).handle_edit_action.success(data)
+        oldname=self.context.__name__
+        newname=string.lower(INameChooser(self.context).chooseName(u"",self.context))
+        if string.lower(oldname)!=newname:
+            renamer = ContainerItemRenamer(self.context.__parent__)
+            renamer.renameItem(oldname, newname)
+            return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_software.html")
+    def validate(self, action, data):
+        u"on récupère les données du formulaire et on remplit data"
+        getWidgetsData(self.widgets, 'form', data)
+        u"on crée un temporaire pour tester le nouveau nom"
+        dummy=OperatingSystem()
+        u"on applique le formulaire au nouveau"
+        applyChanges(dummy, self.form_fields, data)
+        u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
+        newname = string.lower(INameChooser(dummy).chooseName(u"",dummy))
+        u"si existe déjà on retourne une erreur"
+        if newname in self.context.__parent__ and self.context is not self.context.__parent__[newname]:
+            return ("The name <i>"+newname+"</i> conflicts with another Operating System",)
+        return super(OperatingSystemEdit, self).validate(action, data)
+    
 
 class OperatingSystemView(BrowserPage):
     label="View of a operatingsystem"

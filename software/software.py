@@ -38,7 +38,10 @@ class OperatingSystemNameChooser(NameChooser):
             codename="-" + os.codename
         return os.names[0] + "-" + os.version + codename
     def checkName(self, name, os):
-        return true
+        if name in os.__parent__ and os is not os.__parent__['name']:
+            return False
+        else :
+            return true
 
 
 
