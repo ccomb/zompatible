@@ -117,6 +117,10 @@ lors de l'affichage du statut d'un matériel, il faut préciser le statut préc�
 
 Penser à faire un module de recherche pour firefox
 
+Une idée interessante : Si un objet correspondant à une URL n'est pas trouvé, lancer automatiquement une recherche pour trouver l'objet le plus proche.
+Ca peut se faire grâce à un adapter pour IPublishTraverse qui récupère le nom de traversing et lance une recherche si le traversing echoue.
+Ca permettrait de compenser le fait que les liens ne sont pas forcément permanents (un renommage d'objet entraine un changement d'URL)
+
 
 Soumission matériel
 ==================

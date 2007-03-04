@@ -16,7 +16,12 @@
 
 
 <body>
-<a href="#" tal:attributes="href provider:siteurl">Home</a>
+
+
+<tal:block repeat="breadcrumb context/@@absolute_url/breadcrumbs">
+<a tal:attributes="href string:${breadcrumb/url}/" tal:content="breadcrumb/name" tal:condition="repeat/breadcrumb/index">item</a>
+</tal:block>
+                             
 <div  metal:define-slot="body">
 Ici le contenu de la page
 </div>

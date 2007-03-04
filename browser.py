@@ -2,7 +2,7 @@
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserPage
 from zope.traversing.api import getRoot
-from zope.traversing.browser.absoluteurl import AbsoluteURL
+from zope.traversing.browser.absoluteurl import AbsoluteURL, SiteAbsoluteURL
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
 from zope.contentprovider.interfaces import IContentProvider
@@ -51,9 +51,11 @@ class PageTitleContentProvider(object):
 
 class SiteUrlProvider(object):
     u"""
-    Un Content Provider qui permet d'afficher l'url e titre de la page (dans le header html)
+    Un Content Provider qui permet d'afficher l'url de la racine du site.
     Ca c'est juste pour créer le lien home dans le template général. Tant qu'on a pas mis en place
     le virtual hosting, il faut pouvoir diriger à la racine du site, mais pas à la racine de la zodb.
+    
+    inutilisé pour l'instant
     """
     implements(IContentProvider)
     adapts(Interface, IDefaultBrowserLayer, Interface)
@@ -61,9 +63,9 @@ class SiteUrlProvider(object):
         self.request=request
         self.context=context
     def update(self):
-        self._site=AbsoluteURL(getSite(), self.request)
+        self._site=SiteAbsoluteURL(self.context, self.request).breadcrumbs()
     def render(self):
-        return self._site
+        return str(self._site)
 
 class MainAreaManager(ViewletManagerBase):
     u"""

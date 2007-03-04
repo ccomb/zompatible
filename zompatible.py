@@ -41,13 +41,13 @@ class ZompatibleSite(Folder, SiteManagerContainer):
         u"on surcharge cette méthode pour pouvoir lancer l'evenement"
         super(ZompatibleSite, self).setSiteManager(sm)
         notify(ZompatibleSiteManagerSetEvent(self))
-    
+
 
 @adapter(IZompatibleSite, IObjectAddedEvent)
 def newZompatibleSiteAdded(site, event):
     u"a subscriber that do the necessary after the site is added"
     site.setSiteManager(LocalSiteManager(site))
-    
+
 @adapter(IZompatibleSiteManagerSetEvent)
 def ZompatibleSetup(event):
     u"do the necessary!"
