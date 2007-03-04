@@ -66,6 +66,10 @@ class OperatingSystemEdit(EditForm):
 class OperatingSystemView(BrowserPage):
     label="View of a operatingsystem"
     __call__=ViewPageTemplateFile("operatingsystem.pt")
+    def __init__(self, context, request):
+        self.context, self.request = context, request
+    def prettyName(self):
+        return "%s %s %s" % (self.context.names[0], self.context.version, self.context.codename) 
     
 class OperatingSystemContainerView(object):
     u"""
