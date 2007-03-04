@@ -149,6 +149,15 @@ class MainLinksViewlet(object):
     le viewlet qui affiche les liens sous le champ de recherche
     Pas besoin de template, on génère juste des liens
     Pour l'instant on affiche les dossiers de la racine
+    
+    Et pour l'instant on gère même en manuel
+    car les objets OperatingSystemContainer n'ont pas de nom pour l'instant.
+    Et je ne sais pas comment seront gérées les traductions des noms des objets.
     """
-    def getlinks(self):
-        return getSite().keys()
+    def getitems(self):
+        #return getSite().values()
+        items = getSite().keys()
+        names = [ u"Manufacturers", u"Operating Systems" ]
+        return [ (names[i],items[i]) for i in range(len(items)) ]
+
+

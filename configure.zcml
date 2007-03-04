@@ -38,6 +38,7 @@
     permission="zope.View"
 />
 
+<!-- la page qui effectue la recherche -->
 <browser:page
     name="mainsearch.html"
     for="*"
