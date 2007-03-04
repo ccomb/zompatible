@@ -5,6 +5,7 @@ from zope.interface import implements
 from zope.component import adapts
 from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
+import string
 
 from interfaces import IOperatingSystemContainer, IOperatingSystem, ISearchableTextOfOperatingSystem
 
@@ -36,7 +37,7 @@ class OperatingSystemNameChooser(NameChooser):
         codename=u""
         if os.codename != u"":
             codename="-" + os.codename
-        return os.names[0] + "-" + os.version + codename
+        return string.lower(os.names[0] + "-" + os.version + codename).replace(' ','-')
     def checkName(self, name, os):
         if name in os.__parent__ and os is not os.__parent__['name']:
             return False

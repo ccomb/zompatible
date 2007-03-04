@@ -51,14 +51,14 @@ class OperatingSystemEdit(EditForm):
     def validate(self, action, data):
         u"on récupère les données du formulaire et on remplit data"
         getWidgetsData(self.widgets, 'form', data)
-        u"on crée un temporaire pour tester le nouveau nom"
+        u"on crée un objet temporaire pour tester le nouveau nom"
         dummy=OperatingSystem()
         u"on applique le formulaire au nouveau"
         applyChanges(dummy, self.form_fields, data)
         u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
-        newname = string.lower(INameChooser(dummy).chooseName(u"",dummy))
-        u"si existe déjà on retourne une erreur"
-        if newname in self.context.__parent__ and self.context is not self.context.__parent__[newname]:
+        newname = INameChooser(dummy).chooseName(u"",dummy)
+        u"s'il existe déjà on retourne une erreur"
+        if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
             return ("The name <i>"+newname+"</i> conflicts with another Operating System",)
         return super(OperatingSystemEdit, self).validate(action, data)
     
