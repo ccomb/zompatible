@@ -62,10 +62,7 @@ def ZompatibleSetup(event):
     u"then create the organizations folder"
     organizations=OrganizationContainer()
     event.object['organizations']=organizations
-     
-    u"then create the operating system container"
-    operatingsystems=OperatingSystemContainer()
-    event.object['operating-systems']=operatingsystems
+
         
     u"then create and register the catalog"
     catalog = Catalog()

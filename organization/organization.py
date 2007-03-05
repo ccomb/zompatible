@@ -16,7 +16,7 @@ from zope.app.container.interfaces import IObjectAddedEvent
 from zope.app.keyreference.persistent import connectionOfPersistent
 
 from zompatible.device.device import DeviceContainer
-from zompatible.device.interfaces import IDeviceContainer
+from zompatible.software.software import OperatingSystemContainer
 
 from ZODB.interfaces import IConnection
 
@@ -28,8 +28,12 @@ class OrganizationContainer(Folder):
 
 @adapter(IOrganization, IObjectAddedEvent)
 def createOrganizationSubfolders(organization, event):
+    u"Create the device container"
     devices=DeviceContainer()
-    organization['devices']=devices
+    organization['devices']=devices 
+    u"then create the operating system container"
+    operatingsystems=OperatingSystemContainer()
+    organization['operating-systems']=operatingsystems
 
 
 class Organization(Folder):

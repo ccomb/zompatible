@@ -157,9 +157,6 @@ class MainLinksViewlet(object):
     Et je ne sais pas comment seront gérées les traductions des noms des objets.
     """
     def getitems(self):
-        #return getSite().values()
-        items = getSite().keys()
-        names = [ u"Organizations", u"Operating Systems" ]
-        return [ (names[i],items[i]) for i in range(len(items)) ]
+        return [ { 'name':i, 'url':i} for i in getSite().keys() ]
 
 
