@@ -13,46 +13,46 @@ from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 
-from manufacturer import Manufacturer
+from organization import Organization
 from zompatible.device.device import DeviceContainer
 
-class ManufacturerAdd(AddForm):
+class OrganizationAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
-    form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
-    label=u"Adding a manufacturer"
+    form_fields=Fields(IOrganization).omit('__name__', '__parent__')
+    label=u"Adding a organization"
     def nextURL(self):
-        return AbsoluteURL(self.manufacturer, self.request)
-    #template=ViewPageTemplateFile("manufacturer_form.pt")
+        return AbsoluteURL(self.organization, self.request)
+    #template=ViewPageTemplateFile("organization_form.pt")
     def create(self, data):
         u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
-        self.manufacturer=Manufacturer()
+        self.organization=Organization()
         u"puis on applique les données du formulaire à l'objet (data contient les données du formulaire !)"
-        applyChanges(self.manufacturer, self.form_fields, data)
+        applyChanges(self.organization, self.form_fields, data)
         u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
-        self.context.contentName=self.manufacturer.names[0]
-        return self.manufacturer
+        self.context.contentName=self.organization.names[0]
+        return self.organization
 
 
-class ManufacturerEdit(EditForm):
-  label="Edit manufacturer details"
-  form_fields=Fields(IManufacturer).omit('__name__', '__parent__')
-  #template=ViewPageTemplateFile("manufacturer_form.pt")
+class OrganizationEdit(EditForm):
+  label="Edit organization details"
+  form_fields=Fields(IOrganization).omit('__name__', '__parent__')
+  #template=ViewPageTemplateFile("organization_form.pt")
 
-class ManufacturerView(BrowserPage):
-    "la vue qui permet d'afficher un manufacturer"
-    label="View of a manufacturer"
-    __call__=ViewPageTemplateFile("manufacturer.pt")
+class OrganizationView(BrowserPage):
+    "la vue qui permet d'afficher un organization"
+    label="View of a organization"
+    __call__=ViewPageTemplateFile("organization.pt")
     def testannotations(self):
-        IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']='toto'
-        return IAnnotations(self.context)['zompatible.manufacturer.manufacturer.Manufacturer.category']
+        IAnnotations(self.context)['zompatible.organization.organization.Organization.category']='toto'
+        return IAnnotations(self.context)['zompatible.organization.organization.Organization.category']
 
 
-class ManufacturerContainerView(object):
+class OrganizationContainerView(object):
     u"""
-    la vue du container de manufacturers.
-    Pour l'instant on se contente d'afficher la liste des manufacturers.
+    la vue du container de organizations.
+    Pour l'instant on se contente d'afficher la liste des organizations.
     Ensuite il sera possible d'afficher par exemple des classements
     """
-    label = u"List of manufacturers"
-    def getmanufacturers(self):
+    label = u"List of organizations"
+    def getorganizations(self):
         return self.context.items()

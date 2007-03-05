@@ -14,7 +14,7 @@ from zope.app.component.hooks import getSite
 
 from interfaces import *
 from device.device import SearchDevice
-from manufacturer.manufacturer import SearchManufacturer
+from organization.organization import SearchOrganization
 
 class MainPage(object):
     u"""
@@ -102,20 +102,20 @@ class MainSearch(object):
             return ViewPageTemplateFile("index.pt")(self)
         u"on décompose la chaine de recherche en mots"
         devices={}
-        manufacturers={}
+        organizations={}
         result=u""
         for word in self.mainsearch.split():
             devices[word]=SearchDevice(word+"*").getResults()
-            manufacturers[word]=SearchManufacturer(word+"*").getResults()
+            organizations[word]=SearchOrganization(word+"*").getResults()
         for word in self.mainsearch.split():
             result += "pour le mot : " + word + "\n***********\n"
             result += "devices: "
             for device in devices[word]:
                 result += device.__name__ + " "
             result += "\n"
-            result += "manufacturers: "
-            for manufacturer in manufacturers[word]:
-                result += manufacturer.__name__ + " "
+            result += "organizations: "
+            for organization in organizations[word]:
+                result += organization.__name__ + " "
             result += "\n\n"
         return result
 
@@ -159,7 +159,7 @@ class MainLinksViewlet(object):
     def getitems(self):
         #return getSite().values()
         items = getSite().keys()
-        names = [ u"Manufacturers", u"Operating Systems" ]
+        names = [ u"Organizations", u"Operating Systems" ]
         return [ (names[i],items[i]) for i in range(len(items)) ]
 
 

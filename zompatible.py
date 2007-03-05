@@ -17,9 +17,9 @@ from zope.app.catalog.catalog import Catalog, ICatalog
 from zope.app.catalog.text import TextIndex, ITextIndex
 from zope.index.text.interfaces import ISearchableText
 
-from manufacturer.manufacturer import ManufacturerContainer
+from organization.organization import OrganizationContainer
 from software.software import OperatingSystemContainer
-from manufacturer.interfaces import ISearchableTextOfManufacturer
+from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfOperatingSystem
 
@@ -59,9 +59,9 @@ def ZompatibleSetup(event):
     sm['intid']=intid
     sm.registerUtility(intid, IIntIds)
     
-    u"then create the manufacturers folder"
-    manufacturers=ManufacturerContainer()
-    event.object['manufacturers']=manufacturers
+    u"then create the organizations folder"
+    organizations=OrganizationContainer()
+    event.object['organizations']=organizations
      
     u"then create the operating system container"
     operatingsystems=OperatingSystemContainer()
@@ -74,7 +74,7 @@ def ZompatibleSetup(event):
     
     u"then create and register the wanted indices in the catalog"
     catalog['device_names'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
-    catalog['manufacturer_names'] = TextIndex(interface=ISearchableTextOfManufacturer, field_name='getSearchableText', field_callable=True)
+    catalog['organization_names'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
     catalog['operatingsystem_names'] = TextIndex(interface=ISearchableTextOfOperatingSystem, field_name='getSearchableText', field_callable=True)
     catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
 

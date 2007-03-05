@@ -1,48 +1,48 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
-<zope:class class=".manufacturer.Manufacturer">
-  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
+<zope:class class=".organization.Organization">
+  <require permission="zope.Public" interface=".interfaces.IOrganization" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
-<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IManufacturer -->
-<zope:class class=".manufacturer.ManufacturerContainer">
-  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+<!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
+<zope:class class=".organization.OrganizationContainer">
+  <require permission="zope.Public" interface=".interfaces.IOrganization" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
 
 
-<!-- on déclare que IManufacturer fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<!-- on déclare que IOrganization fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
 <zope:interface  
-  interface=".interfaces.IManufacturer"
+  interface=".interfaces.IOrganization"
   type="zope.app.content.interfaces.IContentType"
 />
 
-<zope:adapter factory=".manufacturer.SearchableTextOfManufacturer" />
+<zope:adapter factory=".organization.SearchableTextOfOrganization" />
 
 <zope:subscriber
-    handler=".manufacturer.createManufacturerSubfolders"
+    handler=".organization.createOrganizationSubfolders"
 />
 
-<!-- Manufacturer views -->
+<!-- Organization views -->
 <browser:page
-    name="manufacturer.Manufacturer"
+    name="organization.Organization"
     for="zope.app.container.interfaces.IAdding"
-    class=".browser.ManufacturerAdd"
+    class=".browser.OrganizationAdd"
     permission="zope.View"
-    menu="my_addings" title="new manufacturer"
+    menu="my_addings" title="new organization"
 />
 <browser:page
-    name="edit_manufacturer.html"
-    for=".interfaces.IManufacturer"
-    class=".browser.ManufacturerEdit"
+    name="edit_organization.html"
+    for=".interfaces.IOrganization"
+    class=".browser.OrganizationEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
-    for=".interfaces.IManufacturer"
-    class=".browser.ManufacturerView"
+    for=".interfaces.IOrganization"
+    class=".browser.OrganizationView"
     permission="zope.View"
     menu="my_actions" title="View"
 />
@@ -50,23 +50,23 @@
 <browser:menuItem
     title="add Device"
     action="devices/+/device.Device"
-    for=".interfaces.IManufacturer"
+    for=".interfaces.IOrganization"
     menu="my_actions"
 />
 
 <browser:menuItem
-    title="add Manufacturer"
-    action="+/manufacturer.Manufacturer"
-    for=".interfaces.IManufacturerContainer"
+    title="add Organization"
+    action="+/organization.Organization"
+    for=".interfaces.IOrganizationContainer"
     menu="my_actions"
 />
 
-<!-- Manufacturer Container view -->
+<!-- Organization Container view -->
 <browser:page
     name="index.html"
-    for=".interfaces.IManufacturerContainer"
-    class=".browser.ManufacturerContainerView"
-    template="manufacturer_container.pt"
+    for=".interfaces.IOrganizationContainer"
+    class=".browser.OrganizationContainerView"
+    template="organization_container.pt"
     permission="zope.View"
     menu="my_actions" title="View"
 />
@@ -74,19 +74,19 @@
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem
-    title="Manufacturer"
-    class=".manufacturer.Manufacturer"
+    title="Organization"
+    class=".organization.Organization"
     permission="zope.ManageContent"
-    view="manufacturer.Manufacturer"
+    view="organization.Organization"
 />
 
 <browser:menuItems
     menu="zmi_views"
-    for="zompatible.manufacturer.interfaces.IManufacturer"
+    for="zompatible.organization.interfaces.IOrganization"
 >
     <menuItem
         title="edit"
-        action="edit_manufacturer.html"
+        action="edit_organization.html"
     />
 </browser:menuItems>
 

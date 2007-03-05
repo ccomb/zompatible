@@ -11,7 +11,7 @@ class IDevice(IContained):
     IDevice offers basic attributes of a device
     So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
     Un device pourrait être une implémentation fournissant IDevice, IPhysicalInterface, IChiped, etc... ?
-    Pour un contenu potentiellement infini (ex: devices pour un manufacturer), faire un folder
+    Pour un contenu potentiellement infini (ex: devices pour un organization), faire un folder
     Pour un contenu limité (ex: chip dans un device), mettre en attributs.
     """
     #containers('zompatible.device.interfaces.IDeviceContainer')

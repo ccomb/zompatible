@@ -10,7 +10,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 
-from zompatible.manufacturer.interfaces import IManufacturer
+from zompatible.organization.interfaces import IOrganization
 from device import Device, SearchDevice, DeviceSource
 from interfaces import *
     
@@ -57,10 +57,10 @@ class SearchDeviceView(BrowserPage):
     la méthode lancée depuis le template pour effectuer la recherche
     """
     def __call__(self, query):
-        manufacturer=None
-        if IManufacturer.providedBy(self.context):
-            manufacturer=self.context
-        self.search=SearchDevice(query+"*", manufacturer)    
+        organization=None
+        if IOrganization.providedBy(self.context):
+            organization=self.context
+        self.search=SearchDevice(query+"*", organization)    
         return ViewPageTemplateFile('search.pt')(self)
 
     def getResults(self):

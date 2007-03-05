@@ -63,7 +63,7 @@ class SearchableTextOfOperatingSystem(object):
         
 class SearchOperatingSystem(object):
     u"""
-    une classe qui effectue la recherche de manufacturer
+    une classe qui effectue la recherche de organization
     """
     def update(self, query):
         catalog=getUtility(ICatalog)

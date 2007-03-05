@@ -11,7 +11,7 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/__name__">manufacturer name</h2> 
+<h2 tal:content="context/__name__">organization name</h2> 
 
 (other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)<br/>
 web site : <a href="#" tal:attributes="href context/url"><span tal:content="context/url">url</span></a>
@@ -19,7 +19,7 @@ web site : <a href="#" tal:attributes="href context/url"><span tal:content="cont
 
 <h2> List of devices</h2>
 
-<form action="@@search.html" method="post">search a device made by <i tal:content="context/__name__">manufacturer</i> : 
+<form action="@@search.html" method="post">search a device made by <i tal:content="context/__name__">organization</i> : 
 <input type="text" name="query" /> <input type="submit" value="search" />
 </form>
 

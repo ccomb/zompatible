@@ -20,20 +20,20 @@ from zompatible.device.interfaces import IDeviceContainer
 
 from ZODB.interfaces import IConnection
 
-class ManufacturerContainer(Folder):
-  "a manufacturer container"
-  implements(IManufacturerContainer)
+class OrganizationContainer(Folder):
+  "a organization container"
+  implements(IOrganizationContainer)
   __name__=__parent__=None
 
 
-@adapter(IManufacturer, IObjectAddedEvent)
-def createManufacturerSubfolders(manufacturer, event):
+@adapter(IOrganization, IObjectAddedEvent)
+def createOrganizationSubfolders(organization, event):
     devices=DeviceContainer()
-    manufacturer['devices']=devices
+    organization['devices']=devices
 
 
-class Manufacturer(Folder):
-  implements(IManufacturer,IFolder)
+class Organization(Folder):
+  implements(IOrganization,IFolder)
   names=[]
   url=""
   __name__=__parent__=None
@@ -41,12 +41,12 @@ class Manufacturer(Folder):
       return self['devices'].items()
   
 
-class SearchableTextOfManufacturer(object):
+class SearchableTextOfOrganization(object):
     u"""
-    l'adapter qui permet d'indexer les manufacturers
+    l'adapter qui permet d'indexer les organizations
     """
-    implements(ISearchableTextOfManufacturer)
-    adapts(IManufacturer)
+    implements(ISearchableTextOfOrganization)
+    adapts(IOrganization)
     def __init__(self, context):
         self.context = context
     def getSearchableText(self):
@@ -57,16 +57,16 @@ class SearchableTextOfManufacturer(object):
         return text
     
 
-class SearchManufacturer(object):
+class SearchOrganization(object):
     u"""
-    une classe qui effectue la recherche de manufacturer
+    une classe qui effectue la recherche de organization
     """
     def update(self, query):
         catalog=getUtility(ICatalog)
         del self.results
         self.results=[]
         if query!="":
-            self.results=catalog.searchResults(manufacturer_names=query)
+            self.results=catalog.searchResults(organization_names=query)
     def __init__(self, query):
         self.results=[]
         self.update(query)

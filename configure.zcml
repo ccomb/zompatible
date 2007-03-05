@@ -15,7 +15,7 @@
 
 <include package=".skin" />
 
-<include package=".manufacturer" />
+<include package=".organization" />
 
 <include package=".device" />
 <!-- <include package=".poll" /> -->
@@ -25,8 +25,8 @@
 
 
 
-<!-- on déclare qu'un Manufacturer est un DeviceContainer -->
-<!-- <zope:class class=".manufacturer.manufacturer.Manufacturer">
+<!-- on déclare qu'un Organization est un DeviceContainer -->
+<!-- <zope:class class=".organization.organization.Organization">
     <implements interface=".device.interfaces.IDeviceContainer" />
 </zope:class> -->
 

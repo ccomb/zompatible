@@ -75,25 +75,25 @@ class SearchDevice(object):
     ainsi que les fonctions de recherche.
     (voir s'il existe déjà une interface de ce type ?)
     Il faudra sûrement faire ça pour le champ de recherche principal,
-    où on peut faire une recherche par device, manufacturer, feature, etc, tout en meme temps.
+    où on peut faire une recherche par device, organization, feature, etc, tout en meme temps.
     
     Un ResultSet est un objet qui implémente __iter__ mais pas __getitem__
     Donc on peut le parcourir, mais pas accéder à un élément en particulier.
     """
-    def update(self, query, manufacturer=None):
+    def update(self, query, organization=None):
         catalog=getUtility(ICatalog)
         del self.results
         self.results=[]
         if query!="":
             self.results=catalog.searchResults(device_names=query)
-        if manufacturer is not None:
+        if organization is not None:
             # list comprehension : it creates a full list of device
-            #self.results = [ device for device in self.results if (device.__parent__.__parent__ == manufacturer) ]
+            #self.results = [ device for device in self.results if (device.__parent__.__parent__ == organization) ]
             # generator expression : it creates an iterator that parse the list on demand (should save memory)
-            self.results = ( device for device in self.results if (device.__parent__.__parent__ == manufacturer) )
-    def __init__(self, query, manufacturer=None):
+            self.results = ( device for device in self.results if (device.__parent__.__parent__ == organization) )
+    def __init__(self, query, organization=None):
         self.results=[]
-        self.update(query, manufacturer)
+        self.update(query, organization)
     def getResults(self):
         return self.results
 
@@ -103,14 +103,14 @@ class DeviceSource(object):
     implémentation de la Source de Devices utilisée dans le schema de sub_devices.
     Il s'agit juste d'implémenter ISource
     Cette source est censée représenter l'ensemble de tous les devices.
-    Elle parcourt tous les manufacturers et recherche le device voulu.
+    Elle parcourt tous les organizations et recherche le device voulu.
     """
     implements(ISource)
     def __contains__(self, value):
         found=0
         root = getRoot(value)
-        for manuf in root['manufacturers']:
-            if value.__name__ in root['manufacturers'][manuf]['devices'].keys():
+        for manuf in root['organizations']:
+            if value.__name__ in root['organizations'][manuf]['devices'].keys():
                 found=1
                 return True
         return False
