@@ -56,10 +56,38 @@ class StabilityLevel(Persistent):
   """
   implements(ILevel)
 
-  
+-------------------
+essais sur la gestion des types d'organisation.
+
+nvidia = Organization(name="nvidia")
+nvidiacategory = ICategory(nvidia)
+
+manufs = Category(name="Manufacturer")
+
+nvidiacategory.type = manufs
+
+comment ajouter ou non  addDevice dans le menu si la categorie est un objet et pas une interface
+
+comment attribuer une categorie à une organisation lors de sa création si la catégorie est une interface et pas un objet ?
+Lister les catégories d'organisation (définie en dur sous forme d'interfaces), ajouter l'interface à l'objet. 
+(quelque chose qui donne IManufacturer et IEditor, sachant que ces interfaces sont des IOrganizationCategory,
+donc trouver les interfaces qui dérivent de IOrganizationCategory)
+ou bien : providedBy(IOrganizationCategory)
+provides(IManufacturer, IOrganizationType)
+----
+Si je fais les catégories sous forme d'interface, il faut dériver les catégories de ICategory
+par exemple 
+IMultifunctionPrinter(ICategory):
+    pass
 
 
+non, plutot :
 
+class IOrganizationCategory(ICategory):
+    pass
+
+manufacturer=
+----------------------
 
 
 
