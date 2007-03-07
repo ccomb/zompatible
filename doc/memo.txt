@@ -87,6 +87,31 @@ class IOrganizationCategory(ICategory):
     pass
 
 manufacturer=
+
+class CategoryType(IInterface):
+    u"parallèle avec ContentType:"
+
+
+class Manufacturer(object):
+    adapts(IOrganization)
+    implements(IManufacturer)
+    def __init__(self, orga):
+        self.devices = self.orga['devices']
+    
+    
+class ICategory(Interface):
+    u"""
+    une catégorie d'organisation. Peut être manufacturer
+    """
+    name=Text(title=u"type d'organisation")
+
+class IOrganizationCategory(Interface):
+    pass
+
+
+    
+    
+
 ----------------------
 
 
