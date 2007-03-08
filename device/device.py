@@ -103,7 +103,10 @@ class DeviceSource(object):
     implémentation de la Source de Devices utilisée dans le schema de sub_devices.
     Il s'agit juste d'implémenter ISource
     Cette source est censée représenter l'ensemble de tous les devices.
-    Elle parcourt tous les organizations et recherche le device voulu.
+    Elle parcourt toutes les organizations et recherche le device voulu.
+    *********
+    ATTENTION, dans l'implémentation ci-dessous, si deux orga ont
+    des devices avec le même nom, seul le 1er est retourné.
     """
     implements(ISource)
     def __contains__(self, value):

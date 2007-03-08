@@ -12,14 +12,24 @@ from zope.app.folder.interfaces import IFolder
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
+from zope.app.form import CustomWidgetFactory
+from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
 
-from organization import Organization
+from organization import Organization, OrganizationTypeVocabulary
 from zompatible.device.device import DeviceContainer
+
+
+class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
+    def __init__(self, field, subfield, request):
+        super(MyMultiCheckBoxWidget, self).__init__(field,  field.value_type.vocabulary, request)
+
+
 
 class OrganizationAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     form_fields=Fields(IOrganization).omit('__name__', '__parent__')
     label=u"Adding a organization"
+    form_fields['types'].custom_widget = CustomWidgetFactory(MyMultiCheckBoxWidget)
     def nextURL(self):
         return AbsoluteURL(self.organization, self.request)
     #template=ViewPageTemplateFile("organization_form.pt")
@@ -33,18 +43,18 @@ class OrganizationAdd(AddForm):
         return self.organization
 
 
+
 class OrganizationEdit(EditForm):
   label="Edit organization details"
   form_fields=Fields(IOrganization).omit('__name__', '__parent__')
+  form_fields['types'].custom_widget = CustomWidgetFactory(MyMultiCheckBoxWidget)
   #template=ViewPageTemplateFile("organization_form.pt")
+
 
 class OrganizationView(BrowserPage):
     "la vue qui permet d'afficher un organization"
     label="View of a organization"
     __call__=ViewPageTemplateFile("organization.pt")
-    def testannotations(self):
-        IAnnotations(self.context)['zompatible.organization.organization.Organization.category']='toto'
-        return IAnnotations(self.context)['zompatible.organization.organization.Organization.category']
 
 
 class OrganizationContainerView(object):
@@ -56,3 +66,8 @@ class OrganizationContainerView(object):
     label = u"List of organizations"
     def getorganizations(self):
         return self.context.items()
+
+"""
+class InterfaceWidget(SimpleInputWidget):
+    pass
+"""

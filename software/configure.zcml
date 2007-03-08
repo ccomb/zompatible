@@ -44,20 +44,6 @@
     menu="my_actions" title="View"
 />
 
-<browser:menuItem
-    title="add Device"
-    action="devices/+/device.Device"
-    for=".interfaces.IOperatingSystem"
-    menu="my_actions"
-/>
-
-<browser:menuItem
-    title="add OperatingSystem"
-    action="+/software.OperatingSystem"
-    for=".interfaces.IOperatingSystemContainer"
-    menu="my_actions"
-/>
-
 <!-- OperatingSystem Container view -->
 <browser:page
     name="index.html"

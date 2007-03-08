@@ -22,7 +22,7 @@
 <!-- <include package=".feature" /> -->
 
 <include package=".software" />
-
+<include package=".category" />
 
 
 <!-- on déclare qu'un Organization est un DeviceContainer -->

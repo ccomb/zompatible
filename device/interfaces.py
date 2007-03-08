@@ -27,7 +27,6 @@ class IDeviceContainer(IContainer, IContained):
     a toplevel device container. This is a base storage for devices.
     """
     contains(IDevice)
-
     
 
 

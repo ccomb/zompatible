@@ -12,10 +12,15 @@
 </zope:class>
 
 
-<!-- on déclare que IOrganization fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+
 <zope:interface  
-  interface=".interfaces.IOrganization"
-  type="zope.app.content.interfaces.IContentType"
+  interface=".interfaces.IManufacturer"
+  type="zompatible.organization.interfaces.IOrganizationType"
+/>
+
+<zope:interface
+    interface=".interfaces.IEditor"
+    type="zompatible.organization.interfaces.IOrganizationType"
 />
 
 <zope:adapter factory=".organization.SearchableTextOfOrganization" />
@@ -50,7 +55,13 @@
 <browser:menuItem
     title="add Device"
     action="devices/+/device.Device"
-    for=".interfaces.IOrganization"
+    for=".interfaces.IManufacturer"
+    menu="my_actions"
+/>
+<browser:menuItem
+    title="add Operating System"
+    action="operating-systems/+/software.OperatingSystem"
+    for=".interfaces.IEditor"
     menu="my_actions"
 />
 
@@ -90,7 +101,11 @@
     />
 </browser:menuItems>
 
-
+<!-- registered named utility used to choose the interfaces provided by organizatioins -->
+<zope:utility
+    factory=".organization.OrganizationInterfacesVocabularyFactory"
+    name="organization_type"
+/>
 
 
 </configure>

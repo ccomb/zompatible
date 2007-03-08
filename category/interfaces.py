@@ -1,5 +1,6 @@
 from zope.interface import Interface
-
+from zope.interface.interfaces import IInterface
+from zope.schema import List, TextLine, Text, Choice
 
 
 
@@ -26,8 +27,6 @@ class ICategories(Interface):
     L'interface par laquelle on accède aux catégories des objets.
     """
     categories = List(title=u'categories', description=u'list of categories', value_type=Choice(title=u'category', vocabulary="mycategories"))
-
-
 
 
 
