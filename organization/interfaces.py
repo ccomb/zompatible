@@ -21,9 +21,9 @@ class IOrganization(IContainer, IContained):
     containers('zompatible.organization.interfaces.IOrganizationContainer')
     names=List(title=u'names', description=u'possible names of the organization', value_type=TextLine(title=u'name', description=u'a name for the organization'))
     url = URI(title=u'web site', description=u'main web site of the organization', max_length=50)
-    types = List(title=u"types", value_type=Choice(title=u'organization type', description=u'the types of the organization', vocabulary="organization_type"))
-    def get_devices():
-        pass
+    types = List(title=u"Products", description=u"The kind of products the organization releases", value_type=Choice(title=u'product type', description=u'the type of the product', vocabulary="organization_type"))
+    products = Attribute(u"products of the organization")
+
 
 class IOrganizationContainer(IContainer, IContained):
   u"""
@@ -40,10 +40,13 @@ class ISearchableTextOfOrganization(ISearchableText):
 
 
 class IManufacturer(IOrganization):
-    devices = Attribute(u"devices")
-    drivers = Attribute(u"drivers")
-IManufacturer.setTaggedValue('name','Manufacturer')
+    pass
+IManufacturer.setTaggedValue('name','Devices')
+IManufacturer.setTaggedValue('description','The organization manufactures or assembles computer devices')
 
-class IEditor(IOrganization):
-    operatingsystems = Attribute(u"os")
-IEditor.setTaggedValue('name','Software Editor')
+
+class IOsEditor(IOrganization):
+    pass
+IOsEditor.setTaggedValue('name','Operating Systems')
+IOsEditor.setTaggedValue('description','The organization produces or transforms Operating Systems')
+

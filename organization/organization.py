@@ -37,6 +37,7 @@ class OrganizationContainer(Folder):
 
 @adapter(IOrganization, IObjectAddedEvent)
 def createOrganizationSubfolders(organization, event):
+    u"Peut-être déplacer ça dans la gestion des manufacturer et OsEditor"
     u"Create the device container"
     devices=DeviceContainer()
     organization['devices']=devices 
@@ -53,16 +54,14 @@ class Organization(Folder):
     def __init__(self):
         self.availabletypes = list(getAllUtilitiesRegisteredFor(IOrganizationType))
         super(Organization, self).__init__()
-    def get_devices(self):
-        return self['devices'].items()
     def __getattr__(self, name):
         if name=='types':
-            u"When accessing manufacturer.types, return the provided interfaces of type IOrganizationType)" 
+            u"When accessing orga.types, return the provided interfaces of type IOrganizationType)" 
             return [ interface for interface in self.availabletypes if interface.providedBy(self) ]
         else:
             return super(Organization, self).__getattr__(name)
     def __setattr__(self, name, value):
-        u"Same as getitem, but we tell the object to provide the wanted interfaces when we write manufacturer.types"
+        u"Same as getitem, but we tell the object to provide the wanted interfaces when we write orga.types"
         if name=='types':
             for i in self.availabletypes:
                 noLongerProvides(self, i)
@@ -70,7 +69,28 @@ class Organization(Folder):
                     alsoProvides(self, i)
         else:
             return super(Organization, self).__setattr__(name,value)
-            
+
+class Manufacturer(object):
+    implements(IManufacturer)
+    adapts(IOrganization)
+    def __init__(self, context):
+        self.context=context
+    def __getattr__(self, name):
+        if name == "products":
+            return self.context['devices']
+        else:
+            return super(Manufacturer, self).__getattr__(name)
+
+class OsEditor(object):
+    implements(IOsEditor)
+    adapts(IOrganization)
+    def __init__(self, context):
+        self.context=context
+    def __getattr__(self, name):
+        if name == "products":
+            return self.context['operating-systems']
+        else:
+            return super(OsEditor, self).__getattr__(name)
   
 
 class SearchableTextOfOrganization(object):

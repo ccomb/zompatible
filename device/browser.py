@@ -122,7 +122,15 @@ class DeviceQueryView(object):
 
 
 
-
+class DeviceContainerView(object):
+    u"""
+    la vue du container de devices.
+    Pour l'instant on se contente d'afficher la liste des devices.
+    Ensuite il sera possible d'afficher par exemple des classements
+    """
+    label = u"List of devices"
+    def getitems(self):
+        return self.context.items()
 
 
 

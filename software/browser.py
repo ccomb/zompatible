@@ -78,5 +78,5 @@ class OperatingSystemContainerView(object):
     Ensuite il sera possible d'afficher par exemple des classements
     """
     label = u"List of operatingsystems"
-    def getoperatingsystems(self):
+    def getitems(self):
         return self.context.items()

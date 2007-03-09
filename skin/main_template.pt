@@ -20,6 +20,7 @@
 
 <tal:block repeat="breadcrumb context/@@absolute_url/breadcrumbs">
 <a tal:attributes="href string:${breadcrumb/url}/" tal:content="breadcrumb/name" tal:condition="repeat/breadcrumb/index">item</a>
+<tal:block condition="python: repeat['breadcrumb'].index() and not repeat['breadcrumb'].end()" content="string: → "/>
 </tal:block>
                              
 <div  metal:define-slot="body">

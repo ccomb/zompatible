@@ -12,18 +12,28 @@
 </zope:class>
 
 
-
+<!-- Different Organization types -->
 <zope:interface  
   interface=".interfaces.IManufacturer"
   type="zompatible.organization.interfaces.IOrganizationType"
 />
-
+<zope:class class=".organization.Manufacturer">
+  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+</zope:class>
 <zope:interface
-    interface=".interfaces.IEditor"
+    interface=".interfaces.IOsEditor"
     type="zompatible.organization.interfaces.IOrganizationType"
 />
+<zope:class class=".organization.OsEditor">
+  <require permission="zope.Public" interface=".interfaces.IOsEditor" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOsEditor" />
+</zope:class>
+
 
 <zope:adapter factory=".organization.SearchableTextOfOrganization" />
+<zope:adapter factory=".organization.Manufacturer" />
+<zope:adapter factory=".organization.OsEditor" />
 
 <zope:subscriber
     handler=".organization.createOrganizationSubfolders"
@@ -61,7 +71,7 @@
 <browser:menuItem
     title="add Operating System"
     action="operating-systems/+/software.OperatingSystem"
-    for=".interfaces.IEditor"
+    for=".interfaces.IOsEditor"
     menu="my_actions"
 />
 

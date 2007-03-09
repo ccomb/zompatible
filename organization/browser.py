@@ -14,6 +14,7 @@ from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
+from zope.component import getAdapter
 
 from organization import Organization, OrganizationTypeVocabulary
 from zompatible.device.device import DeviceContainer
@@ -52,10 +53,11 @@ class OrganizationEdit(EditForm):
 
 
 class OrganizationView(BrowserPage):
-    "la vue qui permet d'afficher un organization"
-    label="View of a organization"
+    u"la vue qui permet d'afficher un organization"
+    label="View of an Organization"
     __call__=ViewPageTemplateFile("organization.pt")
-
+    def get_product_types(self):
+        return  [ {'name':type.getTaggedValue('name'), 'url':AbsoluteURL(getAdapter(self.context, type).products, self.request) } for type in self.context.types ]
 
 class OrganizationContainerView(object):
     u"""
@@ -67,7 +69,6 @@ class OrganizationContainerView(object):
     def getorganizations(self):
         return self.context.items()
 
-"""
-class InterfaceWidget(SimpleInputWidget):
-    pass
-"""
+    
+
+
