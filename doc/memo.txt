@@ -543,7 +543,31 @@ Clients possibles
 boutiques en ligne qui veulent récupérer/afficher les caractéristiques d'un matériel pour le vendre mieux, ainsi que des commentaires et notes.
 
 
+Baratin résumé de « Laying out a site »
+=======================================
+package as a minimal layer (voir svn) with traversal error handling + a few other registrations
+Master template or set of master macros
+Use: zope.contentprovider + zope.viewlet a lot!
+Less slots in the main template
++ templates for the different content types
 
+Pour accéder à un objet:
+→ register as a utility → reuse code in zope.app.component.vocabulary
+→ ou lookup the container
+Voir zope.webdev (srichter: it was an attempt to bring TTW development to Zope 3, but it was too much work, and I abondened it)
+Different skin for different user: → set the skin in a handler to BeforeTraverseEvent
+Mieux: Different URL / different user → different skins
+Menu sorted by interface first  Voir: zope.app.publisher.browser.menu
+BUT: menu code not used! Use viewlets!
+Workflow: zope.wfmc et zope.app.wfmc
+i18nfile errir → use UTF-8 in site.py  conf of python
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
 Catégories de matériel (réf Grosbill)
 
 COMPOSANTS
