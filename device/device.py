@@ -15,8 +15,7 @@ from zope.app.form.browser import ObjectWidget, ListSequenceWidget
 from zope.schema.fieldproperty import FieldProperty
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
-from zope.traversing.api import getRoot
-
+from zope.app.component.hooks import getSite
  
 class DeviceContainer(Folder):
     """
@@ -64,6 +63,7 @@ class SearchableTextOfDevice(object):
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
+        print texttoindex
         return texttoindex
 
 
@@ -85,7 +85,7 @@ class SearchDevice(object):
         del self.results
         self.results=[]
         if query!="":
-            self.results=catalog.searchResults(device_names=query)
+            self.results=catalog.searchResults(device_names=query+"*")
         if organization is not None:
             # list comprehension : it creates a full list of device
             #self.results = [ device for device in self.results if (device.__parent__.__parent__ == organization) ]
@@ -111,7 +111,7 @@ class DeviceSource(object):
     implements(ISource)
     def __contains__(self, value):
         found=0
-        root = getRoot(value)
+        root = getSite()
         for manuf in root['organizations']:
             if value.__name__ in root['organizations'][manuf]['devices'].keys():
                 found=1

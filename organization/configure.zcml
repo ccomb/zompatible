@@ -81,6 +81,12 @@
     for=".interfaces.IOrganizationContainer"
     menu="my_actions"
 />
+<browser:page
+    name="search.html"
+    for="*"
+    class=".browser.SearchProductView"
+    permission="zope.View"
+/>
 
 <!-- Organization Container view -->
 <browser:page

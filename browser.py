@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserPage
-from zope.traversing.api import getRoot
 from zope.traversing.browser.absoluteurl import AbsoluteURL, SiteAbsoluteURL
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
@@ -15,6 +14,7 @@ from zope.app.component.hooks import getSite
 from interfaces import *
 from device.device import SearchDevice
 from organization.organization import SearchOrganization
+from software.software import SearchOperatingSystem
 
 class MainPage(object):
     u"""
@@ -103,20 +103,27 @@ class MainSearch(object):
         u"on décompose la chaine de recherche en mots"
         devices={}
         organizations={}
+        operating_system={}
         result=u""
         for word in self.mainsearch.split():
-            devices[word]=SearchDevice(word+"*").getResults()
-            organizations[word]=SearchOrganization(word+"*").getResults()
+            organizations[word]=SearchOrganization(word).getResults()
+            operating_system[word]=SearchOperatingSystem(word).getResults()
+            devices[word]=SearchDevice(word).getResults()
         for word in self.mainsearch.split():
             result += "pour le mot : " + word + "\n***********\n"
+            result += "organizations: "
+            for organization in organizations[word]:
+                result += organization.__name__ + " "
+            result += "\n"
+            result += "Operating Systems: "
+            for operating_system in operating_system[word]:
+                result += operating_system.__name__ + " "
+            result += "\n"
             result += "devices: "
             for device in devices[word]:
                 result += device.__name__ + " "
             result += "\n"
-            result += "organizations: "
-            for organization in organizations[word]:
-                result += organization.__name__ + " "
-            result += "\n\n"
+            result += "\n"
         return result
 
 

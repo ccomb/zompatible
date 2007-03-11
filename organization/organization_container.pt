@@ -19,7 +19,7 @@
 
 
 <!-- recherche placée ici juste pour tester la recherche avec un contexte different de organization -->
-<form action="@@search.html" method="post">search any device :
+<form action="@@search.html" method="post">search any product :
 <input type="text" name="query" /> <input type="submit" value="search" />
 </form>
 

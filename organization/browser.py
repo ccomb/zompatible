@@ -16,8 +16,9 @@ from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
 from zope.component import getAdapter
 
-from organization import Organization, OrganizationTypeVocabulary
-from zompatible.device.device import DeviceContainer
+from organization import Organization, OrganizationTypeVocabulary, SearchProduct
+from zompatible.device.device import DeviceContainer, SearchDevice
+from zompatible.software.software import SearchOperatingSystem
 
 
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
@@ -70,5 +71,26 @@ class OrganizationContainerView(object):
         return self.context.items()
 
     
+class SearchProductView(BrowserPage):
+    u"""
+    La vue de recherche de produit, qui contient
+    la méthode lancée depuis le template pour effectuer la recherche
+    """
+    def __call__(self, query):
+        organization=None
+        if IOrganization.providedBy(self.context):
+            organization=self.context
+        self.results=SearchProduct(query+"*", organization).getResults()
+        return ViewPageTemplateFile('search_product.pt')(self)
+
+    def getDevices(self):
+        for device in self.results['devices']:
+            device_info = { 'device' : device, 'url' : AbsoluteURL(device, self.request) }
+            yield device_info
+    def getOperatingSystems(self):
+        for os in self.results['operating-systems']:
+            os_info = { 'os' : os, 'url' : AbsoluteURL(os, self.request) }
+            yield os_info
+            
 
 

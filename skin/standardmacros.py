@@ -2,7 +2,6 @@
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.basicskin.standardmacros import StandardMacros
-from zope.traversing.api import getRoot
 
 # l'ordre est le suivant :
 ##########################

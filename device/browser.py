@@ -51,25 +51,6 @@ class DeviceView(BrowserPage):
 
 
 
-class SearchDeviceView(BrowserPage):
-    u"""
-    La vue de recherche de device, qui contient
-    la méthode lancée depuis le template pour effectuer la recherche
-    """
-    def __call__(self, query):
-        organization=None
-        if IOrganization.providedBy(self.context):
-            organization=self.context
-        self.search=SearchDevice(query+"*", organization)    
-        return ViewPageTemplateFile('search.pt')(self)
-
-    def getResults(self):
-        for device in self.search.getResults():
-            device_info = { 'device' : device, 'url' : AbsoluteURL(device, self.request) }
-            yield device_info
-
-
-
 class DeviceTerms(object):
     u"""
     la vue fournissant les termes de la source à des fins d'affichage dans le widget

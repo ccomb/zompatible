@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:tal="http://xml.zope.org/namespaces/tal" 
+    xmlns:metal="http://xml.zope.org/namespaces/metal" 
+    xml:lang="en" lang="en"
+    metal:use-macro="context/@@standard_macros/page"
+>
+
+<body metal:fill-slot="body">
+
+<h1>Search result</h1>
+
+<h2>Devices</h2>
+<ul tal:repeat="device_info view/getDevices">
+<li>
+    <a tal:content="device_info/device/__name__" tal:attributes="href python: device_info['url']" href="#">some device</a>
+    <span tal:condition="python: len(device_info['device'].names)>=2" tal:repeat="name python:device_info['device'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
+    </span>
+</li>
+</ul>
+
+<h2>Operating Systems</h2>
+<ul tal:repeat="os_info view/getOperatingSystems">
+<li>
+    <a tal:content="os_info/os/__name__" tal:attributes="href python: os_info['url']" href="#">some operating system</a>
+    <span tal:condition="python: len(os_info['os'].names)>=2" tal:repeat="name python:os_info['os'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
+    </span>
+</li>
+</ul>
+
+
+</body>
+</html>

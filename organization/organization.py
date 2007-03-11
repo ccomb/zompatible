@@ -102,11 +102,14 @@ class SearchableTextOfOrganization(object):
     def __init__(self, context):
         self.context = context
     def getSearchableText(self):
-        u"peut surement être optimisé avec une seule ligne de return..."
-        text = u""
-        for t in self.context.names:
-            text += " " + t
-        return text
+        sourcetext = texttoindex = u''
+        for word in self.context.names:
+            sourcetext += word + " "
+        for word in sourcetext.split():        
+            for subword in [ word[i:] for i in range(len(word)) ]:
+                texttoindex += subword + " "
+        print texttoindex
+        return texttoindex
     
 
 class SearchOrganization(object):
@@ -118,13 +121,33 @@ class SearchOrganization(object):
         del self.results
         self.results=[]
         if query!="":
-            self.results=catalog.searchResults(organization_names=query)
+            self.results=catalog.searchResults(organization_names=query+"*")
     def __init__(self, query):
         self.results=[]
         self.update(query)
     def getResults(self):
         return self.results
-
+        
+class SearchProduct(object):
+    u"""
+    une classe qui effectue la recherche de product, c'est à dire de device puis d'operating system
+    """
+    def update(self, query, organization):
+        catalog=getUtility(ICatalog)
+        del self.results
+        self.results={}
+        if query!="":
+            self.results['devices']=catalog.searchResults(device_names=query+"*")
+            self.results['operating-systems']=catalog.searchResults(operatingsystem_names=query+"*")
+        if organization is not None:
+            self.results['devices'] = ( device for device in self.results['devices'] if (device.__parent__.__parent__ == organization) )
+            self.results['operating-systems'] = ( os for os in self.results['operating-systems'] if (os.__parent__.__parent__ == organization) )
+    def __init__(self, query, organization):
+        self.results={}
+        self.update(query, organization)
+    def getResults(self):
+        return self.results
+        
 class OrganizationTypeVocabulary2(object):
     implements(IVocabularyTokenized)
     interface = IOrganization

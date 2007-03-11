@@ -47,11 +47,14 @@ pour dire que c'est un type de contenu -->
     permission="zope.View"
     menu="my_actions" title="View"
 />
+<!-- Device Container view -->
 <browser:page
-    name="search.html"
-    for="*"
-    class=".browser.SearchDeviceView"
+    name="index.html"
+    for=".interfaces.IDeviceContainer"
+    class=".browser.DeviceContainerView"
+    template="device_container.pt"
     permission="zope.View"
+    menu="my_actions" title="View"
 />
 
 

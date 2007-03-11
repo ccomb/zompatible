@@ -2,7 +2,8 @@
 from zope.app.folder.interfaces import IFolder
 from zope.app.folder.folder import Folder
 from zope.interface import implements
-from zope.component import adapts
+from zope.component import adapts, getUtility
+from zope.app.catalog.interfaces import ICatalog
 from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 import string
@@ -55,24 +56,30 @@ class SearchableTextOfOperatingSystem(object):
     def __init__(self, context):
         self.context = context
     def getSearchableText(self):
-        u"peut surement être optimisé avec une seule ligne de return..."
-        text = u""
-        for t in self.context.names:
-            text += " " + t
-        return text
+        sourcetext = texttoindex = u''
+        for word in self.context.names:
+            sourcetext += word + " "
+        for word in sourcetext.split():        
+            for subword in [ word[i:] for i in range(len(word)) ]:
+                texttoindex += subword + " "
+        print texttoindex
+        return texttoindex
         
 class SearchOperatingSystem(object):
     u"""
-    une classe qui effectue la recherche de organization
+    une classe qui effectue la recherche d'operating system
     """
-    def update(self, query):
+    def update(self, query, organization=None):
         catalog=getUtility(ICatalog)
         del self.results
         self.results=[]
         if query!="":
-            self.results=catalog.searchResults(operatingsystem_names=query)
-    def __init__(self, query):
+            self.results=catalog.searchResults(operatingsystem_names=query+"*")
+        if organization is not None:
+            self.results = ( os for os in self.results if (os.__parent__.__parent__ == organization) )
+    def __init__(self, query, organization=None):
         self.results=[]
         self.update(query)
     def getResults(self):
         return self.results
+        
