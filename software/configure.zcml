@@ -27,7 +27,7 @@
     for="zope.app.container.interfaces.IAdding"
     class=".browser.OperatingSystemAdd"
     permission="zope.View"
-    menu="my_addings" title="new software"
+    menu="my_addings" title="new Operating System"
 />
 <browser:page
     name="edit_software.html"
@@ -53,7 +53,12 @@
     permission="zope.View"
     menu="my_actions" title="View"
 />
-
+<browser:menuItem
+    title="add Operating System"
+    action="+/software.OperatingSystem"
+    for=".interfaces.IOperatingSystemContainer"
+    menu="my_actions"
+/>
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem

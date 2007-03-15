@@ -56,7 +56,12 @@ pour dire que c'est un type de contenu -->
     permission="zope.View"
     menu="my_actions" title="View"
 />
-
+<browser:menuItem
+    title="add Device"
+    action="+/device.Device"
+    for=".interfaces.IDeviceContainer"
+    menu="my_actions"
+/>
 
 
 
