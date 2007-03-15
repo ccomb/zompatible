@@ -15,7 +15,7 @@
 
 (other names: <tal:block repeat="name python:context.names[1:]"><span tal:content="name">list</span><tal:block condition="not:repeat/name/end" content="string:, "/></tal:block>)<br/>
 web site : <a href="#" tal:attributes="href context/url"><span tal:content="context/url">url</span></a><br/>
-products : <tal:block repeat="product view/get_product_types"><a href="#" tal:attributes="href product/url" tal:content="product/name">product type</a><tal:block content="string:, " condition="not:repeat/product/end"/></tal:block><br/>
+products : <tal:block repeat="product view/get_product_interfaces"><a href="#" tal:attributes="href product/url" tal:content="product/name">product type</a><tal:block content="string:, " condition="not:repeat/product/end"/></tal:block><br/>
 
 <br/>
 

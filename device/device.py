@@ -63,7 +63,6 @@ class SearchableTextOfDevice(object):
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
-        print texttoindex
         return texttoindex
 
 

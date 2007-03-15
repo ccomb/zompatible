@@ -22,6 +22,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.app.content import ContentTypesVocabulary
 from zope.component import adapter, getAllUtilitiesRegisteredFor
 from zope.interface.declarations import alsoProvides, noLongerProvides
+from zope.proxy import removeAllProxies
 
 from zompatible.device.device import DeviceContainer
 from zompatible.software.software import OperatingSystemContainer
@@ -50,25 +51,39 @@ class Organization(Folder):
     implements(IOrganization,IFolder)
     names=[]
     url=""
+    pciids=[] # une Organization peut fournir IManufacturer !!
     __name__=__parent__=None
-    def __init__(self):
-        self.availabletypes = list(getAllUtilitiesRegisteredFor(IOrganizationType))
-        super(Organization, self).__init__()
+
+
+
+class OrganizationInterfaces(object):
+    u"""
+    I'm moving away orga type management in an adapter
+    to avoid boring issues with __getattr__
+    """
+    implements(IOrganizationInterfaces)
+    adapts(IOrganization)
+    def __init__(self, orga):
+        self.orga = orga
+        self.availableinterfaces = list(getAllUtilitiesRegisteredFor(IOrganizationType))
+        self.__parent__ = self.orga.__parent__
     def __getattr__(self, name):
-        if name=='types':
-            u"When accessing orga.types, return the provided interfaces of type IOrganizationType)" 
-            return [ interface for interface in self.availabletypes if interface.providedBy(self) ]
-        else:
-            return super(Organization, self).__getattr__(name)
+            if name=='interfaces':
+                u"When accessing orga.interfaces, return the provided interfaces of type IOrganizationType)" 
+                return [ interface for interface in self.availableinterfaces if interface.providedBy(self.orga) ]
+            else :
+                return self.__dict__[name]
+
     def __setattr__(self, name, value):
-        u"Same as getitem, but we tell the object to provide the wanted interfaces when we write orga.types"
-        if name=='types':
-            for i in self.availabletypes:
-                noLongerProvides(self, i)
+        u"Same as getitem, but we tell the object to provide the wanted interfaces when we write orga.interfaces"
+        if name=='interfaces':
+            for i in self.availableinterfaces:
+                noLongerProvides(removeAllProxies(self.orga), i)
                 if i in value:
-                    alsoProvides(self, i)
-        else:
-            return super(Organization, self).__setattr__(name,value)
+                    alsoProvides(removeAllProxies(self.orga), i)
+        else :
+            self.__dict__[name]=value
+    
 
 class Manufacturer(object):
     implements(IManufacturer)
@@ -79,7 +94,10 @@ class Manufacturer(object):
         if name == "products":
             return self.context['devices']
         else:
-            return super(Manufacturer, self).__getattr__(name)
+            try :
+                return self.__dict__[name]
+            except :
+                return None
 
 class OsEditor(object):
     implements(IOsEditor)
@@ -90,7 +108,7 @@ class OsEditor(object):
         if name == "products":
             return self.context['operating-systems']
         else:
-            return super(OsEditor, self).__getattr__(name)
+            return self.__dict__[name]
   
 
 class SearchableTextOfOrganization(object):
@@ -108,7 +126,6 @@ class SearchableTextOfOrganization(object):
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
-        print texttoindex
         return texttoindex
     
 
@@ -154,7 +171,7 @@ class OrganizationTypeVocabulary2(object):
 
 class OrganizationTypeVocabulary(object):
     """
-    This is the vocabulary that provides the different types of Organization types (as interfaces!) to choose from.
+    This is the vocabulary that provides the different interfaces of Organization to choose from.
     """
     implements(IVocabularyTokenized)
     adapts('zompatible.organization.interfaces.IOrganization')
@@ -163,8 +180,7 @@ class OrganizationTypeVocabulary(object):
         "here the context is the Organization"
         self.context=context
         self.index=0
-        #self.types = IOrganization.dependents.keys()
-        self.types = list(getAllUtilitiesRegisteredFor(IOrganizationType))
+        self.interfaces = list(getAllUtilitiesRegisteredFor(IOrganizationType))
     def getTerm(self, value):
         "here, value is a an organization interface, such as IManufacturer"
         token = interfaceToName(self.context, value).encode('base64')
@@ -179,14 +195,14 @@ class OrganizationTypeVocabulary(object):
         self.index=0
         return self
     def next(self):
-        if self.index>=len(self.types):
+        if self.index>=len(self.interfaces):
             raise StopIteration
         self.index=self.index+1
-        return self.getTerm(self.types[self.index-1])
+        return self.getTerm(self.interfaces[self.index-1])
     def __len__(self):
-        return len(self.types)
+        return len(self.interfaces)
     def __contains__(self, value):
-        return value in self.types
+        return value in self.interfaces
 
 class OrganizationInterfacesVocabularyFactory(object):
     implements(IVocabularyFactory)

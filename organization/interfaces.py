@@ -21,10 +21,14 @@ class IOrganization(IContainer, IContained):
     containers('zompatible.organization.interfaces.IOrganizationContainer')
     names=List(title=u'names', description=u'possible names of the organization', value_type=TextLine(title=u'name', description=u'a name for the organization'))
     url = URI(title=u'web site', description=u'main web site of the organization', max_length=50)
-    types = List(title=u"Products", description=u"The kind of products the organization releases", value_type=Choice(title=u'product type', description=u'the type of the product', vocabulary="organization_type"))
     products = Attribute(u"products of the organization")
 
-
+class IOrganizationInterfaces(Interface):
+    u"""
+    The class which manages additional interfaces for organizations
+    """
+    interfaces = List(title=u"Products", description=u"The kind of products the organization releases", value_type=Choice(title=u'product type', description=u'the type of the product', vocabulary="organization_type"))
+    
 class IOrganizationContainer(IContainer, IContained):
   u"""
   a container for the organizations should only contain organizations
@@ -34,18 +38,18 @@ class IOrganizationContainer(IContainer, IContained):
   
 class ISearchableTextOfOrganization(ISearchableText):
     u"""
-    on déclare un index juste pour cette interface de façon à indexer juste les fabricants
+    on déclare un index juste pour cette interface de façon à indexer juste les organisations
     """
 
 
 
-class IManufacturer(IOrganization):
-    pass
+class IManufacturer(Interface):
+    pciids=List(title=u'PCI IDs', description=u'list of pci ids for the manufacturer', value_type=TextLine(title=u'PCI ID', description=u'a PCI ID given to the manufacturer'))
 IManufacturer.setTaggedValue('name','Devices')
 IManufacturer.setTaggedValue('description','The organization manufactures or assembles computer devices')
 
 
-class IOsEditor(IOrganization):
+class IOsEditor(Interface):
     pass
 IOsEditor.setTaggedValue('name','Operating Systems')
 IOsEditor.setTaggedValue('description','The organization produces or transforms Operating Systems')

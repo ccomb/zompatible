@@ -16,8 +16,7 @@ class OperatingSystemContainer(Folder):
     "a container for all operating systems"
     implements(IOperatingSystemContainer)
     __name__=__parent__=None
-  
-  
+
 class OperatingSystem(Folder):
     implements(IOperatingSystem,IFolder)
     names=architectures=[]
@@ -45,8 +44,6 @@ class OperatingSystemNameChooser(NameChooser):
         else :
             return true
 
-
-
 class SearchableTextOfOperatingSystem(object):
     u"""
     l'adapter qui permet d'indexer les OperatingSystem
@@ -62,7 +59,6 @@ class SearchableTextOfOperatingSystem(object):
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
-        print texttoindex
         return texttoindex
         
 class SearchOperatingSystem(object):

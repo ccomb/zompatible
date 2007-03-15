@@ -2,8 +2,8 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.Organization">
-  <require permission="zope.Public" interface=".interfaces.IOrganization" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
+  <require permission="zope.Public" interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.IOsEditor" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.IOsEditor" />
 </zope:class>
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.OrganizationContainer">
@@ -34,6 +34,7 @@
 <zope:adapter factory=".organization.SearchableTextOfOrganization" />
 <zope:adapter factory=".organization.Manufacturer" />
 <zope:adapter factory=".organization.OsEditor" />
+<zope:adapter factory=".organization.OrganizationInterfaces" />
 
 <zope:subscriber
     handler=".organization.createOrganizationSubfolders"
@@ -53,6 +54,13 @@
     class=".browser.OrganizationEdit"
     permission="zope.View"
     menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="edit_organization_products.html"
+    for=".interfaces.IOrganization"
+    class=".browser.OrganizationInterfacesEdit"
+    permission="zope.View"
+    menu="my_actions" title="Edit product types"
 />
 <browser:page
     name="index.html"
