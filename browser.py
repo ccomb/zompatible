@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.publisher.browser import BrowserPage
-from zope.traversing.browser.absoluteurl import AbsoluteURL, SiteAbsoluteURL
+from zope.traversing.browser.absoluteurl import SiteAbsoluteURL
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
 from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-from zope.app.container.interfaces import IContained
 from zope.app.component.hooks import getSite
 
 from interfaces import *

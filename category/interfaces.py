@@ -1,5 +1,4 @@
 from zope.interface import Interface
-from zope.interface.interfaces import IInterface
 from zope.schema import List, TextLine, Text, Choice
 
 

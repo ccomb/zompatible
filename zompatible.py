@@ -1,24 +1,18 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
-from persistent import Persistent  
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
-from zope.publisher.browser import BrowserPage
-from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from zope.interface import implements
 from zope.app.component.site import LocalSiteManager, SiteManagerContainer
-from zope.app.container.btree import BTreeContainer
 from zope.component import adapter
 from zope.app.container.interfaces import IObjectAddedEvent
 from zope.event import notify
 from zope.app.intid.interfaces import IIntIds
 from zope.app.intid import IntIds
 from zope.app.catalog.catalog import Catalog, ICatalog
-from zope.app.catalog.text import TextIndex, ITextIndex
+from zope.app.catalog.text import TextIndex
 from zope.index.text.interfaces import ISearchableText
 
 from organization.organization import OrganizationContainer
-from software.software import OperatingSystemContainer
 from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfOperatingSystem

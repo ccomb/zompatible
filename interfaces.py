@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from zope.interface.interfaces import Interface
-from zope.schema import TextLine, Object, List, Text, Int
 from zope.viewlet.interfaces import IViewletManager
 from zope.app.container.interfaces import IContainer
 from zope.app.component.interfaces import IPossibleSite

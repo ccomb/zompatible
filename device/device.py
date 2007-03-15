@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 from persistent import Persistent
 from zope.interface import implements  
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
-from zope.publisher.browser import BrowserPage
-from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
 from interfaces import *
-from zope.index.text.interfaces import ISearchableText
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
-from zope.app.form.browser.editview import EditView
-from zope.app.form import CustomWidgetFactory
-from zope.app.form.browser import ObjectWidget, ListSequenceWidget
-from zope.schema.fieldproperty import FieldProperty
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite

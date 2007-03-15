@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from persistent import Persistent
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserPage

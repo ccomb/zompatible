@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from zope.app.container.interfaces import IContained, IContainer
-from zope.app.container.constraints import contains, containers
-from zope.schema import List, TextLine, Object
+from zope.app.container.interfaces import IContainer
+from zope.app.container.constraints import contains
+from zope.schema import List, TextLine
 from zope.interface import Interface, Attribute
 
 

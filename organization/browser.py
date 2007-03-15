@@ -1,25 +1,15 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
-from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
-from zope.app.container.browser.contents import Contents
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.app.folder.folder import Folder
-from zope.index.text.interfaces import ISearchableText
-from zope.component import adapts
-from zope.app.folder.interfaces import IFolder
-from zope.component import adapts, getUtility
-from zope.app.catalog.interfaces import ICatalog
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
 from zope.component import getAdapter
 from zope.proxy import removeAllProxies
 
-from organization import Organization, OrganizationTypeVocabulary, SearchProduct
-from zompatible.device.device import DeviceContainer, SearchDevice
-from zompatible.software.software import SearchOperatingSystem
+from organization import Organization, SearchProduct
 
 
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):

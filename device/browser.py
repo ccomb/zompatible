@@ -8,9 +8,7 @@ from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
-from zope.traversing.browser.absoluteurl import AbsoluteURL
 
-from zompatible.organization.interfaces import IOrganization
 from device import Device, SearchDevice, DeviceSource
 from interfaces import *
     

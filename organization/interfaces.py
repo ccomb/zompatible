@@ -3,9 +3,8 @@ from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.schema import List, TextLine, URI
 from zope.index.text.interfaces import ISearchableText
-from zope.interface import Attribute, Interface, implements
+from zope.interface import Attribute, Interface
 from zope.interface.interfaces import IInterface
-from zope.component import adapts
 from zope.schema import Text, Choice, InterfaceField, List, Set
 
 class IOrganizationType(IInterface):

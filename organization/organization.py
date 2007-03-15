@@ -1,25 +1,16 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
 from zope.interface import implements
-from persistent import Persistent  
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
-from zope.app.container.browser.contents import Contents
-from zope.publisher.browser import BrowserPage
-from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.folder.folder import Folder
-from zope.index.text.interfaces import ISearchableText
 from zope.component import adapts, adapter
 from zope.app.folder.interfaces import IFolder
 from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from zope.app.container.interfaces import IObjectAddedEvent
-from zope.app.keyreference.persistent import connectionOfPersistent
-from zope.schema.interfaces import ISource, IVocabularyFactory
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyTokenized
 from zope.component.interface import nameToInterface, interfaceToName
-from ZODB.interfaces import IConnection
 from zope.schema.vocabulary import SimpleTerm
-from zope.app.content import ContentTypesVocabulary
 from zope.component import adapter, getAllUtilitiesRegisteredFor
 from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
@@ -58,7 +49,7 @@ class Organization(Folder):
 
 class OrganizationInterfaces(object):
     u"""
-    I'm moving away orga type management in an adapter
+    I'm moving away orga interfaces management in an adapter
     to avoid boring issues with __getattr__
     """
     implements(IOrganizationInterfaces)
