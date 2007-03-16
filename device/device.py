@@ -21,6 +21,7 @@ class Device(Persistent):
     implements(IDevice, ISubDevices)
     names=PersistentList()
     subdevices=[]
+    pciid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
 
