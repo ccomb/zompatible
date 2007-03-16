@@ -1,6 +1,10 @@
 body {
 font-size: 15px;
+background: #333333;
+color: orange;
 }
+input { background: #333333; color: yellow; }
+a { color: yellow; }
 h1 {
 text-align: center;
 }
@@ -15,7 +19,7 @@ border: solid 1px #AAAAAA;
 
 div#admin_header {
 width: 100%;
-background-color: #EEEEEE;
+background-color: #444444;
 text-align: center;
 }
 

@@ -70,6 +70,7 @@ class SearchDevice(object):
     
     Un ResultSet est un objet qui implémente __iter__ mais pas __getitem__
     Donc on peut le parcourir, mais pas accéder à un élément en particulier.
+    Et on ne peut pas le parcourir 2x ! Mieux vaut utiliser catalog.apply()
     """
     def update(self, query, organization=None):
         catalog=getUtility(ICatalog)
