@@ -14,6 +14,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.component import adapter, getAllUtilitiesRegisteredFor
 from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
+from zope.app.intid.interfaces import IIntIds
 
 from zompatible.device.device import DeviceContainer
 from zompatible.software.software import OperatingSystemContainer
@@ -142,14 +143,15 @@ class SearchProduct(object):
     """
     def update(self, query, organization):
         catalog=getUtility(ICatalog)
+        intids=getUtility(IIntIds)
         del self.results
         self.results={}
-        if query!="":
-            self.results['devices']=catalog.searchResults(device_names=query+"*")
-            self.results['operating-systems']=catalog.searchResults(operatingsystem_names=query+"*")
+        if query != "" :
+            self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) ]
+            self.results['operating-systems'] = [ intids.getObject(i) for i in catalog.apply( { 'operatingsystem_names':query+"*" } ) ]
         if organization is not None:
-            self.results['devices'] = ( device for device in self.results['devices'] if (device.__parent__.__parent__ == organization) )
-            self.results['operating-systems'] = ( os for os in self.results['operating-systems'] if (os.__parent__.__parent__ == organization) )
+            self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
+            self.results['operating-systems'] = [ intids.getObject(i) for i in catalog.apply( { 'operatingsystem_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
     def __init__(self, query, organization):
         self.results={}
         self.update(query, organization)

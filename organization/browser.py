@@ -86,17 +86,12 @@ class SearchProductView(BrowserPage):
         organization=None
         if IOrganization.providedBy(self.context):
             organization=self.context
-        self.results=SearchProduct(query+"*", organization).getResults()
+        self.results=SearchProduct(query, organization).getResults()
         return ViewPageTemplateFile('search_product.pt')(self)
-
     def getDevices(self):
-        for device in self.results['devices']:
-            device_info = { 'device' : device, 'url' : AbsoluteURL(device, self.request) }
-            yield device_info
+        return [ { 'device' : device, 'url' : AbsoluteURL(device, self.request) } for device in self.results['devices'] ]
     def getOperatingSystems(self):
-        for os in self.results['operating-systems']:
-            os_info = { 'os' : os, 'url' : AbsoluteURL(os, self.request) }
-            yield os_info
+        return [ { 'os' : os, 'url' : AbsoluteURL(os, self.request) } for os in self.results['operating-systems'] ]
             
 
 
