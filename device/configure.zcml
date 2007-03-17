@@ -25,6 +25,7 @@ pour dire que c'est un type de contenu -->
 <zope:adapter factory=".device.SearchableTextOfDevice" />
 <zope:adapter factory=".browser.DeviceTerms" />
 <zope:adapter factory=".browser.DeviceQueryView" />
+<zope:adapter factory=".device.DeviceNameChooser" />
 
 <browser:page
     name="device.Device"

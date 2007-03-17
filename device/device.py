@@ -8,7 +8,10 @@ from zope.app.catalog.interfaces import ICatalog
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
- 
+from zope.app.container.interfaces import INameChooser
+from zope.app.container.contained import NameChooser
+import string
+
 class DeviceContainer(Folder):
     """
     a folder that contains devices
@@ -26,6 +29,21 @@ class Device(Persistent):
     __name__=__parent__=None
 
 
+class DeviceNameChooser(NameChooser):
+    u"""
+    adapter qui permet de choisir le nom du device auprès du container
+    Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
+    car il apparaît dans l'URL, et sert pour le traversing.
+    """
+    implements(INameChooser)
+    adapts(Device)
+    def chooseName(self, name, device):
+        return string.lower(device.names[0]).replace(' ','-')
+    def checkName(self, name, device):
+        if name in device.__parent__ and device is not device.__parent__['name']:
+            return False
+        else :
+            return true
 
 
 # Autre méthode pour créer un objectwidget ? (pas encore testé)

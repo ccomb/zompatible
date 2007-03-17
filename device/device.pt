@@ -22,12 +22,5 @@ Sub-devices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><s
 </p>
 
 
-
-
-
- 
-
-
-
 </body>
 </html>

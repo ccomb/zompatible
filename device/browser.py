@@ -8,6 +8,11 @@ from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
+from zope.copypastemove import ContainerItemRenamer
+from zope.formlib.form import Actions, Action, getWidgetsData
+from zope.app.container.interfaces import INameChooser
+from zope.traversing.browser.absoluteurl import AbsoluteURL
+import string
 
 from device import Device, SearchDevice, DeviceSource
 from interfaces import *
@@ -40,7 +45,28 @@ class DeviceEdit(EditForm):
     form_fields=form_fields.omit('__name__', '__parent__')
     ## template désactivé
     #template=ViewPageTemplateFile("device_form.pt")
-
+    actions = Actions(Action('Apply', success='handle_edit_action'), )
+    def handle_edit_action(self, action, data):
+        super(DeviceEdit, self).handle_edit_action.success(data)
+        oldname=self.context.__name__
+        newname=string.lower(INameChooser(self.context).chooseName(u"",self.context))
+        if string.lower(oldname)!=newname:
+            renamer = ContainerItemRenamer(self.context.__parent__)
+            renamer.renameItem(oldname, newname)
+            return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_device.html")
+    def validate(self, action, data):
+        u"on récupère les données du formulaire et on remplit data"
+        getWidgetsData(self.widgets, 'form', data)
+        u"on crée un objet temporaire pour tester le nouveau nom"
+        dummy=Device()
+        u"on applique le formulaire au nouveau"
+        applyChanges(dummy, self.form_fields, data)
+        u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
+        newname = INameChooser(dummy).chooseName(u"",dummy)
+        u"s'il existe déjà on retourne une erreur"
+        if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
+            return ("The name <i>"+newname+"</i> conflicts with another Device",)
+        return super(DeviceEdit, self).validate(action, data)
 
 class DeviceView(BrowserPage):
     "la vue qui permet d'afficher un device"
