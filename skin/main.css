@@ -3,7 +3,9 @@ font-size: 100%;
 background: white;
 color: #D45500;
 }
-input { background: #333333; color: yellow; }
+input {
+background: white;
+}
 a { color: #338000; }
 h1 {
 text-align: center;
@@ -20,7 +22,7 @@ border: solid 1px #AAAAAA;
 
 div#admin_header {
 width: 100%;
-background-color: #444444;
+background-color: #FFFFD0;
 text-align: center;
 }
 
