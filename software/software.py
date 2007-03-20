@@ -35,7 +35,7 @@ class SoftwareNameChooser(NameChooser):
     adapts(Software)
     def chooseName(self, name, software):
         codename=u""
-        if software.codename != u"":
+        if software.codename is not None:
             codename="-" + software.codename
         return string.lower(software.names[0] + "-" + software.version + codename).replace(' ','-')
     def checkName(self, name, software):
