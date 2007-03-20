@@ -7,7 +7,11 @@ from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
 from zope.component import getAdapter
+from zope.app.container.interfaces import INameChooser
 from zope.proxy import removeAllProxies
+from zope.formlib.form import Actions, Action, getWidgetsData
+from zope.copypastemove import ContainerItemRenamer
+import string
 
 from organization import Organization, SearchProduct
 
@@ -37,12 +41,35 @@ class OrganizationAdd(AddForm):
 
 class OrganizationEdit(EditForm):
     label="Edit organization details"
+    actions = Actions(Action('Apply', success='handle_edit_action'), )
     def __init__(self, context, request):
         self.context, self.request = context, request
         self.form_fields=Fields(IOrganization, *[ removeAllProxies(type) for type in IOrganizationInterfaces(self.context).interfaces ]).omit('__name__', '__parent__')
         super(OrganizationEdit, self).__init__(context, request)
         #template=ViewPageTemplateFile("organization_form.pt")
-
+    def handle_edit_action(self, action, data):
+        super(OrganizationEdit, self).handle_edit_action.success(data)
+        oldname=self.context.__name__
+        newname=string.lower(INameChooser(self.context).chooseName(u"",self.context))
+        print newname
+        if string.lower(oldname)!=newname:
+            renamer = ContainerItemRenamer(self.context.__parent__)
+            renamer.renameItem(oldname, newname)
+            return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_organization.html")
+    def validate(self, action, data):
+        u"on récupère les données du formulaire et on remplit data"
+        getWidgetsData(self.widgets, 'form', data)
+        u"on crée un objet temporaire pour tester le nouveau nom"
+        dummy=Organization()
+        u"on applique le formulaire au nouveau"
+        applyChanges(dummy, self.form_fields, data)
+        u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
+        newname = INameChooser(dummy).chooseName(u"",dummy)
+        u"s'il existe déjà on retourne une erreur"
+        if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
+            return ("The name <i>"+newname+"</i> conflicts with another Organization",)
+        return super(OrganizationEdit, self).validate(action, data)
+    
 class OrganizationInterfacesEdit(EditForm):
     label="Edit Organization Products"
     form_fields=Fields(IOrganizationInterfaces)

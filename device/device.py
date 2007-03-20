@@ -36,7 +36,7 @@ class DeviceNameChooser(NameChooser):
     car il apparaît dans l'URL, et sert pour le traversing.
     """
     implements(INameChooser)
-    adapts(Device)
+    adapts(IDevice)
     def chooseName(self, name, device):
         return string.lower(device.names[0]).replace(' ','-')
     def checkName(self, name, device):

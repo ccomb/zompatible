@@ -35,6 +35,7 @@
 <zope:adapter factory=".organization.Manufacturer" />
 <zope:adapter factory=".organization.SoftwareEditor" />
 <zope:adapter factory=".organization.OrganizationInterfaces" />
+<zope:adapter factory=".organization.OrganizationNameChooser" />
 
 <zope:subscriber
     handler=".organization.createOrganizationSubfolders"

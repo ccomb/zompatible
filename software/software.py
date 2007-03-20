@@ -32,12 +32,14 @@ class SoftwareNameChooser(NameChooser):
     car il apparaît dans l'URL, et sert pour le traversing.
     """
     implements(INameChooser)
-    adapts(Software)
+    adapts(ISoftware)
     def chooseName(self, name, software):
-        codename=u""
+        codename = version = u""
         if software.codename is not None:
             codename="-" + software.codename
-        return string.lower(software.names[0] + "-" + software.version + codename).replace(' ','-')
+        if software.version is not None:
+            version = software.version
+        return string.lower(software.names[0] + "-" + version + codename).replace(' ','-')
     def checkName(self, name, software):
         if name in software.__parent__ and software is not software.__parent__['name']:
             return False

@@ -15,6 +15,9 @@ from zope.component import adapter, getAllUtilitiesRegisteredFor
 from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
 from zope.app.intid.interfaces import IIntIds
+from zope.app.container.interfaces import INameChooser
+from zope.app.container.contained import NameChooser
+import string
 
 from zompatible.device.device import DeviceContainer
 from zompatible.software.software import SoftwareContainer
@@ -46,7 +49,21 @@ class Organization(Folder):
     pciids=[] # une Organization peut fournir IManufacturer !!
     __name__=__parent__=None
 
-
+class OrganizationNameChooser(NameChooser):
+    u"""
+    adapter qui permet de choisir le nom de l'organization auprès du container
+    Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
+    car il apparaît dans l'URL, et sert pour le traversing.
+    """
+    implements(INameChooser)
+    adapts(IOrganization)
+    def chooseName(self, name, organization):
+        return string.lower(organization.names[0]).replace(' ','-')
+    def checkName(self, name, organization):
+        if name in organization.__parent__ and organization is not organization.__parent__['name']:
+            return False
+        else :
+            return true
 
 class OrganizationInterfaces(object):
     u"""

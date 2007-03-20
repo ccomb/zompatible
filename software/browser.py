@@ -60,10 +60,12 @@ class SoftwareView(BrowserPage):
     def __init__(self, context, request):
         self.context, self.request = context, request
     def prettyName(self):
-        codename=u""
+        codename = version = u""
         if self.context.codename is not None:
             codename = self.context.codename
-        return "%s %s %s" % (self.context.names[0], self.context.version, codename) 
+        if self.context.version is not None:
+            version = self.context.version
+        return "%s %s %s" % (self.context.names[0], version, codename) 
     
 class SoftwareContainerView(object):
     u"""
