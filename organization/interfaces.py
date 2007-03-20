@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
-from zope.schema import List, TextLine, URI
+from zope.schema import List, TextLine, URI, Text, Choice, List
 from zope.index.text.interfaces import ISearchableText
 from zope.interface import Attribute, Interface
 from zope.interface.interfaces import IInterface
-from zope.schema import Text, Choice, InterfaceField, List, Set
 
 class IOrganizationType(IInterface):
     u"""
@@ -19,7 +18,8 @@ class IOrganization(IContainer, IContained):
     """
     containers('zompatible.organization.interfaces.IOrganizationContainer')
     names=List(title=u'names', description=u'possible names of the organization', value_type=TextLine(title=u'name', description=u'a name for the organization'))
-    url = URI(title=u'web site', description=u'main web site of the organization', max_length=50)
+    description = Text(title=u"description", description=u"description of the organization", required=False, max_length=1000)
+    url = URI(title=u'web site', description=u'main web site of the organization', max_length=50, required=False)
     products = Attribute(u"products of the organization")
 
 class IOrganizationInterfaces(Interface):

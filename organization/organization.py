@@ -46,6 +46,7 @@ class Organization(Folder):
     implements(IOrganization,IFolder)
     names=[]
     url=""
+    description=u""
     pciids=[] # une Organization peut fournir IManufacturer !!
     __name__=__parent__=None
 

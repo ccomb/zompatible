@@ -5,6 +5,7 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.form import CustomWidgetFactory
+from zope.app.form.browser import TextAreaWidget
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
 from zope.component import getAdapter
 from zope.app.container.interfaces import INameChooser
@@ -39,12 +40,17 @@ class OrganizationAdd(AddForm):
         self.context.contentName=self.organization.names[0]
         return self.organization
 
+class CustomTextWidget(TextAreaWidget):
+    width=50
+    height=5        
+
 class OrganizationEdit(EditForm):
     label="Edit organization details"
     actions = Actions(Action('Apply', success='handle_edit_action'), )
     def __init__(self, context, request):
         self.context, self.request = context, request
         self.form_fields=Fields(IOrganization, *[ removeAllProxies(type) for type in IOrganizationInterfaces(self.context).interfaces ]).omit('__name__', '__parent__')
+        self.form_fields['description'].custom_widget=CustomTextWidget
         super(OrganizationEdit, self).__init__(context, request)
         #template=ViewPageTemplateFile("organization_form.pt")
     def handle_edit_action(self, action, data):
@@ -83,7 +89,7 @@ class OrganizationInterfacesEdit(EditForm):
             self.request.response.redirect(AbsoluteURL(self.context, self.request))
         else :
             return super(OrganizationInterfacesEdit, self).__call__()
-        
+                
 class OrganizationView(BrowserPage):
     u"la vue qui permet d'afficher un organization"
     label="View of an Organization"
@@ -92,7 +98,7 @@ class OrganizationView(BrowserPage):
         self.context, self.request = context, request
     def get_product_interfaces(self):
         return  [ {'name':type.getTaggedValue('name'), 'url':AbsoluteURL(getAdapter(self.context, type).products, self.request) } for type in IOrganizationInterfaces(self.context).interfaces ]
-
+        
 class OrganizationContainerView(object):
     u"""
     la vue du container de organizations.

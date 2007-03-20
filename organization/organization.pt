@@ -11,8 +11,11 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/__name__">organization name</h2> 
+<h2 tal:content="python: context.names[0]">organization name</h2> 
 
+<div tal:content="context/description">brief description of the organization</div>
+
+<br/>
 (other names: <tal:block repeat="name python:context.names[1:]"><span tal:content="name">list</span><tal:block condition="not:repeat/name/end" content="string:, "/></tal:block>)<br/>
 web site : <a href="#" tal:attributes="href context/url"><span tal:content="context/url">url</span></a><br/>
 products : <tal:block repeat="product view/get_product_interfaces"><a href="#" tal:attributes="href product/url" tal:content="product/name">product type</a><tal:block content="string:, " condition="not:repeat/product/end"/></tal:block><br/>
