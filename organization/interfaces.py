@@ -48,8 +48,8 @@ IManufacturer.setTaggedValue('name','Devices')
 IManufacturer.setTaggedValue('description','The organization manufactures or assembles computer devices')
 
 
-class IOsEditor(Interface):
+class ISoftwareEditor(Interface):
     pass
-IOsEditor.setTaggedValue('name','Operating Systems')
-IOsEditor.setTaggedValue('description','The organization produces or transforms Operating Systems')
+ISoftwareEditor.setTaggedValue('name','Software')
+ISoftwareEditor.setTaggedValue('description','The organization produces or transforms Software')
 

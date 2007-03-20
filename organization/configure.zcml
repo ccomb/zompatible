@@ -2,8 +2,8 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.Organization">
-  <require permission="zope.Public" interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.IOsEditor" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.IOsEditor" />
+  <require permission="zope.Public" interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
 </zope:class>
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.OrganizationContainer">
@@ -22,18 +22,18 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
 </zope:class>
 <zope:interface
-    interface=".interfaces.IOsEditor"
+    interface=".interfaces.ISoftwareEditor"
     type="zompatible.organization.interfaces.IOrganizationType"
 />
-<zope:class class=".organization.OsEditor">
-  <require permission="zope.Public" interface=".interfaces.IOsEditor" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IOsEditor" />
+<zope:class class=".organization.SoftwareEditor">
+  <require permission="zope.Public" interface=".interfaces.ISoftwareEditor" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareEditor" />
 </zope:class>
 
 
 <zope:adapter factory=".organization.SearchableTextOfOrganization" />
 <zope:adapter factory=".organization.Manufacturer" />
-<zope:adapter factory=".organization.OsEditor" />
+<zope:adapter factory=".organization.SoftwareEditor" />
 <zope:adapter factory=".organization.OrganizationInterfaces" />
 
 <zope:subscriber
@@ -77,9 +77,9 @@
     menu="my_actions"
 />
 <browser:menuItem
-    title="add Operating System"
-    action="operating-systems/+/software.OperatingSystem"
-    for=".interfaces.IOsEditor"
+    title="add Software"
+    action="softwares/+/software.Software"
+    for=".interfaces.ISoftwareEditor"
     menu="my_actions"
 />
 

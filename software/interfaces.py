@@ -5,34 +5,34 @@ from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.index.text.interfaces import ISearchableText
 
-class ISoftware(Interface):
+class ISoftware(IContainer, IContained):
     u"maybe this is more generic than IXserver, IKernel, IAlsa, etc. ?"
     names = List(title=u'names', description=u'possible software names', value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
     version = TextLine(title=u'version', description=u'a text string describing the version')
     codename=TextLine(title=u'code name (if any)', description=u'the code name of the software')
     #license = Choice......(title=u'which license?', description=u'the licence of the software', schema=ILicense)
- #  features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
+    #features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
     #stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))
     link = URI(title=u'a link to software', description=u'link to the software')
 
 class IOperatingSystem(IContainer, IContained, ISoftware):
-    u"""an operating system: linux distribution, freebsd, etc...
-    the version is included here because 2 versions of a distro are 2 different OS
+    u"""an software: linux distribution, freebsd, etc...
+    the version is included here because 2 versions of a distro are 2 different software
     Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
     donc le schema est dans ISoftware
     """
-    containers("zompatible.software.interfaces.IOperatingSystemContainer")
+    containers("zompatible.software.interfaces.ISoftwareContainer")
 
-class IOperatingSystemContainer(IContainer, IContained):
+class ISoftwareContainer(IContainer, IContained):
     u"""
     L'interface du dossier racine qui contient les OS
     """
-    contains(IOperatingSystem)
+    contains(ISoftware)
 
-class ISearchableTextOfOperatingSystem(ISearchableText):
+class ISearchableTextOfSoftware(ISearchableText):
     u"""
-    on déclare un index juste pour cette interface de façon à indexer juste les operatingsystems
+    on déclare un index juste pour cette interface de façon à indexer juste les softwares
     """
 
 
@@ -52,14 +52,14 @@ class IKernel(ISoftware):
     pass
   
 class IPatchedKernel(IKernel):
-    flavour=Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=IOperatingSystem)
+    flavour=Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=ISoftware)
     packageversion=TextLine(title=u'package version', description=u'the version of the kernel package (ex: 2_ubuntu1')
   
 class IXserver(ISoftware):
     pass
 
 class IPatchedXserver(IXserver):
-    flavour = Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=IOperatingSystem)
+    flavour = Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=ISoftware)
     packageversion = TextLine(title=u'package version', description=u'the version of the Xserver package (ex: 2_ubuntu1)')
 
 class IDistribution(ISoftware):
@@ -67,7 +67,7 @@ class IDistribution(ISoftware):
     
 class IDriver(ISoftware):
     u"""
-    a driver for an operating system
+    a driver for an software
     we must think of how to speak about ndiswrapper, which is not a driver
     And a driver can apply to a kernel, or be in userspace for xorg. So... ?
     We must express that a linux driver may exist for a device, but not be included in a distro, or in the kernel
@@ -88,6 +88,6 @@ class IInclusionLevel(Interface):
     For Debian, inclusion can be main, contrib, non-free, etc.
     A REVOIR !
     """
-    operatingsystem = Object(title=u'os', description=u'os', schema=IOperatingSystem)
+    software = Object(title=u'os', description=u'os', schema=ISoftware)
     inclusion=TextLine(title=u'included', description=u'inclusion type')
 

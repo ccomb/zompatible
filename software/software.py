@@ -8,48 +8,48 @@ from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 import string
 
-from interfaces import IOperatingSystemContainer, IOperatingSystem, ISearchableTextOfOperatingSystem
+from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware
 
 
 
-class OperatingSystemContainer(Folder):
-    "a container for all operating systems"
-    implements(IOperatingSystemContainer)
+class SoftwareContainer(Folder):
+    "a container for all software"
+    implements(ISoftwareContainer)
     __name__=__parent__=None
 
-class OperatingSystem(Folder):
-    implements(IOperatingSystem,IFolder)
+class Software(Folder):
+    implements(ISoftware,IFolder)
     names=architectures=[]
     version=codename=u""
     link=u""
     url=""
     __name__=__parent__=None
 
-class OperatingSystemNameChooser(NameChooser):
+class SoftwareNameChooser(NameChooser):
     u"""
-    adapter qui permet de choisir le nom de l'OS auprès du container
+    adapter qui permet de choisir le nom du software auprès du container
     Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
     car il apparaît dans l'URL, et sert pour le traversing.
     """
     implements(INameChooser)
-    adapts(OperatingSystem)
-    def chooseName(self, name, os):
+    adapts(Software)
+    def chooseName(self, name, software):
         codename=u""
-        if os.codename != u"":
-            codename="-" + os.codename
-        return string.lower(os.names[0] + "-" + os.version + codename).replace(' ','-')
-    def checkName(self, name, os):
-        if name in os.__parent__ and os is not os.__parent__['name']:
+        if software.codename != u"":
+            codename="-" + software.codename
+        return string.lower(software.names[0] + "-" + software.version + codename).replace(' ','-')
+    def checkName(self, name, software):
+        if name in software.__parent__ and software is not software.__parent__['name']:
             return False
         else :
             return true
 
-class SearchableTextOfOperatingSystem(object):
+class SearchableTextOfSoftware(object):
     u"""
-    l'adapter qui permet d'indexer les OperatingSystem
+    l'adapter qui permet d'indexer les Software
     """
-    implements(ISearchableTextOfOperatingSystem)
-    adapts(IOperatingSystem)
+    implements(ISearchableTextOfSoftware)
+    adapts(ISoftware)
     def __init__(self, context):
         self.context = context
     def getSearchableText(self):
@@ -61,18 +61,18 @@ class SearchableTextOfOperatingSystem(object):
                 texttoindex += subword + " "
         return texttoindex
         
-class SearchOperatingSystem(object):
+class SearchSoftware(object):
     u"""
-    une classe qui effectue la recherche d'operating system
+    une classe qui effectue la recherche d'software
     """
     def update(self, query, organization=None):
         catalog=getUtility(ICatalog)
         del self.results
         self.results=[]
         if query!="":
-            self.results=catalog.searchResults(operatingsystem_names=query+"*")
+            self.results=catalog.searchResults(software_names=query+"*")
         if organization is not None:
-            self.results = ( os for os in self.results if (os.__parent__.__parent__ == organization) )
+            self.results = ( software for software in self.results if (software.__parent__.__parent__ == organization) )
     def __init__(self, query, organization=None):
         self.results=[]
         self.update(query)

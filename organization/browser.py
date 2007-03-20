@@ -90,8 +90,8 @@ class SearchProductView(BrowserPage):
         return ViewPageTemplateFile('search_product.pt')(self)
     def getDevices(self):
         return [ { 'device' : device, 'url' : AbsoluteURL(device, self.request) } for device in self.results['devices'] ]
-    def getOperatingSystems(self):
-        return [ { 'os' : os, 'url' : AbsoluteURL(os, self.request) } for os in self.results['operating-systems'] ]
+    def getSoftwares(self):
+        return [ { 'software' : software, 'url' : AbsoluteURL(software, self.request) } for software in self.results['softwares'] ]
             
 
 

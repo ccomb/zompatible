@@ -1,4 +1,4 @@
-Enter the name of a device, organization, or operating system !<br/>
+Enter the name of a device, organization, or software !<br/>
 <form action="@@mainsearch.html" method="post">
 <input type="text" name="mainsearch" /><input type="submit" value="search" />
 </form><br/>

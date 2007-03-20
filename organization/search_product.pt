@@ -23,13 +23,13 @@
 </ul>
 </tal:block>
 
-<h2>Operating Systems</h2>
-<tal:block define="no_os python: not len(view.getOperatingSystems())">
-<i tal:condition="no_os">None</i>
-<ul tal:condition="not: no_os" tal:repeat="os_info view/getOperatingSystems">
+<h2>Software</h2>
+<tal:block define="no_software python: not len(view.getSoftwares())">
+<i tal:condition="no_software">None</i>
+<ul tal:condition="not: no_software" tal:repeat="software_info view/getSoftwares">
 <li>
-    <a tal:content="os_info/os/__name__" tal:attributes="href python: os_info['url']" href="#">some operating system</a>
-    <span tal:condition="python: len(os_info['os'].names)>=2" tal:repeat="name python:os_info['os'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
+    <a tal:content="software_info/software/__name__" tal:attributes="href python: software_info['url']" href="#">some software</a>
+    <span tal:condition="python: len(software_info['software'].names)>=2" tal:repeat="name python:software_info['software'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
     </span>
 </li>
 </ul>

@@ -15,7 +15,7 @@ from zope.index.text.interfaces import ISearchableText
 from organization.organization import OrganizationContainer
 from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
-from software.interfaces import ISearchableTextOfOperatingSystem
+from software.interfaces import ISearchableTextOfSoftware
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -66,7 +66,7 @@ def ZompatibleSetup(event):
     u"then create and register the wanted indices in the catalog"
     catalog['device_names'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
     catalog['organization_names'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
-    catalog['operatingsystem_names'] = TextIndex(interface=ISearchableTextOfOperatingSystem, field_name='getSearchableText', field_callable=True)
+    catalog['software_names'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
     catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
 
     

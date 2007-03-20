@@ -17,7 +17,7 @@ from zope.proxy import removeAllProxies
 from zope.app.intid.interfaces import IIntIds
 
 from zompatible.device.device import DeviceContainer
-from zompatible.software.software import OperatingSystemContainer
+from zompatible.software.software import SoftwareContainer
 from interfaces import IOrganization, IOrganizationType
 
 
@@ -30,13 +30,13 @@ class OrganizationContainer(Folder):
 
 @adapter(IOrganization, IObjectAddedEvent)
 def createOrganizationSubfolders(organization, event):
-    u"Peut-être déplacer ça dans la gestion des manufacturer et OsEditor"
+    u"Peut-être déplacer ça dans la gestion des manufacturer et SoftwareEditor"
     u"Create the device container"
     devices=DeviceContainer()
     organization['devices']=devices 
-    u"then create the operating system container"
-    operatingsystems=OperatingSystemContainer()
-    organization['operating-systems']=operatingsystems
+    u"then create the software container"
+    softwares=SoftwareContainer()
+    organization['softwares']=softwares
 
 
 class Organization(Folder):
@@ -91,14 +91,14 @@ class Manufacturer(object):
             except :
                 return None
 
-class OsEditor(object):
-    implements(IOsEditor)
+class SoftwareEditor(object):
+    implements(ISoftwareEditor)
     adapts(IOrganization)
     def __init__(self, context):
         self.context=context
     def __getattr__(self, name):
         if name == "products":
-            return self.context['operating-systems']
+            return self.context['softwares']
         else:
             return self.__dict__[name]
   
@@ -139,7 +139,7 @@ class SearchOrganization(object):
         
 class SearchProduct(object):
     u"""
-    une classe qui effectue la recherche de product, c'est à dire de device puis d'operating system
+    une classe qui effectue la recherche de product, c'est à dire de device puis d'software
     """
     def update(self, query, organization):
         catalog=getUtility(ICatalog)
@@ -148,10 +148,10 @@ class SearchProduct(object):
         self.results={}
         if query != "" :
             self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) ]
-            self.results['operating-systems'] = [ intids.getObject(i) for i in catalog.apply( { 'operatingsystem_names':query+"*" } ) ]
+            self.results['softwares'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) ]
         if organization is not None:
             self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
-            self.results['operating-systems'] = [ intids.getObject(i) for i in catalog.apply( { 'operatingsystem_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
+            self.results['softwares'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
     def __init__(self, query, organization):
         self.results={}
         self.update(query, organization)

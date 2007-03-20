@@ -12,7 +12,7 @@ from zope.app.component.hooks import getSite
 from interfaces import *
 from device.device import SearchDevice
 from organization.organization import SearchOrganization
-from software.software import SearchOperatingSystem
+from software.software import SearchSoftware
 
 class MainPage(object):
     u"""
@@ -101,11 +101,11 @@ class MainSearch(object):
         u"on décompose la chaine de recherche en mots"
         devices={}
         organizations={}
-        operating_system={}
+        software={}
         result=u""
         for word in self.mainsearch.split():
             organizations[word]=SearchOrganization(word).getResults()
-            operating_system[word]=SearchOperatingSystem(word).getResults()
+            software[word]=SearchSoftware(word).getResults()
             devices[word]=SearchDevice(word).getResults()
         for word in self.mainsearch.split():
             result += "pour le mot : " + word + "\n***********\n"
@@ -113,9 +113,9 @@ class MainSearch(object):
             for organization in organizations[word]:
                 result += organization.__name__ + " "
             result += "\n"
-            result += "Operating Systems: "
-            for operating_system in operating_system[word]:
-                result += operating_system.__name__ + " "
+            result += "Software: "
+            for software in software[word]:
+                result += software.__name__ + " "
             result += "\n"
             result += "devices: "
             for device in devices[word]:
@@ -158,7 +158,7 @@ class MainLinksViewlet(object):
     Pour l'instant on affiche les dossiers de la racine
     
     Et pour l'instant on gère même en manuel
-    car les objets OperatingSystemContainer n'ont pas de nom pour l'instant.
+    car les objets SoftwareContainer n'ont pas de nom pour l'instant.
     Et je ne sais pas comment seront gérées les traductions des noms des objets.
     """
     def getitems(self):
