@@ -14,7 +14,7 @@
 
 
 <ul tal:repeat="manuf view/getitems">
-    <li><a tal:content="python: manuf[0]" tal:attributes="href python:manuf[0]" href="#">some operatng system</a></li>
+    <li><a tal:content="python: manuf[1].names[0] + ' ' + manuf[1].version" tal:attributes="href python:manuf[0]" href="#">some operatng system</a></li>
 </ul>
 
 
