@@ -32,7 +32,7 @@ class ISoftwareContainer(IContainer, IContained):
 
 class ISearchableTextOfSoftware(ISearchableText):
     u"""
-    on déclare un index juste pour cette interface de façon à indexer juste les softwares
+    on déclare un index juste pour cette interface de façon à indexer juste les software
     """
 
 

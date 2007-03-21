@@ -124,7 +124,7 @@ class SearchProductView(BrowserPage):
     def getDevices(self):
         return [ { 'device' : device, 'url' : AbsoluteURL(device, self.request) } for device in self.results['devices'] ]
     def getSoftwares(self):
-        return [ { 'software' : software, 'url' : AbsoluteURL(software, self.request) } for software in self.results['softwares'] ]
+        return [ { 'software' : software, 'url' : AbsoluteURL(software, self.request) } for software in self.results['software'] ]
             
 
 

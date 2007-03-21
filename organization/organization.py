@@ -39,7 +39,7 @@ def createOrganizationSubfolders(organization, event):
     organization['devices']=devices 
     u"then create the software container"
     softwares=SoftwareContainer()
-    organization['softwares']=softwares
+    organization['software']=softwares
 
 
 class Organization(Folder):
@@ -116,7 +116,7 @@ class SoftwareEditor(object):
         self.context=context
     def __getattr__(self, name):
         if name == "products":
-            return self.context['softwares']
+            return self.context['software']
         else:
             return self.__dict__[name]
   
@@ -166,10 +166,10 @@ class SearchProduct(object):
         self.results={}
         if query != "" :
             self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) ]
-            self.results['softwares'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) ]
+            self.results['software'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) ]
         if organization is not None:
             self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
-            self.results['softwares'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
+            self.results['software'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
     def __init__(self, query, organization):
         self.results={}
         self.update(query, organization)

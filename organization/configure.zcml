@@ -79,7 +79,7 @@
 />
 <browser:menuItem
     title="add Software"
-    action="softwares/+/software.Software"
+    action="software/+/software.Software"
     for=".interfaces.ISoftwareEditor"
     menu="my_actions"
 />

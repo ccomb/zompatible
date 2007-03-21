@@ -69,8 +69,8 @@ class SoftwareView(BrowserPage):
     
 class SoftwareContainerView(object):
     u"""
-    la vue du container de softwares.
-    Pour l'instant on se contente d'afficher la liste des softwares.
+    la vue du container de software.
+    Pour l'instant on se contente d'afficher la liste des software.
     Ensuite il sera possible d'afficher par exemple des classements
     """
     label = u"Software list"

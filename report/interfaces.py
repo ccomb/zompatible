@@ -1,5 +1,10 @@
 
 
+class IUserReport(Interface):
+    u"""
+    L'avis ou l'intervention d'un utilisateur
+    """
+
 
 
 
