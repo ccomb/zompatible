@@ -2,15 +2,17 @@
 from persistent import Persistent
 from zope.interface import implements  
 from zope.app.folder.folder import Folder
-from interfaces import *
-from zope.component import adapts, getUtility
+from zope.component import adapts, adapter, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
-from zope.app.container.interfaces import INameChooser
+from zope.app.container.interfaces import INameChooser, IObjectAddedEvent
 from zope.app.container.contained import NameChooser
 import string
+
+from interfaces import *
+from zompatible.support.support import SupportContainer
 
 class DeviceContainer(Folder):
     """
@@ -20,7 +22,7 @@ class DeviceContainer(Folder):
     implements(IDeviceContainer)
 
 
-class Device(Persistent):
+class Device(Folder):
     implements(IDevice, ISubDevices)
     names=PersistentList()
     subdevices=[]
@@ -29,6 +31,13 @@ class Device(Persistent):
     __name__=__parent__=None
 
 
+
+@adapter(IDevice, IObjectAddedEvent)
+def createDeviceSubfolders(device, event):
+    u"Create the support container"
+    device['supports']=SupportContainer()
+    
+    
 class DeviceNameChooser(NameChooser):
     u"""
     adapter qui permet de choisir le nom du device auprès du container

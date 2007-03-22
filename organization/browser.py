@@ -18,6 +18,7 @@ from organization import Organization, SearchProduct
 
 
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
+    u"utilisé pour choisir IManufacturer et ISoftwareEditor dans une Organization"
     def __init__(self, field, subfield, request):
         super(MyMultiCheckBoxWidget, self).__init__(field,  field.value_type.vocabulary, request)
 

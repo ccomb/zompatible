@@ -6,7 +6,7 @@ from zope.interface import Interface
 from zope.index.text.interfaces import ISearchableText
 
 
-class IDevice(IContained):
+class IDevice(IContainer, IContained):
     u"""
     IDevice offers basic attributes of a device
     So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver

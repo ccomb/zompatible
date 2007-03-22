@@ -27,6 +27,10 @@ pour dire que c'est un type de contenu -->
 <zope:adapter factory=".browser.DeviceQueryView" />
 <zope:adapter factory=".device.DeviceNameChooser" />
 
+<zope:subscriber
+    handler=".device.createDeviceSubfolders"
+/>
+
 <browser:page
     name="device.Device"
     for="zope.app.container.interfaces.IAdding"

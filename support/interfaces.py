@@ -1,23 +1,25 @@
-from zope.interface import Interface
-from zope.app.container.interfaces import IContainer
+from zope.interface import Interface, Attribute
+from zope.app.container.interfaces import IContainer, IContained
+from zope.app.container.constraints import contains, containers
 
 
-
-class Support(IContainer):
+class ISupport(IContainer, IContained):
     u"""
     objet qui fait le lien entre un Device et un Software.
     Il pointe vers un Device et un Software,
     et contient des UserReports (en tant que Container)
-    Cet objet n'est a priori jamais créé par un formulaire, mais
-    lors de la création d'un 1er UserReport
     """
+    containers('zompatible.support.interfaces.ISupportContainer')
     device = Attribute("The device we're speaking about")
     software = Attribute("Software we're speaking about")
     
 
 
-
-
+class ISupportContainer(IContainer, IContained):
+    u"""
+    Le conteneur qui stocke les objets Support
+    """
+    contains(ISupport)
 
 
 

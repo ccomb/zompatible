@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
-from interfaces import *
 from zope.interface import implements
 from zope.app.folder.folder import Folder
-from zope.component import adapts, adapter
+from zope.component import adapts, adapter, getUtility, getAllUtilitiesRegisteredFor
 from zope.app.folder.interfaces import IFolder
-from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
-from zope.app.container.interfaces import IObjectAddedEvent
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.interfaces import IVocabularyTokenized
+from zope.app.container.interfaces import IObjectAddedEvent, INameChooser
+from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
 from zope.component.interface import nameToInterface, interfaceToName
 from zope.schema.vocabulary import SimpleTerm
-from zope.component import adapter, getAllUtilitiesRegisteredFor
 from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
 from zope.app.intid.interfaces import IIntIds
-from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 import string
 
+from interfaces import *
 from zompatible.device.device import DeviceContainer
 from zompatible.software.software import SoftwareContainer
 from interfaces import IOrganization, IOrganizationType
@@ -176,10 +172,6 @@ class SearchProduct(object):
     def getResults(self):
         return self.results
         
-class OrganizationTypeVocabulary2(object):
-    implements(IVocabularyTokenized)
-    interface = IOrganization
-
 class OrganizationTypeVocabulary(object):
     """
     This is the vocabulary that provides the different interfaces of Organization to choose from.
