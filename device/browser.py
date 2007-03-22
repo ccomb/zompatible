@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
+from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.component import adapts, getUtility
@@ -9,7 +9,6 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
-from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 import string

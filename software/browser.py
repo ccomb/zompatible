@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
+from zope.interface import implements
+from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.traversing.browser.absoluteurl import AbsoluteURL
-from zope.app.container.interfaces import INameChooser
-from zope.formlib.form import Actions, Action, getWidgetsData
+from zope.component import adapts, getUtility
+from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
+from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.schema.vocabulary import SimpleTerm
+from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
+from zope.app.container.interfaces import INameChooser
+from zope.traversing.browser.absoluteurl import AbsoluteURL
 import string
 
-from software import Software
+from software import Software, SoftwareSource, SearchSoftware
 
 class SoftwareAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
@@ -76,3 +81,53 @@ class SoftwareContainerView(object):
     label = u"Software list"
     def getitems(self):
         return self.context.items()
+        
+class SoftwareTerms(object):
+    u"""
+    la vue fournissant les termes de la source à des fins d'affichage dans le widget
+    (adapter de ISource vers ITerms)
+    """
+    implements(ITerms)
+    adapts(SoftwareSource, IBrowserRequest)
+    def __init__(self, source, request):
+        self.source=source
+        self.intid=getUtility(IIntIds)
+    def getTerm(self, value):
+        u"""
+        on crée un term à partir d'un software
+        On utilise le Unique Integer Id comme token
+        (puisqu'il a fallu forcément en créer un pour la recherche dans le Catalog)
+        """
+        token = self.intid.getId(value)
+        title = unicode(value.__name__)
+        return SimpleTerm(value, token, title)
+    def getValue(self, token):
+        u"""
+        on récupère le software à partir du token
+        """
+        return self.intid.getObject(int(token))
+
+    
+    
+class SoftwareQueryView(object):
+    u"""
+    La vue permettant d'interroger la source
+    """
+    implements(ISourceQueryView)
+    adapts(SoftwareSource, IBrowserRequest)
+    def __init__(self, source, request):
+        u"source est le contexte"
+        self.source=source
+        self.request=request
+    def render(self, name):
+        u"""
+        le code qui affiche la vue permettant la recherche
+        Il pourrait être intéressant d'y mettre un viewlet (??) ou au moins un template
+        'name' est le préfixe pour les widgets.
+        """
+        return('<input name="%s.string" /><input type="submit" name="%s" value="chercher" />' % (name, name) )
+    def results(self, name):
+        if name in self.request:
+            search_string = self.request.get(name+'.string')
+            if search_string is not None:
+                return SearchSoftware(search_string).getResults()

@@ -6,7 +6,9 @@ from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
+from zope.app.component.hooks import getSite
 import string
+from zope.schema.interfaces import ISource, IVocabularyFactory
 
 from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware
 
@@ -62,7 +64,7 @@ class SearchableTextOfSoftware(object):
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
         return texttoindex
-        
+
 class SearchSoftware(object):
     u"""
     une classe qui effectue la recherche d'software
@@ -80,4 +82,30 @@ class SearchSoftware(object):
         self.update(query)
     def getResults(self):
         return self.results
-        
+
+class SoftwareSource(object):
+    """
+    implémentation de la Source de Software utilisée dans le schema de Support
+    Il s'agit juste d'implémenter ISource
+    Cette source est censée représenter l'ensemble de tous les softwares.
+    Elle parcourt toutes les organizations et recherche le software voulu.
+    *********
+    ATTENTION, dans l'implémentation ci-dessous, si deux orga ont
+    des softwares avec le même nom, seul le 1er est retourné.
+    """
+    implements(ISource)
+    def __contains__(self, value):
+        found=0
+        root = getSite()
+        for manuf in root['organizations']:
+            if value.__name__ in root['organizations'][manuf]['software'].keys():
+                found=1
+                return True
+        return False
+
+class SoftwareVocabularyFactory(object):
+    implements(IVocabularyFactory)
+    def __call__(self, context):
+        return SoftwareSource()
+
+

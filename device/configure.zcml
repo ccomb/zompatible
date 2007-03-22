@@ -68,6 +68,12 @@ pour dire que c'est un type de contenu -->
     menu="my_actions"
 />
 
+    
+<!-- registered named utility used in the subdevices interface -->
+<zope:utility
+    factory=".device.DeviceVocabularyFactory"
+    name="devicesource"
+/>
 
 
 <!-- juste pour la ZMI -->
@@ -91,12 +97,7 @@ pour dire que c'est un type de contenu -->
         action="edit_device.html"
     />
 </browser:menuItems>
-    
-<!-- registered named utility used in the subdevices interface -->
-<zope:utility
-    factory=".device.DeviceVocabularyFactory"
-    name="devicesource"
-/>
+
 
 
 

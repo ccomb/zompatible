@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from persistent import Persistent
 from zope.interface import implements  
 from zope.app.folder.folder import Folder
 from zope.component import adapts, adapter, getUtility

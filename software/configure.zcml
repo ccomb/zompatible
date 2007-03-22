@@ -20,6 +20,8 @@
 
 <zope:adapter factory=".software.SearchableTextOfSoftware" />
 <zope:adapter factory=".software.SoftwareNameChooser" />
+<zope:adapter factory=".browser.SoftwareTerms" />
+<zope:adapter factory=".browser.SoftwareQueryView" />
 
 <!-- Software views -->
 <browser:page
@@ -78,6 +80,11 @@
     />
 </browser:menuItems>
 
+<!-- registered named utility used in the Support interface -->
+<zope:utility
+    factory=".software.SoftwareVocabularyFactory"
+    name="softwaresource"
+/>
 
 
 

@@ -4,5 +4,49 @@
   <require permission="zope.Public" interface=".interfaces.ISupportContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISupportContainer" />
 </zope:class>
+<zope:class class=".support.Support">
+  <require permission="zope.Public" interface=".interfaces.ISupport" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISupport" />
+</zope:class>
+
+
+<browser:page
+    name="support.Support"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.SupportAdd"
+    permission="zope.View"
+    menu="my_addings" title="new support"
+/>
+<browser:page
+    name="edit_support.html"
+    for=".interfaces.ISupport"
+    class=".browser.SupportEdit"
+    permission="zope.View"
+    menu="my_actions" title="Edit"
+/>
+
+<browser:menuItem
+    title="add Support"
+    action="supports/+/support.Support"
+    for="zompatible.software.interfaces.ISoftware"
+    menu="my_actions"
+/>
+<browser:menuItem
+    title="add Support"
+    action="supports/+/support.Support"
+    for="zompatible.device.interfaces.IDevice"
+    menu="my_actions"
+/>
+
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Support"
+    class=".support.Support"
+    permission="zope.ManageContent"
+    view="support.Support"
+/>
+
+
 
 </configure>
