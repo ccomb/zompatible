@@ -1,9 +1,9 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-<!-- on register l'interface IMySkin avec un nom et un type -->
+<!-- on register l'interface IZompatibleSkin avec un nom et un type -->
 <zope:interface
-    name="MySkin"
-    interface=".interfaces.IMySkin"
+    name="ZompatibleSkin"
+    interface=".interfaces.IZompatibleSkin"
     type="zope.publisher.interfaces.browser.IBrowserSkinType"
 />
 
@@ -18,7 +18,7 @@
     class=".standardmacros.MyOwnStandardMacros"
     permission="zope.View"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
-    layer=".interfaces.IMySkin"
+    layer=".interfaces.IZompatibleSkin"
 />
 
 <!-- Ensuite on décide que la macro particulière dont le nom est "page" correspond à la vue/macro/template MyMainMacro -->
@@ -26,7 +26,7 @@
     name="mymainmacro"
     for="*"
     class=".standardmacros.MyMainMacro"
-    layer=".interfaces.IMySkin"
+    layer=".interfaces.IZompatibleSkin"
     permission="zope.View"
 />
 
@@ -42,7 +42,7 @@ Ensuite on peut afficher les browser:page dans ce menu avec la directive menu --
     title="My addings Menu"
 />
 
-<browser:resource name="main.css" file="main.css" permission="zope.View" layer=".interfaces.IMySkin" />
+<browser:resource name="main.css" file="main.css" permission="zope.View" layer=".interfaces.IZompatibleSkin" />
 
 
 </configure>

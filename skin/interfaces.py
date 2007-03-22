@@ -3,7 +3,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
 
-class IMySkin(IDefaultBrowserLayer):
+class IZompatibleSkin(IDefaultBrowserLayer):
   """
   the main skin of the application
   We cannot provide IBrowserSkinType here because this interface must be registered with a name (the name of the skin)
