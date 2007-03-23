@@ -7,7 +7,7 @@ class ISupport(IContainer, IContained):
     u"""
     objet qui fait le lien entre un Device et un Software.
     Il pointe vers un Device et un Software,
-    et contient des UserReports (en tant que Container)
+    et contient des UserReports (dans un sous dossier supports)
     """
     containers('zompatible.support.interfaces.ISupportContainer')
     software = Choice(title=u'software', description=u'software', source="softwaresource")

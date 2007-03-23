@@ -12,9 +12,10 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
+<h2 tal:content="context/__parent__/__name__">objet en question (hard ou soft)</h2>
 
-<ul tal:repeat="soft view/getitems">
-    <li><a tal:content="python: soft[1].names[0] + ' ' + soft[1].version" tal:attributes="href python:soft[0]" href="#">some operatng system</a></li>
+<ul tal:repeat="support view/getitems">
+    <li><a tal:content="python: support['related'].__name__" tal:attributes="href python:support['support'].__name__" href="#">some device</a></li>
 </ul>
 
 

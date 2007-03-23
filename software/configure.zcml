@@ -18,6 +18,10 @@
   type="zope.app.content.interfaces.IContentType"
 />
 
+<zope:subscriber
+    handler=".software.createSoftwareSubfolders"
+/>
+
 <zope:adapter factory=".software.SearchableTextOfSoftware" />
 <zope:adapter factory=".software.SoftwareNameChooser" />
 <zope:adapter factory=".browser.SoftwareTerms" />

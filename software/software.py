@@ -2,16 +2,16 @@
 from zope.app.folder.interfaces import IFolder
 from zope.app.folder.folder import Folder
 from zope.interface import implements
-from zope.component import adapts, getUtility
+from zope.component import adapts, getUtility, adapter
 from zope.app.catalog.interfaces import ICatalog
-from zope.app.container.interfaces import INameChooser
+from zope.app.container.interfaces import INameChooser, IObjectAddedEvent
 from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
 import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
 
 from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware
-
+from zompatible.support.support import SupportContainer
 
 
 class SoftwareContainer(Folder):
@@ -26,6 +26,12 @@ class Software(Folder):
     link=u""
     url=""
     __name__=__parent__=None
+
+
+@adapter(ISoftware, IObjectAddedEvent)
+def createSoftwareSubfolders(software, event):
+    u"Create the support container"
+    software['supports']=SupportContainer()
 
 class SoftwareNameChooser(NameChooser):
     u"""

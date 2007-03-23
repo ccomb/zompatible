@@ -25,16 +25,16 @@ class DeviceAdd(AddForm):
     form_fields=form_fields.omit('__name__', '__parent__')
     label=u"Ajout d'un matériel"
     def nextURL(self):
-        return "../.."
+        return AbsoluteURL(self.device,self.request)
     #####template=ViewPageTemplateFile("device_form.pt")
     def create(self, data):
         u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
-        device=Device()
+        self.device=Device()
         u"puis on applique les données du formulaire à l'objet"
-        applyChanges(device, self.form_fields, data)
+        applyChanges(self.device, self.form_fields, data)
         u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
-        self.context.contentName=device.names[0]
-        return device
+        self.context.contentName=self.device.names[0]
+        return self.device
 
 
 class DeviceEdit(EditForm):

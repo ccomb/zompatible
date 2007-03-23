@@ -1,6 +1,5 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IDevice -->
 <zope:class class=".device.Device">
   <require permission="zope.Public" interface=".interfaces.IDevice" />
@@ -14,13 +13,13 @@
   <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
 </zope:class>
+
 <!-- on déclare que IDevice fournit IContentType qui est une interface marqueur
 pour dire que c'est un type de contenu -->
 <zope:interface  
   interface=".interfaces.IDevice"
   type="zope.app.content.interfaces.IContentType"
 />
-
 
 <zope:adapter factory=".device.SearchableTextOfDevice" />
 <zope:adapter factory=".browser.DeviceTerms" />
@@ -67,7 +66,6 @@ pour dire que c'est un type de contenu -->
     for=".interfaces.IDeviceContainer"
     menu="my_actions"
 />
-
     
 <!-- registered named utility used in the subdevices interface -->
 <zope:utility

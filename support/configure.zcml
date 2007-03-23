@@ -24,16 +24,37 @@
     permission="zope.View"
     menu="my_actions" title="Edit"
 />
-
+<browser:page
+    name="index.html"
+    for=".interfaces.ISupport"
+    class=".browser.SupportView"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.ISupportContainer"
+    class=".browser.SupportContainerView"
+    template="support_container.pt"
+    permission="zope.View"
+    menu="my_actions" title="View"
+/>
+<!-- pour ajouter un Support depuis un soft ou un hard -->
 <browser:menuItem
-    title="add Support"
-    action="supports/+/support.Support"
+    title="add supported product"
+    action="+/support.Support"
+    for=".interfaces.ISupportContainer"
+    menu="my_actions"
+/>
+<browser:menuItem
+    title="Hardware Compatibility List"
+    action="supports/index.html"
     for="zompatible.software.interfaces.ISoftware"
     menu="my_actions"
 />
 <browser:menuItem
-    title="add Support"
-    action="supports/+/support.Support"
+    title="Software Compatibility List"
+    action="supports/index.html"
     for="zompatible.device.interfaces.IDevice"
     menu="my_actions"
 />
