@@ -17,6 +17,7 @@
 <include package=".software" />
 <include package=".category" />
 <include package=".support" />
+<include package=".importdata" />
 
 <browser:page
     name="index.html"

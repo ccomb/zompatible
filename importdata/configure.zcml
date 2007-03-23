@@ -1,0 +1,22 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <class class=".importdata.ImportPciData">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IImportPciData"
+        />
+    <require
+        permission="zope.ManageContent"
+        set_schema=".interfaces.IImportPciData"
+        />
+  </class>
+
+  <utility
+      component=".importdata.importPciDataFactory"
+      name="zompatible.importPciData"
+      permission="zope.Public"
+      />
+
+  <include package=".browser" />
+
+</configure>

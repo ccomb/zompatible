@@ -1,0 +1,39 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+    
+  <browser:page
+      for="zompatible.importdata.interfaces.IImportPciData"
+      name="index.html"
+      class=".importPciData.ViewImportPciData"
+      permission="zope.View"
+      /> 
+ 
+ <configure package="zope.app.preview">
+    <browser:page
+       for="zompatible.importdata.interfaces.IImportPciData"
+	    name="preview.html"
+       template="preview.pt"
+       permission="zope.ManageContent"
+       menu="zmi_views" title="Preview"
+        />
+  </configure>
+ 
+    <browser:page
+       for="zompatible.importdata.interfaces.IImportPciData"
+	    name="edit.html"
+       class=".importPciData.ImportPciDataEditForm"
+       permission="zope.ManageContent"
+       menu="zmi_views" title="Edit"
+        />
+
+
+  <browser:addMenuItem
+      title="ImportPciData"
+      factory="zompatible.importPciData"
+      permission="zope.ManageContent"
+      /> 
+
+
+</configure>
