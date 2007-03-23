@@ -24,7 +24,7 @@ class SupportAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     #form_fields=Fields(ISupport)
     #form_fields=form_fields.omit('__name__', '__parent__')
-    label=u"Association entre un matériel et un logiciel"
+    label=u"Compatibilité entre un matériel et un logiciel"
     def __init__(self, context, request):
         self.context, self.request = context, request
         if (IDevice.providedBy(self.context.__parent__.__parent__)):
@@ -50,7 +50,7 @@ class SupportAdd(AddForm):
         return support
 
 class SupportEdit(EditForm):
-    label=u"Modification d'une association entre soft et hard"
+    label=u"Modification d'une compatibilité entre soft et hard"
     form_fields=Fields(ISupport, render_context=True)
     #form_fields['subdevices'].custom_widget=subdevices_widget
     form_fields=form_fields.omit('__name__', '__parent__')
@@ -58,7 +58,7 @@ class SupportEdit(EditForm):
     
 class SupportView(BrowserPage):
     "la vue qui permet d'afficher un objet support"
-    label=u"Compatibilité hard-soft"
+    label=u"Niveau de compatibilité"
     __call__=ViewPageTemplateFile("support.pt")
 
 class SupportContainerView(object):
