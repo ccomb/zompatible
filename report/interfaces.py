@@ -1,10 +1,5 @@
-
-
-class IUserReport(Interface):
-    u"""
-    L'avis ou l'intervention d'un utilisateur
-    """
-
+# -*- coding: utf-8 -*-
+from zope.interface import Interface
 
 
 

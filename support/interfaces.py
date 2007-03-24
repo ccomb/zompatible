@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from zope.interface import Interface
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
-from zope.schema import List, TextLine, Choice
+from zope.schema import Choice
 
 class ISupport(IContainer, IContained):
     u"""
