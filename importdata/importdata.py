@@ -10,6 +10,7 @@ class ImportPciData(Import):
 	implements(IImportPciData)
 
 	data = u''
+	status = u''
 
 
 from zope.component.factory import Factory
@@ -35,7 +36,11 @@ def updateZodbFromPciData(importPciData, event):
 	lignes = [ l.split("  ") for l in lignes]
 	
 	# Then first we add the organisation and after the devices
-	print lignes[0:60]	
+	orga = [ l for l in lignes if l[0][0]!='\t']
+	
+	print orga	
+	
+	importPciData.status = u"Import successfull"
 
 from zope.component import provideHandler
 
