@@ -1,6 +1,7 @@
 
 from zope.interface import implements
 from interfaces import IImport, IImportPciData
+#from zompatible.organization.interfaces 
 
 class Import(object):
 	implements(IImport)
@@ -23,6 +24,9 @@ importPciDataFactory = Factory(
 
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
+from zope.component import createObject	
+import transaction
+from zompatible.organization.organization import Organization
 
 @adapter(IImportPciData, IObjectModifiedEvent)
 def updateZodbFromPciData(importPciData, event):
@@ -36,9 +40,45 @@ def updateZodbFromPciData(importPciData, event):
 	lignes = [ l.split("  ") for l in lignes]
 	
 	# Then first we add the organisation and after the devices
-	orga = [ l for l in lignes if l[0][0]!='\t']
+	orgas = [ l for l in lignes if ( len(l)>=2 and
+																len(l[0])==4 and  
+																l[1]!=None)             ]
+
+	print "ORGANISATION list:"
+	for orga in orgas:
+		print "pciid:%s \tName:%s" %(orga[0], orga[1])
+#		a=Organization()
+#		a = createObject(u"zompatible.Organization")
+#		a.names.append(orga[1])
+#		a.pciids.append(orga[0])
 	
-	print orga	
+	# Now we parse the devices
+	orgaName = u''
+	orgaId = u''
+	chipName = u''
+	chipId = u''
+	productName = u''
+	productvendorId = u''
+	productDeviceId = u''
+	for l in lignes:
+		if len(l) >= 2:
+			if    len(l[0]) == 4:		# No tab
+				orgaName = l[1]
+				orgaId = l[0]
+			elif len(l[0]) == 5:		# One tab
+				chipName = l[1]
+				chipId = l[0][1:5]
+			elif len(l[0]) == 11:		# Two tabs
+				productName = l[1]
+				productVendorId = l[0][2:6]
+				productDeviceId = l[0][7:11]
+				print "%s(%s,%s) includes the chip %s(%s) from the manufacturer %s(%s)" % (	productName, productVendorId, productDeviceId,
+																																														chipName, chipId, 
+																																														orgaName, orgaId)
+			elif l[0] != None:
+				print "%s non traitée" % (l[0])
+			
+#transaction.commit()
 	
 	importPciData.status = u"Import successfull"
 
