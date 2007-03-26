@@ -26,7 +26,7 @@ class SupportAdd(AddForm):
     def nextURL(self):
         return "../.."
     #####template=ViewPageTemplateFile("support_form.pt")
-    def create(self, data):
+    def createAndAdd(self, data):
         u"on crée l'objet (ici avec le constructeur, mais on devrait utiliser une named factory)"
         support=Support()
         if (IDevice.providedBy(self.context.__parent__.__parent__)):
@@ -35,8 +35,9 @@ class SupportAdd(AddForm):
             support.software = removeAllProxies(self.context.__parent__.__parent__)
         u"puis on applique les données du formulaire à l'objet"
         applyChanges(support, self.form_fields, data)
-        u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
-        #self.context.contentName=support.device.__name__ + "-" + support.software.__name__
+        u"Et on ajoute l'objet créé à la fois dans le hard et dans le soft. On nomme comme le soft dans le hard, et comme le hard dans le soft."
+        support.software['supports'][support.device.__name__]=support
+        support.device['supports'][support.software.__name__]=support
         return support
 
 class SupportEdit(EditForm):
@@ -61,6 +62,6 @@ class SupportContainerView(object):
     def getitems(self):
         u"we return the list of compatible software or hardware depending on the context"
         if (IDevice.providedBy(self.context.__parent__)):
-            return ( { 'support': support, 'related' : support.software } for support in self.context.values() )
+            return ( { 'support': support, 'related' : support[1].software } for support in self.context.items() )
         if (ISoftware.providedBy(self.context.__parent__)):
-            return ( { 'support': support, 'related' : support.device } for support in self.context.values() )
+            return ( { 'support': support, 'related' : support[1].device } for support in self.context.items() )
