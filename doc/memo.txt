@@ -115,7 +115,15 @@ class IOrganizationCategory(Interface):
     pass
 
 
-    
+----------------------
+Mémo sur les étapes de la création d'une appli web
+- séparer les fonctionnalités
+- imaginer l'interface
+- imaginer une hierarchie d'objets
+- savoir comment sera utilisée l'URL (objets localisables en accès directs ? cachés à travers des vues ?)
+
+Merde la Häagen Dazs c'est bon.
+
     
 
 ----------------------

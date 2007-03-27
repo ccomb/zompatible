@@ -20,6 +20,7 @@ from organization import Organization, SearchProduct
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
     u"utilisé pour choisir IManufacturer et ISoftwareEditor dans une Organization"
     def __init__(self, field, subfield, request):
+        u" encapsulation de l'init sans quoi ça marche pas..."
         super(MyMultiCheckBoxWidget, self).__init__(field,  field.value_type.vocabulary, request)
 
 class OrganizationAdd(AddForm):
