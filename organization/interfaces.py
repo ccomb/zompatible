@@ -45,11 +45,13 @@ class ISearchableTextOfOrganization(ISearchableText):
 class IManufacturer(Interface):
     pciids=List(title=u'PCI IDs', description=u'list of pci ids for the manufacturer', value_type=TextLine(title=u'PCI ID', description=u'a PCI ID given to the manufacturer'))
 IManufacturer.setTaggedValue('name','Devices')
+IManufacturer.setTaggedValue('containername','devices')
 IManufacturer.setTaggedValue('description','The organization manufactures or assembles computer devices')
 
 
 class ISoftwareEditor(Interface):
     pass
 ISoftwareEditor.setTaggedValue('name','Software')
+ISoftwareEditor.setTaggedValue('containername','software')
 ISoftwareEditor.setTaggedValue('description','The organization produces or transforms Software')
 

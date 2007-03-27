@@ -11,7 +11,6 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
 
-
 <!-- Different Organization types -->
 <zope:interface  
   interface=".interfaces.IManufacturer"
@@ -30,16 +29,11 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareEditor" />
 </zope:class>
 
-
 <zope:adapter factory=".organization.SearchableTextOfOrganization" />
 <zope:adapter factory=".organization.Manufacturer" />
 <zope:adapter factory=".organization.SoftwareEditor" />
 <zope:adapter factory=".organization.OrganizationInterfaces" />
 <zope:adapter factory=".organization.OrganizationNameChooser" />
-
-<zope:subscriber
-    handler=".organization.createOrganizationSubfolders"
-/>
 
 <!-- Organization views -->
 <browser:page

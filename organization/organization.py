@@ -12,6 +12,7 @@ from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
 from zope.app.intid.interfaces import IIntIds
 from zope.app.container.contained import NameChooser
+
 import string
 
 from interfaces import *
@@ -24,19 +25,6 @@ class OrganizationContainer(Folder):
   "a organization container"
   implements(IOrganizationContainer)
   __name__=__parent__=None
-
-
-
-@adapter(IOrganization, IObjectAddedEvent)
-def createOrganizationSubfolders(organization, event):
-    u"Peut-être déplacer ça dans la gestion des manufacturer et SoftwareEditor"
-    u"Create the device container"
-    devices=DeviceContainer()
-    organization['devices']=devices 
-    u"then create the software container"
-    softwares=SoftwareContainer()
-    organization['software']=softwares
-
 
 class Organization(Folder):
     implements(IOrganization,IFolder)
@@ -64,8 +52,7 @@ class OrganizationNameChooser(NameChooser):
 
 class OrganizationInterfaces(object):
     u"""
-    I'm moving away orga interfaces management in an adapter
-    to avoid boring issues with __getattr__
+    An adapter that allows to get and set additional interfaces on Organizations.
     """
     implements(IOrganizationInterfaces)
     adapts(IOrganization)
@@ -86,10 +73,12 @@ class OrganizationInterfaces(object):
             for i in self.availableinterfaces:
                 noLongerProvides(removeAllProxies(self.orga), i)
                 if i in value:
+                    u"on crée le DeviceContainer ou SoftwareContainer si absent"
+                    if i.getTaggedValue('containername') not in self.orga:
+                        self.orga[i.getTaggedValue('containername')] = InternalContainerFactory(i)
                     alsoProvides(removeAllProxies(self.orga), i)
         else :
             self.__dict__[name]=value
-    
 
 class Manufacturer(object):
     implements(IManufacturer)
@@ -115,8 +104,15 @@ class SoftwareEditor(object):
             return self.context['software']
         else:
             return self.__dict__[name]
-  
 
+def InternalContainerFactory(i):
+    u"fonction qui crée le bon container en fonction de l'interface"
+    if (i is IManufacturer):
+        return DeviceContainer()
+    if (i is ISoftwareEditor):
+        return SoftwareContainer()
+
+        
 class SearchableTextOfOrganization(object):
     u"""
     l'adapter qui permet d'indexer les organizations
@@ -133,7 +129,6 @@ class SearchableTextOfOrganization(object):
             for subword in [ word[i:] for i in range(len(word)) ]:
                 texttoindex += subword + " "
         return texttoindex
-    
 
 class SearchOrganization(object):
     u"""
