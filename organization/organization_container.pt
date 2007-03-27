@@ -15,15 +15,16 @@
 <h1 tal:content="view/label">label de la vue</h1>
 
 
+<!-- recherche placée ici juste pour tester la recherche avec un contexte different de organization -->
+<form action="@@search.html" method="post">search any product :
+<input type="text" name="query" /> <input type="submit" value="search" />
+</form>
+
 <ul tal:repeat="orga view/getorganizations">
     <li><a tal:content="python: orga[1].names[0]" tal:attributes="href python:orga[0]" href="#">some organization</a></li>
 </ul>
 
 
-<!-- recherche placée ici juste pour tester la recherche avec un contexte different de organization -->
-<form action="@@search.html" method="post">search any product :
-<input type="text" name="query" /> <input type="submit" value="search" />
-</form>
 
 </div>
 
