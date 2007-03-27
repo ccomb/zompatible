@@ -1,6 +1,6 @@
 body {
 font-size: 100%;
-background: white;
+background: #EFFFEF;
 color: #D45500;
 }
 div#body {
@@ -26,16 +26,17 @@ margin-right: auto;
 border: solid 1px #AAAAAA;
 }
 
-div#admin_header {
-width: 100%;
-background-color: #FFFFD0;
-text-align: center;
-}
 div#adminarea {
+background: white;
 float: left;
 width: 15em;
 margin-top: 2em;
 border: solid 2px #FFFFD0;
+}
+div#admin_header {
+width: 100%;
+background-color: #FFFFD0;
+text-align: center;
 }
 ul#adminmenu li {
 
