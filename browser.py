@@ -132,6 +132,7 @@ class AdminAreaManager(ViewletManagerBase):
     def sort(self, viewlets):
         viewlets = dict(viewlets)
         return [(name, viewlets[name]) for name in self.ordre if name in viewlets]
+
         
 class AdminHeaderViewlet(object):
     u"""

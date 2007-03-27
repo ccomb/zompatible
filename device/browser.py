@@ -73,7 +73,6 @@ class DeviceView(BrowserPage):
     __call__=ViewPageTemplateFile("device.pt")
 
 
-
 class DeviceTerms(object):
     u"""
     la vue fournissant les termes de la source à des fins d'affichage dans le widget

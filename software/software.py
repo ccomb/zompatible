@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from persistent import Persistent
 from zope.app.folder.interfaces import IFolder
 from zope.app.folder.folder import Folder
 from zope.interface import implements
@@ -9,9 +10,10 @@ from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
 import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
+from BTrees.OOBTree import OOBTree
 
 from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware
-from zompatible.support.support import SupportContainer
+
 
 
 class SoftwareContainer(Folder):
@@ -19,19 +21,15 @@ class SoftwareContainer(Folder):
     implements(ISoftwareContainer)
     __name__=__parent__=None
 
-class Software(Folder):
-    implements(ISoftware,IFolder)
+class Software(Persistent):
+    implements(ISoftware)
     names=architectures=[]
     version=codename=u""
     link=u""
     url=""
     __name__=__parent__=None
-
-
-@adapter(ISoftware, IObjectAddedEvent)
-def createSoftwareSubfolders(software, event):
-    u"Create the support container"
-    software['supports']=SupportContainer()
+    def __init__(self):
+        self.supports = OOBTree()
 
 class SoftwareNameChooser(NameChooser):
     u"""

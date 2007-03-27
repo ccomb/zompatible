@@ -3,6 +3,12 @@ font-size: 100%;
 background: white;
 color: #D45500;
 }
+div#body {
+margin-left: 16em;
+}
+div.content {
+border: solid 1px #FFFFD0;
+}
 input {
 background: white;
 }
@@ -25,11 +31,12 @@ width: 100%;
 background-color: #FFFFD0;
 text-align: center;
 }
-
 div#adminarea {
-border: solid 1px #AAAAAA;
+float: left;
+width: 15em;
+margin-top: 2em;
+border: solid 2px #FFFFD0;
 }
-
 ul#adminmenu li {
-display: inline;
+
 }

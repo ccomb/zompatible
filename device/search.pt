@@ -6,8 +6,9 @@
     xml:lang="en" lang="en"
     metal:use-macro="context/@@standard_macros/page"
 >
+<body>
 
-<body metal:fill-slot="body">
+<div id="body" metal:fill-slot="body">
 
 <h1>Search result</h1>
 
@@ -20,7 +21,7 @@
 </li>
 </ul>
 
-
+</div>
 
 </body>
 </html>

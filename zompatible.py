@@ -17,6 +17,7 @@ from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfSoftware
 
+
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
     def __init__(self, site):
@@ -54,10 +55,8 @@ def ZompatibleSetup(event):
     sm.registerUtility(intid, IIntIds)
     
     u"then create the organizations folder"
-    organizations=OrganizationContainer()
-    event.object['organizations']=organizations
-
-        
+    event.object['organizations'] = OrganizationContainer()
+       
     u"then create and register the catalog"
     catalog = Catalog()
     sm['catalog']=catalog

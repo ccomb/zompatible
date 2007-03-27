@@ -7,7 +7,9 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
-<body metal:fill-slot="body">
+<body>
+
+<div id="body" metal:fill-slot="body">
 
 
 <h1 tal:content="view/label">label de la vue</h1>
@@ -17,6 +19,7 @@
     <li><a tal:content="python: soft[1].names[0] + ' ' + soft[1].version" tal:attributes="href python:soft[0]" href="#">some operatng system</a></li>
 </ul>
 
+</div>
 
 </body>
 </html>

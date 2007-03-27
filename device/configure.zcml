@@ -4,11 +4,15 @@
 <zope:class class=".device.Device">
   <require permission="zope.Public" interface=".interfaces.IDevice" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
+  <!-- On décide qu'un Device peut contenir des SubDevices -->
   <require permission="zope.Public" interface=".interfaces.ISubDevices" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
-  <!-- <require permission="zope.Public" interface="zompatible.feature.interfaces.IFeatured" />
-  <require permission="zope.ManageContent" set_schema="zompatible.feature.interfaces.IFeatured" /> -->
+  <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
+  <implements interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.Public" interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
+
 <zope:class class=".device.DeviceContainer">
   <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
@@ -21,14 +25,12 @@ pour dire que c'est un type de contenu -->
   type="zope.app.content.interfaces.IContentType"
 />
 
+
+
 <zope:adapter factory=".device.SearchableTextOfDevice" />
 <zope:adapter factory=".browser.DeviceTerms" />
 <zope:adapter factory=".browser.DeviceQueryView" />
 <zope:adapter factory=".device.DeviceNameChooser" />
-
-<zope:subscriber
-    handler=".device.createDeviceSubfolders"
-/>
 
 <browser:page
     name="device.Device"
@@ -51,6 +53,7 @@ pour dire que c'est un type de contenu -->
     permission="zope.View"
     menu="my_actions" title="View"
 />
+
 <!-- Device Container view -->
 <browser:page
     name="index.html"

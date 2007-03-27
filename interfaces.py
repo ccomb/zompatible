@@ -9,7 +9,9 @@ sitename="Zompatible"
 
 class IZompatibleSite(IPossibleSite, IContainer):
     u"""
-    l'interface (vide) du conteneur principal du site
+    l'interface (vide) du conteneur principal du site.
+    Cette interface devrait être l'occasion de placer des fonctions de haut niveau
+    pour abstraire la hierarchie des objets. (par ex. accès aux organizations).
     """
     
 class IZompatibleSiteManagerSetEvent(IObjectEvent):

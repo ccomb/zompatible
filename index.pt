@@ -13,14 +13,14 @@
 
 <h1>Zompatible (or any other name)</h1>
 
-
+<div id="body">
 
 <div id="mainarea" tal:content="structure provider:zompatible.MainArea">
 zone principale qui devra contenir le champ de recherche, ainsi que d'autres viewlets.
 </div>
 
 
-
+</div>
 
 
 </body>

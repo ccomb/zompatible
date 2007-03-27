@@ -6,8 +6,9 @@
     xml:lang="en" lang="en"
     metal:use-macro="context/@@standard_macros/page"
 >
+<body>
 
-<body metal:fill-slot="body">
+<div id="body"  metal:fill-slot="body">
 
 <h1 tal:content="view/label">label de la vue</h1>
 
@@ -15,6 +16,7 @@
 
 (other names: <span tal:repeat="name view/getothernames" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)
 
+</div>
 
 </body>
 </html>

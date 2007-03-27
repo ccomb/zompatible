@@ -4,6 +4,10 @@
 <zope:class class=".software.Software">
   <require permission="zope.Public" interface=".interfaces.ISoftware" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftware" />
+  <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
+  <implements interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.Public" interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
 
 <zope:class class=".software.SoftwareContainer">
@@ -16,10 +20,6 @@
 <zope:interface  
   interface=".interfaces.ISoftware"
   type="zope.app.content.interfaces.IContentType"
-/>
-
-<zope:subscriber
-    handler=".software.createSoftwareSubfolders"
 />
 
 <zope:adapter factory=".software.SearchableTextOfSoftware" />

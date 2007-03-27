@@ -7,9 +7,9 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
-<body metal:fill-slot="body">
+<body>
 
-
+<div id="body" metal:fill-slot="body">
 
 <h1 tal:content="view/label">label de la vue</h1>
 
@@ -24,7 +24,7 @@
 </form>
 
 
-
+</div>
 
 </body>
 </html>

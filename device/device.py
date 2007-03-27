@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements  
+from zope.interface import implements
+from persistent import Persistent
 from zope.app.folder.folder import Folder
 from zope.component import adapts, adapter, getUtility
 from zope.app.catalog.interfaces import ICatalog
@@ -9,9 +10,9 @@ from zope.app.component.hooks import getSite
 from zope.app.container.interfaces import INameChooser, IObjectAddedEvent
 from zope.app.container.contained import NameChooser
 import string
+from BTrees.OOBTree import OOBTree
 
 from interfaces import *
-from zompatible.support.support import SupportContainer
 
 class DeviceContainer(Folder):
     """
@@ -21,21 +22,15 @@ class DeviceContainer(Folder):
     implements(IDeviceContainer)
 
 
-class Device(Folder):
+class Device(Persistent):
     implements(IDevice, ISubDevices)
     names=PersistentList()
     subdevices=[]
     pciid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
-
-
-
-@adapter(IDevice, IObjectAddedEvent)
-def createDeviceSubfolders(device, event):
-    u"Create the support container"
-    device['supports']=SupportContainer()
-    
+    def __init__(self):
+        self.supports = OOBTree()
     
 class DeviceNameChooser(NameChooser):
     u"""

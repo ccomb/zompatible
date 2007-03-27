@@ -6,13 +6,15 @@ from zope.interface import Interface
 from zope.index.text.interfaces import ISearchableText
 
 
-class IDevice(IContainer, IContained):
+class IDevice(IContained):
     u"""
     IDevice offers basic attributes of a device
     So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
     Un device pourrait être une implémentation fournissant IDevice, IPhysicalInterface, IChiped, etc... ?
     Pour un contenu potentiellement infini (ex: devices pour un organization), faire un folder
     Pour un contenu limité (ex: chip dans un device), mettre en attributs.
+    
+    L'attribut supports contient un OOBTree qui associe Software → Support
     """
     #containers('zompatible.device.interfaces.IDeviceContainer')
     #contains('zompatible.driver.interfaces.IDriver')

@@ -7,17 +7,27 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
-<body metal:fill-slot="body">
+<body>
 
+
+<div id="body" metal:fill-slot="body">
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/__parent__/__name__">objet en question (hard ou soft)</h2>
+<h2 tal:content="context/__name__">objet en question (hard ou soft)</h2>
 
+<div class="content" tal:condition="python: view.support is not None">Compatibilité avec <span tal:replace="python: view.getrelated().__name__">Product</span>&nbsp;:<br/>
+<br/>
+(nothing yet)
+</div>
+
+<div class="content" tal:condition="python: view.support is None" >
 <ul tal:repeat="support view/getitems">
-    <li><a tal:content="python: support['related'].__name__" tal:attributes="href python:support['support'][0]" href="#">some device</a></li>
+    <li><a tal:content="python: support['related'].__name__" tal:attributes="href python:'compatible.html?with=' + support['related'].__name__ + '&id=' + str(support['related_id'])" href="#">some device</a></li>
 </ul>
+</div>
 
-
+</div>
 </body>
+
 </html>

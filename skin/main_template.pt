@@ -22,16 +22,16 @@
 <a tal:attributes="href string:${breadcrumb/url}/" tal:content="breadcrumb/name" tal:condition="repeat/breadcrumb/index">item</a>
 <tal:block condition="python: repeat['breadcrumb'].index() and not repeat['breadcrumb'].end()" content="string: → "/>
 </tal:block>
+
+<div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
+zone qui n'apparaît que pour les administrateurs.
+</div>
                              
-<div  metal:define-slot="body">
+<div metal:define-slot="body">
 Ici le contenu de la page
 </div>
 
 
-<hr/>
-<div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
-zone qui n'apparaît que pour les administrateurs.
-</div>
 
 </body>
 

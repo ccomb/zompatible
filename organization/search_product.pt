@@ -7,7 +7,9 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
-<body metal:fill-slot="body">
+<body>
+
+<div id="body" metal:fill-slot="body">
 
 <h1>Search result for <i tal:content="context/__name__">organization</i></h1>
 
@@ -35,5 +37,6 @@
 </ul>
 </tal:block>
 
+</div>
 </body>
 </html>

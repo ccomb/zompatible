@@ -7,8 +7,9 @@
     metal:use-macro="context/@@standard_macros/page"
 >
 
-<body metal:fill-slot="body">
+<body>
 
+<div id="body" metal:fill-slot="body">
 
 <h1 tal:content="view/label">label of the view</h1>
 
@@ -21,6 +22,7 @@ pci id: <span tal:content="context/pciid">0000</span>
 Subdevices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><span tal:content="subdevice/__name__">list</span><span tal:condition="not:repeat/subdevice/end">, </span></span>
 </p>
 
+</div>
 
 </body>
 </html>
