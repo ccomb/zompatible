@@ -2,16 +2,16 @@
 
 
 <zope:class class=".software.Software">
-  <require permission="zope.Public" interface=".interfaces.ISoftware" />
+  <require permission="zope.Public"        interface=".interfaces.ISoftware" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftware" />
   <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
   <implements interface="zompatible.support.interfaces.ISupported" />
-  <require permission="zope.Public" interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.Public"        interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
 
 <zope:class class=".software.SoftwareContainer">
-  <require permission="zope.Public" interface=".interfaces.ISoftwareContainer" />
+  <require permission="zope.Public"        interface=".interfaces.ISoftwareContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareContainer" />
 </zope:class>
 
@@ -32,21 +32,21 @@
     name="software.Software"
     for="zope.app.container.interfaces.IAdding"
     class=".browser.SoftwareAdd"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_addings" title="new Software"
 />
 <browser:page
     name="edit_software.html"
     for=".interfaces.ISoftware"
     class=".browser.SoftwareEdit"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.ISoftware"
     class=".browser.SoftwareView"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 
@@ -56,7 +56,7 @@
     for=".interfaces.ISoftwareContainer"
     class=".browser.SoftwareContainerView"
     template="software_container.pt"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 <browser:menuItem

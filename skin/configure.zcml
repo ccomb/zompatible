@@ -16,7 +16,7 @@
     name="standard_macros"
     for="*"
     class=".standardmacros.MyOwnStandardMacros"
-    permission="zope.View"
+    permission="zope.Public"
     allowed_interface="zope.interface.common.mapping.IItemMapping"
     layer=".interfaces.IZompatibleSkin"
 />
@@ -27,7 +27,7 @@
     for="*"
     class=".standardmacros.MyMainMacro"
     layer=".interfaces.IZompatibleSkin"
-    permission="zope.View"
+    permission="zope.Public"
 />
 
 <!-- Ici on définit un menu.
@@ -42,7 +42,7 @@ Ensuite on peut afficher les browser:page dans ce menu avec la directive menu --
     title="My addings Menu"
 />
 
-<browser:resource name="main.css" file="main.css" permission="zope.View" layer=".interfaces.IZompatibleSkin" />
+<browser:resource name="main.css" file="main.css" permission="zope.Public" layer=".interfaces.IZompatibleSkin" />
 
 
 </configure>

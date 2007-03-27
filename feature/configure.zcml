@@ -2,7 +2,7 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IFeature -->
 <zope:class class=".feature.Feature">
-  <require permission="zope.Public" interface=".interfaces.IFeature" />
+  <require permission="zope.Public"        interface=".interfaces.IFeature" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IFeature" />
 </zope:class>
 
@@ -17,7 +17,7 @@ pour dire que c'est un type de contenu -->
     name="feature.Feature"
     for="zope.app.container.interfaces.IAdding"
     class=".feature.FeatureAdd"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_addings" title="new feature"
 />
 <browser:page
@@ -25,14 +25,14 @@ pour dire que c'est un type de contenu -->
     for=".interfaces.IFeature"
     template="feature_form.pt"
     class=".feature.FeatureEdit"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IFeature"
     class=".feature.FeatureView"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 

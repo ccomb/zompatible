@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
-from zope.app.container.interfaces import IContainer, IContained
-from zope.app.container.constraints import contains, containers
+from zope.app.container.interfaces import IContainer
 from zope.schema import Choice
 
 class ISupported(Interface):

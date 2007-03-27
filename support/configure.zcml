@@ -2,17 +2,18 @@
 
 
 <zope:class class=".support.Support">
-  <require permission="zope.Public" interface=".interfaces.ISupport" />
+  <require permission="zope.Public"        interface=".interfaces.ISupport" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISupport" />
+  <!-- On décide qu'un Support est un ReportContainer -->
+  <implements interface="zompatible.report.interfaces.IReportContainer" />
 </zope:class>
-
 
 
 <browser:page
     name="compatible.html"
     for=".interfaces.ISupported"
     class=".browser.CompatibilityView"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 
@@ -20,7 +21,7 @@
     name="add_compatible.html"
     for=".interfaces.ISupported"
     class=".browser.SupportAdd"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_addings" title="new support"
 />
 

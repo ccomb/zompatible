@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
 from zope.app.folder.folder import Folder
-from zope.component import adapts, adapter, getUtility, getAllUtilitiesRegisteredFor
+from zope.component import adapts, getUtility, getAllUtilitiesRegisteredFor
 from zope.app.folder.interfaces import IFolder
 from zope.app.catalog.interfaces import ICatalog
-from zope.app.container.interfaces import IObjectAddedEvent, INameChooser
+from zope.app.container.interfaces import INameChooser
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
 from zope.component.interface import nameToInterface, interfaceToName
 from zope.schema.vocabulary import SimpleTerm

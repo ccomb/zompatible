@@ -1,6 +1,56 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<zope:class class=".report.Report">
+    <require permission="zope.Public"         interface=".interfaces.IReport" />
+    <require permission="zope.ManageContent" set_schema=".interfaces.IReport" />
+</zope:class>
 
+<zope:class class=".report.ReportContainer">
+    <require permission="zope.Public"        interface=".interfaces.IReportContainer" />
+    <require permission="zope.ManageContent" set_schema=".interfaces.IReportContainer" />
+</zope:class> 
+   
+<browser:page
+    name="index.html"
+    for=".report.Report"
+    class=".browser.ReportView"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="report.Report"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.ReportAdd"
+    permission="zope.Public"
+    menu="my_actions" title="new report"
+/>
+<browser:page
+    name="edit_report.html"
+    for=".report.Report"
+    class=".browser.ReportEdit"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="reports.html"
+    for=".report.ReportContainer"
+    class=".browser.ReportContainerView"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<browser:menuItem
+    title="add Report"
+    action="+/report.Report"
+    for=".interfaces.IReportContainer"
+    menu="my_actions"
+/>
 
+<!-- Pour la ZMI -->
+<browser:addMenuItem
+    title="Report"
+    class=".report.Report"
+    permission="zope.ManageContent"
+    view="report.Report"
+/>
 
 </configure>

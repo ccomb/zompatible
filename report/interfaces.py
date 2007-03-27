@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
 from zope.schema import Datetime, Text, Object, List
+from zope.app.container.interfaces import IContainer
+
+from zompatible.level.interfaces import IEasinessLevel, IStabilityLevel
+
+class IReportContainer(IContainer):
+    u"""
+    The container for reports
+    the Support objet should act as a report container
+    """
 
 class IReport(Interface):
     u"""
@@ -8,7 +17,8 @@ class IReport(Interface):
     """
     date = Datetime(title=u'date/time', description=u'date/time of the report')
     comment = Text(title=u'comment about the report', description=u'comment of the support level')
-    
+    #user = Object(title=u'user', description=u'user of this report', schema="zompatible.user.interfaces.IUser")
+
 class IStabilityReport(IReport):
     u"""
     the stability of the soft-hard combination, as reported by the user
@@ -21,6 +31,11 @@ class IEasinessReport(IReport):
     ("things" will probably be features)
     """
     easiness = Object(title=u'stability level', description=u'level of stability', schema=IEasinessLevel)
+
+class IAction(Interface):
+    u"""
+    Peut-être à déplacer dans un module séparé
+    """
 
 class IActionsReport(IReport):
     u"""

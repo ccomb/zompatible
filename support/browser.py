@@ -4,7 +4,6 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.proxy import removeAllProxies
-from zope.app.component.hooks import getSite
 from zope.app.intid.interfaces import IIntIds
 from zope.component import getUtility
 

@@ -2,19 +2,19 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IDevice -->
 <zope:class class=".device.Device">
-  <require permission="zope.Public" interface=".interfaces.IDevice" />
+  <require permission="zope.Public"        interface=".interfaces.IDevice" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
   <!-- On décide qu'un Device peut contenir des SubDevices -->
-  <require permission="zope.Public" interface=".interfaces.ISubDevices" />
+  <require permission="zope.Public"        interface=".interfaces.ISubDevices" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
   <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
   <implements interface="zompatible.support.interfaces.ISupported" />
-  <require permission="zope.Public" interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.Public"        interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
 
 <zope:class class=".device.DeviceContainer">
-  <require permission="zope.Public" interface=".interfaces.IDeviceContainer" />
+  <require permission="zope.Public"        interface=".interfaces.IDeviceContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
 </zope:class>
 
@@ -36,21 +36,21 @@ pour dire que c'est un type de contenu -->
     name="device.Device"
     for="zope.app.container.interfaces.IAdding"
     class=".browser.DeviceAdd"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_addings" title="new device"
 />
 <browser:page
     name="edit_device.html"
     for=".interfaces.IDevice"
     class=".browser.DeviceEdit"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="index.html"
     for=".interfaces.IDevice"
     class=".browser.DeviceView"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 
@@ -60,7 +60,7 @@ pour dire que c'est un type de contenu -->
     for=".interfaces.IDeviceContainer"
     class=".browser.DeviceContainerView"
     template="device_container.pt"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
 <browser:menuItem

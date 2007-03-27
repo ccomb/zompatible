@@ -2,12 +2,12 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.Organization">
-  <require permission="zope.Public" interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
+  <require permission="zope.Public"        interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
 </zope:class>
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.OrganizationContainer">
-  <require permission="zope.Public" interface=".interfaces.IOrganization" />
+  <require permission="zope.Public"        interface=".interfaces.IOrganization" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
 
@@ -17,7 +17,7 @@
   type="zompatible.organization.interfaces.IOrganizationType"
 />
 <zope:class class=".organization.Manufacturer">
-  <require permission="zope.Public" interface=".interfaces.IManufacturer" />
+  <require permission="zope.Public"        interface=".interfaces.IManufacturer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
 </zope:class>
 <zope:interface
@@ -25,7 +25,7 @@
     type="zompatible.organization.interfaces.IOrganizationType"
 />
 <zope:class class=".organization.SoftwareEditor">
-  <require permission="zope.Public" interface=".interfaces.ISoftwareEditor" />
+  <require permission="zope.Public"        interface=".interfaces.ISoftwareEditor" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareEditor" />
 </zope:class>
 
@@ -36,33 +36,44 @@
 <zope:adapter factory=".organization.OrganizationNameChooser" />
 
 <!-- Organization views -->
+<!-- ADD -->
 <browser:page
     name="organization.Organization"
     for="zope.app.container.interfaces.IAdding"
     class=".browser.OrganizationAdd"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_addings" title="new organization"
 />
+<!-- EDIT -->
 <browser:page
     name="edit_organization.html"
     for=".interfaces.IOrganization"
     class=".browser.OrganizationEdit"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="Edit"
 />
+<!-- EDIT INTERFACES -->
 <browser:page
     name="edit_organization_products.html"
     for=".interfaces.IOrganization"
     class=".browser.OrganizationInterfacesEdit"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="Edit product types"
 />
+<!-- VIEW -->
 <browser:page
     name="index.html"
     for=".interfaces.IOrganization"
     class=".browser.OrganizationView"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
+/>
+<!-- SEARCH -->
+<browser:page
+    name="search.html"
+    for="*"
+    class=".browser.SearchProductView"
+    permission="zope.Public"
 />
 
 <browser:menuItem
@@ -84,12 +95,7 @@
     for=".interfaces.IOrganizationContainer"
     menu="my_actions"
 />
-<browser:page
-    name="search.html"
-    for="*"
-    class=".browser.SearchProductView"
-    permission="zope.View"
-/>
+
 
 <!-- Organization Container view -->
 <browser:page
@@ -97,10 +103,9 @@
     for=".interfaces.IOrganizationContainer"
     class=".browser.OrganizationContainerView"
     template="organization_container.pt"
-    permission="zope.View"
+    permission="zope.Public"
     menu="my_actions" title="View"
 />
-
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem

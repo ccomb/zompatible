@@ -1,11 +1,5 @@
-
-
-
-
-
-
-
-
+# -*- coding: utf-8 -*-
+from zope.schema import TextLine, List
 
 class IUser(Interface):
   firstname = TextLine(title=u'first name', description=u'your first name')

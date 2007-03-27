@@ -7,7 +7,7 @@
       for="zompatible.importdata.interfaces.IImportPciData"
       name="index.html"
       class=".importPciData.ViewImportPciData"
-      permission="zope.View"
+      permission="zope.Public"
       /> 
  
  <configure package="zope.app.preview">

@@ -2,7 +2,7 @@
 
   <class class=".importdata.ImportPciData">
     <require
-        permission="zope.View"
+        permission="zope.Public"
         interface=".interfaces.IImportPciData"
         />
     <require

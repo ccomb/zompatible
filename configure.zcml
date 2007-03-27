@@ -2,7 +2,7 @@
 
 
 <zope:class class=".zompatible.ZompatibleSite">
-  <require permission="zope.Public" interface=".interfaces.IZompatibleSite" />
+  <require permission="zope.Public"        interface=".interfaces.IZompatibleSite" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IZompatibleSite" />
 </zope:class>
 
@@ -15,15 +15,17 @@
 <include package=".organization" />
 <include package=".device" />
 <include package=".software" />
-<include package=".category" />
+<include package=".level" />
+<include package=".report" />
 <include package=".support" />
 <include package=".importdata" />
+<include package=".user" />
 
 <browser:page
     name="index.html"
     class=".browser.MainPage"
     for=".zompatible.ZompatibleSite"
-    permission="zope.View"
+    permission="zope.Public"
 />
 
 <!-- la page qui effectue la recherche -->
@@ -31,19 +33,19 @@
     name="mainsearch.html"
     for="*"
     class=".browser.MainSearch"
-    permission="zope.View"
+    permission="zope.Public"
 />
 
 
 <zope:adapter
     name="pagetitle"
     factory=".browser.PageTitleContentProvider"
-    permission="zope.View"
+    permission="zope.Public"
 />
 <zope:adapter
     name="siteurl"
     factory=".browser.SiteUrlProvider"
-    permission="zope.View"
+    permission="zope.Public"
 />
 
 <!-- Main Area and its viewlets -->
@@ -51,7 +53,7 @@
     name="zompatible.MainArea"
     provides=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IZompatibleSkin"
-    permission="zope.View"
+    permission="zope.Public"
     class=".browser.MainAreaManager"
 />
 <browser:viewlet
@@ -61,7 +63,7 @@
     for="*"
     manager=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IZompatibleSkin"
-    permission="zope.View"
+    permission="zope.Public"
 />
 <browser:viewlet
     name="mainLinks"
@@ -70,7 +72,7 @@
     template="mainlinks.pt"
     manager=".interfaces.IMainAreaManager"
     layer=".skin.interfaces.IZompatibleSkin"
-    permission="zope.View"
+    permission="zope.Public"
 />
 
 <!-- Admin Area and its viewlets -->
@@ -88,7 +90,7 @@
     for="*"
     manager=".interfaces.IAdminAreaManager"
     layer=".skin.interfaces.IZompatibleSkin"
-    permission="zope.View"
+    permission="zope.Public"
 />
 <browser:viewlet
     name="adminheader"

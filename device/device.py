@@ -2,12 +2,12 @@
 from zope.interface import implements
 from persistent import Persistent
 from zope.app.folder.folder import Folder
-from zope.component import adapts, adapter, getUtility
+from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
-from zope.app.container.interfaces import INameChooser, IObjectAddedEvent
+from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 import string
 from BTrees.OOBTree import OOBTree

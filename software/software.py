@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from persistent import Persistent
-from zope.app.folder.interfaces import IFolder
 from zope.app.folder.folder import Folder
 from zope.interface import implements
-from zope.component import adapts, getUtility, adapter
+from zope.component import adapts, getUtility
 from zope.app.catalog.interfaces import ICatalog
-from zope.app.container.interfaces import INameChooser, IObjectAddedEvent
+from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
 import string
