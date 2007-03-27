@@ -23,12 +23,18 @@ class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
         u" encapsulation de l'init sans quoi ça marche pas..."
         super(MyMultiCheckBoxWidget, self).__init__(field,  field.value_type.vocabulary, request)
 
+
+class CustomTextWidget(TextAreaWidget):
+    width=50
+    height=5
+
 class OrganizationAdd(AddForm):
     u"""
     The view class for adding an organization
     The next URL allows to choose the product types
     """
     form_fields=Fields(IOrganization).omit('__name__', '__parent__')
+    form_fields['description'].custom_widget=CustomTextWidget
     label=u"Adding an organization"
     def nextURL(self):
         return "%s/edit_organization_products.html" % AbsoluteURL(self.organization, self.request) 
@@ -41,10 +47,6 @@ class OrganizationAdd(AddForm):
         u"puis on choisit le nom de l'objet dans le container (le 1er nom dans la liste)"
         self.context.contentName=self.organization.names[0]
         return self.organization
-
-class CustomTextWidget(TextAreaWidget):
-    width=50
-    height=5        
 
 class OrganizationEdit(EditForm):
     label="Edit organization details"
