@@ -59,7 +59,7 @@ class CompatibilityView(BrowserPage):
     Si on trouve 'with' dans la requête, on affiche l'objet Support correspondant
     """
     label = u"Compatibility list"
-    __call__=ViewPageTemplateFile("support_container.pt")
+    __call__=ViewPageTemplateFile("compatible.pt")
     support = None
     def __init__(self, context, request):
         self.context, self.request = context, request
