@@ -2,19 +2,19 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IDevice -->
 <zope:class class=".device.Device">
-  <require permission="zope.Public"        interface=".interfaces.IDevice" />
+  <require permission="zope.View"          interface=".interfaces.IDevice" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
   <!-- On décide qu'un Device peut contenir des SubDevices -->
-  <require permission="zope.Public"        interface=".interfaces.ISubDevices" />
+  <require permission="zope.View"          interface=".interfaces.ISubDevices" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
   <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
   <implements interface="zompatible.support.interfaces.ISupported" />
-  <require permission="zope.Public"        interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
 
 <zope:class class=".device.DeviceContainer">
-  <require permission="zope.Public"        interface=".interfaces.IDeviceContainer" />
+  <require permission="zope.View"          interface=".interfaces.IDeviceContainer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
 </zope:class>
 

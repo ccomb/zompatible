@@ -1,15 +1,15 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
 <zope:class class=".report.Report">
-    <require permission="zope.Public"         interface=".interfaces.IReport" />
+    <require permission="zope.View"           interface=".interfaces.IReport" />
     <require permission="zope.ManageContent" set_schema=".interfaces.IReport" />
 </zope:class>
 
 <zope:class class=".report.ReportContainer">
-    <require permission="zope.Public"        interface=".interfaces.IReportContainer" />
+    <require permission="zope.View"          interface=".interfaces.IReportContainer" />
     <require permission="zope.ManageContent" set_schema=".interfaces.IReportContainer" />
 </zope:class> 
-   
+
 <browser:page
     name="index.html"
     for=".report.Report"

@@ -2,12 +2,12 @@
 
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.Organization">
-  <require permission="zope.Public"        interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
+  <require permission="zope.View"          interface=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization .interfaces.IOrganizationInterfaces .interfaces.IManufacturer .interfaces.ISoftwareEditor" />
 </zope:class>
 <!-- on définit les permissions d'accès r/w sur les objets qui implémentent IOrganization -->
 <zope:class class=".organization.OrganizationContainer">
-  <require permission="zope.Public"        interface=".interfaces.IOrganization" />
+  <require permission="zope.View"          interface=".interfaces.IOrganization" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
 
@@ -17,7 +17,7 @@
   type="zompatible.organization.interfaces.IOrganizationType"
 />
 <zope:class class=".organization.Manufacturer">
-  <require permission="zope.Public"        interface=".interfaces.IManufacturer" />
+  <require permission="zope.View"          interface=".interfaces.IManufacturer" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
 </zope:class>
 <zope:interface
@@ -25,7 +25,7 @@
     type="zompatible.organization.interfaces.IOrganizationType"
 />
 <zope:class class=".organization.SoftwareEditor">
-  <require permission="zope.Public"        interface=".interfaces.ISoftwareEditor" />
+  <require permission="zope.View"          interface=".interfaces.ISoftwareEditor" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareEditor" />
 </zope:class>
 

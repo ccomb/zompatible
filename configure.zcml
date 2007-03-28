@@ -2,7 +2,7 @@
 
 
 <zope:class class=".zompatible.ZompatibleSite">
-  <require permission="zope.Public"        interface=".interfaces.IZompatibleSite" />
+  <require permission="zope.View"          interface=".interfaces.IZompatibleSite" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IZompatibleSite" />
 </zope:class>
 
