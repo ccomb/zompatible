@@ -8,6 +8,12 @@
   <implements interface="zompatible.report.interfaces.IReportContainer" />
 </zope:class>
 
+<zope:class class=".support.SupportContainer"> 
+    <require permission="zope.Public" interface=".interfaces.ISupportContainer" /> 
+    <require permission="zope.ManageContent" set_schema=".interfaces.ISupportContainer" /> 
+</zope:class> 
+
+<zope:subscriber handler=".support.SupportDeletion" />
 
 <browser:page
     name="compatible.html"
@@ -24,7 +30,13 @@
     permission="zope.Public"
     menu="my_addings" title="new support"
 />
-
+<browser:page
+    name="index.html"
+    for=".interfaces.ISupport"
+    class=".browser.SupportView"
+    permission="zope.Public"
+    menu="my_actions" title="View"
+/>
 <!-- pour ajouter un Support depuis un soft ou un hard -->
 <browser:menuItem
     title="add compatible product"
@@ -39,6 +51,7 @@
     menu="my_actions"
 />
 
+<!-- pour la ZMI -->
 
 
 

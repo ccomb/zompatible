@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
-from zope.app.container.interfaces import IContainer
+from zope.app.container.interfaces import IContainer, IContained
+from zope.app.container.constraints import contains
 from zope.schema import Choice
 
 class ISupported(Interface):
@@ -9,8 +10,13 @@ class ISupported(Interface):
     """
     supports = Attribute("Compatibility List")
 
+class ISupportContainer(IContainer, IContained):
+    u"""
+    Le conteneur qui stocke les objets Support
+    """
+    contains("zompatible.support.interfaces.ISupport")
 
-class ISupport(IContainer):
+class ISupport(IContainer, IContained):
     u"""
     objet qui fait le lien entre un Device et un Software.
     Il pointe vers un Device et un Software,

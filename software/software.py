@@ -28,6 +28,7 @@ class Software(Persistent):
     url=""
     __name__=__parent__=None
     def __init__(self):
+        u"a list of support devices, that lead to the Support objects"
         self.supports = OOBTree()
 
 class SoftwareNameChooser(NameChooser):
@@ -101,7 +102,7 @@ class SoftwareSource(object):
         found=0
         root = getSite()
         for manuf in root['organizations']:
-            if value.__name__ in root['organizations'][manuf]['software'].keys():
+            if 'software' in root['organizations'][manuf] and value.__name__ in root['organizations'][manuf]['software'].keys():
                 found=1
                 return True
         return False

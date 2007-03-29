@@ -30,6 +30,7 @@ class Device(Persistent):
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
     def __init__(self):
+        u"the list of supported software that lead to the Support objects"
         self.supports = OOBTree()
     
 class DeviceNameChooser(NameChooser):
@@ -127,7 +128,7 @@ class DeviceSource(object):
         found=0
         root = getSite()
         for manuf in root['organizations']:
-            if value.__name__ in root['organizations'][manuf]['devices'].keys():
+            if 'devices' in root['organizations'][manuf] and value.__name__ in root['organizations'][manuf]['devices'].keys():
                 found=1
                 return True
         return False

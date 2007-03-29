@@ -22,7 +22,6 @@
     for="zope.app.container.interfaces.IAdding"
     class=".browser.ReportAdd"
     permission="zope.Public"
-    menu="my_actions" title="new report"
 />
 <browser:page
     name="edit_report.html"
