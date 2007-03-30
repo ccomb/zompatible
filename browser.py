@@ -76,7 +76,7 @@ class MainAreaManager(ViewletManagerBase):
     et la fonction sort les trie.
     """
     implements(IMainAreaManager)
-    ordre = ['mainSearch', 'mainLinks' ]
+    ordre = [ 'mainSearch', 'mainLinks' ]
     def sort(self, viewlets):
         viewlets = dict(viewlets)
         return [(name, viewlets[name]) for name in self.ordre if name in viewlets]

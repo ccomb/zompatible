@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from zope.app.folder import Folder
 from zope.interface import implements
-from zope.app.folder.interfaces import IFolder
-from zope.component import adapts, adapter
+from zope.component import adapter
 from zope.app.container.interfaces import IObjectRemovedEvent
-
 
 from interfaces import *
 

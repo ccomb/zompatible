@@ -12,10 +12,10 @@
 
 <browser:page
     name="index.html"
-    for=".report.Report"
+    for=".interfaces.IReport"
     class=".browser.ReportView"
     permission="zope.Public"
-    menu="my_actions" title="Edit"
+    menu="my_actions" title="View Report"
 />
 <browser:page
     name="report.Report"
@@ -25,17 +25,17 @@
 />
 <browser:page
     name="edit_report.html"
-    for=".report.Report"
+    for=".interfaces.IReport"
     class=".browser.ReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
 />
 <browser:page
     name="reports.html"
-    for=".report.ReportContainer"
+    for=".interfaces.IReportContainer"
     class=".browser.ReportContainerView"
     permission="zope.Public"
-    menu="my_actions" title="Edit"
+    menu="my_actions" title="View reports"
 />
 <browser:menuItem
     title="add Report"
@@ -50,6 +50,12 @@
     class=".report.Report"
     permission="zope.ManageContent"
     view="report.Report"
+/>
+<browser:menuItem
+    title="View"
+    action="index.html"
+    for=".interfaces.IReport"
+    menu="zmi_views"
 />
 
 </configure>

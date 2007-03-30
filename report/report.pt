@@ -16,7 +16,9 @@
 
 <h2 tal:content="context/__name__">objet en question (hard ou soft)</h2>
 
+<p>Date : <span tal:replace="context/date">date</span></p>
 
+<p>Comment : <span tal:replace="context/comment">date</span></p>
 
 </div>
 </body>

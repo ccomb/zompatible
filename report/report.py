@@ -11,5 +11,5 @@ class Report(object):
     u"""
     The implementation of a user report
     """
-    implements(IReport, IStabilityReport, IEasinessReport, IActionsReport)
-    date = comment = stability = easiness = actions = None
+    implements(IReport)
+    date = comment = stability = easiness = actions = __parent__ = __name__ = None

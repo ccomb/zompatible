@@ -4,15 +4,7 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.proxy import removeAllProxies
-from zope.app.intid.interfaces import IIntIds
-from zope.component import getUtility, adapts
 from zope.app.component.hooks import getSite
-from zope.interface import implements
-from zope.publisher.interfaces.browser import IBrowserView
-from zope.app.container.browser.contents import Contents
-from zope.app.location.interfaces import ILocation
-from zope.app.container.btree import BTreeContainer
-from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.app.container.interfaces import INameChooser
 
 from zompatible.device.interfaces import IDevice
