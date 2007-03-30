@@ -14,6 +14,10 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
+Between
+<a href="#" tal:attributes="href context/device/@@absolute_url" tal:content="context/device/__name__">Device</a>
+and
+<a href="#" tal:attributes="href context/software/@@absolute_url" tal:content="context/software/__name__">Software</a>
 
 
 </div>
