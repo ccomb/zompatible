@@ -41,3 +41,4 @@ text-align: center;
 ul#adminmenu li {
 
 }
+.error { color: red; font-weight: bold; }
