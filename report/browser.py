@@ -6,15 +6,18 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from report import Report
 from interfaces import *
 
+from datetime import *
+
 class ReportAdd(AddForm):
     u"""
     The view class for adding a report
     """
-    form_fields=Fields(IReport).omit('__name__', '__parent__')
+    form_fields=Fields(IReport).omit('__name__', '__parent__', 'date')
     label=u"Adding a Report"
     #template=ViewPageTemplateFile("organization_form.pt")
     def create(self, data):
         self.report = Report()
+        self.report.date = datetime.now()
         applyChanges(self.report, self.form_fields, data)
         #self.context.contentName=string.lower(INameChooser(self.report).chooseName(u"",self.report))
         return self.report
@@ -23,7 +26,7 @@ class ReportEdit(EditForm):
     u"""
     The view class to edit a Report
     """
-    form_fields=Fields(IReport).omit('__name__', '__parent__')
+    form_fields=Fields(IReport).omit('__name__', '__parent__', 'date')
     label=u"Edit a Report"
    
 class ReportView(BrowserPage):

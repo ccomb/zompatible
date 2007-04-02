@@ -10,10 +10,10 @@ class ILevel(Interface):
   level = Int(title=u'support level', description=u'support level for this OS')
   description = Text(title=u'support level description', description=u'description of the support level')
 
-class IStabilityLevel(Interface):
+class IStabilityLevel(ILevel):
     pass
 
-class IEasinessLevel(Interface):
+class IEasinessLevel(ILevel):
     pass
     
     
