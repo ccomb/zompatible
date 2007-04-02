@@ -155,7 +155,6 @@ class AdminHeaderViewlet(object):
 class MainLinksViewlet(object):
     u"""
     le viewlet qui affiche les liens sous le champ de recherche
-    Pas besoin de template, on génère juste des liens
     Pour l'instant on affiche les dossiers de la racine
     
     Et pour l'instant on gère même en manuel
@@ -163,6 +162,7 @@ class MainLinksViewlet(object):
     Et je ne sais pas comment seront gérées les traductions des noms des objets.
     """
     def getitems(self):
-        return [ { 'name':i, 'url':i} for i in getSite().keys() ]
+        forbidden = [ 'supports' ]
+        return [ { 'name':i, 'url':i} for i in getSite().keys() if i not in forbidden ]
 
 
