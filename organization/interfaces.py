@@ -17,7 +17,7 @@ class IOrganization(IContainer, IContained):
     an organization of any kind.
     """
     containers('zompatible.organization.interfaces.IOrganizationContainer')
-    names=List(title=u'names', description=u'possible names of the organization', value_type=TextLine(title=u'name', description=u'a name for the organization'))
+    names=List(title=u'names', description=u'possible names of the organization', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the organization'))
     description = Text(title=u"description", description=u"description of the organization", required=False, max_length=1000)
     url = URI(title=u'web site', description=u'main web site of the organization', max_length=50, required=False)
     products = Attribute(u"products of the organization")

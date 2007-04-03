@@ -18,7 +18,7 @@ class IDevice(IContained):
     """
     #containers('zompatible.device.interfaces.IDeviceContainer')
     #contains('zompatible.driver.interfaces.IDriver')
-    names = List(title=u'names', description=u'possible names of the device', value_type=TextLine(title=u'name', description=u'a name for the device (commercial name, code name, etc.)'))
+    names = List(title=u'names', description=u'possible names of the device', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the device (commercial name, code name, etc.)'))
 #    physicalinterfaces = List(title=u'physical interfaces', description=u'list of physical interfaces on the device', value_type=Object(title=u'physical interface', description=u'a physical interface on the device', schema=IPhysicalInterface))
 #    existingdrivers = List(title=u'existing drivers', description=u'list of supported OS', value_type=Object(title=u'supported OS', description=u'OS on which the device works', schema=IDriver))
     pciid = TextLine(title=u'pci id', description=u'PCI identifier', required=False)
