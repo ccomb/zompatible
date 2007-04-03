@@ -20,11 +20,12 @@
 <include package=".support" />
 <include package=".importdata" />
 <include package=".user" />
+<include package=".poll" />
 
 <browser:page
     name="index.html"
     class=".browser.MainPage"
-    for=".zompatible.ZompatibleSite"
+    for=".interfaces.IZompatibleSite"
     permission="zope.Public"
 />
 

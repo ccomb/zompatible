@@ -8,11 +8,11 @@ from interfaces import *
 
 from datetime import *
 
-class ReportAdd(AddForm):
+class EasinessReportAdd(AddForm):
     u"""
     The view class for adding a report
     """
-    form_fields=Fields(IReport).omit('__name__', '__parent__', 'date')
+    form_fields=Fields(IEasinessReport).omit('__name__', '__parent__', 'date')
     label=u"Adding a Report"
     #template=ViewPageTemplateFile("organization_form.pt")
     def create(self, data):

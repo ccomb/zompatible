@@ -17,6 +17,8 @@ from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfSoftware
 from support.support import SupportContainer
+from level.level import EasinessLevels, StabilityLevels
+from level.interfaces import ILevels
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -64,7 +66,14 @@ def ZompatibleSetup(event):
     catalog = Catalog()
     sm['catalog']=catalog
     sm.registerUtility(catalog, ICatalog)
+
+    u"Register the level utilities"
+    sm['easiness_levels'] = EasinessLevels()
+    sm.registerUtility(sm['easiness_levels'], ILevels, 'easiness_levels')
     
+    sm['stability_levels'] = StabilityLevels()
+    sm.registerUtility(sm['stability_levels'], ILevels, 'stability_levels')
+     
     u"then create and register the wanted indices in the catalog"
     catalog['device_names'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
     catalog['organization_names'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)

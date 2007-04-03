@@ -1,6 +1,37 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<zope:class class=".level.EasinessLevels">
+  <require permission="zope.View"          interface=".interfaces.ILevels" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ILevels" />
+</zope:class>
 
+<zope:class class=".level.StabilityLevels">
+  <require permission="zope.View"          interface=".interfaces.ILevels" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ILevels" />
+</zope:class>
 
+<zope:class class=".level.Level">
+  <require permission="zope.View"          interface=".interfaces.ILevel" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ILevel" />
+</zope:class>
+
+<!-- Visible dans le site manager -->
+<browser:page
+    name="edit.html"
+    for=".interfaces.ILevels"
+    class=".browser.LevelsEdit"
+    permission="zope.ManageContent"
+    menu="zmi_views" title="Edit Levels"
+/>
+
+   <!-- Pour la ZMI -->
+<browser:addMenuItem
+    title="level list"
+    class=".level.Levels"
+    permission="zope.ManageContent"
+/> 
+
+<zope:utility factory=".level.EasinessLevelsVocabulary" name="easiness_levels" />
+<zope:utility factory=".level.StabilityLevelsVocabulary" name="stability_levels" />
 
 </configure>

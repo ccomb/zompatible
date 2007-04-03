@@ -18,9 +18,9 @@
     menu="my_actions" title="View Report"
 />
 <browser:page
-    name="report.Report"
+    name="report.Easiness"
     for="zope.app.container.interfaces.IAdding"
-    class=".browser.ReportAdd"
+    class=".browser.EasinessReportAdd"
     permission="zope.Public"
 />
 <browser:page
@@ -38,18 +38,18 @@
     menu="my_actions" title="View reports"
 />
 <browser:menuItem
-    title="add Report"
-    action="+/report.Report"
+    title="add Easiness Report"
+    action="+/report.Easiness"
     for=".interfaces.IReportContainer"
     menu="my_actions"
 />
 
 <!-- Pour la ZMI -->
 <browser:addMenuItem
-    title="Report"
-    class=".report.Report"
+    title="Easiness Report"
+    class=".report.EasinessReport"
     permission="zope.ManageContent"
-    view="report.Report"
+    view="report.Easiness"
 />
 <browser:menuItem
     title="View"
