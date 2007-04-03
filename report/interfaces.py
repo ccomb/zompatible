@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
 from zope.schema import Datetime, Text, Object, List, Choice
-from zope.app.container.interfaces import IContainer
-
+from zope.app.container.interfaces import IContainer, IContained
+from zope.app.container.constraints import contains, containers
 
 class IReportContainer(IContainer):
     u"""
     The container for reports
     the Support objet should act as a report container
     """
+    contains("zompatible.report.interfaces.IReport")
 
-class IReport(Interface):
+class IReport(IContained):
     u"""
     The basic user report, which contains basic informations
     """
+    containers(IReportContainer)
     date = Datetime(title=u'date/time', description=u'date/time of the report')
     comment = Text(title=u'comment about the report', description=u'comment of the support level')
     #user = Object(title=u'user', description=u'user of this report', schema="zompatible.user.interfaces.IUser")

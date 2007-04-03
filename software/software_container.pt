@@ -16,7 +16,7 @@
 
 
 <ul tal:repeat="soft view/getitems">
-    <li><a tal:content="python: soft[1].names[0] + ' ' + soft[1].version" tal:attributes="href python:soft[0]" href="#">some operatng system</a></li>
+    <li><a tal:content="python: soft[1].names[0] + ' ' + soft[1].version" tal:attributes="href python:soft[0]" href="#">some software</a></li>
 </ul>
 
 </div>

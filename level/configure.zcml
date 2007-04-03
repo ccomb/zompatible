@@ -24,12 +24,6 @@
     menu="zmi_views" title="Edit Levels"
 />
 
-   <!-- Pour la ZMI -->
-<browser:addMenuItem
-    title="level list"
-    class=".level.Levels"
-    permission="zope.ManageContent"
-/> 
 
 <zope:utility factory=".level.EasinessLevelsVocabulary" name="easiness_levels" />
 <zope:utility factory=".level.StabilityLevelsVocabulary" name="stability_levels" />

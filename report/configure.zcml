@@ -1,8 +1,8 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-<zope:class class=".report.Report">
-    <require permission="zope.View"           interface=".interfaces.IReport" />
-    <require permission="zope.ManageContent" set_schema=".interfaces.IReport" />
+<zope:class class=".report.EasinessReport">
+    <require permission="zope.View"           interface=".interfaces.IEasinessReport" />
+    <require permission="zope.ManageContent" set_schema=".interfaces.IEasinessReport" />
 </zope:class>
 
 <zope:class class=".report.ReportContainer">
@@ -13,9 +13,9 @@
 <browser:page
     name="index.html"
     for=".interfaces.IReport"
-    class=".browser.ReportView"
+    class=".browser.EasinessReportView"
     permission="zope.Public"
-    menu="my_actions" title="View Report"
+    menu="my_actions" title="View"
 />
 <browser:page
     name="report.Easiness"
@@ -26,7 +26,7 @@
 <browser:page
     name="edit_report.html"
     for=".interfaces.IReport"
-    class=".browser.ReportEdit"
+    class=".browser.EasinessReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
 />
@@ -43,7 +43,6 @@
     for=".interfaces.IReportContainer"
     menu="my_actions"
 />
-
 <!-- Pour la ZMI -->
 <browser:addMenuItem
     title="Easiness Report"
