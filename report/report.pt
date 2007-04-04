@@ -14,11 +14,17 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/__name__">objet en question (hard ou soft)</h2>
+<p><a href="../@@reports.html">All reports</a></p>
 
-<p>Date : <span tal:replace="context/date">date</span></p>
+<i tal:content="context/__name__">report</i> between <a tal:content="context/__parent__/device/__name__" href="#" tal:attributes="href context/__parent__/device/@@absolute_url">device</a>
+and
+<a tal:content="context/__parent__/software/__name__" href="#" tal:attributes="href context/__parent__/software/@@absolute_url">software</a>
 
-<p>Comment : <span tal:replace="context/comment">date</span></p>
+<ul>
+<li><b>Date: </b><span tal:replace="context/date">date</span></li>
+<li><b>Level: </b><span tal:replace="context/level/level">date</span></li>
+<li><b>Comment: </b><span tal:replace="context/comment">date</span></li>
+</ul>
 
 </div>
 </body>

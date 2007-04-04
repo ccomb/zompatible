@@ -19,7 +19,7 @@
     for=".interfaces.IReport"
     class=".browser.ReportView"
     permission="zope.Public"
-    menu="my_actions" title="View"
+    menu="my_actions" title="View report"
 /><!-- ADDING -->
 <browser:page
     name="report.Easiness"
@@ -39,7 +39,7 @@
     for=".interfaces.IReportContainer"
     class=".browser.ReportContainerView"
     permission="zope.Public"
-    menu="my_actions" title="View reports"
+    menu="my_actions" title="View all reports"
 /><!-- ADD -->
 <browser:menuItem
     title="add Easiness Report"

@@ -19,6 +19,7 @@ Between
 and
 <a href="#" tal:attributes="href context/software/@@absolute_url" tal:content="context/software/__name__">Software</a>
 
+<p>Ici il faut calculer un niveau global de support</p>
 
 </div>
 </body>

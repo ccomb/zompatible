@@ -20,7 +20,6 @@
     for=".interfaces.ISupported"
     class=".browser.CompatibilityView"
     permission="zope.Public"
-    menu="my_actions" title="View"
 />
 
 <browser:page
@@ -35,7 +34,7 @@
     for=".interfaces.ISupport"
     class=".browser.SupportView"
     permission="zope.Public"
-    menu="my_actions" title="View"
+    menu="my_actions" title="Compatibility summary"
 />
 <!-- pour ajouter un Support depuis un soft ou un hard -->
 <browser:menuItem
