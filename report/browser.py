@@ -3,32 +3,49 @@ from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-from report import EasinessReport
+from report import EasinessReport, StabilityReport
 from interfaces import *
 
 from datetime import *
 
 class EasinessReportAdd(AddForm):
     u"""
-    The view class for adding a report
+    The view class for adding an easiness report
     """
     form_fields=Fields(IEasinessReport).omit('__name__', '__parent__', 'date')
     label=u"Adding an easiness Report"
-    #template=ViewPageTemplateFile("organization_form.pt")
     def create(self, data):
         self.report = EasinessReport()
         self.report.date = datetime.now()
         applyChanges(self.report, self.form_fields, data)
-        #self.context.contentName=string.lower(INameChooser(self.report).chooseName(u"",self.report))
+        return self.report
+
+class StabilityReportAdd(AddForm):
+    u"""
+    The view class for adding a stability report
+    """
+    form_fields=Fields(IStabilityReport).omit('__name__', '__parent__', 'date')
+    label=u"Adding a stability Report"
+    def create(self, data):
+        self.report = StabilityReport()
+        self.report.date = datetime.now()
+        applyChanges(self.report, self.form_fields, data)
         return self.report
 
 class EasinessReportEdit(EditForm):
     u"""
-    The view class to edit a Report
+    The view class to edit an easiness Report
     """
     form_fields=Fields(IEasinessReport).omit('__name__', '__parent__', 'date')
-    label=u"Edit a Report"
-   
+    label=u"Edit an easiness Report"
+
+class StabilityReportEdit(EditForm):
+    u"""
+    The view class to edit a stability Report
+    """
+    form_fields=Fields(IStabilityReport).omit('__name__', '__parent__', 'date')
+    label=u"Edit a stability Report"
+    
 class ReportView(BrowserPage):
     u"""
     The view class to view a Report

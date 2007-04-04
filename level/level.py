@@ -34,6 +34,6 @@ class EasinessLevelsVocabulary(object):
 
 class StabilityLevelsVocabulary(object):
     implements(IVocabularyFactory)
-    def __call_(self, context):
+    def __call__(self, context):
         levels = getUtility(ILevels, 'stability_levels')
         return SimpleVocabulary.fromItems([("%s %s"%(level.level,level.description),level) for level in levels.levels])

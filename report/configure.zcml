@@ -20,30 +20,56 @@
     class=".browser.ReportView"
     permission="zope.Public"
     menu="my_actions" title="View report"
-/><!-- ADDING -->
+/>
+<!-- ADDING -->
 <browser:page
     name="report.Easiness"
     for="zope.app.container.interfaces.IAdding"
     class=".browser.EasinessReportAdd"
     permission="zope.Public"
-/><!-- EDIT -->
+/>
+<!-- ADDING -->
+<browser:page
+    name="report.Stability"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.StabilityReportAdd"
+    permission="zope.Public"
+/>
+<!-- EDIT -->
 <browser:page
     name="edit_easiness_report.html"
     for=".interfaces.IReport"
     class=".browser.EasinessReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
-/><!-- LIST -->
+/>
+<!-- EDIT -->
+<browser:page
+    name="edit_stability_report.html"
+    for=".interfaces.IReport"
+    class=".browser.StabilityReportEdit"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<!-- LIST -->
 <browser:page
     name="reports.html"
     for=".interfaces.IReportContainer"
     class=".browser.ReportContainerView"
     permission="zope.Public"
     menu="my_actions" title="View all reports"
-/><!-- ADD -->
+/>
+<!-- ADD -->
 <browser:menuItem
     title="add Easiness Report"
     action="+/report.Easiness"
+    for=".interfaces.IReportContainer"
+    menu="my_actions"
+/>
+<!-- ADD -->
+<browser:menuItem
+    title="add Stability Report"
+    action="+/report.Stability"
     for=".interfaces.IReportContainer"
     menu="my_actions"
 />
@@ -53,6 +79,12 @@
     class=".report.EasinessReport"
     permission="zope.ManageContent"
     view="report.Easiness"
+/>
+<browser:addMenuItem
+    title="Stability Report"
+    class=".report.StabilityReport"
+    permission="zope.ManageContent"
+    view="report.Stability"
 />
 <browser:menuItem
     title="View"
