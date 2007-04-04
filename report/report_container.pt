@@ -14,12 +14,12 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/device/__name__">objets en question (hard ou soft)</h2>
-
-<h2 tal:content="context/software/__name__">objets en question (hard ou soft)</h2>
+<h2>Between <a tal:content="context/device/__name__" href="#" tal:attributes="href context/device/@@absolute_url">device</a>
+and
+<a tal:content="context/software/__name__" href="#" tal:attributes="href context/software/@@absolute_url">software</a></h2>
 
 <ul tal:repeat="report view/getitems">
-    <li><a tal:content="python: report[1].date" tal:attributes="href python:report[0]" href="#">some report</a></li>
+    <li><a tal:content="python: report[1].__class__.__name__ + ' = ' + str(report[1].level.level) +' (' + report[1].date.strftime('%c')+')'" tal:attributes="href python:report[0]" href="#">some report</a></li>
 </ul>
 
 </div>

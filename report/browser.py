@@ -40,7 +40,7 @@ class ReportContainerView(BrowserPage):
     u"""
     The view class to view a ReportContainer (actually a Support)
     """
-    label="View of a Report"
+    label="List of Reports"
     __call__=ViewPageTemplateFile("report_container.pt")
     def getitems(self):
         return self.context.items()

@@ -13,7 +13,7 @@ class ISoftware(IContained):
     """
     names = List(title=u'names', description=u'possible software names', min_length=1, value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
-    version = TextLine(title=u'version', description=u'a text string describing the version', required=False)
+    version = TextLine(title=u'version', description=u'a text string describing the version', required=True)
     codename=TextLine(title=u'code name (if any)', description=u'the code name of the software', required=False)
     #license = Choice......(title=u'which license?', description=u'the licence of the software', schema=ILicense)
     #features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
