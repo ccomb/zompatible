@@ -8,13 +8,16 @@ from zope.interface.interfaces import IInterface
 
 class IOrganizationType(IInterface):
     u"""
-    The interface type for organizations (IManufacturer,...)
+    The interface type for organizations (IManufacturer, ISoftwareEditor)
     On the model of ContentType
     """
 
 class IOrganization(IContainer, IContained):
     u"""
     an organization of any kind.
+    It can be a Manufacturer or a Software Editor.
+    There is an adapter from IOrganization to IOrganizationInterfaces that allow to set and get the additional
+    interfaces offered by an Organization (interfaces of type IOrganizationType only)
     """
     containers('zompatible.organization.interfaces.IOrganizationContainer')
     names=List(title=u'names', description=u'possible names of the organization', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the organization'))
@@ -25,6 +28,8 @@ class IOrganization(IContainer, IContained):
 class IOrganizationInterfaces(Interface):
     u"""
     The class which manages additional interfaces for organizations
+    You can get the categories of an Organization by reading orga.interfaces
+    And you can change them by modifying the list. Eg: orga.interfaces = [ IManufacturer, ISoftwareEditor ]
     """
     interfaces = List(title=u"Products", description=u"The kind of products the organization releases", value_type=Choice(title=u'product type', description=u'the type of the product', vocabulary="organization_type"))
     
