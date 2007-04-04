@@ -27,6 +27,11 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.component import createObject	
 import transaction
 from zompatible.organization.organization import Organization
+from zope.app.component.hooks import getSite
+from zope.app.container.contained import setitem
+from zope.interface.declarations import alsoProvides
+from zompatible.device.device import DeviceContainer
+from zompatible.organization.interfaces import IManufacturer
 
 @adapter(IImportPciData, IObjectModifiedEvent)
 def updateZodbFromPciData(importPciData, event):
@@ -45,12 +50,47 @@ def updateZodbFromPciData(importPciData, event):
 																l[1]!=None)             ]
 
 	print "ORGANISATION list:"
-	for orga in orgas:
-		print "pciid:%s \tName:%s" %(orga[0], orga[1])
-#		a=Organization()
-#		a = createObject(u"zompatible.Organization")
-#		a.names.append(orga[1])
-#		a.pciids.append(orga[0])
+	
+	toto = Organization()
+	toto.names.append(u'toto')
+	toto.pciids.append(u'0101')
+	alsoProvides(toto, IManufacturer)
+	root = getSite()
+	root[u'organizations'][u'toto'] = toto
+	toto[u'devices'] = DeviceContainer()
+	#toto._p_changed = True
+	print "Organisation data:"
+	print toto
+	
+	tata = Organization()
+	tata.names.append(u'tata')
+	tata.pciids.append(u'A0A0')
+	alsoProvides(tata, IManufacturer)
+	root = getSite()
+#	setitem(root['organizations'], root['organizations'].__setitem__, u"tata", tata)
+#	setitem(tata, tata.__setitem__, u'devices', 		DeviceContainer())
+	root[u'organizations'][u'tata'] = tata
+	tata[u'devices'] = DeviceContainer()
+	#tata._p_changed = True
+	print "Organisation data:"
+	print tata
+	
+#	for orga in orgas:
+#		print "pciid:%s \tName:%s" %(orga[0], orga[1])
+#		toto = Organization()
+		#a = createObject(u"zompatible.Organization")
+#		toto.names.append(orga[1])
+#		toto.pciids.append(orga[0])
+#		alsoProvides(toto, IManufacturer)
+#		root = getSite()
+#		root['organizations'][a.names[0]] = a
+#		setitem(root['organizations'], root['organizations'].__setitem__, u"%s" % orga[1], toto)
+#		setitem(toto, toto.__setitem__, u'devices', 		DeviceContainer())
+#		toto._p_changed = True
+#		print "Organisation data:"
+#		print toto
+		
+#	transaction.commit()
 	
 	# Now we parse the devices
 	orgaName = u''
