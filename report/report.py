@@ -13,12 +13,12 @@ class Report(Persistent):
     The implementation of a user report
     """
     implements(IReport)
-    date = comment =__parent__ = __name__ = None
+    date = comment = level = __parent__ = __name__ = None
 
 class EasinessReport(Report):
     implements(IEasinessReport)
-    easiness = None
+
 
 class StabilityReport(Report):
     implements(IStabilityReport)
-    stability = None
+

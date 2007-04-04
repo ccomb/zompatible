@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
-from zope.schema import Datetime, Text, Object, List, Choice
+from zope.schema import Datetime, Text, Object, List, Choice, Field
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 
@@ -18,20 +18,21 @@ class IReport(IContained):
     containers(IReportContainer)
     date = Datetime(title=u'date/time', description=u'date/time of the report')
     comment = Text(title=u'comment about the report', description=u'comment of the support level')
+    level = Field(u"a level") #this Field is really defined in subclasses
     #user = Object(title=u'user', description=u'user of this report', schema="zompatible.user.interfaces.IUser")
 
 class IStabilityReport(IReport):
     u"""
     the stability of the soft-hard combination, as reported by the user
     """
-    stability = Choice(title=u'Stability Level', description=u'Stability Level', vocabulary="stability_levels")
+    level = Choice(title=u'Stability Level', description=u'Stability Level', vocabulary="stability_levels")
 
 class IEasinessReport(IReport):
     u"""
     the user report that tells whether making things (?) work was easy or not
     ("things" will probably be features)
     """
-    easiness = Choice(title=u'Easiness', description=u'Easiness', vocabulary="easiness_levels")
+    level = Choice(title=u'Easiness', description=u'Easiness', vocabulary="easiness_levels")
 
 
 # Error report management

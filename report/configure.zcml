@@ -1,42 +1,46 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
 <zope:class class=".report.EasinessReport">
-    <require permission="zope.View"           interface=".interfaces.IEasinessReport" />
-    <require permission="zope.ManageContent" set_schema=".interfaces.IEasinessReport" />
+    <require permission="zope.View"           interface=".interfaces.IReport" />
+    <require permission="zope.ManageContent" set_schema=".interfaces.IReport" />
 </zope:class>
-
+<zope:class class=".report.StabilityReport">
+    <require permission="zope.View"           interface=".interfaces.IReport" />
+    <require permission="zope.ManageContent" set_schema=".interfaces.IReport" />
+</zope:class>
 <zope:class class=".report.ReportContainer">
     <require permission="zope.View"          interface=".interfaces.IReportContainer" />
     <require permission="zope.ManageContent" set_schema=".interfaces.IReportContainer" />
 </zope:class> 
 
+<!-- VIEW -->
 <browser:page
     name="index.html"
     for=".interfaces.IReport"
-    class=".browser.EasinessReportView"
+    class=".browser.ReportView"
     permission="zope.Public"
     menu="my_actions" title="View"
-/>
+/><!-- ADDING -->
 <browser:page
     name="report.Easiness"
     for="zope.app.container.interfaces.IAdding"
     class=".browser.EasinessReportAdd"
     permission="zope.Public"
-/>
+/><!-- EDIT -->
 <browser:page
-    name="edit_report.html"
+    name="edit_easiness_report.html"
     for=".interfaces.IReport"
     class=".browser.EasinessReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
-/>
+/><!-- LIST -->
 <browser:page
     name="reports.html"
     for=".interfaces.IReportContainer"
     class=".browser.ReportContainerView"
     permission="zope.Public"
     menu="my_actions" title="View reports"
-/>
+/><!-- ADD -->
 <browser:menuItem
     title="add Easiness Report"
     action="+/report.Easiness"

@@ -29,7 +29,7 @@ class EasinessReportEdit(EditForm):
     form_fields=Fields(IEasinessReport).omit('__name__', '__parent__', 'date')
     label=u"Edit a Report"
    
-class EasinessReportView(BrowserPage):
+class ReportView(BrowserPage):
     u"""
     The view class to view a Report
     """
