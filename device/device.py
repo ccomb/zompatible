@@ -32,6 +32,14 @@ class Device(Persistent):
     def __init__(self):
         u"the list of supported software that lead to the Support objects"
         self.supports = OOBTree()
+
+from zope.component.factory import Factory
+
+deviceFactory = Factory(
+    Device,
+    title=u"Device factory",
+    description = u"This factory instantiates new Device."
+    )
     
 class DeviceNameChooser(NameChooser):
     u"""

@@ -52,15 +52,21 @@ def updateZodbFromPciData(importPciData, event):
 																
 	root = getSite()
 	for orga in orgas:
-		toto = createObject(u"zompatible.Organization")
-		toto.names = [ orga[1] ]
-		toto.pciids  = [ orga[0] ]
-		toto.interfaces = [ IManufacturer ]
-		alsoProvides(toto, IManufacturer)
-		root[u'organizations'][toto.names[0]] = toto
-		toto[u'devices'] = DeviceContainer()
-		transaction.commit()
-	
+		name = orga[1]
+		id = orga[0]
+		if not name in root[u'organizations']:
+			toto = createObject(u"zompatible.Organization")
+			toto.names = [ name ]
+			toto.pciids  = [ id ]
+			toto.interfaces = [ IManufacturer ]
+			alsoProvides(toto, IManufacturer)
+			root[u'organizations'][name] = toto
+			toto[u'devices'] = DeviceContainer()
+#			transaction.commit()
+		elif not id in root[u'organizations'][name].pciids:
+			root[u'organizations'][name].pciids.append(id)
+#			transaction.commit()
+			
 	# Now we parse the devices
 	orgaName = u''
 	orgaId = u''
@@ -77,17 +83,32 @@ def updateZodbFromPciData(importPciData, event):
 			elif len(l[0]) == 5:		# One tab
 				chipName = l[1]
 				chipId = l[0][1:5]
+				if not chipName in root[u'organizations'][orgaName][u'devices']:
+					a = createObject(u"zompatible.Device")
+					a.names = [ chipName ]
+					a.pciid = chipId
+					root[u'organizations'][orgaName][u'devices'][chipName] = a
+#					transaction.commit()
+#				elif not chipId in root[u'organizations'][orgaName][u'devices'][chipName].pciids:
 			elif len(l[0]) == 11:		# Two tabs
 				productName = l[1]
 				productVendorId = l[0][2:6]
 				productDeviceId = l[0][7:11]
-				print "%s(%s,%s) includes the chip %s(%s) from the manufacturer %s(%s)" % (	productName, productVendorId, productDeviceId,
-																																														chipName, chipId, 
-																																														orgaName, orgaId)
+				for o in root[u'organizations']:
+						if productVendorId in root[u'organizations'][o].pciids:
+							if not productName in root[u'organizations'][o][u'devices']:
+								a = createObject(u"zompatible.Device")
+								a.names = [ productName ]
+								a.pciid = productDeviceId
+								root[u'organizations'][o][u'devices'][productName] = a
+#								transaction.commit()
+							break
+#							elif not productDeviceId in root[u'organizations'][o][u'devices'][productName]
+							
 			elif l[0] != None:
 				print "%s non traitée" % (l[0])
 			
-#transaction.commit()
+	transaction.commit()
 	
 	importPciData.status = u"Import successfull"
 

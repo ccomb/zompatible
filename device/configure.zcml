@@ -75,6 +75,12 @@ pour dire que c'est un type de contenu -->
     factory=".device.DeviceVocabularyFactory"
     name="devicesource"
 />
+  
+<zope:utility
+    component=".device.deviceFactory"
+    name="zompatible.Device"
+    permission="zope.Public"
+/>
 
 
 <!-- juste pour la ZMI -->
