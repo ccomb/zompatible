@@ -134,7 +134,7 @@ class SearchableTextOfOrganization(object):
         for word in self.context.names:
             sourcetext += word + " "
         for word in sourcetext.split():        
-            for subword in [ word[i:] for i in range(len(word)) ]:
+            for subword in [ word[i:] for i in xrange(2,len(word)) if len(word)>=2 ]:
                 texttoindex += subword + " "
         return texttoindex
 
