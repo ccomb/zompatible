@@ -34,6 +34,14 @@ class Organization(Folder):
     pciids=[] # une Organization peut fournir IManufacturer !!
     __name__=__parent__=None
 
+from zope.component.factory import Factory
+
+organizationFactory = Factory(
+    Organization,
+    title=u"Organization factory",
+    description = u"This factory instantiates new Organization."
+    )
+
 class OrganizationNameChooser(NameChooser):
     u"""
     adapter qui permet de choisir le nom de l'organization auprès du container

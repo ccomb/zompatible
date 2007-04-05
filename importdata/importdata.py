@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 
 from zope.interface import implements
 from interfaces import IImport, IImportPciData
-#from zompatible.organization.interfaces 
+from persistent.list import PersistentList
 
 class Import(object):
 	implements(IImport)
@@ -48,49 +49,17 @@ def updateZodbFromPciData(importPciData, event):
 	orgas = [ l for l in lignes if ( len(l)>=2 and
 																len(l[0])==4 and  
 																l[1]!=None)             ]
-
-	print "ORGANISATION list:"
-	
-	toto = Organization()
-	toto.names.append(u'toto')
-	toto.pciids.append(u'0101')
-	alsoProvides(toto, IManufacturer)
+																
 	root = getSite()
-	root[u'organizations'][u'toto'] = toto
-	toto[u'devices'] = DeviceContainer()
-	#toto._p_changed = True
-	print "Organisation data:"
-	print toto
-	
-	tata = Organization()
-	tata.names.append(u'tata')
-	tata.pciids.append(u'A0A0')
-	alsoProvides(tata, IManufacturer)
-	root = getSite()
-#	setitem(root['organizations'], root['organizations'].__setitem__, u"tata", tata)
-#	setitem(tata, tata.__setitem__, u'devices', 		DeviceContainer())
-	root[u'organizations'][u'tata'] = tata
-	tata[u'devices'] = DeviceContainer()
-	#tata._p_changed = True
-	print "Organisation data:"
-	print tata
-	
-#	for orga in orgas:
-#		print "pciid:%s \tName:%s" %(orga[0], orga[1])
-#		toto = Organization()
-		#a = createObject(u"zompatible.Organization")
-#		toto.names.append(orga[1])
-#		toto.pciids.append(orga[0])
-#		alsoProvides(toto, IManufacturer)
-#		root = getSite()
-#		root['organizations'][a.names[0]] = a
-#		setitem(root['organizations'], root['organizations'].__setitem__, u"%s" % orga[1], toto)
-#		setitem(toto, toto.__setitem__, u'devices', 		DeviceContainer())
-#		toto._p_changed = True
-#		print "Organisation data:"
-#		print toto
-		
-#	transaction.commit()
+	for orga in orgas:
+		toto = createObject(u"zompatible.Organization")
+		toto.names = [ orga[1] ]
+		toto.pciids  = [ orga[0] ]
+		toto.interfaces = [ IManufacturer ]
+		alsoProvides(toto, IManufacturer)
+		root[u'organizations'][toto.names[0]] = toto
+		toto[u'devices'] = DeviceContainer()
+		transaction.commit()
 	
 	# Now we parse the devices
 	orgaName = u''
