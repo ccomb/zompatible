@@ -56,18 +56,21 @@ def updateZodbFromPciData(importPciData, event):
 	for orga in orgas:
 		name = orga[1]
 		id = orga[0]
-		if not name in root[u'organizations']:
+		if id == u'ffff':
+			# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
+			break
+		urlName = urllib.quote_plus(name)
+		if not urlName in root[u'organizations']:
 			toto = createObject(u"zompatible.Organization")
 			toto.names = [ name ]
 			toto.pciids  = [ id ]
 			toto.interfaces = [ IManufacturer ]
 			alsoProvides(toto, IManufacturer)
 			# Do not use HTTP reserved caracters in URL path !
-			urlName = urllib.quote_plus(name)
 			root[u'organizations'][urlName] = toto
 			toto[u'devices'] = DeviceContainer()
-		elif not id in root[u'organizations'][name].pciids:
-			root[u'organizations'][name].pciids.append(id)
+		elif not id in root[u'organizations'][urlName].pciids:
+			root[u'organizations'][urlName].pciids.append(id)
 			
 	# Now we parse the devices
 	orgaName = u''
@@ -84,6 +87,9 @@ def updateZodbFromPciData(importPciData, event):
 			if l[0].count(u'\t') == 0: 
 				orgaName = urllib.quote_plus(l[1])
 				orgaId = l[0]
+				if orgaId == u'ffff':
+					# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
+					break
 			# One tab => device
 			elif l[0].count(u'\t') == 1:		
 				chipName = l[1]
@@ -101,6 +107,7 @@ def updateZodbFromPciData(importPciData, event):
 					a = createObject(u"zompatible.Device")
 					a.names = [ chipName ]
 					a.pciid = chipId
+					a.subdevices = []
 					# Do not use HTTP reserved caracters in URL path !
 					urlName = urllib.quote_plus(chipName)
 					root[u'organizations'][orgaName][u'devices'][urlName] = a
@@ -122,11 +129,18 @@ def updateZodbFromPciData(importPciData, event):
 						# If a device already exists with the same id, we add the new name to this device 
 						if sameDev:
 							sameDev.names.append(productName)
+#							if not urllib.quote_plus(chipName) in sameDev.subdevices:
+#								print "same device:%s, productName:%s, orgaName:%s, chipName:%s" % (sameDev.names[0], productName, orgaName, chipName)
+#								sameDev.subdevices.append(root[u'organizations'][orgaName][u'devices'][urllib.quote_plus(chipName)])
+#								if len(sameDev.subdevices) >= 2:
+#									print "%s/%s has several subdevices !" % (orgaName, sameDev.names[0])
 						# If the device does not exists, we add it
 						elif not urllib.quote_plus(productName) in root[u'organizations'][o][u'devices']:
 							a = createObject(u"zompatible.Device")
 							a.names = [ productName ]
 							a.pciid = productDeviceId
+							a.subdevices = [ root[u'organizations'][orgaName][u'devices'][urllib.quote_plus(chipName)] ]
+							print "%s added as subdevice of %s" % (chipName,productName) 
 							# Do not use HTTP reserved caracters in URL path !
 							urlName = urllib.quote_plus(productName)
 							root[u'organizations'][o][u'devices'][urlName] = a
