@@ -33,6 +33,8 @@ from zope.app.container.contained import setitem
 from zope.interface.declarations import alsoProvides
 from zompatible.device.device import DeviceContainer
 from zompatible.organization.interfaces import IManufacturer
+from zope.app.container.interfaces import INameChooser
+import urllib
 
 @adapter(IImportPciData, IObjectModifiedEvent)
 def updateZodbFromPciData(importPciData, event):
@@ -60,12 +62,12 @@ def updateZodbFromPciData(importPciData, event):
 			toto.pciids  = [ id ]
 			toto.interfaces = [ IManufacturer ]
 			alsoProvides(toto, IManufacturer)
-			root[u'organizations'][name] = toto
+			# Do not use HTTP reserved caracters in URL path !
+			urlName = urllib.quote_plus(name)
+			root[u'organizations'][urlName] = toto
 			toto[u'devices'] = DeviceContainer()
-#			transaction.commit()
 		elif not id in root[u'organizations'][name].pciids:
 			root[u'organizations'][name].pciids.append(id)
-#			transaction.commit()
 			
 	# Now we parse the devices
 	orgaName = u''
@@ -76,32 +78,39 @@ def updateZodbFromPciData(importPciData, event):
 	productvendorId = u''
 	productDeviceId = u''
 	for l in lignes:
+		# Ensure that there are a column for ids and an other for the description
 		if len(l) >= 2:
-			if    len(l[0]) == 4:		# No tab
-				orgaName = l[1]
+			# No tab => organization
+			if l[0].count(u'\t') == 0: 
+				orgaName = urllib.quote_plus(l[1])
 				orgaId = l[0]
-			elif len(l[0]) == 5:		# One tab
+			# One tab => device
+			elif l[0].count(u'\t') == 1:		
 				chipName = l[1]
-				chipId = l[0][1:5]
-				if not chipName in root[u'organizations'][orgaName][u'devices']:
+				chipId = l[0].replace(u'\t',u'').strip()
+				if not urllib.quote_plus(chipName) in root[u'organizations'][orgaName][u'devices']:
 					a = createObject(u"zompatible.Device")
 					a.names = [ chipName ]
 					a.pciid = chipId
-					root[u'organizations'][orgaName][u'devices'][chipName] = a
-#					transaction.commit()
+					# Do not use HTTP reserved caracters in URL path !
+					urlName = urllib.quote_plus(chipName)
+					root[u'organizations'][orgaName][u'devices'][urlName] = a
 #				elif not chipId in root[u'organizations'][orgaName][u'devices'][chipName].pciids:
-			elif len(l[0]) == 11:		# Two tabs
+			# Two tabs => subsystem device
+			elif l[0].count(u'\t') == 2:		
 				productName = l[1]
-				productVendorId = l[0][2:6]
-				productDeviceId = l[0][7:11]
+				Ids = l[0].replace(u'\t',u'').strip().split(" ")
+				productVendorId = Ids[0]
+				productDeviceId = Ids[1]
 				for o in root[u'organizations']:
 						if productVendorId in root[u'organizations'][o].pciids:
-							if not productName in root[u'organizations'][o][u'devices']:
+							if not urllib.quote_plus(productName) in root[u'organizations'][o][u'devices']:
 								a = createObject(u"zompatible.Device")
 								a.names = [ productName ]
 								a.pciid = productDeviceId
-								root[u'organizations'][o][u'devices'][productName] = a
-#								transaction.commit()
+								# Do not use HTTP reserved caracters in URL path !
+								urlName = urllib.quote_plus(productName)
+								root[u'organizations'][o][u'devices'][urlName] = a
 							break
 #							elif not productDeviceId in root[u'organizations'][o][u'devices'][productName]
 							
