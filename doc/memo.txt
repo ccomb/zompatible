@@ -8,7 +8,7 @@
 Mémo sur les étapes de la création d'une appli web
 - séparer les fonctionnalités
 - imaginer l'interface
-- imaginer une hierarchie d'objets
+- imaginer la hierarchie d'objets
 - savoir comment sera utilisée l'URL (objets localisables en accès directs ? cachés à travers des vues ?)
 
     
@@ -51,11 +51,6 @@ fiche systeme (ex=portable)  liste des composants et de leurs supports respectif
 Imaginer une vue complete pour chaque objet. device, manuf, systeme
 
 
-objet ISupportLevel:
-- reports  <- rapports des visiteurs
-- OS's
-- Device
-- Action to support : None, install, compile, configure, ...?
 
 Add subdevice  -> search existing  :
 - if found -> add
@@ -94,7 +89,7 @@ Un tel comportement peut être implémenté de manière générique grâce à un
 
 Utiliser des sources ou vocabularies pour les attributs
 - le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
-- stocker toutes les recherches et leur résultat dans une liste (ex: de 100) pour la retrouvere + vites la 1eme fois : Les recherches les + fréquentes doivent être gardées en cache dans une liste.
+
 
 Un device peut fournir l'interface ISubDevices qui indique qu'il peut contenir des subdevices.
 Non. Un Device peut fournir bêtement l'interface IDeviceContainer qui indique qu'il peut contenir lui-même des devices.
@@ -245,8 +240,7 @@ EUREKA:  Il y a un module Category permettant de définir qu'un objet quelconque
 définir qu'un objet quelconque possède des features. Donc pour dire qu'une catégorie offre des features, il suffit de dire qu'un objet Category est featured.
 Inversement, une feature peut être catégorisée car on peut décider qu'elle est catégorisable. Donc une feature peut être catégorisée et une catégorie peut offrir des features.
 La boucle est bouclée, vive zope3. :)
-Seul petit problème, je voulais que les features soient des interfaces, et là c'est des objets. Mais finalement c'est pas plus mal. (D'ailleurs les interfaces sont elles-même
-des objets, mais bon... on va pas compliquer)
+
 Donc ensuite on peut dire qu'un objet quelconque est une imprimante en disant qu'elle est catégorisable et que l'une de ses catégories est l'objet imprimante.
 Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...FGvfsffdasd
 PhysicalInterface est une CATEGORIE. USB est une feature située dans la catégorie PhysicalInterface (çàd qui possède physInt parmi ses catégories.)
