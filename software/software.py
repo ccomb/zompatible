@@ -65,7 +65,7 @@ class SearchableTextOfSoftware(object):
         for word in self.context.names:
             sourcetext += word + " "
         for word in sourcetext.split():        
-            for subword in [ word[i:] for i in xrange(2,len(word)) if len(word)>=2 ]:
+            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
                 texttoindex += subword + " "
         return texttoindex
 

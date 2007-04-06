@@ -84,7 +84,7 @@ class SearchableTextOfDevice(object):
         u"""puis on génère les sous-mots pour pouvoir rechercher les parties des noms
         par exemple, foobar donnera : foobar oobar obar bar ar r"""
         for word in sourcetext.split():        
-            for subword in [ word[i:] for i in xrange(2,len(word)) if len(word)>=2 ]:
+            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
                 texttoindex += subword + " "
         return texttoindex
 
