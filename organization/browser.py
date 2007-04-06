@@ -12,7 +12,7 @@ from zope.app.container.interfaces import INameChooser
 from zope.proxy import removeAllProxies
 from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.copypastemove import ContainerItemRenamer
-import string
+import string, urllib
 
 from organization import Organization, SearchProduct
 
@@ -86,7 +86,7 @@ class OrganizationInterfacesEdit(EditForm):
     form_fields['interfaces'].custom_widget = CustomWidgetFactory(MyMultiCheckBoxWidget)
     def __call__(self):
         u"""
-        if we come from here, we've just modified the form, so we return to the organization
+        if we come from here, it means we've just modified the form, so we return to the organization
         """
         if 'form.actions.apply' in self.request :
             super(OrganizationInterfacesEdit, self).__call__()
@@ -111,7 +111,7 @@ class OrganizationContainerView(object):
     """
     label = u"List of organizations"
     def getorganizations(self):
-        return self.context.items()
+        return ( (urllib.quote(orga[0]),orga[1]) for orga in self.context.items() )
 
     
 class SearchProductView(BrowserPage):

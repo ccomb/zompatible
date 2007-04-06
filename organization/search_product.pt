@@ -11,7 +11,7 @@
 
 <div id="body" metal:fill-slot="body">
 
-<h1>Search result for <i tal:content="context/__name__">organization</i></h1>
+<h1>Search result in <i tal:content="context/__name__">organization</i></h1>
 
 <h2>Devices</h2>
 <tal:block define="nodevice python: not len(view.getDevices())">
