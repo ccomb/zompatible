@@ -20,7 +20,6 @@
 <include package=".support" />
 <include package=".importdata" />
 <include package=".user" />
-<include package=".poll" />
 
 <browser:page
     name="index.html"
