@@ -1,13 +1,13 @@
 body {
 font-size: 100%;
-background: #EFFFEF;
-color: #D45500;
+background: #FFFFEF;
+color: #AAAA20;
 }
 div#body {
-margin-left: 16em;
+margin-left: 0.2em;
 }
 div.content {
-border: solid 1px #FFFFD0;
+border: solid 1px #FFFF90;
 }
 input {
 background: white;
@@ -28,17 +28,18 @@ border: solid 1px #AAAAAA;
 
 div#adminarea {
 background: white;
-float: left;
+float: right;
 width: 15em;
 margin-top: 2em;
-border: solid 2px #FFFFD0;
+border: solid 2px #FFFF90;
 }
 div#admin_header {
 width: 100%;
-background-color: #FFFFD0;
+background-color: #FFFF90;
 text-align: center;
 }
-ul#adminmenu li {
+ul { margin: 0.1em; }
 
-}
+ul#adminmenu li { margin: 0.5em; }
 .error { color: red; font-weight: bold; }
+
