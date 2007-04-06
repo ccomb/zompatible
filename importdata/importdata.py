@@ -88,7 +88,16 @@ def updateZodbFromPciData(importPciData, event):
 			elif l[0].count(u'\t') == 1:		
 				chipName = l[1]
 				chipId = l[0].replace(u'\t',u'').strip()
-				if not urllib.quote_plus(chipName) in root[u'organizations'][orgaName][u'devices']:
+				sameDev = None
+				for dev in  root[u'organizations'][orgaName][u'devices']: 
+					if root[u'organizations'][orgaName][u'devices'][dev].pciid == chipId:
+						sameDev = root[u'organizations'][orgaName][u'devices'][dev]
+						break
+				# If a device already exists with the same id, we add the new name to this device 
+				if sameDev:
+					sameDev.names.append(chipName)
+				# If the device does not exists, we add it
+				elif not urllib.quote_plus(chipName) in root[u'organizations'][orgaName][u'devices']:
 					a = createObject(u"zompatible.Device")
 					a.names = [ chipName ]
 					a.pciid = chipId
@@ -103,15 +112,26 @@ def updateZodbFromPciData(importPciData, event):
 				productVendorId = Ids[0]
 				productDeviceId = Ids[1]
 				for o in root[u'organizations']:
-						if productVendorId in root[u'organizations'][o].pciids:
-							if not urllib.quote_plus(productName) in root[u'organizations'][o][u'devices']:
-								a = createObject(u"zompatible.Device")
-								a.names = [ productName ]
-								a.pciid = productDeviceId
-								# Do not use HTTP reserved caracters in URL path !
-								urlName = urllib.quote_plus(productName)
-								root[u'organizations'][o][u'devices'][urlName] = a
-							break
+					# If we find the organization from its id
+					if productVendorId in root[u'organizations'][o].pciids:
+						sameDev = None
+						for dev in  root[u'organizations'][o][u'devices']: 
+							if root[u'organizations'][o][u'devices'][dev].pciid == productDeviceId:
+								sameDev = root[u'organizations'][o][u'devices'][dev]
+								break
+						# If a device already exists with the same id, we add the new name to this device 
+						if sameDev:
+							sameDev.names.append(productName)
+						# If the device does not exists, we add it
+						elif not urllib.quote_plus(productName) in root[u'organizations'][o][u'devices']:
+							a = createObject(u"zompatible.Device")
+							a.names = [ productName ]
+							a.pciid = productDeviceId
+							# Do not use HTTP reserved caracters in URL path !
+							urlName = urllib.quote_plus(productName)
+							root[u'organizations'][o][u'devices'][urlName] = a
+						
+						break
 #							elif not productDeviceId in root[u'organizations'][o][u'devices'][productName]
 							
 			elif l[0] != None:
