@@ -36,8 +36,6 @@ from zompatible.organization.interfaces import IManufacturer
 from zope.app.container.interfaces import INameChooser
 
 def getUrlString(str):
-"""
-"""
 	if str:
 		str=str.replace(u'/',u'-') 
 		#str=str.replace(u'?',u'-') 

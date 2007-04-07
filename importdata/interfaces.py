@@ -1,5 +1,7 @@
 from zope.interface import Interface
 from zope.schema import Text, TextLine
+from zope.app.container.constraints import containers
+from zope.app.component.interfaces import ILocalSiteManager
 
 class IImport(Interface):
 	"""Import information to fill the data base
@@ -10,6 +12,7 @@ class IImport(Interface):
 class IImportPciData(IImport):
 	"""Import data as they are formated in pci.ids files.
 	"""
+	containers(ILocalSiteManager)
 	data = Text(
 		title=u"pci.ids file content",
 		description=u"Holds the data to analyse, coming from a pci.ids file.",

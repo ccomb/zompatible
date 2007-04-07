@@ -11,6 +11,6 @@ class ViewImportPciData(BrowserPage):
 		return self.context.data
 		
 class ImportPciDataEditForm(EditForm):
-	form_fields = Fields(IImportPciData)
+	form_fields = Fields(IImportPciData).omit('__parent__') # omit parent because containers constraint adds __parent__ in the schema
 	label = u"Copy pci.ids file data here"
 	
