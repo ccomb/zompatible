@@ -131,10 +131,14 @@
     name="organization_type"
 />
 
-  <zope:utility
+<zope:utility
       component=".organization.organizationFactory"
       name="zompatible.Organization"
-      permission="zope.Public"
-      />
+/>
+
+<zope:utility
+      component=".organization.OrganizationContainerFactory"
+      name="zompatible.OrganizationContainer"
+/>
 
 </configure>

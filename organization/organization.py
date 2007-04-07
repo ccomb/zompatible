@@ -12,6 +12,7 @@ from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
 from zope.app.intid.interfaces import IIntIds
 from zope.app.container.contained import NameChooser
+from zope.component.factory import Factory
 
 import string
 
@@ -26,6 +27,8 @@ class OrganizationContainer(Folder):
   implements(IOrganizationContainer)
   __name__=__parent__=None
 
+OrganizationContainerFactory = Factory(OrganizationContainer)
+    
 class Organization(Folder):
     implements(IOrganization,IFolder)
     names=[]

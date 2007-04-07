@@ -15,6 +15,11 @@
 
 <zope:subscriber handler=".support.SupportDeletion" />
 
+<zope:utility
+      component=".support.SupportContainerFactory"
+      name="zompatible.SupportContainer"
+/>
+
 <browser:page
     name="compatible.html"
     for=".interfaces.ISupported"

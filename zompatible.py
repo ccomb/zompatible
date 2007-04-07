@@ -11,12 +11,11 @@ from zope.app.intid import IntIds
 from zope.app.catalog.catalog import Catalog, ICatalog
 from zope.app.catalog.text import TextIndex
 from zope.index.text.interfaces import ISearchableText
+from zope.component import createObject
 
-from organization.organization import OrganizationContainer
 from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfSoftware
-from support.support import SupportContainer
 from level.level import EasinessLevels, StabilityLevels
 from level.interfaces import ILevels
 
@@ -24,7 +23,6 @@ class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
     def __init__(self, site):
         self.object=site
-
 
 class ZompatibleSite(Folder, SiteManagerContainer):
     u"""
@@ -38,7 +36,6 @@ class ZompatibleSite(Folder, SiteManagerContainer):
         u"on surcharge cette méthode pour pouvoir lancer l'evenement"
         super(ZompatibleSite, self).setSiteManager(sm)
         notify(ZompatibleSiteManagerSetEvent(self))
-
 
 @adapter(IZompatibleSite, IObjectAddedEvent)
 def newZompatibleSiteAdded(site, event):
@@ -57,10 +54,10 @@ def ZompatibleInitialSetup(event):
     sm.registerUtility(intid, IIntIds)
     
     u"then create the organizations folder"
-    event.object['organizations'] = OrganizationContainer()
+    event.object['organizations'] = createObject(u"zompatible.OrganizationContainer")
 
     u" and the support folder"
-    event.object['supports'] = SupportContainer()
+    event.object['supports'] = createObject(u"zompatible.SupportContainer")
      
     u"then create and register the catalog"
     catalog = Catalog()
