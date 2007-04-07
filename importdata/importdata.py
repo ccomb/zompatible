@@ -34,7 +34,14 @@ from zope.interface.declarations import alsoProvides
 from zompatible.device.device import DeviceContainer
 from zompatible.organization.interfaces import IManufacturer
 from zope.app.container.interfaces import INameChooser
-import urllib
+
+def getUrlString(str):
+	if str:
+		str=str.replace(u'/',u'-') 
+		#str=str.replace(u'?',u'-') 
+		while  (len(str) >=1) and (str[0] in u'+@'):
+			str = str[1:len(str)]
+	return str
 
 @adapter(IImportPciData, IObjectModifiedEvent)
 def updateZodbFromPciData(importPciData, event):
@@ -59,7 +66,7 @@ def updateZodbFromPciData(importPciData, event):
 		if id == u'ffff':
 			# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
 			break
-		urlName = urllib.quote_plus(name)
+		urlName = getUrlString(name)
 		if not urlName in root[u'organizations']:
 			toto = createObject(u"zompatible.Organization")
 			toto.names = [ name ]
@@ -85,7 +92,7 @@ def updateZodbFromPciData(importPciData, event):
 		if len(l) >= 2:
 			# No tab => organization
 			if l[0].count(u'\t') == 0: 
-				orgaName = urllib.quote_plus(l[1])
+				orgaName = getUrlString(l[1])
 				orgaId = l[0]
 				if orgaId == u'ffff':
 					# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
@@ -103,13 +110,13 @@ def updateZodbFromPciData(importPciData, event):
 				if sameDev:
 					sameDev.names.append(chipName)
 				# If the device does not exists, we add it
-				elif not urllib.quote_plus(chipName) in root[u'organizations'][orgaName][u'devices']:
+				elif not getUrlString(chipName) in root[u'organizations'][orgaName][u'devices']:
 					a = createObject(u"zompatible.Device")
 					a.names = [ chipName ]
 					a.pciid = chipId
 					a.subdevices = []
 					# Do not use HTTP reserved caracters in URL path !
-					urlName = urllib.quote_plus(chipName)
+					urlName = getUrlString(chipName)
 					root[u'organizations'][orgaName][u'devices'][urlName] = a
 #				elif not chipId in root[u'organizations'][orgaName][u'devices'][chipName].pciids:
 			# Two tabs => subsystem device
@@ -129,20 +136,20 @@ def updateZodbFromPciData(importPciData, event):
 						# If a device already exists with the same id, we add the new name to this device 
 						if sameDev:
 							sameDev.names.append(productName)
-#							if not urllib.quote_plus(chipName) in sameDev.subdevices:
+#							if not getUrlString(chipName) in sameDev.subdevices:
 #								print "same device:%s, productName:%s, orgaName:%s, chipName:%s" % (sameDev.names[0], productName, orgaName, chipName)
-#								sameDev.subdevices.append(root[u'organizations'][orgaName][u'devices'][urllib.quote_plus(chipName)])
+#								sameDev.subdevices.append(root[u'organizations'][orgaName][u'devices'][getUrlString(chipName)])
 #								if len(sameDev.subdevices) >= 2:
 #									print "%s/%s has several subdevices !" % (orgaName, sameDev.names[0])
 						# If the device does not exists, we add it
-						elif not urllib.quote_plus(productName) in root[u'organizations'][o][u'devices']:
+						elif not getUrlString(productName) in root[u'organizations'][o][u'devices']:
 							a = createObject(u"zompatible.Device")
 							a.names = [ productName ]
 							a.pciid = productDeviceId
-							a.subdevices = [ root[u'organizations'][orgaName][u'devices'][urllib.quote_plus(chipName)] ]
-							print "%s added as subdevice of %s" % (chipName,productName) 
+#							a.subdevices = [ root[u'organizations'][orgaName][u'devices'][getUrlString(chipName)] ]
+#							print "%s added as subdevice of %s" % (chipName,productName) 
 							# Do not use HTTP reserved caracters in URL path !
-							urlName = urllib.quote_plus(productName)
+							urlName = getUrlString(productName)
 							root[u'organizations'][o][u'devices'][urlName] = a
 						
 						break
