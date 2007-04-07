@@ -8,7 +8,7 @@
 
 
 <zope:subscriber handler=".zompatible.newZompatibleSiteAdded" />
-<zope:subscriber handler=".zompatible.ZompatibleSetup" />
+<zope:subscriber handler=".zompatible.ZompatibleInitialSetup" />
 
 <include package=".generations" />
 <include package=".skin" />

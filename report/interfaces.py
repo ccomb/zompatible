@@ -17,15 +17,15 @@ class IReport(IContained):
     """
     containers(IReportContainer)
     date = Datetime(title=u'date/time', description=u'date/time of the report')
-    comment = Text(title=u'comment about the report', description=u'comment of the support level')
     level = Field(u"a level") #this Field is really defined in subclasses
+    comment = Text(title=u'comment about the report', description=u'comment of the support level')
     #user = Object(title=u'user', description=u'user of this report', schema="zompatible.user.interfaces.IUser")
 
 class IStabilityReport(IReport):
     u"""
     the stability of the soft-hard combination, as reported by the user
     """
-    level = Choice(title=u'Stability Level', description=u'Stability Level', vocabulary="stability_levels")
+    level = Choice(title=u'Stability', description=u'Stability', vocabulary="stability_levels")
 
 class IEasinessReport(IReport):
     u"""

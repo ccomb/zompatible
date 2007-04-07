@@ -11,12 +11,12 @@ from interfaces import *
 objectwidget = CustomWidgetFactory(ObjectWidget, Level)
 listwidget = CustomWidgetFactory(ListSequenceWidget, subwidget=objectwidget)
 
-    
+ 
 class LevelsEdit(EditForm):
     u"""
-    The view class to edit the available Levels in the *_levels utilities
+    The view class to edit the available Levels in the site manager *_levels utilities
     """
-    form_fields=Fields(ILevels)
+    form_fields=Fields(ILevels).omit('__parent__') # omit parent because the containers constraint adds __parent__ in the schema
     label=u"Edit available levels"
     form_fields['levels'].custom_widget = listwidget
 

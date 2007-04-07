@@ -46,7 +46,7 @@ def newZompatibleSiteAdded(site, event):
     site.setSiteManager(LocalSiteManager(site))
 
 @adapter(IZompatibleSiteManagerSetEvent)
-def ZompatibleSetup(event):
+def ZompatibleInitialSetup(event):
     u"do the necessary!"
     site=event.object
     sm = site.getSiteManager()
@@ -70,7 +70,6 @@ def ZompatibleSetup(event):
     u"Register the level utilities"
     sm['easiness_levels'] = EasinessLevels()
     sm.registerUtility(sm['easiness_levels'], ILevels, 'easiness_levels')
-    
     sm['stability_levels'] = StabilityLevels()
     sm.registerUtility(sm['stability_levels'], ILevels, 'stability_levels')
      

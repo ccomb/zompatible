@@ -12,6 +12,7 @@ from zope.app.container.interfaces import INameChooser
 from zope.proxy import removeAllProxies
 from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.copypastemove import ContainerItemRenamer
+
 import string, urllib
 
 from organization import Organization, SearchProduct
@@ -79,7 +80,7 @@ class OrganizationEdit(EditForm):
         if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
             return ("The name <i>"+newname+"</i> conflicts with another Organization",)
         return super(OrganizationEdit, self).validate(action, data)
-    
+
 class OrganizationInterfacesEdit(EditForm):
     label="Edit Organization Products"
     form_fields=Fields(IOrganizationInterfaces)
@@ -93,7 +94,7 @@ class OrganizationInterfacesEdit(EditForm):
             self.request.response.redirect(AbsoluteURL(self.context, self.request))
         else :
             return super(OrganizationInterfacesEdit, self).__call__()
-                
+
 class OrganizationView(BrowserPage):
     u"la vue qui permet d'afficher un organization"
     label="View of an Organization"
@@ -102,7 +103,7 @@ class OrganizationView(BrowserPage):
         self.context, self.request = context, request
     def get_product_interfaces(self):
         return  [ {'name':type.getTaggedValue('name'), 'url':AbsoluteURL(getAdapter(self.context, type).products, self.request) } for type in IOrganizationInterfaces(self.context).interfaces ]
-        
+
 class OrganizationContainerView(object):
     u"""
     la vue du container de organizations.
@@ -113,7 +114,6 @@ class OrganizationContainerView(object):
     def getorganizations(self):
         return ( (urllib.quote(orga[0]),orga[1]) for orga in self.context.items() )
 
-    
 class SearchProductView(BrowserPage):
     u"""
     La vue de recherche de produit, qui contient
