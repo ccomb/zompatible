@@ -56,7 +56,7 @@ class StabilityReportEdit(EditForm):
     The view class to edit a stability Report
     """
     label=u"Edit a stability Report"
-    form_fields=Fields(IEasinessReport).select('level','comment')
+    form_fields=Fields(IStabilityReport).select('level','comment')
     form_fields['level'].custom_widget = CustomWidgetFactory(RadioWidget)
     form_fields['comment'].custom_widget = CustomTextWidget
     

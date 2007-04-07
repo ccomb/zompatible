@@ -37,17 +37,17 @@
 />
 <!-- EDIT -->
 <browser:page
-    name="edit_easiness_report.html"
-    for=".interfaces.IReport"
-    class=".browser.EasinessReportEdit"
+    name="edit_stability_report.html"
+    for=".interfaces.IStabilityReport"
+    class=".browser.StabilityReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
 />
 <!-- EDIT -->
 <browser:page
-    name="edit_stability_report.html"
-    for=".interfaces.IReport"
-    class=".browser.StabilityReportEdit"
+    name="edit_easiness_report.html"
+    for=".interfaces.IEasinessReport"
+    class=".browser.EasinessReportEdit"
     permission="zope.Public"
     menu="my_actions" title="Edit"
 />
