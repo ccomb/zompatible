@@ -22,6 +22,7 @@ class IDevice(IContained):
 #    physicalinterfaces = List(title=u'physical interfaces', description=u'list of physical interfaces on the device', value_type=Object(title=u'physical interface', description=u'a physical interface on the device', schema=IPhysicalInterface))
 #    existingdrivers = List(title=u'existing drivers', description=u'list of supported OS', value_type=Object(title=u'supported OS', description=u'OS on which the device works', schema=IDriver))
     pciid = TextLine(title=u'pci id', description=u'PCI identifier', required=False)
+    usbid = TextLine(title=u'usb id', description=u'USB identifier', required=False)
 
 
 

@@ -49,6 +49,7 @@ class ISearchableTextOfOrganization(ISearchableText):
 
 class IManufacturer(Interface):
     pciids=List(title=u'PCI IDs', description=u'list of pci ids for the manufacturer', value_type=TextLine(title=u'PCI ID', description=u'a PCI ID given to the manufacturer'))
+    usbids=List(title=u'USB vendor IDs', description=u'list of usb ids for the manufacturer', value_type=TextLine(title=u'USB vendor ID', description=u'a USB vendor ID given to the manufacturer'))
 IManufacturer.setTaggedValue('name','Devices')
 IManufacturer.setTaggedValue('containername','devices')
 IManufacturer.setTaggedValue('description','The organization manufactures or assembles computer devices')

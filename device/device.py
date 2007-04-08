@@ -27,6 +27,7 @@ class Device(Persistent):
     names=PersistentList()
     subdevices=[]
     pciid=""
+    usbid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__=None
     def __init__(self):

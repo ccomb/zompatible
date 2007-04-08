@@ -35,6 +35,7 @@ class Organization(Folder):
     url=""
     description=u""
     pciids=[] # une Organization peut fournir IManufacturer !!
+    usbids=[] # idem
     __name__=__parent__=None
 
 from zope.component.factory import Factory

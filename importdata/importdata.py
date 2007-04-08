@@ -34,6 +34,20 @@ class ImportPciData(Import):
 	data = u''
 	status = u''
 
+	def getOnlyInterestingData(self):
+		l = self.data.split(u'# Syntax:')
+		if len(l) >= 2:
+			self.data = l[1]
+		lignes = self.data.split("\n")
+		# Get rid of empty lignes
+		lignes = [ l for l in lignes if len(l)>0]
+		# Get rid of comments (elements have at least one caracter)
+		lignes = [ l for l in lignes if l[0]!='#']
+		# split Id and description
+		lignes = [ l.split("  ") for l in lignes]
+		
+		return lignes
+	
 	def addPciOrganization(self, name, id):
 		""" Add the name and the pciid of an organisation to the ZODB.
 	     	If the oraganization does not exists, it is created and stored,
@@ -41,26 +55,56 @@ class ImportPciData(Import):
 	     	if those data are already in the ZODB, it does nothing.
 		"""
 		root = getSite()
-		urlName = getUrlString(name)
-		if not urlName in root[u'organizations']:
+		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
+		# Check if the organisation already exists
+		mainOrga = None
+		
+		# First, look for the same usb/pci ids
+		# and look for the same name (in case the name was added by an other file) 		
+		for orga in  root[u'organizations']: 
+			if ((self.fileType == u'pciids' and id in root[u'organizations'][orga].pciids) or
+				 (self.fileType == u'usbids' and id in root[u'organizations'][orga].usbids) or
+				 name in root[u'organizations'][orga].names):
+				mainOrga = root[u'organizations'][orga]
+				break
+
+		if mainOrga:
+			if not name in mainOrga.names:
+				mainOrga.names.append(name)
+			if self.fileType == u'pciids' and not id in mainOrga.pciids:
+				mainOrga.pciids.append(id)
+			if self.fileType == u'usbids' and not id in mainOrga.usbids:
+				mainOrga.usbids.append(id)
+			if len(mainOrga.pciids) >= 1 and len(mainOrga.usbids) >= 1:
+				print "%s has usb and pci Ids !" % mainOrga.names[0]
+
+		# Otherwise, the organization does not exists, we add it
+		else:
+			urlName = getUrlString(name)
 			toto = createObject(u"zompatible.Organization")
 			toto.names = [ name ]
-			toto.pciids  = [ id ]
+			if self.fileType == u'pciids':
+				toto.pciids  = [ id ]
+				toto.usbids = []
+			elif self.fileType == u'usbids':
+				toto.pciids  = []
+				toto.usbids = [ id]
 			toto.interfaces = [ IManufacturer ]
 			alsoProvides(toto, IManufacturer)
 			# Do not use HTTP reserved caracters in URL path !
 			root[u'organizations'][urlName] = toto
 			toto[u'devices'] = DeviceContainer()
-		elif not id in root[u'organizations'][urlName].pciids:
-			root[u'organizations'][urlName].pciids.append(id)
+
 
 	def addPciDevice(self, orga, name, id, subdevOrgaName=None, subdevId=None):
 		root = getSite()
+		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
 		
 		# Check if a device already exists with the same id
 		mainDev = None
 		for dev in  root[u'organizations'][orga][u'devices']: 
-			if root[u'organizations'][orga][u'devices'][dev].pciid == id:
+			if (self.fileType == u'pciids' and root[u'organizations'][orga][u'devices'][dev].pciid == id or
+				  self.fileType == u'usbids' and root[u'organizations'][orga][u'devices'][dev].usbid == id):
 				mainDev = root[u'organizations'][orga][u'devices'][dev]
 				break
 				
@@ -68,6 +112,7 @@ class ImportPciData(Import):
 		if mainDev:
 			if not name in mainDev.names:
 				mainDev.names.append(name)
+			
 		# Otherwise, the device does not exists, we add it
 		else:
 			urlName = urlName2 = getUrlString(name)
@@ -79,7 +124,12 @@ class ImportPciData(Import):
 				
 			a = createObject(u"zompatible.Device")
 			a.names = [ name ]
-			a.pciid = id
+			if self.fileType == u'pciids':
+				a.pciid = id
+				a.usbid = u''
+			if self.fileType == u'usbids':
+				a.pciid = u''
+				a.usbid = id
 			a.subdevices = []
 			# Do not use HTTP reserved caracters in URL path !
 			root[u'organizations'][orga][u'devices'][urlName] = a
@@ -102,26 +152,26 @@ class ImportPciData(Import):
 					mainDev.subdevices.append(subdev)
 
 	def updateZodbFromPciData(self):
-		lignes = self.data.split("\n")
-		# Get rid of empty lignes
-		lignes = [ l for l in lignes if len(l)>0]
-		# Get rid of comments (elements have at least one caracter)
-		lignes = [ l for l in lignes if l[0]!='#']
-		# split Id and description
-		lignes = [ l.split("  ") for l in lignes]
+		self.fileType = u'pciids'
+		self.updateZodbFromData()
 		
+	def updateZodbFromUsbData(self):
+		self.fileType = u'usbids'
+		self.updateZodbFromData()
+
+	def updateZodbFromData(self):
+		lignes = self.getOnlyInterestingData()
+
 		# Then first we add the organisation and after the devices
 		orgas = [ l for l in lignes if ( len(l)>=2 and
 																	len(l[0])==4 and  
 																	l[1]!=None)             ]
 																	
 		root = getSite()
+		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
 		for orga in orgas:
 			name = orga[1]
 			id = orga[0]
-			if id == u'ffff':
-				# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
-				break
 			
 			self.addPciOrganization(name, id)
 				
@@ -140,9 +190,6 @@ class ImportPciData(Import):
 				if l[0].count(u'\t') == 0: 
 					orgaName = getUrlString(l[1])
 					orgaId = l[0]
-					if orgaId == u'ffff':
-						# We have reach the end of organizations (ffff stands for "Illegal Vendor ID"
-						break
 				# One tab => device
 				elif l[0].count(u'\t') == 1:		
 					chipName = l[1]
@@ -165,10 +212,10 @@ class ImportPciData(Import):
 				
 		transaction.commit()
 		
-		self.status = u"Import successfull"				
-
-	def updateZodbFromUsbData(self):
-		self.status = u'usb.ids file format parsing not yet implemented'
+		if self.fileType == u'pci.ids':
+			self.status = u"pci.ids: import successfull"				
+		elif self.fileType == u'usb.ids':
+			self.status = u"usb.ids: import successfull"				
 		
 from zope.component.factory import Factory
 
