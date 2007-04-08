@@ -24,3 +24,11 @@ class IImportPciData(IImport):
 		required=False
 		)
 
+	def updateZodbFromPciData(self):
+		""" Import data from pci.ids file format
+		"""
+		
+	def updateZodbFromUsbData(self):
+		""" Import data from usb.ids file format
+		"""
+		
