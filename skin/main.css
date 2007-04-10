@@ -1,7 +1,7 @@
 body {
 font-size: 100%;
-background: #FFFFEF;
-color: #AAAA20;
+background: #101010;
+color: #D0D0D0;
 }
 div#body {
 margin-left: 0.2em;
@@ -9,10 +9,38 @@ margin-left: 0.2em;
 div.content {
 border: solid 1px #FFFF90;
 }
+
 input {
-background: white;
+color: #111111
+background: #D0D0D0;
+border: solid 1px;
+border-color: #686868;
 }
-a { color: #338000; }
+input:hover {
+border-color: #27e8f2;
+}
+
+input[type=submit] {
+color: #F0F0F0;
+font-weight:bold;
+background-color: #808080;
+}
+a { 
+color: #f3b64a;
+text-decoration: none
+}
+/*a:visited {
+color: #f7ce85;
+}*/
+a:hover {
+color: #27e8f2;
+}
+a:active {
+color: #f3b64a;
+}
+li {
+color: #808080;
+}
 h1 {
 text-align: center;
 font-size: 200%;
@@ -23,19 +51,19 @@ width: 30em;
 text-align: center;
 margin-left: auto;
 margin-right: auto;
-border: solid 1px #AAAAAA;
+background: #111111
 }
 
 div#adminarea {
-background: white;
+background: #111111;
 float: right;
 width: 15em;
 margin-top: 2em;
-border: solid 2px #FFFF90;
+border: solid 2px #808080;
 }
 div#admin_header {
 width: 100%;
-background-color: #FFFF90;
+background-color: #808080;
 text-align: center;
 }
 ul { margin: 0.1em; }
