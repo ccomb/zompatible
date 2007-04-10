@@ -24,6 +24,10 @@ def getUrlString(s):
 			s = s[1:len(s)]
 	return s
 
+statusAdded = 0
+statusUpdated = 1
+statusExist = 2
+
 class Import(object):
 	implements(IImport)
 	pass
@@ -69,15 +73,19 @@ class ImportPciData(Import):
 				break
 
 		if mainOrga:
+			status = statusExist
 			if not name in mainOrga.names:
 				mainOrga.names.append(name)
+				status = statusUpdated
 			if self.fileType == u'pciids' and not id in mainOrga.pciids:
 				mainOrga.pciids.append(id)
+				status = statusUpdated
 			if self.fileType == u'usbids' and not id in mainOrga.usbids:
 				mainOrga.usbids.append(id)
-			if len(mainOrga.pciids) >= 1 and len(mainOrga.usbids) >= 1:
-				print "%s has usb and pci Ids !" % mainOrga.names[0]
+				status = statusUpdated
 
+			return status
+							
 		# Otherwise, the organization does not exists, we add it
 		else:
 			urlName = getUrlString(name)
@@ -94,6 +102,8 @@ class ImportPciData(Import):
 			# Do not use HTTP reserved caracters in URL path !
 			root[u'organizations'][urlName] = toto
 			toto[u'devices'] = DeviceContainer()
+			
+			return statusAdded
 
 
 	def addPciDevice(self, orga, name, id, subdevOrgaName=None, subdevId=None):
@@ -112,6 +122,9 @@ class ImportPciData(Import):
 		if mainDev:
 			if not name in mainDev.names:
 				mainDev.names.append(name)
+				status = statusUpdated
+			else:
+				status = statusExist
 			
 		# Otherwise, the device does not exists, we add it
 		else:
@@ -134,6 +147,7 @@ class ImportPciData(Import):
 			# Do not use HTTP reserved caracters in URL path !
 			root[u'organizations'][orga][u'devices'][urlName] = a
 			mainDev = root[u'organizations'][orga][u'devices'][urlName]
+			status = statusAdded
 	
 		# Subdevice part
 		if not (not subdevOrgaName or not subdevId):
@@ -151,6 +165,8 @@ class ImportPciData(Import):
 				if subdev:
 					mainDev.subdevices.append(subdev)
 
+		return status
+		
 	def updateZodbFromPciData(self):
 		self.fileType = u'pciids'
 		self.updateZodbFromData()
@@ -169,12 +185,14 @@ class ImportPciData(Import):
 																	
 		root = getSite()
 		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
+		nOrga = [ 0, 0, 0 ]
 		for orga in orgas:
 			name = orga[1]
 			id = orga[0]
 			
-			self.addPciOrganization(name, id)
-				
+			nOrga[self.addPciOrganization(name, id)] += 1
+		
+		nDev = [ 0, 0, 0]
 		# Now we parse the devices
 		orgaName = u''
 		orgaId = u''
@@ -194,7 +212,7 @@ class ImportPciData(Import):
 				elif l[0].count(u'\t') == 1:		
 					chipName = l[1]
 					chipId = l[0].replace(u'\t',u'').strip()
-					self.addPciDevice(orgaName,chipName,chipId)
+					nDev[self.addPciDevice(orgaName,chipName,chipId)] += 1
 				# Two tabs => subsystem device
 				elif l[0].count(u'\t') == 2:		
 					productName = l[1]
@@ -204,7 +222,7 @@ class ImportPciData(Import):
 					for o in root[u'organizations']:
 						# If we find the organization from its id
 						if productVendorId in root[u'organizations'][o].pciids:
-							self.addPciDevice(o,productName,productDeviceId,orgaName,chipId)						
+							nDev[self.addPciDevice(o,productName,productDeviceId,orgaName,chipId)] += 1						
 							break
 								
 				elif l[0] != None:
@@ -212,10 +230,12 @@ class ImportPciData(Import):
 				
 		transaction.commit()
 		
+		self.status = u'Organizations:\n%d added,\n%d updated,\n%d not modified.\n' % (nOrga[statusAdded], nOrga[statusUpdated], nOrga[statusExist])
+		self.status += u'Devices:\n%d added,\n%d updated,\n%d not modified.\n' % (nDev[statusAdded], nDev[statusUpdated], nDev[statusExist])
 		if self.fileType == u'pci.ids':
-			self.status = u"pci.ids: import successfull"				
-		elif self.fileType == u'usb.ids':
-			self.status = u"usb.ids: import successfull"				
+			self.status += u'pci.ids: import successfull'				
+		elif self.fileType == u'usbids':
+			self.status += u'usb.ids: import successfull'				
 		
 from zope.component.factory import Factory
 

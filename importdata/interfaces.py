@@ -18,7 +18,7 @@ class IImportPciData(IImport):
 		description=u"Holds the data to analyse, coming from a pci.ids file.",
 		required=True)
 
-	status = TextLine(
+	status = Text(
 		title=u"Status",
 		description=u"Report status of the last import",
 		required=False
