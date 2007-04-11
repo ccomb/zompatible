@@ -12,17 +12,14 @@ from zope.app.component.hooks import getSite
 from zope.app.container.contained import setitem
 from zope.interface.declarations import alsoProvides
 from zompatible.device.device import DeviceContainer
-from zompatible.organization.interfaces import IManufacturer
+from zompatible.organization.interfaces import IManufacturer, IOrganizationInterfaces
 from zope.app.container.interfaces import INameChooser
 
 def getUrlString(s):
 	"""
 	"""
-	if s:
-		s=s.replace(u'/',u'-') 
-		while  (len(s) >=1) and (s[0] in u'+@'):
-			s = s[1:len(s)]
-	return s
+	return s.replace(u'/',u'-').lstrip('+@').strip()
+
 
 statusAdded = 0
 statusUpdated = 1
@@ -96,11 +93,12 @@ class ImportData(Import):
 			elif self.fileType == u'usbids':
 				toto.pciids  = []
 				toto.usbids = [ id]
-			toto.interfaces = [ IManufacturer ]
-			alsoProvides(toto, IManufacturer)
 			# Do not use HTTP reserved caracters in URL path !
+			# FIXME: ici il faudrait que le nom soit: urlName = INameChooser(toto).chooseName(urlName,toto)
+			# car les noms de containment sont moches dans l'URL (%20, %chose, etc...)
+			# Mais dans ce cas il faut adapter le rester de l'import
 			root[u'organizations'][urlName] = toto
-			toto[u'devices'] = DeviceContainer()
+			IOrganizationInterfaces(toto).interfaces = [ IManufacturer ]
 			
 			return statusAdded
 
