@@ -59,7 +59,6 @@ class ImportPciData(Import):
 	     	if those data are already in the ZODB, it does nothing.
 		"""
 		root = getSite()
-		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
 		# Check if the organisation already exists
 		mainOrga = None
 		
@@ -108,7 +107,12 @@ class ImportPciData(Import):
 
 	def addPciDevice(self, orga, name, id, subdevOrgaName=None, subdevId=None):
 		root = getSite()
-		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
+		
+		#Find the ORGA folder FIRST !
+		for o in root[u'organizations']:
+			if orga in root[u'organizations'][o].names:
+				orga = o
+				break;
 		
 		# Check if a device already exists with the same id
 		mainDev = None
@@ -156,10 +160,12 @@ class ImportPciData(Import):
 			if len(l) == 0:
 				# Then, we look for the subdevice object
 				subdev=None
-				for dev in root[u'organizations'][subdevOrgaName][u'devices']:
-					if subdevId == root[u'organizations'][subdevOrgaName][u'devices'][dev].pciid:
-						subdev=root[u'organizations'][subdevOrgaName][u'devices'][dev]
-						break
+				for o in root[u'organizations']:
+					if subdevOrgaName in root[u'organizations'][o].names:
+						for dev in root[u'organizations'][o][u'devices']:
+							if subdevId == root[u'organizations'][o][u'devices'][dev].pciid:
+								subdev=root[u'organizations'][o][u'devices'][dev]
+								break
 						
 				# Finaly, we add it to the list
 				if subdev:
@@ -184,7 +190,6 @@ class ImportPciData(Import):
 																	l[1]!=None)             ]
 																	
 		root = getSite()
-		root = root[u'zompatible'] # TODO: remove it. Without this, it does not work any longer sine import is located in "++etc++site".
 		nOrga = [ 0, 0, 0 ]
 		for orga in orgas:
 			name = orga[1]
