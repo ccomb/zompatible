@@ -11,7 +11,7 @@ from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
-import string
+import string, urllib
 
 from device import Device, SearchDevice, DeviceSource
 from interfaces import *
@@ -133,7 +133,7 @@ class DeviceContainerView(object):
     """
     label = u"List of devices"
     def getitems(self):
-        return self.context.items()
+        return ( (urllib.quote(dev[0]),dev[1]) for dev in self.context.items() )
 
 
 
