@@ -21,7 +21,8 @@ class IImportData(IImport):
 	status = Text(
 		title=u"Status",
 		description=u"Report status of the last import",
-		required=False
+		required=False,
+		readonly=True
 		)
 
 	def updateZodbFromPciData(self):
