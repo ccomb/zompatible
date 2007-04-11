@@ -4,15 +4,15 @@
     >
     
   <browser:page
-      for="zompatible.importdata.interfaces.IImportPciData"
+      for="zompatible.importdata.interfaces.IImportData"
       name="index.html"
-      class=".importPciData.ViewImportPciData"
+      class=".importData.ViewImportData"
       permission="zope.Public"
       /> 
  
  <configure package="zope.app.preview">
     <browser:page
-       for="zompatible.importdata.interfaces.IImportPciData"
+       for="zompatible.importdata.interfaces.IImportData"
 	    name="preview.html"
        template="preview.pt"
        permission="zope.ManageContent"
@@ -21,17 +21,17 @@
   </configure>
  
     <browser:page
-       for="zompatible.importdata.interfaces.IImportPciData"
+       for="zompatible.importdata.interfaces.IImportData"
 	    name="edit.html"
-       class=".importPciData.ImportPciDataEditForm"
+       class=".importData.ImportDataEditForm"
        permission="zope.ManageContent"
        menu="zmi_views" title="Edit"
         />
 
 
   <browser:addMenuItem
-      title="ImportPciData"
-      factory="zompatible.importPciData"
+      title="ImportData"
+      factory="zompatible.importData"
       permission="zope.ManageContent"
       /> 
 

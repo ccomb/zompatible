@@ -1,19 +1,19 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
-  <class class=".importdata.ImportPciData">
+  <class class=".importdata.ImportData">
     <require
         permission="zope.Public"
-        interface=".interfaces.IImportPciData"
+        interface=".interfaces.IImportData"
         />
     <require
         permission="zope.ManageContent"
-        set_schema=".interfaces.IImportPciData"
+        set_schema=".interfaces.IImportData"
         />
   </class>
 
   <utility
-      component=".importdata.importPciDataFactory"
-      name="zompatible.importPciData"
+      component=".importdata.importDataFactory"
+      name="zompatible.importData"
       permission="zope.Public"
       />
 

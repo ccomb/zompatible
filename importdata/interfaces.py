@@ -9,7 +9,7 @@ class IImport(Interface):
 	"""
 	pass
 
-class IImportPciData(IImport):
+class IImportData(IImport):
 	"""Import data as they are formated in pci.ids files.
 	"""
 	containers(ILocalSiteManager)

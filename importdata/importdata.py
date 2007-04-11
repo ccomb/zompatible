@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from zope.interface import implements
-from interfaces import IImport, IImportPciData
+from interfaces import IImport, IImportData
 from persistent.list import PersistentList
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
@@ -32,8 +32,8 @@ class Import(object):
 	implements(IImport)
 	pass
 	
-class ImportPciData(Import):
-	implements(IImportPciData)
+class ImportData(Import):
+	implements(IImportData)
 
 	data = u''
 	status = u''
@@ -52,7 +52,7 @@ class ImportPciData(Import):
 		
 		return lignes
 	
-	def addPciOrganization(self, name, id):
+	def addOrganization(self, name, id):
 		""" Add the name and the pciid of an organisation to the ZODB.
 	     	If the oraganization does not exists, it is created and stored,
 	     	if it exists but still do not has this pciid, the organization data are updated,
@@ -105,7 +105,7 @@ class ImportPciData(Import):
 			return statusAdded
 
 
-	def addPciDevice(self, orga, name, id, subdevOrgaName=None, subdevId=None):
+	def addDevice(self, orga, name, id, subdevOrgaName=None, subdevId=None):
 		root = getSite()
 		
 		#Find the ORGA folder FIRST !
@@ -195,7 +195,7 @@ class ImportPciData(Import):
 			name = orga[1]
 			id = orga[0]
 			
-			nOrga[self.addPciOrganization(name, id)] += 1
+			nOrga[self.addOrganization(name, id)] += 1
 		
 		nDev = [ 0, 0, 0]
 		# Now we parse the devices
@@ -217,7 +217,7 @@ class ImportPciData(Import):
 				elif l[0].count(u'\t') == 1:		
 					chipName = l[1]
 					chipId = l[0].replace(u'\t',u'').strip()
-					nDev[self.addPciDevice(orgaName,chipName,chipId)] += 1
+					nDev[self.addDevice(orgaName,chipName,chipId)] += 1
 				# Two tabs => subsystem device
 				elif l[0].count(u'\t') == 2:		
 					productName = l[1]
@@ -227,7 +227,7 @@ class ImportPciData(Import):
 					for o in root[u'organizations']:
 						# If we find the organization from its id
 						if productVendorId in root[u'organizations'][o].pciids:
-							nDev[self.addPciDevice(o,productName,productDeviceId,orgaName,chipId)] += 1						
+							nDev[self.addDevice(o,productName,productDeviceId,orgaName,chipId)] += 1						
 							break
 								
 				elif l[0] != None:
@@ -244,20 +244,20 @@ class ImportPciData(Import):
 		
 from zope.component.factory import Factory
 
-importPciDataFactory = Factory(
-    ImportPciData,
-    title=u"Create a new importPciData object",
-    description = u"This factory instantiates new importPciDatas."
+importDataFactory = Factory(
+    ImportData,
+    title=u"Create a new importData object",
+    description = u"This factory instantiates new importDatas."
     )
 
-@adapter(IImportPciData, IObjectModifiedEvent)
-def updateZodbFromData(importPciData, event):
-	if importPciData.data.find(u'http://pciids.sf.net/') >=0:
-		importPciData.updateZodbFromPciData()
-	elif importPciData.data.find(u'http://www.linux-usb.org/usb.ids') >=0:
-		importPciData.updateZodbFromUsbData()
+@adapter(IImportData, IObjectModifiedEvent)
+def updateZodbFromData(importData, event):
+	if importData.data.find(u'http://pciids.sf.net/') >=0:
+		importData.updateZodbFromPciData()
+	elif importData.data.find(u'http://www.linux-usb.org/usb.ids') >=0:
+		importData.updateZodbFromUsbData()
 	else:
-		importPciData.status = u'File format not recognized'
+		importData.status = u'File format not recognized'
 		
 
 
