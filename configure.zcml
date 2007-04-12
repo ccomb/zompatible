@@ -52,7 +52,6 @@
 <browser:viewletManager
     name="zompatible.MainArea"
     provides=".interfaces.IMainAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.Public"
     class=".browser.MainAreaManager"
 />
@@ -62,7 +61,6 @@
     template="mainsearch.pt"
     for="*"
     manager=".interfaces.IMainAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.Public"
 />
 <browser:viewlet
@@ -71,7 +69,6 @@
     for="*"
     template="mainlinks.pt"
     manager=".interfaces.IMainAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.Public"
 />
 
@@ -80,7 +77,6 @@
     name="zompatible.AdminArea"
     class=".browser.AdminAreaManager"
     provides=".interfaces.IAdminAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.ManageContent"
 />
 
@@ -89,7 +85,6 @@
     template="login.pt"
     for="*"
     manager=".interfaces.IAdminAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.Public"
 />
 <browser:viewlet
@@ -97,7 +92,6 @@
     class=".browser.AdminHeaderViewlet"
     for="*"
     manager=".interfaces.IAdminAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.ManageContent"
 />
 <browser:viewlet
@@ -105,7 +99,6 @@
     template="adminmenu.pt"
     for="*"
     manager=".interfaces.IAdminAreaManager"
-    layer=".skin.interfaces.IZompatibleSkin"
     permission="zope.ManageContent"
 />
 
