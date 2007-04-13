@@ -53,13 +53,15 @@ margin-left: auto;
 margin-right: auto;
 background: #111111
 }
-
+div#column {
+float: right;
+}
 div#adminarea {
 background: #111111;
-float: right;
 width: 15em;
 margin-top: 2em;
 border: solid 2px #808080;
+padding: 2px;
 }
 div#admin_header {
 width: 100%;
@@ -71,3 +73,10 @@ ul { margin: 0.1em; }
 ul#adminmenu li { margin: 0.5em; }
 .error { color: red; font-weight: bold; }
 
+div#toolbox {
+background: #111111;
+width: 15em;
+margin-top: 2em;
+border: solid 2px #808080;
+padding: 2px;
+}

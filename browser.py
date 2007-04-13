@@ -12,6 +12,7 @@ from zope.app.component.hooks import getSite
 from interfaces import *
 from device.device import SearchDevice
 from organization.organization import SearchOrganization
+from organization.interfaces import IOrganization
 from software.software import SearchSoftware
 
 class MainPage(object):
@@ -124,52 +125,67 @@ class MainSearch(object):
             result += "\n"
         return result
 
-
 class AdminAreaManager(ViewletManagerBase):
-    u"Le viewlet manager qui gère l'adminarea"
+    u"The viewlet manager for the adminarea"
     ordre = ['adminheader', 'login', 'adminmenu' ]
     implements(IAdminAreaManager)
     def sort(self, viewlets):
         viewlets = dict(viewlets)
         return [(name, viewlets[name]) for name in self.ordre if name in viewlets]
 
-        
 class AdminHeaderViewlet(object):
     u"""
-    le viewlet qui affiche le titre de la zone d'admin
-    Pas de template pour celui-ci, on fait une vraie implémentation d'IViewlet pour tester.
+    The viewlet that displays the title of the admin area
+    No template here, we do a real implementation od IViewlet just to test.
     """
     implements(IViewlet)
     def update(self):
         pass
     def render(self):
         u"""
-        ici on pourrait utiliser un template grâce à ViewPageTemplateFile
-        On se contente de renvoyer du bête HTML (en utf-8)
+        Here we could use a template by calling ViewPageTemplateFile
+        We actually just return bare HTML (in utf-8)
         """
         return u'<div id="admin_header">Zone admin</div>'
-    
 
-
-    
 class MainLinksViewlet(object):
     u"""
-    le viewlet qui affiche les liens sous le champ de recherche
-    Pour l'instant on affiche les dossiers de la racine
-    
-    Et pour l'instant on gère même en manuel
-    car les objets SoftwareContainer n'ont pas de nom pour l'instant.
-    Et je ne sais pas comment seront gérées les traductions des noms des objets.
+    The viewlet that displays the links under the main search field
+    For now we display the folders of the root, and forbid a few ones
     """
     def getitems(self):
         forbidden = [ 'supports', 'trash' ]
         return [ { 'name':i, 'url':i} for i in getSite().keys() if i not in forbidden ]
 
 class FailsafeAbsoluteURL(AbsoluteURL):
+    u"""
+    This implementation of absolute_url view was made
+    to prevent an error when accessing a Support whose device was deleted.
+    """
     def __call__(self):
         try:
             return super(FailsafeAbsoluteURL,self).__call__()
         except:
             return "javascript: alert('This object cannot be located')"
-        
 
+class ToolboxManager(ViewletManagerBase):
+    u"""
+    a viewlet manager for a side toolbox.
+    """
+    implements(IToolboxManager)
+
+class ProductSearchViewlet(object):
+    u"""
+    the viewlet that displays the searchbox for a product.
+    its behaviour depends on when we are (see organization.browser.SearchProductView)
+    It is defined by a template (see configure.zcml)
+    """
+    def only_organization(self):
+        if (IOrganization.providedBy(self.context) or IOrganization.providedBy(self.context.__parent__)): 
+            return True
+        return False
+    def organization_name(self):
+        if IOrganization.providedBy(self.context):
+            return self.context.names[0]
+        if IOrganization.providedBy(self.context.__parent__):
+            return self.context.__parent__.names[0] 

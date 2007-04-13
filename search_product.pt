@@ -1,0 +1,4 @@
+<form action="@@search.html" method="post">search a product
+<tal:block condition="view/only_organization"> made by <i tal:content="view/organization_name">organization</i> </tal:block>: 
+<input type="text" name="query" /> <input type="submit" value="search" />
+</form>

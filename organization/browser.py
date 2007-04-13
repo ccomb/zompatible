@@ -123,6 +123,8 @@ class SearchProductView(BrowserPage):
         organization=None
         if IOrganization.providedBy(self.context):
             organization=self.context
+        if IOrganization.providedBy(self.context.__parent__):
+            organization=self.context.__parent__
         self.results=SearchProduct(query, organization).getResults()
         return ViewPageTemplateFile('search_product.pt')(self)
     def getDevices(self):

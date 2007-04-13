@@ -26,15 +26,19 @@ class ITrash(IContainer):
 
 class IMainAreaManager(IViewletManager):
     u"""
-    Ceci est le viewlet manager correspondant à la zone centrale de la page d'accueil.
-    Il devra au moins contenir le viewlet de recherche principal.
+    This is the viewlet manager for the central area in the homepage.
+    It should at least contain the main search viewlet
     """
 
 class IAdminAreaManager(IViewletManager):
     u"""
-    Le viewlet manager qui gère les viewlets d'administration
+    The viewlet manager for the admin viewlets
     """
 
+class IToolboxManager(IViewletManager):
+    u"""
+    The viewlet manager for a side toolbox
+    """
 
 
 
