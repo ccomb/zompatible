@@ -23,13 +23,19 @@ class DeviceContainer(Folder):
     implements(IDeviceContainer)
     def __delitem__(self,key):
         u"Move to the trash instead of deleting it"
-        trash = getSite()['trash']
-        device = self[key]
-        device_name = INameChooser(trash).chooseName(u"",device)
-        trash[device_name]=device
-        super(DeviceContainer, self).__delitem__(key)
-        device.__name__ = device_name
-        device.__parent__ = trash
+        if len(self[key].supports) == 0:
+            super(DeviceContainer, self).__delitem__(key)
+        else :
+            trash = getSite()['trash']
+            device = self[key]
+            device_name = INameChooser(trash).chooseName(u"",device)
+            trash[device_name]=device
+            super(DeviceContainer, self).__delitem__(key)
+            device.__name__ = device_name
+            device.__parent__ = trash
+            u"then unindex the trashed object"
+            getUtility(ICatalog).unindex_doc(getUtility(IIntIds).getId(device))
+
 
 class Device(Persistent):
     implements(IDevice, ISubDevices)
