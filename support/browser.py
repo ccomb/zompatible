@@ -28,9 +28,9 @@ class SupportAdd(AddForm):
         self.request = request
         self.context = context
         if (IDevice.providedBy(self.supported)):
-            self.form_fields=Fields(ISupport).omit('__name__', '__parent__', 'device')
+            self.form_fields=Fields(ISupport).omit('device')
         if (ISoftware.providedBy(self.supported)):
-            self.form_fields=Fields(ISupport).omit('__name__', '__parent__', 'software')
+            self.form_fields=Fields(ISupport).omit('software')
         #template=ViewPageTemplateFile("organization_form.pt")
     def nextURL(self):
         return "compatibility.html"
@@ -40,7 +40,7 @@ class SupportAdd(AddForm):
         supports = getSite()['supports']
         support=Support()
         support.__parent__ = supports
-        support.__name__ = INameChooser(support).chooseName(None, support)
+        support.__name__ = INameChooser(supports).chooseName(None, support)
         if (IDevice.providedBy(self.supported)):
             support.device = removeAllProxies(self.supported)
         if (ISoftware.providedBy(self.supported)):
@@ -57,7 +57,7 @@ class SupportEdit(EditForm):
     label=u"Modification d'une compatibilité entre soft et hard"
     form_fields=Fields(ISupport, render_context=True)
     #form_fields['subdevices'].custom_widget=subdevices_widget
-    form_fields=form_fields.omit('__name__', '__parent__')
+    #form_fields=form_fields.omit('__name__', '__parent__')
 
 class SupportView(BrowserPage):
     u"""The view of a support object"""

@@ -12,15 +12,15 @@ class ISupported(Interface):
 
 class ISupportContainer(IContainer, IContained):
     u"""
-    Le conteneur qui stocke les objets Support
+    The main container that stores Support object
     """
     contains("zompatible.support.interfaces.ISupport")
 
-class ISupport(IContainer, IContained):
+class ISupport(IContainer):
     u"""
-    objet qui fait le lien entre un Device et un Software.
-    Il pointe vers un Device et un Software,
-    et contient des UserReports
+    object that links a software to a device
+    It contains references to the software and device objects
+    and a list of Report objects
     """
     software = Choice(title=u'software', description=u'software', source="softwaresource")
     device = Choice(title=u'device', description=u'a device', source="devicesource")
