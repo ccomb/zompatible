@@ -23,7 +23,7 @@
 
 <div class="content" tal:condition="python: view.support is None" >
 <ul tal:repeat="support view/getitems">
-    <li><a tal:content="python: support['related'].__name__" tal:attributes="href support/support/@@absolute_url" href="#">some device</a></li>
+    <li><a tal:content="python: support['related'].names[0]" tal:attributes="href support/support/@@absolute_url" href="#">some device</a></li>
 </ul>
 </div>
 

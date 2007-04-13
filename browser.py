@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.traversing.browser.absoluteurl import SiteAbsoluteURL
+from zope.traversing.browser.absoluteurl import SiteAbsoluteURL, AbsoluteURL
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.manager import ViewletManagerBase
 from zope.contentprovider.interfaces import IContentProvider
@@ -165,4 +165,11 @@ class MainLinksViewlet(object):
         forbidden = [ 'supports' ]
         return [ { 'name':i, 'url':i} for i in getSite().keys() if i not in forbidden ]
 
+class FailsafeAbsoluteURL(AbsoluteURL):
+    def __call__(self):
+        try:
+            return super(FailsafeAbsoluteURL,self).__call__()
+        except:
+            return "javascript: alert('This object has been deleted')"
+        
 

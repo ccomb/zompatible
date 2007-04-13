@@ -107,6 +107,13 @@
     class=".zompatible.ZompatibleSite"
     permission="zope.ManageContent"
 />
+<browser:view
+    for="*"
+    name="absolute_url"
+    allowed_interface="zope.traversing.browser.interfaces.IAbsoluteURL"
+    class=".browser.FailsafeAbsoluteURL"
+    permission="zope.Public"
+/>  
 
 
 
