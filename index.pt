@@ -10,10 +10,9 @@
 
 <!-- Ce body est un slot inséré dans le template principal -->
 <body metal:fill-slot="body">
-
+<div id="homebody">
 <h1>Zompatible (or any other name)</h1>
 
-<div id="body">
 
 <div id="mainarea" tal:content="structure provider:zompatible.MainArea">
 zone principale qui devra contenir le champ de recherche, ainsi que d'autres viewlets.
@@ -21,7 +20,5 @@ zone principale qui devra contenir le champ de recherche, ainsi que d'autres vie
 
 
 </div>
-
-
 </body>
 </html>
