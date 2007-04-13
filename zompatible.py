@@ -58,6 +58,9 @@ def ZompatibleInitialSetup(event):
 
     u" and the support folder"
     event.object['supports'] = createObject(u"zompatible.SupportContainer")
+    
+    u" and the Trash for objects deleted but still referenced in a support object"
+    event.object['trash'] = Trash()
      
     u"then create and register the catalog"
     catalog = Catalog()
@@ -76,5 +79,7 @@ def ZompatibleInitialSetup(event):
     catalog['software_names'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
     catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
 
-    
-    
+class Trash(Folder):
+    u"""the implementation of the site trash as a folder"""
+    implements(ITrash)
+

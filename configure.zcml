@@ -5,7 +5,10 @@
   <require permission="zope.View"          interface=".interfaces.IZompatibleSite" />
   <require permission="zope.ManageContent" set_schema=".interfaces.IZompatibleSite" />
 </zope:class>
-
+<zope:class class=".zompatible.Trash">
+  <require permission="zope.View"          interface=".interfaces.ITrash" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ITrash" />
+</zope:class>
 
 <zope:subscriber handler=".zompatible.newZompatibleSiteAdded" />
 <zope:subscriber handler=".zompatible.ZompatibleInitialSetup" />

@@ -19,8 +19,6 @@ class SupportAdd(AddForm):
     Mais on ajoute l'objet dans le dossier supports de la racine
     donc on déplace le contexte du contexte vers lui
     """
-    #form_fields=Fields(ISupport)
-    #form_fields=form_fields.omit('__name__', '__parent__')
     label=u"Compatibilité entre un matériel et un logiciel"
     def __init__(self, context, request):
         super(SupportAdd, self).__init__(context, request)
@@ -40,7 +38,7 @@ class SupportAdd(AddForm):
         supports = getSite()['supports']
         support=Support()
         support.__parent__ = supports
-        support.__name__ = INameChooser(supports).chooseName(None, support)
+        support.__name__ = INameChooser(supports).chooseName(u"", support)
         if (IDevice.providedBy(self.supported)):
             support.device = removeAllProxies(self.supported)
         if (ISoftware.providedBy(self.supported)):

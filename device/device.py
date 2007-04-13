@@ -9,6 +9,7 @@ from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
 from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
+
 import string
 from BTrees.OOBTree import OOBTree
 
@@ -20,7 +21,15 @@ class DeviceContainer(Folder):
     """
     __name__=__parent__=None
     implements(IDeviceContainer)
-
+    def __delitem__(self,key):
+        u"Move to the trash instead of deleting it"
+        trash = getSite()['trash']
+        device = self[key]
+        device_name = INameChooser(trash).chooseName(u"",device)
+        trash[device_name]=device
+        super(DeviceContainer, self).__delitem__(key)
+        device.__name__ = device_name
+        device.__parent__ = trash
 
 class Device(Persistent):
     implements(IDevice, ISubDevices)
@@ -56,7 +65,7 @@ class DeviceNameChooser(NameChooser):
         if name in device.__parent__ and device is not device.__parent__['name']:
             return False
         else :
-            return true
+            return True
 
 
 # Autre méthode pour créer un objectwidget ? (pas encore testé)

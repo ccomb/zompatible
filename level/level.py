@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.component import getUtility
-from zope.schema.interfaces import IVocabulary, IVocabularyFactory
-from zope.interface import alsoProvides, implements
-from zope.app.container.constraints import containers
+from zope.schema.interfaces import IVocabularyFactory
+from zope.interface import implements
 from persistent.list import PersistentList
 from persistent import Persistent
 from interfaces import *

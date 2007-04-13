@@ -9,20 +9,20 @@ sitename="Zompatible"
 
 class IZompatibleSite(IPossibleSite, IContainer):
     u"""
-    l'interface (vide) du conteneur principal du site.
-    Cette interface devrait être l'occasion de placer des fonctions de haut niveau
-    pour abstraire la hierarchie des objets. (par ex. accès aux organizations).
+    The (empty) interface of the main zompatible site container
+    This interface could be used to define high-level functions
+    to abstract the object hierarchy. (for ex accessing organizations).
     """
-    
+
 class IZompatibleSiteManagerSetEvent(IObjectEvent):
     u"""
-    l'événement qui devra être généré lorsque qu'on ajoute un site zompatible.
-    Le subscriber devra créer les outils nécessaires au fonctionnement du site,
-    en particulier le IntId, le catalog et ses index.
+    The event fired when a zompatible site is added.
+    The subscriber must create the objects and utilities required to running the site
+    in particular the IntId, the catalog and indices, the trash, etc.
     """ 
 
-
-
+class ITrash(IContainer):
+    u"""The trash that receive the deleted objects"""
 
 class IMainAreaManager(IViewletManager):
     u"""

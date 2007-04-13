@@ -19,7 +19,16 @@ class SoftwareContainer(Folder):
     "a container for all software"
     implements(ISoftwareContainer)
     __name__=__parent__=None
-
+    def __delitem__(self,key):
+        u"Move to the trash instead of deleting it"
+        trash = getSite()['trash']
+        software = self[key]
+        software_name = INameChooser(trash).chooseName(u"",software)
+        trash[software_name]=software
+        super(SoftwareContainer, self).__delitem__(key)
+        software.__name__ = software_name
+        software.__parent__ = trash
+        
 class Software(Persistent):
     implements(ISoftware)
     names=architectures=[]

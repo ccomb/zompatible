@@ -2,7 +2,7 @@
 from zope.app.form.browser import ListSequenceWidget, ObjectWidget
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser import TextAreaWidget
-from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
+from zope.formlib.form import EditForm, Fields
 
 from level import Level
 from interfaces import *

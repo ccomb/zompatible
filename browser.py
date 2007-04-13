@@ -162,7 +162,7 @@ class MainLinksViewlet(object):
     Et je ne sais pas comment seront gérées les traductions des noms des objets.
     """
     def getitems(self):
-        forbidden = [ 'supports' ]
+        forbidden = [ 'supports', 'trash' ]
         return [ { 'name':i, 'url':i} for i in getSite().keys() if i not in forbidden ]
 
 class FailsafeAbsoluteURL(AbsoluteURL):
@@ -170,6 +170,6 @@ class FailsafeAbsoluteURL(AbsoluteURL):
         try:
             return super(FailsafeAbsoluteURL,self).__call__()
         except:
-            return "javascript: alert('This object has been deleted')"
+            return "javascript: alert('This object cannot be located')"
         
 
