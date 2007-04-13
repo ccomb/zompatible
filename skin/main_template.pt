@@ -18,12 +18,12 @@
 <body>
 
 
-<tal:block repeat="breadcrumb context/@@absolute_url/breadcrumbs">
+<tal:block condition="python: 'main_page' not in dir(view)" repeat="breadcrumb context/@@absolute_url/breadcrumbs">
 <a tal:attributes="href string:${breadcrumb/url}/" tal:content="breadcrumb/name" tal:condition="repeat/breadcrumb/index">item</a>
 <tal:block condition="python: repeat['breadcrumb'].index() and not repeat['breadcrumb'].end()" content="string: → "/>
 </tal:block>
 
-<div id="column">
+<div tal:condition="python: 'main_page' not in dir(view)" id="column">
 
 <div id="adminarea" tal:content="structure provider:zompatible.AdminArea">
 Admin area

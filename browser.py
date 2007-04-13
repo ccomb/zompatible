@@ -23,6 +23,7 @@ class MainPage(object):
     Elle est déclarée (ah voilà la meilleure traduction pour register) comme vue par défaut
     pour les objets fournissant IFolder, en écrasant celle de Rotterdam grâce à l'overrides.zcml
     """
+    main_page = True # Just to detect the main page in the main_template
     __call__ = ViewPageTemplateFile("index.pt")
     def __init__(self, context, request):
         self.context=context
