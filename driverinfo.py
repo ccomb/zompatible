@@ -29,11 +29,11 @@ def printLinuxData(filename,bus_type):
 			currentModule = l[0]
 			print u"module:%s" % currentModule
 			print u"bustype:%s" % bus_type 
-			print u"filename:%s" % os.popen("modinfo %s -F filename" % currentModule).read().strip()
-			print u"vermagic:%s" % os.popen("modinfo %s -F vermagic" % currentModule).read().strip()
-			print u"srcversion:%s" % os.popen("modinfo %s -F srcversion" % currentModule).read().strip()
-			print u"description:%s" % os.popen("modinfo %s -F description" % currentModule).read().strip()
-			print u"license:%s" % os.popen("modinfo %s -F license" % currentModule).read().strip()
+			print u"filename:%s" % os.popen("/sbin/modinfo %s -F filename" % currentModule).read().strip()
+			print u"vermagic:%s" % os.popen("/sbin/modinfo %s -F vermagic" % currentModule).read().strip()
+			print u"srcversion:%s" % os.popen("/sbin/modinfo %s -F srcversion" % currentModule).read().strip()
+			print u"description:%s" % os.popen("/sbin/modinfo %s -F description" % currentModule).read().strip()
+			print u"license:%s" % os.popen("/sbin/modinfo %s -F license" % currentModule).read().strip()
 		
 		l.remove(l[0])
 		print u"device:%s" % ";".join(l)
