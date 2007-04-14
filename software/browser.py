@@ -19,7 +19,7 @@ from software import Software, SoftwareSource, SearchSoftware
 class SoftwareAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
-    label=u"Adding an Software"
+    label=u"Adding a Software"
     def nextURL(self):
         return AbsoluteURL(self.software, self.request)
     #template=ViewPageTemplateFile("software_form.pt")
@@ -34,7 +34,7 @@ class SoftwareEdit(EditForm):
     label="Edit Software details"
     form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
     #template=ViewPageTemplateFile("software_form.pt")
-    u"On crée la liste des actions du formulaire"
+    u"We create the list of actions of the form"
     actions = Actions(Action('Apply', success='handle_edit_action'), )
     def handle_edit_action(self, action, data):
         super(SoftwareEdit, self).handle_edit_action.success(data)
@@ -45,15 +45,15 @@ class SoftwareEdit(EditForm):
             renamer.renameItem(oldname, newname)
             return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_software.html")
     def validate(self, action, data):
-        u"on récupère les données du formulaire et on remplit data"
+        u"we retrieve data from the form and fill the data attribute"
         getWidgetsData(self.widgets, 'form', data)
-        u"on crée un objet temporaire pour tester le nouveau nom"
+        u"we create a temp object to test the new name"
         dummy=Software()
-        u"on applique le formulaire au nouveau"
+        u"we apply the form on the new object"
         applyChanges(dummy, self.form_fields, data)
-        u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
+        u"we compute the new name with the dummy (a bit ugly)"
         newname = INameChooser(dummy).chooseName(u"",dummy)
-        u"s'il existe déjà on retourne une erreur"
+        u"if already exists, return an error"
         if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
             return ("The name <i>"+newname+"</i> conflicts with another Software",)
         return super(SoftwareEdit, self).validate(action, data)
@@ -74,9 +74,9 @@ class SoftwareView(BrowserPage):
     
 class SoftwareContainerView(object):
     u"""
-    la vue du container de software.
-    Pour l'instant on se contente d'afficher la liste des software.
-    Ensuite il sera possible d'afficher par exemple des classements
+    The view for the software container.
+    For the moment, we just display the list.
+    Then it will be possible to display some classifications
     """
     label = u"Software list"
     def getitems(self):
@@ -84,8 +84,8 @@ class SoftwareContainerView(object):
         
 class SoftwareTerms(object):
     u"""
-    la vue fournissant les termes de la source à des fins d'affichage dans le widget
-    (adapter de ISource vers ITerms)
+    The view which provides the terms of the source (to display in the widget)
+    (adapter from ISource to ITerms)
     """
     implements(ITerms)
     adapts(SoftwareSource, IBrowserRequest)

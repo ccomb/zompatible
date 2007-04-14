@@ -38,7 +38,7 @@ class DeviceAdd(AddForm):
 
 
 class DeviceEdit(EditForm):
-    label=u"Modification d'un matériel"
+    label=u"Edit a device"
     form_fields=Fields(IDevice, ISubDevices, render_context=True)
     #form_fields['subdevices'].custom_widget=subdevices_widget
     form_fields=form_fields.omit('__name__', '__parent__')
