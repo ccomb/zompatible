@@ -31,6 +31,25 @@ Soumission matériel
 Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Viadeo)
 Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des widgets personalisés.
 
+Soumission d'un logiciel :
+Objet Software + choix type ? catégorie ?
+Type à choisir :
+- OperatingSystem (+ catégories : Linux Distribution, Proprietary OS, Realtime OS, ...=catégories d'OS)
+- Driver
+- Autre logiciel (SANE, freebob, a
+- kernel ??
+Moyen de lier un software à une catégorie de matériel ? freebob ←→ cartes firewire
+
+WORKING SETUPS
+==============
+Les objets Report stockent l'état de compatibilité d'un couple Soft/Hard. Un utilisateur peut avoir envie de connaître le résultat d'un assemblage entre plusieurs soft et hard. Par exemple, j'ai un portable Latitude, avec une Ubuntu 6.10, et une carte son Firepod. Je veux savoir si ça va marcher.
+
+Le système doit d'abord trouver les bons couples soft/hard, ici Ubuntu/Latitude et Ubuntu/Firepod (Deux objets Support)
+
+Dans chacun de ces couples, c'est des Feature particulières qui nous intéresse : le firewire pour le 1er, et l'ensemble des Features offertes par la Firepod dans l'autre. Il faut donc faire le lien entre ces deux Support, pour trouver ce qui permet de déterminer le fonctionnement global. Dans le 1er couple, c'est la Feature firewire qui nous intéresse
+Ubuntu/Latitude → 
+Ce qui nous intéresse dans le 1er couple, est le fonctionnement de la prise firewire du Latitude sous Ubuntu. Ce qui nous intéresse dans le 2eme couple, c'est le fonctionnement (ou pas) de freebob avec la Firepod. 
+
 
 
 ARCHITECTURE, DIVERS:
@@ -49,6 +68,18 @@ pciid = feature de pcidevice ?
 fiche systeme (ex=portable)  liste des composants et de leurs supports respectifs.  Systeme = somme de devices
 
 Imaginer une vue complete pour chaque objet. device, manuf, systeme
+
+
+
+
+    So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
+    Un device pourrait être une implémentation fournissant IDevice, IPhysicalInterface, IChiped, etc... ?
+    Pour un contenu potentiellement infini (ex: devices pour un organization), faire un folder
+    Pour un contenu limité (ex: chip dans un device), mettre en attributs.
+    
+    L'attribut supports contient un OOBTree qui associe Software → Support
+
+
 
 
 
@@ -118,7 +149,7 @@ o Logiciel
 o Caractéristique
 Organisation = fabricant, éditeur, association
 Matériel = carte, chip, périphérique, laptop
-Logiciel = OS, driver, logiciel, sous-système (X11)
+Logiciel = OS, driver, logiciel, sous-système (X11), ndiswrapper, freebob, SANE, alsa, 
 Caractéristique = port PCI, prise VGA, socket 775, wi-fi, 3D, WPA, Qté RAM
 Certaines caractéristiques peuvent être un Vocabulaire (Socket = socket 939, socket 775, etc..  Port = PCI, AGP, PCI-e, PCI-X
 D'autres peuvent être une valeur avec une unité ou non: Qté RAM = 512Mo
@@ -324,8 +355,21 @@ une category peut être caracteristics et featured
 Un objet a des caractéristiques matérielles et des caracteristiques fonctionnelles.
 
 
-
 USB : implémentation de IFeature, offrant ICategorizable et dont la catégorie est PhysicalInterface 
+
+
+
+L'objet Software doit être dérivé en différentes catégories intrinsèques, implémentées en dur sous forme d'interfaces additionnelles à ISoftware. Ces catégories doivent être peu nombreuses, exclusives mutuellement, définies de manière non discutable et appartenir à un ensemble non (ou peu) extensible. Elles doivent être représentatives de ce que sait faire le site. Toute autre catégorie à caractère subjectif, vague ou extensible doit être implémentée sous forme d'objet Category (ex: LinuxDistribution) :
+
+Les catégories intrinsèques de software peuvent être :
+
+- IOperatingSystem (celui qui intéresse le public)
+
+- IDriver
+
+
+
+
 
 
 ZC.RELATIONSHIP

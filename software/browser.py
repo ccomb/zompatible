@@ -18,7 +18,7 @@ from software import Software, SoftwareSource, SearchSoftware
 
 class SoftwareAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
-    form_fields=Fields(ISoftware).omit('__name__', '__parent__')
+    form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
     label=u"Adding an Software"
     def nextURL(self):
         return AbsoluteURL(self.software, self.request)
@@ -32,7 +32,7 @@ class SoftwareAdd(AddForm):
 
 class SoftwareEdit(EditForm):
     label="Edit Software details"
-    form_fields=Fields(ISoftware).omit('__name__', '__parent__')
+    form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
     #template=ViewPageTemplateFile("software_form.pt")
     u"On crée la liste des actions du formulaire"
     actions = Actions(Action('Apply', success='handle_edit_action'), )

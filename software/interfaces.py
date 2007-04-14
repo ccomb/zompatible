@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from zope.interface.interfaces import Interface
-from zope.schema import TextLine, List, Object, URI, Bool, Text
+from zope.schema import TextLine, List, Object, URI, Bool, Text, Choice
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains, containers
 from zope.index.text.interfaces import ISearchableText
 
 class ISoftware(IContained):
     u"""
-    maybe this is more generic than IXserver, IKernel, IAlsa, etc. ?
-    
-    L'attribut supports contient un OOBTree qui associe Device → Support
+    Base attributes of a software
     """
     names = List(title=u'names', description=u'possible software names', min_length=1, value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
@@ -21,13 +19,13 @@ class ISoftware(IContained):
     link = URI(title=u'a link to software', description=u'link to the software', required=False)
 
 
-class IOperatingSystem(IContainer, IContained, ISoftware):
-    u"""an software: linux distribution, freebsd, etc...
-    the version is included here because 2 versions of a distro are 2 different software
-    Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
-    donc le schema est dans ISoftware
+class ISubSoftware(Interface):
+    u"""
+    interface of an object that has subsoftware.
+    The source is called as a named utility registered for IVocabularyFactory (see in software.py)
     """
-    containers("zompatible.software.interfaces.ISoftwareContainer")
+    subsoftware = List(title=u'subsoftware', value_type=Choice(title=u'subsoftware', description=u'a subsoftware (kernel, driver, library, etc.)', source="softwaresource"), required=False)
+
 
 class ISoftwareContainer(IContainer, IContained):
     u"""
@@ -42,7 +40,19 @@ class ISearchableTextOfSoftware(ISearchableText):
 
 
 
+
+
+
 # ce qui est dessous ne sert pas pour l'instant
+
+class IOperatingSystem(IContainer, IContained, ISoftware):
+    u"""an software: linux distribution, freebsd, etc...
+    the version is included here because 2 versions of a distro are 2 different software
+    Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
+    donc le schema est dans ISoftware
+    """
+    containers("zompatible.software.interfaces.ISoftwareContainer")
+
 
 class ILicense(Interface):
     u"""
@@ -52,24 +62,26 @@ class ILicense(Interface):
     version = TextLine(title=u'license version', description=u'the version of the license')
     free = Bool(title=u'real free software licence?')
     terms = Text(title=u'license terms', description=u'the terms of the license')
-    
-class IKernel(ISoftware):
-    pass
-  
-class IPatchedKernel(IKernel):
-    flavour=Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=ISoftware)
-    packageversion=TextLine(title=u'package version', description=u'the version of the kernel package (ex: 2_ubuntu1')
-  
-class IXserver(ISoftware):
-    pass
 
-class IPatchedXserver(IXserver):
-    flavour = Object(title=u'for which OS?', description=u'the specific version of which OS?', schema=ISoftware)
-    packageversion = TextLine(title=u'package version', description=u'the version of the Xserver package (ex: 2_ubuntu1)')
 
-class IDistribution(ISoftware):
-    u"all the flavours of linux, bsd or anything else"
+class IPatchableSoftware(ISoftware):
+    u"""
+    When a software is patched over an original, the original receives this interface
+    to keep the list of derived software
+    """
+    patched = List(title=u'derivatives', description=u'existing patched versions of this software', value_type=Object(ISoftware, title=u'derivative'))
     
+class IPatchedSoftware(ISoftware):
+    u"""
+    This interface can be used to create all flavours of the kernel : (ex: 2_ubuntu1).
+    the implementation would link to the original software (aka upstream)
+    An original kernel must be created, then all distribution specific flavours must provide this interface.
+    This interface must not be user for real forks, but only patched/modified software.
+    Real forks must become independant objects
+    """
+    upstream = Object(title=u'patched over', description=u'original software from which this one was derived', schema=ISoftware)
+
+  
 class IDriver(ISoftware):
     u"""
     a driver for an software

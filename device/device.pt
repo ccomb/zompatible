@@ -20,7 +20,7 @@ pci id: <span tal:content="context/pciid">0000</span><br>
 usb id:<span tal:content="context/usbid">0000</span>
 
 <p>
-Subdevices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><span tal:content="subdevice/__name__">list</span><span tal:condition="not:repeat/subdevice/end">, </span></span>
+Subdevices : <span tal:repeat="subdevice context/subdevices" tal:omit-tag=""><a href="#" tal:attributes="href subdevice/@@absolute_url" tal:content="subdevice/__name__">list</a><span tal:condition="not:repeat/subdevice/end">, </span></span>
 </p>
 
 </div>

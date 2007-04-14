@@ -4,7 +4,10 @@
 <zope:class class=".software.Software">
   <require permission="zope.View"          interface=".interfaces.ISoftware" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftware" />
-  <!-- On décide que les Devices implémentent ISupported, donc qu'ils ont une base de compatibilité -->
+  <!-- We decide that a Software object can have subsoftware (software components) -->
+  <require permission="zope.View"          interface=".interfaces.ISubSoftware" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISubSoftware" />
+  <!-- We decide that Software objects implement ISupported, so they carry a compatibility database -->
   <implements interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
@@ -15,8 +18,7 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareContainer" />
 </zope:class>
 
-
-<!-- on déclare que ISoftware fournit IContentType qui est une interface marqueur pour dire que c'est un type de contenu -->
+<!-- We declare that IDevice provides IContentType which is a marker interface that declares IDevice as a content type -->
 <zope:interface  
   interface=".interfaces.ISoftware"
   type="zope.app.content.interfaces.IContentType"

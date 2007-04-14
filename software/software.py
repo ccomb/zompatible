@@ -12,7 +12,7 @@ import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from BTrees.OOBTree import OOBTree
 
-from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware
+from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware, ISubSoftware
 
 
 
@@ -36,7 +36,8 @@ class SoftwareContainer(Folder):
             getUtility(ICatalog).unindex_doc(getUtility(IIntIds).getId(software))
         
 class Software(Persistent):
-    implements(ISoftware)
+    implements(ISoftware, ISubSoftware)
+    subsoftware = []
     names=architectures=[]
     version=codename=u""
     link=u""
