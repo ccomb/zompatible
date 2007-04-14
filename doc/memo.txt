@@ -315,9 +315,6 @@ Usage
 
 
 
-
-
-
 Un device peut être : featured, caracteristics, categorized
 Une feature peut être characteristics
 une caractéristique peut être : 
@@ -329,6 +326,20 @@ Un objet a des caractéristiques matérielles et des caracteristiques fonctionne
 
 
 USB : implémentation de IFeature, offrant ICategorizable et dont la catégorie est PhysicalInterface 
+
+
+ZC.RELATIONSHIP
+===============
+
+
+Cet objet Support est typiquement le principe de « Relationship ». On lie deux objets entre eux par une relation : un Device et un Software sont liés par une relation de support ou de compatibilité. Il existe un framework de relation pour gérer tout ça : zc.relationship : http://cheeseshop.python.org/pypi/zc.relationship/1.1a
+Le principe de base est qu'une relation est un objet à part entière, et que cet objet Relation peut être stockée dans un Container spécial qui peut faire des recherches, et aussi indexé dans un index spécial (fourni avec zc.relationship) qui permet de faire des requêtes évoluées sur les relations.[[BR]]
+Ce package pourrait en fait gérer tous les types de relations :
+ * un device « est fabriqué par » tel fabricant
+ * un pilote « prend en charge » tel device (= objet Support)
+ * un module « est inclus dans » tel kernel
+ * un kernel « est inclus dans » telle distro (et par transitivité, un module est inclus dans telle distro).
+Voir : http://svn.zope.org/zc.relationship/trunk/src/zc/relationship/container.txt?rev=72198&view=auto
 
 
 PAGE MATERIEL
