@@ -18,7 +18,7 @@ class IReport(IContained):
     containers(IReportContainer)
     date = Datetime(title=u'date/time', description=u'date/time of the report')
     level = Field(u"a level") #this Field is really defined in subclasses
-    comment = Text(title=u'comment about the report', description=u'comment of the support level')
+    comment = Text(title=u'comment about the report', description=u'comment of the support level', required=False)
     #user = Object(title=u'user', description=u'user of this report', schema="zompatible.user.interfaces.IUser")
 
 class IStabilityReport(IReport):
