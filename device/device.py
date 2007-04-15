@@ -149,11 +149,9 @@ class DeviceSource(object):
     """
     implements(ISource)
     def __contains__(self, value):
-        found=0
         root = getSite()
         for manuf in root['organizations']:
             if 'devices' in root['organizations'][manuf] and value.__name__ in root['organizations'][manuf]['devices'].keys():
-                found=1
                 return True
         return False
 
