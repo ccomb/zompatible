@@ -1,6 +1,7 @@
 body {
-font-size: 100%;
-background: #101010;
+font-family:trebuchet ms, arial, sans-serif;
+ font-size: 100%;
+background: #171717;
 color: #D0D0D0;
 }
 #homebody { margin-top: 10em; }
@@ -34,11 +35,11 @@ width: 30em;
 text-align: center;
 margin-left: auto;
 margin-right: auto;
-background: #111111
+background: #171717;
 }
 div#column { float: right; }
 div#adminarea {
-background: #111111;
+background: #171717;
 width: 15em;
 margin-top: 2em;
 border: solid 2px #808080;
