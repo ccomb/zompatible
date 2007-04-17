@@ -37,6 +37,8 @@ class SoftwareContainer(Folder):
         
 class Software(Persistent):
     implements(ISoftware, ISubSoftware)
+    builtVersion=u""
+    description=u""
     subsoftware = []
     names=architectures=[]
     version=codename=u""
