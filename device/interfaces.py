@@ -38,5 +38,5 @@ class ISubDevices(Interface):
 
 class ISearchableTextOfDevice(ISearchableText):
     u"""
-    l'interface marqueur qui permet d'indexer juste les devices
+    Marker interface that allows to index devices separately
     """

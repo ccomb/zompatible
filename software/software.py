@@ -51,9 +51,9 @@ class Software(Persistent):
 
 class SoftwareNameChooser(NameChooser):
     u"""
-    adapter qui permet de choisir le nom du software auprès du container
-    Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
-    car il apparaît dans l'URL, et sert pour le traversing.
+    adapter that allows to choose the name of the Software from the container point of view
+    The real name is stored in an attribute, but this name is important
+    as it appears in the URL and is used for traversing
     """
     implements(INameChooser)
     adapts(ISoftware)
@@ -72,7 +72,7 @@ class SoftwareNameChooser(NameChooser):
 
 class SearchableTextOfSoftware(object):
     u"""
-    l'adapter qui permet d'indexer les Software
+    The adapter that allows to index software objects
     """
     implements(ISearchableTextOfSoftware)
     adapts(ISoftware)
@@ -80,8 +80,10 @@ class SearchableTextOfSoftware(object):
         self.context = context
     def getSearchableText(self):
         sourcetext = texttoindex = u''
+        u"First, gather all interesting text"
         for word in self.context.names:
             sourcetext += word + " "
+        u"then split all words into subwords"
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
                 texttoindex += subword + " "
@@ -89,7 +91,7 @@ class SearchableTextOfSoftware(object):
 
 class SearchSoftware(object):
     u"""
-    une classe qui effectue la recherche d'software
+    a class that does software searching
     """
     def update(self, query, organization=None):
         catalog=getUtility(ICatalog)
