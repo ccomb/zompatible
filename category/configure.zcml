@@ -24,6 +24,7 @@
 <zope:adapter factory=".category.Categories" locate="yes" trusted="yes" />
 <zope:adapter factory=".category.AvailableCategories" provides=".interfaces.IAvailableCategories" locate="yes"  />
 <zope:adapter factory=".category.CategoriesAvailableCategories" provides=".interfaces.IAvailableCategories" locate="yes" />
+<zope:adapter factory=".category.SearchableTextOfCategorizable" />
 
 <browser:addMenuItem
     title="Available Categories"

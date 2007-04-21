@@ -42,3 +42,7 @@ class ICategories(Interface):
     def get_utility_name():
         pass 
 
+class ISearchableTextOfCategorizable(Interface):
+    u"""
+    Marker interface to index only categories of objects.
+    """

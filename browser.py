@@ -14,6 +14,7 @@ from device.device import SearchDevice
 from organization.organization import SearchOrganization
 from organization.interfaces import IOrganization
 from software.software import SearchSoftware
+from category.category import SearchCategorizable
 
 class MainPage(object):
     u"""
@@ -104,11 +105,13 @@ class MainSearch(object):
         devices={}
         organizations={}
         software={}
+        categorizable={}
         result=u""
         for word in self.mainsearch.split():
             organizations[word]=SearchOrganization(word).getResults()
             software[word]=SearchSoftware(word).getResults()
             devices[word]=SearchDevice(word).getResults()
+            categorizable[word]=SearchCategorizable(word).getResults()
         for word in self.mainsearch.split():
             result += "pour le mot : " + word + "\n***********\n"
             result += "organizations: "
@@ -122,6 +125,10 @@ class MainSearch(object):
             result += "devices: "
             for device in devices[word]:
                 result += device.__name__ + " "
+            result += "\n"
+            result += "categorizable: "
+            for categorizable in categorizable[word]:
+                result += categorizable.__name__ + " "
             result += "\n"
             result += "\n"
         return result

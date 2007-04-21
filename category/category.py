@@ -5,11 +5,13 @@ from zope.component import adapts, getUtility, adapter, getSiteManager, queryUti
 from zope.app.intid.interfaces import IIntIds
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
+from zope.app.catalog.interfaces import ICatalog
 from interfaces import *
 
 class Category(Folder):
     implements(ICategory)
-    names = description = None
+    names = []
+    description = u""
 
 class AvailableCategoriesContainer(Folder):
     implements(IAvailableCategoriesContainer)
@@ -132,3 +134,37 @@ def CategoriesAvailableCategories(categories):
     u"I was obliged to add this adapter from ICategories because the Vocabulary needs it"
     return AvailableCategories(categories.context)
 
+class SearchableTextOfCategorizable(object):
+    u"""
+    adapter that allows to index categories of Categorizable objects
+    """
+    implements(ISearchableTextOfCategorizable)
+    adapts(ICategorizable)
+    def __init__(self, context):
+        self.context = context
+    def getSearchableText(self):
+        sourcetext = texttoindex = u''
+        u"First, gather all interesting text"
+        for category in ICategories(self.context).categories: # Peut-être déporter ça dans la gestion des categories
+            sourcetext += category.description + " " + category.__name__ # + reduce(lambda x,y: x+" "+y, category.names) AVEC names avec au moins 1 element !!!
+        u"then split all words into subwords"
+        for word in sourcetext.split():        
+            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
+                texttoindex += subword + " "
+        return texttoindex
+
+class SearchCategorizable(object):
+    u"""
+    search categorizable objects for categories
+    """
+    def update(self, query):
+        catalog=getUtility(ICatalog)
+        del self.results
+        self.results=[]
+        if query!="":
+            self.results=catalog.searchResults(categorizable=query+"*")
+    def __init__(self, query):
+        self.results=[]
+        self.update(query)
+    def getResults(self):
+        return self.results

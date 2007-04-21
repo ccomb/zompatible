@@ -18,6 +18,7 @@ from device.interfaces import ISearchableTextOfDevice
 from software.interfaces import ISearchableTextOfSoftware
 from level.level import EasinessLevels, StabilityLevels
 from level.interfaces import ILevels
+from category.interfaces import ISearchableTextOfCategorizable
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -78,6 +79,7 @@ def ZompatibleInitialSetup(event):
     catalog['organization_names'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
     catalog['software_names'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
     catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
+    catalog['categorizable'] = TextIndex(interface=ISearchableTextOfCategorizable, field_name='getSearchableText', field_callable=True)
 
 class Trash(Folder):
     u"""the implementation of the site trash as a folder"""
