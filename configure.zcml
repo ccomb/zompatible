@@ -23,6 +23,7 @@
 <include package=".support" />
 <include package=".importdata" />
 <include package=".user" />
+<include package=".category" />
 
 <browser:page
     name="index.html"

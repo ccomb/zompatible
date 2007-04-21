@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:tal="http://xml.zope.org/namespaces/tal" 
+    xmlns:metal="http://xml.zope.org/namespaces/metal" 
+    xml:lang="en" lang="en"
+    metal:use-macro="context/@@standard_macros/page"
+>
+
+<body>
+
+<div id="body" metal:fill-slot="body">
+
+<h1 tal:content="view/label">label de la vue</h1>
+
+Il faut transformer cette vue en viewlet pour pouvoir l'incorporer dans un viewlet manager du Device.
+
+<h2 tal:content="python: context.names[0]">categorizable object</h2>
+
+<ul>
+<li tal:repeat="category view/get_categories" tal:content="category/__name__">category</li>
+</ul>
+
+
+</div>
+
+</body>
+</html>
