@@ -157,10 +157,10 @@ class SearchOrganization(object):
         self.update(query)
     def getResults(self):
         return self.results
-        
+
 class SearchProduct(object):
     u"""
-    une classe qui effectue la recherche de product, c'est à dire de device puis d'software
+    A class that search a product, first a device then software
     """
     def update(self, query, organization):
         catalog=getUtility(ICatalog)
@@ -178,10 +178,10 @@ class SearchProduct(object):
         self.update(query, organization)
     def getResults(self):
         return self.results
-        
+
 class OrganizationTypeVocabulary(object):
     """
-    This is the vocabulary that provides the different interfaces of Organization to choose from.
+    This is the vocabulary that provides the different interfaces of Organization to choose from. (ISoftwareEditor and IManufacturer)
     """
     implements(IVocabularyTokenized)
     adapts('zompatible.organization.interfaces.IOrganization')
