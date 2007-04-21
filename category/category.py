@@ -40,7 +40,7 @@ class CategoryVocabulary(object):
         return SimpleTerm(value, token, title)
     def getTermByToken(self, token):
         value=self._intid.getObject(int(token))
-        title=(len(self.parent_iterators)-1)*'&nbsp;&nbsp;&nbsp;' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
+        title=(len(self.parent_iterators)-1)*u'_____' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def __iter__(self):
         "The class is used as its own iterator. The next() method will use the last iterator in the parent_iterators list"
@@ -54,19 +54,19 @@ class CategoryVocabulary(object):
             self._parent = self._current
             self._current = self._parent[self.parent_iterators[len(self.parent_iterators)-1].next()]
             return self.getTerm(self._current)
-        # if there is no subcategories and we are at the root, let it raise a StopIteration itself if we are at the end
-        if len(self.parent_iterators) == 1:
+        try: # try to return the next in the same level
             self._current = self._parent[self.parent_iterators[len(self.parent_iterators)-1].next()]
             return self.getTerm(self._current)
-        # there is no subcategories and we are not at the root
-        try:
-            self._current = self._parent[self.parent_iterators[len(self.parent_iterators)-1].next()]
-            return self.getTerm(self._current)
-        except: # instead of raising StopIteration, we continue with the upper categories
-            self.parent_iterators.pop()
-            self._parent = self._parent.__parent__
-            self._current = self._parent[self.parent_iterators[len(self.parent_iterators)-1].next()]
-            return self.getTerm(self._current)
+        except: # nothing left at the same level
+            while len(self.parent_iterators) > 0: # we loop unless at the upmost level
+                try: # we try to continue with the upper level, if upper level is at the end, 
+                    self.parent_iterators.pop()
+                    self._parent = self._parent.__parent__
+                    self._current = self._parent[self.parent_iterators[len(self.parent_iterators)-1].next()]
+                    return self.getTerm(self._current)
+                except:
+                    if len(self.parent_iterators) == 0:
+                        raise StopIteration
     def __len__(self): # don't really need it for the moment
         raise NotImplementedError
     def __contains__(self, value):

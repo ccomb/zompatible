@@ -19,12 +19,11 @@ class CategoriesEdit(EditForm):
     label=u"Edit the categories"
     form_fields=Fields(ICategories)
     form_fields['categories'].custom_widget = CustomWidgetFactory(MyMultiCheckBoxWidget)
-    __call__=ViewPageTemplateFile('edit_categories.pt')
+    #__call__=ViewPageTemplateFile('edit_categories.pt')
     def __init__(self, context, request):
         self.context, self.request = context, request
         super(CategoriesEdit, self).__init__(context,request)
         self.setUpWidgets()
-
 
 class CategoriesView(BrowserPage):
     label=u"View the categories"
