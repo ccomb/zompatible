@@ -8,7 +8,8 @@
   <require permission="zope.View"          interface=".interfaces.ISubSoftware" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubSoftware" />
   <!-- We decide that Software objects implement ISupported, so they carry a compatibility database -->
-  <implements interface="zompatible.support.interfaces.ISupported" />
+  <implements interface="zompatible.support.interfaces.ISupported
+                           zompatible.category.interfaces.ICategorizable" />
   <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
 </zope:class>
