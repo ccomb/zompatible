@@ -107,6 +107,11 @@ class Categories(object):
             self.context.categories = [ ]
     def __setattr__(self,name,value):
         if name == 'categories':
+            for cat in value: # for each category, add every upper category
+                parent = cat.__parent__
+                while not IAvailableCategoriesContainer.providedBy(parent):
+                    value.append(parent)
+                    parent = parent.__parent__
             self.context.categories = value
         object.__setattr__(self, name, value)
     def get_utility_name(self):
