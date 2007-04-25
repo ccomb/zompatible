@@ -1,0 +1,12 @@
+<configure xmlns="http://namespaces.zope.org/browser">
+
+<page
+    name="ids_index.html"
+    for="zompatible.ids.interfaces.IDeviceId"
+    class=".ids.DeviceIdsView"
+    permission="zope.Public"
+    menu="my_actions" title="View ids"
+/>  
+ 
+
+</configure>

@@ -1,0 +1,14 @@
+<configure  xmlns="http://namespaces.zope.org/zope">
+
+<adapter factory=".ids.DeviceId" />
+<adapter factory=".ids.PciDeviceId" />
+<adapter factory=".ids.UsbDeviceId" />
+
+<class class=".ids.DeviceId">
+  <require permission="zope.View"          interface=".interfaces.IDeviceId" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceId" />
+</class>
+
+<include package=".browser" />
+
+</configure>

@@ -9,9 +9,12 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
   <!-- We decide that Device objects implement ISupported, so they carry a compatibility database -->
   <implements interface="zompatible.support.interfaces.ISupported
-                          zompatible.category.interfaces.ICategorizable" />
+                          zompatible.category.interfaces.ICategorizable
+                          zompatible.ids.interfaces.IDeviceId" />
   <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
   <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.View"          interface="zompatible.ids.interfaces.IDeviceId" />
+  <require permission="zope.ManageContent" set_schema="zompatible.ids.interfaces.IDeviceId" />
 </zope:class>
 
 <zope:class class=".device.DeviceContainer">

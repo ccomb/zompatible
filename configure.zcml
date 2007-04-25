@@ -24,6 +24,7 @@
 <include package=".importdata" />
 <include package=".user" />
 <include package=".category" />
+<include package=".ids" />
 
 <browser:page
     name="index.html"
