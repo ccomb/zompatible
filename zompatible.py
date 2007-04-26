@@ -19,6 +19,7 @@ from software.interfaces import ISearchableTextOfSoftware
 from level.level import EasinessLevels, StabilityLevels
 from level.interfaces import ILevels
 from category.interfaces import ISearchableTextOfCategorizable
+from importdata.interfaces import IImportData
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -53,6 +54,11 @@ def ZompatibleInitialSetup(event):
     intid = IntIds()
     sm['intid']=intid
     sm.registerUtility(intid, IIntIds)
+
+    u"create and register the importdata utility"
+    importdata = createObject("zompatible.importData")
+    sm['importdata']=importdata
+    sm.registerUtility(importdata, IImportData)
     
     u"then create the organizations folder"
     event.object['organizations'] = createObject(u"zompatible.OrganizationContainer")
