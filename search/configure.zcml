@@ -1,0 +1,9 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<zope:utility
+    component=".search.SearchObjectFactory"
+    name="zompatible.SearchObject"
+    permission="zope.Public"
+/>
+
+</configure>
