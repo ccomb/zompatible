@@ -10,15 +10,15 @@ from zope.app.intid.interfaces import IIntIds
 from zope.app.intid import IntIds
 from zope.app.catalog.catalog import Catalog, ICatalog
 from zope.app.catalog.text import TextIndex
-from zope.index.text.interfaces import ISearchableText
 from zope.component import createObject
 
 from organization.interfaces import ISearchableTextOfOrganization
-from device.interfaces import ISearchableTextOfDevice
-from software.interfaces import ISearchableTextOfSoftware
+from device.interfaces import ISearchableTextOfDevice, IDevice
+from software.interfaces import ISearchableTextOfSoftware, ISoftware
 from level.level import EasinessLevels, StabilityLevels
 from level.interfaces import ILevels
 from category.interfaces import ISearchableTextOfCategorizable
+from search.search import ObjectIndex
 from importdata.interfaces import IImportData
 
 class ZompatibleSiteManagerSetEvent(object):
@@ -52,7 +52,7 @@ def ZompatibleInitialSetup(event):
     
     u"create and register the intid utility"
     intid = IntIds()
-    sm['intid']=intid
+    sm['unique integer IDs']=intid
     sm.registerUtility(intid, IIntIds)
 
     u"create and register the importdata utility"
@@ -72,7 +72,7 @@ def ZompatibleInitialSetup(event):
     u"then create and register the catalog"
     catalog = Catalog()
     sm['catalog']=catalog
-    sm.registerUtility(catalog, ICatalog)
+    sm.registerUtility(catalog, ICatalog, u"zompatible.catalog")
 
     u"Register the level utilities"
     sm['easiness_levels'] = EasinessLevels()
@@ -81,11 +81,14 @@ def ZompatibleInitialSetup(event):
     sm.registerUtility(sm['stability_levels'], ILevels, 'stability_levels')
      
     u"then create and register the wanted indices in the catalog"
-    catalog['device_names'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
-    catalog['organization_names'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
-    catalog['software_names'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
-    catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
-    catalog['categorizable'] = TextIndex(interface=ISearchableTextOfCategorizable, field_name='getSearchableText', field_callable=True)
+    catalog['device_text'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
+    catalog['organization_text'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
+    catalog['software_text'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
+    #catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
+    catalog['categorizable_text'] = TextIndex(interface=ISearchableTextOfCategorizable, field_name='getSearchableText', field_callable=True)
+    catalog['device_organization'] = ObjectIndex(interface=IDevice, field_name='organization', field_callable=False)
+    catalog['software_organization'] = ObjectIndex(interface=ISoftware, field_name='organization', field_callable=False)
+
 
 class Trash(Folder):
     u"""the implementation of the site trash as a folder"""

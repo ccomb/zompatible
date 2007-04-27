@@ -2,10 +2,10 @@
 from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
 from zope.publisher.browser import BrowserPage
-from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.component import adapts, getUtility
-from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.component import adapts, getUtility, createObject
+from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
@@ -13,7 +13,7 @@ from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 import string, urllib
 
-from device import Device, SearchDevice, DeviceSource
+from device import Device, DeviceSource
 from interfaces import *
     
 
@@ -22,7 +22,7 @@ class DeviceAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     form_fields=Fields(IDevice, ISubDevices)
     #form_fields['subdevices'].custom_widget=subdevices_widget
-    form_fields=form_fields.omit('__name__', '__parent__')
+    form_fields=form_fields.omit('__name__', '__parent__', 'organization')
     label=u"Ajout d'un matériel"
     def nextURL(self):
         return AbsoluteURL(self.device,self.request)
@@ -98,11 +98,9 @@ class DeviceTerms(object):
         """
         return self.intid.getObject(int(token))
 
-    
-    
 class DeviceQueryView(object):
     u"""
-    La vue permettant d'interroger la source
+    The view allowing to query the source
     """
     implements(ISourceQueryView)
     adapts(DeviceSource, IBrowserRequest)
@@ -121,9 +119,7 @@ class DeviceQueryView(object):
         if name in self.request:
             search_string = self.request.get(name+'.string')
             if search_string is not None:
-                return SearchDevice(search_string).getResults()
-
-
+                return createObject(u"zompatible.SearchObject", device_text=search_string).getResults()
 
 class DeviceContainerView(object):
     u"""
@@ -134,7 +130,4 @@ class DeviceContainerView(object):
     label = u"List of devices"
     def getitems(self):
         return ( (urllib.quote(dev[0]),dev[1]) for dev in self.context.items() )
-
-
-
 

@@ -10,6 +10,7 @@ class ISoftware(IContained):
     Base attributes of a software
     """
     names = List(title=u'names', description=u'possible software names', min_length=1, value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
+    organization = Choice(title=u'Organization', description=u'the organization producing this software', source="orgasource", required=False)
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
     version = TextLine(title=u'version', description=u'a text string describing the version', required=True)
     builtVersion = TextLine(title=u'built version', description=u'built version', required=False)

@@ -25,6 +25,8 @@
 <include package=".user" />
 <include package=".category" />
 <include package=".ids" />
+<include package=".search" />
+
 
 <browser:page
     name="index.html"

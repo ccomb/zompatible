@@ -22,7 +22,6 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
 </zope:class>
 
-<!-- We declare that IDevice provides IContentType which is a marker interface that declares IDevice as a content type -->
 <zope:interface  
   interface=".interfaces.IDevice"
   type="zope.app.content.interfaces.IContentType"

@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
-from interfaces import *
+from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges
 from zope.publisher.browser import BrowserPage
+from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser import TextAreaWidget
 from zope.app.form.browser.itemswidgets import MultiCheckBoxWidget
-from zope.component import getAdapter
+from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
+from zope.component import getAdapter, createObject, adapts, getUtility
 from zope.app.container.interfaces import INameChooser
 from zope.proxy import removeAllProxies
 from zope.formlib.form import Actions, Action, getWidgetsData
 from zope.copypastemove import ContainerItemRenamer
+from zope.app.intid.interfaces import IIntIds
+from zope.schema.vocabulary import SimpleTerm
 
 import string, urllib
 
-from organization import Organization, SearchProduct
+from interfaces import *
+from organization import Organization, OrgaSource
 
 
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
@@ -62,7 +67,6 @@ class OrganizationEdit(EditForm):
         super(OrganizationEdit, self).handle_edit_action.success(data)
         oldname=self.context.__name__
         newname=string.lower(INameChooser(self.context).chooseName(u"",self.context))
-        print newname
         if string.lower(oldname)!=newname:
             renamer = ContainerItemRenamer(self.context.__parent__)
             renamer.renameItem(oldname, newname)
@@ -119,18 +123,73 @@ class SearchProductView(BrowserPage):
     La vue de recherche de produit, qui contient
     la méthode lancée depuis le template pour effectuer la recherche
     """
-    def __call__(self, query):
+    def __call__(self, query=u""):
         organization=None
+        self.results={}
         if IOrganization.providedBy(self.context):
             organization=self.context
         if IOrganization.providedBy(self.context.__parent__):
             organization=self.context.__parent__
-        self.results=SearchProduct(query, organization).getResults()
+        if IOrganization.providedBy(self.context.__parent__.__parent__):
+            organization=self.context.__parent__.__parent__
+        if organization is not None:
+            self.results['devices']=createObject("zompatible.SearchObject", device_text=query, device_organization=organization).getResults()
+            self.results['software']=createObject("zompatible.SearchObject", software_text=query, software_organization=organization).getResults()
+        else:
+            self.results['devices']=createObject("zompatible.SearchObject", device_text=query).getResults()
+            self.results['software']=createObject("zompatible.SearchObject", software_text=query).getResults()
         return ViewPageTemplateFile('search_product.pt')(self)
     def getDevices(self):
         return [ { 'device' : device, 'url' : AbsoluteURL(device, self.request) } for device in self.results['devices'] ]
     def getSoftwares(self):
         return [ { 'software' : software, 'url' : AbsoluteURL(software, self.request) } for software in self.results['software'] ]
             
+class OrgaTerms(object):
+    u"""
+    la vue fournissant les termes de la source à des fins d'affichage dans le widget
+    (adapter de ISource vers ITerms)
+    """
+    implements(ITerms)
+    adapts(OrgaSource, IBrowserRequest)
+    def __init__(self, source, request):
+        self.source=source
+        self.intid=getUtility(IIntIds)
+    def getTerm(self, value):
+        u"""
+        on crée un term à partir d'une orga
+        On utilise le Unique Integer Id comme token
+        (puisqu'il a fallu forcément en créer un pour la recherche dans le Catalog)
+        """
+        token = self.intid.getId(value)
+        title = unicode(value.__name__)
+        return SimpleTerm(value, token, title)
+    def getValue(self, token):
+        u"""
+        on récupère le device à partir du token
+        """
+        return self.intid.getObject(int(token))
+
+class OrgaQueryView(object):
+    implements(ISourceQueryView)
+    adapts(OrgaSource, IBrowserRequest)
+    def __init__(self, source, request):
+        u"source est le contexte"
+        self.source=source
+        self.request=request
+    def render(self, name):
+        u"""
+        le code qui affiche la vue permettant la recherche
+        Il pourrait être intéressant d'y mettre un viewlet (??) ou au moins un template
+        'name' est le préfixe pour les widgets.
+        """
+        return('<input name="%s.string" /><input type="submit" name="%s" value="chercher" />' % (name, name) )
+    def results(self, name):
+        if name in self.request:
+            search_string = self.request.get(name+'.string')
+            if search_string is not None:
+                return createObject(u"zompatible.SearchObject", organization_text=search_string).getResults()
+
+
+
 
 

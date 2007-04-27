@@ -11,19 +11,23 @@
   <require permission="zope.ManageContent" set_schema=".interfaces.IOrganization" />
 </zope:class>
 
+<zope:interface interface=".interfaces.IOrganizationType" />
+
 <!-- Different Organization types -->
 <zope:interface  
   interface=".interfaces.IManufacturer"
   type="zompatible.organization.interfaces.IOrganizationType"
 />
-<zope:class class=".organization.Manufacturer">
-  <require permission="zope.View"          interface=".interfaces.IManufacturer" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
-</zope:class>
 <zope:interface
     interface=".interfaces.ISoftwareEditor"
     type="zompatible.organization.interfaces.IOrganizationType"
 />
+
+<zope:class class=".organization.Manufacturer">
+  <require permission="zope.View"          interface=".interfaces.IManufacturer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IManufacturer" />
+</zope:class>
+
 <zope:class class=".organization.SoftwareEditor">
   <require permission="zope.View"          interface=".interfaces.ISoftwareEditor" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareEditor" />
@@ -34,6 +38,8 @@
 <zope:adapter factory=".organization.SoftwareEditor" />
 <zope:adapter factory=".organization.OrganizationInterfaces" />
 <zope:adapter factory=".organization.OrganizationNameChooser" />
+<zope:adapter factory=".browser.OrgaTerms" />
+<zope:adapter factory=".browser.OrgaQueryView" />
 
 <!-- Organization views -->
 <!-- ADD -->
@@ -141,4 +147,9 @@
       name="zompatible.OrganizationContainer"
 />
 
+<!-- registered named utility used in the device interface -->
+<zope:utility
+    factory=".organization.OrganizationVocabularyFactory"
+    name="orgasource"
+/>
 </configure>

@@ -4,7 +4,7 @@ from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.component import adapts, getUtility
+from zope.component import adapts, getUtility, createObject
 from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.vocabulary import SimpleTerm
@@ -14,11 +14,11 @@ from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
 import string
 
-from software import Software, SoftwareSource, SearchSoftware
+from software import Software, SoftwareSource
 
 class SoftwareAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
-    form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
+    form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__', 'organization')
     label=u"Adding a Software"
     def nextURL(self):
         return AbsoluteURL(self.software, self.request)
@@ -130,4 +130,4 @@ class SoftwareQueryView(object):
         if name in self.request:
             search_string = self.request.get(name+'.string')
             if search_string is not None:
-                return SearchSoftware(search_string).getResults()
+                return createObject(u"zompatible.SearchObject", software_text=search_string).getResults()

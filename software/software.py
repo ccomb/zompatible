@@ -8,6 +8,7 @@ from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
 from zope.app.intid.interfaces import IIntIds
+from zope.copypastemove import ObjectMover
 import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from BTrees.OOBTree import OOBTree
@@ -48,6 +49,22 @@ class Software(Persistent):
     def __init__(self):
         u"a list of support devices, that lead to the Support objects"
         self.supports = OOBTree()
+    def __getattr__(self, name):
+        if name == 'organization':
+            if self.__parent__ is not None:
+                return self.__parent__.__parent__
+            return None
+        return super(Software, self).__getattr__(name)
+    def __setattr__(self, name, value):
+        if name == 'organization':
+            if value is not self.__parent__ and value is not None and self.__parent__ is not None:
+                mover = ObjectMover(self)
+                if not mover.moveableTo(value['software']):
+                    raise "Impossible action"
+                else:
+                    mover.moveTo(value['software'])
+        else:
+            super(Software, self).__setattr__(name, value)
 
 class SoftwareNameChooser(NameChooser):
     u"""
@@ -89,24 +106,6 @@ class SearchableTextOfSoftware(object):
                 texttoindex += subword + " "
         return texttoindex
 
-class SearchSoftware(object):
-    u"""
-    a class that does software searching
-    """
-    def update(self, query, organization=None):
-        catalog=getUtility(ICatalog)
-        del self.results
-        self.results=[]
-        if query!="":
-            self.results=catalog.searchResults(software_names=query+"*")
-        if organization is not None:
-            self.results = ( software for software in self.results if (software.__parent__.__parent__ == organization) )
-    def __init__(self, query, organization=None):
-        self.results=[]
-        self.update(query)
-    def getResults(self):
-        return self.results
-
 class SoftwareSource(object):
     """
     implémentation de la Source de Software utilisée dans le schema de Support
@@ -120,8 +119,8 @@ class SoftwareSource(object):
     implements(ISource)
     def __contains__(self, value):
         root = getSite()
-        for manuf in root['organizations']:
-            if 'software' in root['organizations'][manuf] and value.__name__ in root['organizations'][manuf]['software'].keys():
+        for orga in root['organizations']:
+            if 'software' in root['organizations'][orga] and value.__name__ in root['organizations'][orga]['software'].keys():
                 return True
         return False
 

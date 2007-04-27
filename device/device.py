@@ -9,6 +9,8 @@ from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
 from zope.app.container.interfaces import INameChooser
 from zope.app.container.contained import NameChooser
+from zope.component.factory import Factory
+from zope.copypastemove import ObjectMover
 
 import string
 from BTrees.OOBTree import OOBTree
@@ -48,9 +50,23 @@ class Device(Persistent):
     def __init__(self):
         u"the list of supported software that lead to the Support objects"
         self.supports = OOBTree()
-
-from zope.component.factory import Factory
-
+    def __getattr__(self, name):
+        if name == 'organization':
+            if self.__parent__ is not None:
+                return self.__parent__.__parent__
+            return None
+        return super(Device, self).__getattr__(name)
+    def __setattr__(self, name, value):
+        if name == 'organization':
+            if value is not self.__parent__ and value is not None and self.__parent__ is not None:
+                mover = ObjectMover(self)
+                if not mover.moveableTo(value['devices']):
+                    raise "Impossible action"
+                else:
+                    mover.moveTo(value['devices'])
+        else:
+            super(Device, self).__setattr__(name, value)
+        
 deviceFactory = Factory(
     Device,
     title=u"Device factory",
@@ -104,39 +120,6 @@ class SearchableTextOfDevice(object):
                 texttoindex += subword + " "
         return texttoindex
 
-
-class SearchDevice(object):
-    u"""
-    une classe qui effectue la recherche de device
-    il faudrait peut-être déporter ceci dans un module externe
-    qui fournirait une interface ISearchable,
-    ainsi que les fonctions de recherche.
-    (voir s'il existe déjà une interface de ce type ?)
-    Il faudra sûrement faire ça pour le champ de recherche principal,
-    où on peut faire une recherche par device, organization, feature, etc, tout en meme temps.
-    
-    Un ResultSet est un objet qui implémente __iter__ mais pas __getitem__
-    Donc on peut le parcourir, mais pas accéder à un élément en particulier.
-    Et on ne peut pas le parcourir 2x ! Mieux vaut utiliser catalog.apply()
-    """
-    def update(self, query, organization=None):
-        catalog=getUtility(ICatalog)
-        del self.results
-        self.results=[]
-        if query!="":
-            self.results=catalog.searchResults(device_names=query+"*")
-        if organization is not None:
-            # list comprehension : it creates a full list of device
-            #self.results = [ device for device in self.results if (device.__parent__.__parent__ == organization) ]
-            # generator expression : it creates an iterator that parse the list on demand (should save memory)
-            self.results = ( device for device in self.results if (device.__parent__.__parent__ == organization) )
-    def __init__(self, query, organization=None):
-        self.results=[]
-        self.update(query, organization)
-    def getResults(self):
-        return self.results
-
-
 class DeviceSource(object):
     """
     implémentation de la Source de Devices utilisée dans le schema de sub_devices.
@@ -150,8 +133,8 @@ class DeviceSource(object):
     implements(ISource)
     def __contains__(self, value):
         root = getSite()
-        for manuf in root['organizations']:
-            if 'devices' in root['organizations'][manuf] and value.__name__ in root['organizations'][manuf]['devices'].keys():
+        for orga in root['organizations']:
+            if 'devices' in root['organizations'][orga] and value.__name__ in root['organizations'][orga]['devices'].keys():
                 return True
         return False
 

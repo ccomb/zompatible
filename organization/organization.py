@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
 from zope.app.folder.folder import Folder
-from zope.component import adapts, getUtility, getAllUtilitiesRegisteredFor
+from zope.component import adapts, getAllUtilitiesRegisteredFor
 from zope.app.folder.interfaces import IFolder
-from zope.app.catalog.interfaces import ICatalog
 from zope.app.container.interfaces import INameChooser
-from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
+from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized, ISource
 from zope.component.interface import nameToInterface, interfaceToName
 from zope.schema.vocabulary import SimpleTerm
 from zope.interface.declarations import alsoProvides, noLongerProvides
 from zope.proxy import removeAllProxies
-from zope.app.intid.interfaces import IIntIds
 from zope.app.container.contained import NameChooser
 from zope.component.factory import Factory
+from zope.app.component.hooks import getSite
 
 import string
 
@@ -142,43 +141,6 @@ class SearchableTextOfOrganization(object):
                 texttoindex += subword + " "
         return texttoindex
 
-class SearchOrganization(object):
-    u"""
-    une classe qui effectue la recherche de organization
-    """
-    def update(self, query):
-        catalog=getUtility(ICatalog)
-        del self.results
-        self.results=[]
-        if query!="":
-            self.results=catalog.searchResults(organization_names=query+"*")
-    def __init__(self, query):
-        self.results=[]
-        self.update(query)
-    def getResults(self):
-        return self.results
-
-class SearchProduct(object):
-    u"""
-    A class that search a product, first a device then software
-    """
-    def update(self, query, organization):
-        catalog=getUtility(ICatalog)
-        intids=getUtility(IIntIds)
-        del self.results
-        self.results={}
-        if query != "" :
-            self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) ]
-            self.results['software'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) ]
-        if organization is not None:
-            self.results['devices'] = [ intids.getObject(i) for i in catalog.apply( { 'device_names': query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
-            self.results['software'] = [ intids.getObject(i) for i in catalog.apply( { 'software_names':query+"*" } ) if intids.getObject(i).__parent__.__parent__ == organization ]
-    def __init__(self, query, organization):
-        self.results={}
-        self.update(query, organization)
-    def getResults(self):
-        return self.results
-
 class OrganizationTypeVocabulary(object):
     """
     This is the vocabulary that provides the different interfaces of Organization to choose from. (ISoftwareEditor and IManufacturer)
@@ -219,6 +181,18 @@ class OrganizationInterfacesVocabularyFactory(object):
     def __call__(self, context):
         return OrganizationTypeVocabulary(context)
 
+class OrgaSource(object):
+    implements(ISource)
+    def __contains__(self, value):
+        root = getSite()
+        if value.__name__ in root['organizations']:
+            return True
+        return False
+
+class OrganizationVocabularyFactory(object):
+    implements(IVocabularyFactory)
+    def __call__(self, context):
+        return OrgaSource()
 
 
 

@@ -8,13 +8,10 @@ from zope.interface import implements, Interface
 from zope.component import adapts
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.app.component.hooks import getSite
+from zope.component import createObject
 
 from interfaces import *
-from device.device import SearchDevice
-from organization.organization import SearchOrganization
 from organization.interfaces import IOrganization
-from software.software import SearchSoftware
-from category.category import SearchCategorizable
 
 class MainPage(object):
     u"""
@@ -108,10 +105,10 @@ class MainSearch(object):
         categorizable={}
         result=u""
         for word in self.mainsearch.split():
-            organizations[word]=SearchOrganization(word).getResults()
-            software[word]=SearchSoftware(word).getResults()
-            devices[word]=SearchDevice(word).getResults()
-            categorizable[word]=SearchCategorizable(word).getResults()
+            organizations[word]=createObject(u"zompatible.SearchObject", organization_text=word).getResults()
+            software[word]=createObject(u"zompatible.SearchObject", software_text=word).getResults()
+            devices[word]=createObject(u"zompatible.SearchObject", device_text=word).getResults()
+            categorizable[word]=createObject(u"zompatible.SearchObject", categorizable_text=word).getResults()
         for word in self.mainsearch.split():
             result += "pour le mot : " + word + "\n***********\n"
             result += "organizations: "

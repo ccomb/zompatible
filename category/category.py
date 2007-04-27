@@ -5,7 +5,7 @@ from zope.component import adapts, getUtility, adapter, getSiteManager, queryUti
 from zope.app.intid.interfaces import IIntIds
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
-from zope.app.catalog.interfaces import ICatalog
+
 from interfaces import *
 
 class Category(Folder):
@@ -125,10 +125,9 @@ def AvailableCategories(context):
     This allows to have a different category container for each content type
     """
     utilityname = ICategories(context).get_utility_name()
-    try:
+    try: # the category container should be registered is sitemanager for ICategories
         return getUtility(ICategories, utilityname)
-    except:
-        u"we create and register a new category container for the object type"
+    except: # we create and register a new category container for the object type"
         sm = getSiteManager(context)
         sm[utilityname] = AvailableCategoriesContainer()
         sm.registerUtility(sm[utilityname], ICategories, utilityname)
@@ -149,27 +148,13 @@ class SearchableTextOfCategorizable(object):
         self.context = context
     def getSearchableText(self):
         sourcetext = texttoindex = u''
-        u"First, gather all interesting text"
+        # First, gather all interesting text
         for category in ICategories(self.context).categories: # Peut-être déporter ça dans la gestion des categories
             sourcetext += category.description + " " + category.__name__ # + reduce(lambda x,y: x+" "+y, category.names) AVEC names avec au moins 1 element !!!
-        u"then split all words into subwords"
+        # then split all words into subwords
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
                 texttoindex += subword + " "
         return texttoindex
 
-class SearchCategorizable(object):
-    u"""
-    search categorizable objects for categories
-    """
-    def update(self, query):
-        catalog=getUtility(ICatalog)
-        del self.results
-        self.results=[]
-        if query!="":
-            self.results=catalog.searchResults(categorizable=query+"*")
-    def __init__(self, query):
-        self.results=[]
-        self.update(query)
-    def getResults(self):
-        return self.results
+
