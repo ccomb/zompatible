@@ -55,6 +55,7 @@ def ZompatibleInitialSetup(event):
     sm['unique integer IDs']=intid
     sm.registerUtility(intid, IIntIds)
 
+    u"commit to be able to"
     u"create and register the importdata utility"
     importdata = createObject("zompatible.importData")
     sm['importdata']=importdata

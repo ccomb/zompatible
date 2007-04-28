@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
-from zope.app.catalog.interfaces import IAttributeIndex, ICatalogIndex
-from persistent.interfaces import IPersistent
+from zope.app.catalog.interfaces import ICatalogIndex
 from zope.app.container.interfaces import IContained
 
 class IBaseIndex(IContained):
     forward = Attribute(u"the forward association")
     backward = Attribute(u"the backward association")
 
-class IObjectIndex(IAttributeIndex, ICatalogIndex, IContained):
+class IObjectIndex(ICatalogIndex):
     pass
 
 
