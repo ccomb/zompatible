@@ -1,0 +1,45 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+
+<browser:page
+    name="index.html"
+    class=".browser.MainPage"
+    for="zompatible.interfaces.IZompatibleSite"
+    permission="zope.Public"
+/>
+
+<!-- la page qui effectue la recherche -->
+<browser:page
+    name="mainsearch.html"
+    for="*"
+    class=".browser.MainSearch"
+    permission="zope.Public"
+/>
+
+
+<!-- Main Area and its viewlets -->
+<browser:viewletManager
+    name="zompatible.MainArea"
+    provides=".interfaces.IMainAreaManager"
+    permission="zope.Public"
+    class=".browser.MainAreaManager"
+/>
+<browser:viewlet
+    name="mainSearch"
+    class=".browser.MainSearchViewlet"
+    template="mainsearch.pt"
+    for="*"
+    manager=".interfaces.IMainAreaManager"
+    permission="zope.Public"
+/>
+<browser:viewlet
+    name="mainLinks"
+    class=".browser.MainLinksViewlet"
+    for="*"
+    template="mainlinks.pt"
+    manager=".interfaces.IMainAreaManager"
+    permission="zope.Public"
+/>
+
+
+</configure>

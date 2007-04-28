@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from zope.viewlet.interfaces import IViewletManager
 from zope.app.container.interfaces import IContainer
 from zope.app.component.interfaces import IPossibleSite
 from zope.component.interfaces import IObjectEvent
-
-sitename="Zompatible"
 
 
 class IZompatibleSite(IPossibleSite, IContainer):
@@ -23,22 +20,6 @@ class IZompatibleSiteManagerSetEvent(IObjectEvent):
 
 class ITrash(IContainer):
     u"""The trash that receive the deleted objects"""
-
-class IMainAreaManager(IViewletManager):
-    u"""
-    This is the viewlet manager for the central area in the homepage.
-    It should at least contain the main search viewlet
-    """
-
-class IAdminAreaManager(IViewletManager):
-    u"""
-    The viewlet manager for the admin viewlets
-    """
-
-class IToolboxManager(IViewletManager):
-    u"""
-    The viewlet manager for a side toolbox
-    """
 
 
 

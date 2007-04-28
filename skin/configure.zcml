@@ -1,5 +1,9 @@
 <configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
+<include package=".navigation" />
+<include package=".home" />
+<include package=".admin" />
+
 <!-- on register l'interface IZompatibleSkin avec un nom et un type -->
 <zope:interface
     name="ZompatibleSkin"

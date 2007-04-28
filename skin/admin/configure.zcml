@@ -1,0 +1,37 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+
+
+<!-- Admin Area and its viewlets -->
+<browser:viewletManager
+    name="zompatible.AdminArea"
+    class=".browser.AdminAreaManager"
+    provides=".interfaces.IAdminAreaManager"
+    permission="zope.ManageContent"
+/>
+
+<browser:viewlet
+    name="login"
+    template="login.pt"
+    for="*"
+    manager=".interfaces.IAdminAreaManager"
+    permission="zope.Public"
+/>
+<browser:viewlet
+    name="adminheader"
+    class=".browser.AdminHeaderViewlet"
+    for="*"
+    manager=".interfaces.IAdminAreaManager"
+    permission="zope.ManageContent"
+/>
+<browser:viewlet
+    name="adminmenu"
+    template="adminmenu.pt"
+    for="*"
+    manager=".interfaces.IAdminAreaManager"
+    permission="zope.ManageContent"
+/>
+
+
+
+</configure>

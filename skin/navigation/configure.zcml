@@ -1,0 +1,38 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+
+<zope:adapter
+    name="pagetitle"
+    factory=".browser.PageTitleContentProvider"
+    permission="zope.Public"
+/>
+<zope:adapter
+    name="siteurl"
+    factory=".browser.SiteUrlProvider"
+    permission="zope.Public"
+/>
+
+<browser:view
+    for="*"
+    name="absolute_url"
+    allowed_interface="zope.traversing.browser.interfaces.IAbsoluteURL"
+    class=".browser.FailsafeAbsoluteURL"
+    permission="zope.Public"
+/>
+<browser:viewletManager
+    name="zompatible.Toolbox"
+    class=".browser.ToolboxManager"
+    provides=".interfaces.IToolboxManager"
+    permission="zope.Public"
+/>
+<browser:viewlet
+    name="search_product"
+    template="search_product.pt"
+    for="*"
+    manager=".interfaces.IToolboxManager"
+    permission="zope.Public"
+    class=".browser.ProductSearchViewlet"
+/>
+
+
+</configure>
