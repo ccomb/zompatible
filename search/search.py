@@ -37,7 +37,7 @@ class BaseIndex(Persistent):
         u"This method is called with super from AttributeIndex, at the end of its index_doc method"
         if docid in self.backward:
             self.unindex_doc(docid)
-        valuekey = KeyReferenceToPersistent(value)
+        valuekey = KeyReferenceToPersistent(removeAllProxies(value))
         self.backward[docid] = valuekey
         set = self.forward.get(valuekey)
         if set is None:
