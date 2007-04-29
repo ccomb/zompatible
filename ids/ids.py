@@ -2,7 +2,6 @@
 from zope.interface import implements
 from zope.component import adapts
 from zope.component import provideAdapter
-from zope.interface.declarations import alsoProvides
 
 from zompatible.ids.interfaces import  IDeviceId, IPciDeviceId, IUsbDeviceId
 from zompatible.device.interfaces import IDevice

@@ -5,6 +5,7 @@ from zope.component import adapts, getUtility, adapter, getSiteManager, queryUti
 from zope.app.intid.interfaces import IIntIds
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
+from zope.component.factory import Factory
 
 from interfaces import *
 
@@ -12,7 +13,17 @@ class Category(Folder):
     implements(ICategory)
     names = []
     description = u""
+    def __init__(self, name=None, description=None):
+        self.names = [ name ]
+        self.description = description
+        super(Category, self).__init__()
 
+categoryFactory = Factory(
+    Category,
+    title=u"Category factory",
+    description = u"This factory instantiates a new category."
+    )
+    
 class AvailableCategoriesContainer(Folder):
     implements(IAvailableCategoriesContainer)
 
@@ -38,11 +49,11 @@ class CategoryVocabulary(object):
     def getTerm(self, value):
         "here, value is a a category"
         token = self._intid.getId(value)
-        title = (len(self.parent_iterators)-1)*u'_____' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
+        title = (len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def getTermByToken(self, token):
         value=self._intid.getObject(int(token))
-        title=(len(self.parent_iterators)-1)*u'_____' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
+        title=(len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def __iter__(self):
         "The class is used as its own iterator. The next() method will use the last iterator in the parent_iterators list"
@@ -97,20 +108,21 @@ class Categories(object):
     """
     adapts(ICategorizable)
     implements(ICategories)
-    categories = []
-    context = None
     def __init__(self, context):
         self.context = context
-        try:
-            self.categories = self.context.categories
-        except:
+        if not hasattr(self.context, 'categories'):
             self.context.categories = [ ]
+    def __getattr__(self, name):
+        if name == 'categories':
+            return self.context.categories
+        object.__getattr__(self, name)
     def __setattr__(self,name,value):
         if name == 'categories':
             for cat in value: # for each category, add every upper category
                 parent = cat.__parent__
                 while not IAvailableCategoriesContainer.providedBy(parent):
-                    value.append(parent)
+                    if parent not in value:
+                        value.append(parent)
                     parent = parent.__parent__
             self.context.categories = value
         object.__setattr__(self, name, value)

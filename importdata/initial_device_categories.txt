@@ -1,0 +1,300 @@
+COMPOSANTS : composants internes
+    Alimentation
+    Boitier      ATX, microATX, mini-ITX ?
+    Boitier externe
+    Câbles et connectiques
+    Carte contrôleur
+    Carte d'acquisition
+    Carte graphique
+    Carte mère
+    Carte son
+    Carte tuner TV/TNT
+    Clé USB
+    Disque dur
+    Disque dur externe
+    Dissipateur
+    Graveur BluRay
+    Graveur CD
+    Graveur DVD
+    Graveur externe
+    Kit évolution
+    Lecteur CD
+    Lecteur de disquette
+    Lecteur DVD
+    Lecteur multi-cartes externe
+    Mémoire DDR
+    Mémoire DDR2
+    Mémoire Rambus
+    Mémoire SDRAM
+    Mémoire So-dimm
+    Mini PC
+    Pate thermique
+    Processeur
+    Rack & rhéobus
+    Tuning
+    Ventilateur carte graphique
+    Ventilateur de boîtier
+    Ventilateur disque dur
+    Ventilateur processeur
+    Watercooling
+Son, baladeurs et audio PRO : tout pour le son
+     Baladeur    
+    Tous les baladeurs
+    Baladeur USB
+    Juke Box
+    Multimédia (audio/video)
+    Casque audio
+    Accessoires
+ 
+    Hifi & Home cinéma  
+    Chaîne HIFI
+    Ampli HIFI
+    Amplificateur Audio/Video
+    Lecteur CD de salon
+    Platine Vinyle
+    Radio K7 CD
+ 
+    Audio PRO  
+    Toute l'audio PRO
+    Carte son
+    Casques pro
+    Enceintes
+    Micro
+ 
+    Périphériques MIDI  
+    Clavier midi
+    Interface
+ 
+    Auto  
+    Autoradio
+
+    Radio reveil
+
+Téléviseurs et vidéo    
+    Télévision  
+    LCD
+    Plasma
+    TV Portable
+    Rétroprojecteur
+ 
+    Lecteur et Enregistreur DVD  
+    Enregistreur avec disque dur
+    Enregistreur sans disque dur
+    Lecteur DVD/DivX
+    Lecteur DVD/Divx portable
+    Lecteur HD-DVD / Blu-Ray
+    Lecteur Multimédia
+    Combi DVD Magnétoscope
+    Accessoire DVD portable
+    Films DVD
+ 
+    TNT et Satellite  
+    Récepteur TNT et satellite
+ 
+    Video-Projection  
+    Video projecteur
+    Ecran de projection
+ 
+    Home Cinéma  
+    Ampli Audio / Video
+    Enceintes Home Cinéma
+    Pieds d'enceintes
+ 
+    Accessoires téléviseur  
+    Câbles et connectiques
+    Télécommande Universelle
+    Meubles
+    Support mural
+    DVD et CD Vierges
+    Boitiers et étuis
+Impression     :       imprimantes et consommables
+    Câble d'imprimante
+    Cartouches d'encres
+    Impression sur CD
+    Packs de cartouches
+    Packs de cartouches et papiers
+    Papier
+    Ruban
+    Tambour
+    Toner
+    Tous les toners
+    Toutes les cartouches
+ 
+    Médias vierges  
+    BD-R
+    BD-RE
+    CD-R
+    CD-RW
+    Disquette
+    DVD+R
+    DVD+RW
+    DVD-R
+    DVD-RW
+    Marqueur
+    Packs gravure
+ 
+    Accessoires  
+    Accessoires nettoyage
+    Chargeur
+    Lingettes nettoyantes
+    Piles
+ 
+    Rangement  
+    Malette pour portable
+    Pour CD
+Ordinateurs de bureau
+    Ordinateur de bureau  
+    Bureautique
+    Multimédia
+    Jeux
+    Hardcore gamer
+    Mini PC
+    AMD Live!
+    Serveur
+    Tous les ordinateurs
+ 
+    Accessoires  
+    Câbles et connectiques
+    Clavier/souris
+    Clé USB
+    Disque dur externe
+    Disque dur externe Divx
+    Enceintes
+    Imprimante multi-fonctions
+    Moniteur
+    Multi-prise
+    Onduleur
+    Webcam
+
+    Logiciels  
+
+    Sécurité
+    Système d'exploitation
+    
+Ordinateur portable    
+    Ordinateur portable  
+    Pour elle
+    Multimédia
+    Jeux
+    Professionnels
+    Ultra portable
+    Tous les portables
+ 
+    Accessoires  
+    Accessoires divers
+    Adaptateur secteur
+    Assurance
+    Batteries
+    Câbles et connectiques
+    Cartes PCMCIA
+    Extention de garantie
+    Mallette
+    Station d'accueil
+    Recherche par prix  
+    Inférieur à 800 € (16)
+    De 800 à 1100 € (53)
+    De 1100 à 1500 € (35)
+    De 1500 à 2000 € (24)
+    Supérieur à 2000 € (7)
+    
+Appareils photos    
+    Appareils photo  
+    Les compacts
+    les bridges
+    Les réflex
+    Les accessoires
+    Mémoire flash
+    Tous les appareils photo
+    Imprimantes portables
+    Cadres photo numériques
+    Configurateur accessoires
+ 
+Caméscope numérique  
+    Camescopes  
+    Caméscopes à disque dur
+    Caméscopes mini DV
+    Caméscopes à mémoire flash
+    Caméscopes mini DVD
+    Accessoires
+    Mémoires flash
+    Tous les caméscopes
+    Configurateur d'accessoires
+ GPS    
+    Accessoires GPS
+    Configurateur GPS
+    GPS autonome (Tomtom)
+    GPS bluetooth
+    Kit PDA + GPS
+    Tous les GPS
+ 
+PDA  
+    Configurateur accessoires
+    PDA Bluetooth
+    PDA Communicant
+    PDA Wifi
+    Tous les PDA
+ 
+Téléphonie  
+    Téléphones fixes
+    Téléphones mobiles
+    Accessoires téléphones
+    Configurateur d'accessoires
+    Mémoires flash
+    Talkies walkies
+ 
+Calculatrices  
+    Calculatrices financieres
+    Calculatrices graphiques
+    Calculatrices scientifiques
+
+Périphériques    
+
+    Moniteurs - Ecrans  
+    Moniteur LCD
+ 
+    Son et multimédia  
+    Enceintes
+    Casque
+    Casque micro
+    Webcam
+ 
+    Impression et scanners  
+    Jet d'encre
+    Laser
+    Multifonction fax
+    Multifonction jet d'encre
+    Multifonction laser
+    Photo portable
+    Scanner
+    Télécopieur
+ 
+    Périphériques de saisie  
+    Clavier
+    Clavier souris
+    Pavé numérique
+    Souris
+    Souris accessoires
+    Tablette graphique
+    Tapis de souris
+ 
+    Stockage et sauvegarde  
+    cassette dat
+    Clé USB
+    Disque dur externe
+    Disque dur externe Divx
+    Graveur externe
+    Sauvegarde
+ 
+    Périphériques de jeux  
+    Joypad
+    Joystick
+    Volant
+ 
+    Câbles et connectiques  
+    Câbles
+    Hub USB
+    multiprise
+    Onduleur
+    Switch KVM
+ 
+    Gadgets

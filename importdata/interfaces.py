@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.schema import Text, TextLine
+from zope.schema import Text, URI
 from zope.app.container.constraints import containers
 from zope.app.component.interfaces import ILocalSiteManager
 
@@ -32,4 +32,11 @@ class IImportData(IImport):
 	def updateZodbFromUsbData(self):
 		""" Import data from usb.ids file format
 		"""
-		
+
+class IImportFile(IImport):
+    """
+    interface of a file import utility
+    """
+    infile = URI(title=u'File to import', description=u'URI of the file to import', max_length=150, required=True)
+    def importfile():
+        u"perform the import"

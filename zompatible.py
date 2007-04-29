@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from interfaces import *
 from zope.app.folder.folder import Folder
-from zope.interface import implements
+from zope.interface import implements, Interface
 from zope.app.component.site import LocalSiteManager, SiteManagerContainer
 from zope.component import adapter
 from zope.app.container.interfaces import IObjectAddedEvent
@@ -11,6 +11,7 @@ from zope.app.intid import IntIds
 from zope.app.catalog.catalog import Catalog, ICatalog
 from zope.app.catalog.text import TextIndex
 from zope.component import createObject
+from zope.app.generations.utility import findObjectsProviding
 
 from organization.interfaces import ISearchableTextOfOrganization
 from device.interfaces import ISearchableTextOfDevice, IDevice
@@ -20,6 +21,7 @@ from level.interfaces import ILevels
 from category.interfaces import ISearchableTextOfCategorizable
 from search.search import ObjectIndex
 from importdata.interfaces import IImportData
+from importdata.importcategories import ImportCategoryFile
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -55,7 +57,6 @@ def ZompatibleInitialSetup(event):
     sm['unique integer IDs']=intid
     sm.registerUtility(intid, IIntIds)
 
-    u"commit to be able to"
     u"create and register the importdata utility"
     importdata = createObject("zompatible.importData")
     sm['importdata']=importdata
@@ -90,6 +91,16 @@ def ZompatibleInitialSetup(event):
     catalog['device_organization'] = ObjectIndex(interface=IDevice, field_name='organization', field_callable=False)
     catalog['software_organization'] = ObjectIndex(interface=ISoftware, field_name='organization', field_callable=False)
 
+    sm['temp'] = createObject("zompatible.Device")
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").importdata(sm['temp'])
+    del sm['temp']
+    
+    u"create an intid for all objects added in content space and site manager. (the intid is not yet active)"
+    u"KEEP THIS AT THE BOTTOM"
+    for object in findObjectsProviding(site,Interface):
+        intid.register(object)
+    for object in findObjectsProviding(sm,Interface):
+        intid.register(object)
 
 class Trash(Folder):
     u"""the implementation of the site trash as a folder"""

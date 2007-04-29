@@ -2,20 +2,16 @@
 
 from zope.interface import implements
 from interfaces import IImport, IImportData
-from persistent.list import PersistentList
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.component import createObject   
 import transaction
 from zope.app.component.hooks import getSite
-from zope.app.container.contained import setitem
-from zope.interface.declarations import alsoProvides
-from zope.app.container.interfaces import INameChooser
 
-from zompatible.organization.organization import Organization
-from zompatible.device.device import DeviceContainer
 from zompatible.organization.interfaces import IManufacturer, IOrganizationInterfaces
-from zompatible.ids.interfaces import  IDeviceId, IPciDeviceId, IUsbDeviceId
+from zompatible.ids.interfaces import IPciDeviceId, IUsbDeviceId
+
+from interfaces import *
 
 def getUrlString(s):
    """
@@ -43,11 +39,11 @@ class ImportData(Import):
          self.data = l[1]
       lignes = self.data.split("\n")
       # Get rid of empty lignes
-      lignes = [ l for l in lignes if len(l)>0]
+      lignes = ( l for l in lignes if len(l)>0 )
       # Get rid of comments (elements have at least one caracter)
-      lignes = [ l for l in lignes if l[0]!='#']
+      lignes = ( l for l in lignes if l[0]!='#' )
       # split Id and description
-      lignes = [ l.split("  ") for l in lignes]
+      lignes = [ l.split("  ") for l in lignes ]
       
       return lignes
    
@@ -264,9 +260,18 @@ def updateZodbFromData(importData, event):
       importData.updateZodbFromUsbData()
    else:
       importData.status = u'File format not recognized'
-      
-
 
 from zope.component import provideHandler
 
 provideHandler(updateZodbFromData)
+
+
+class ImportFile(object):
+    implements(IImportFile)
+    infile = u""
+    def __init__(self, infile=u""):
+        self.infile = infile
+    def importfile(self):
+        u"this method must be implemented by the subclass"
+        raise NotImplementedError
+
