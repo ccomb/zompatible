@@ -55,7 +55,8 @@ ul { margin: 0.1em; list-style-type: none; }
 li:hover { list-style-type: circle; }
 ul#adminmenu li { margin: 0.5em; }
 
-.error { color: red; font-weight: bold; }
+.form-status { color: #f7ce85; border: solid 1px grey; }
+.error { color: red; }
 
 div#toolbox {
 background: #111111;
