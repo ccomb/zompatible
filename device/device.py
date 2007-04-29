@@ -2,12 +2,11 @@
 from zope.interface import implements
 from persistent import Persistent
 from zope.app.folder.folder import Folder
-from zope.component import adapts, getUtility
-from zope.app.catalog.interfaces import ICatalog
+from zope.component import adapts, adapter
 from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
-from zope.app.container.interfaces import INameChooser
+from zope.app.container.interfaces import INameChooser, IObjectRemovedEvent
 from zope.app.container.contained import NameChooser
 from zope.component.factory import Factory
 from zope.copypastemove import ObjectMover
@@ -17,27 +16,20 @@ from BTrees.OOBTree import OOBTree
 
 from interfaces import *
 
+@adapter(IDevice, IObjectRemovedEvent)
+def DeviceRemovedEvent(device, event):
+    u"a subscriber that put the device into trash if it contains support objects, intead of deleting it"
+    if event.newParent is None and len(device.supports) != 0 :
+        trash = getSite()['trash']
+        device_name = INameChooser(trash).chooseName(u"",device)
+        trash[device_name]=device
+
 class DeviceContainer(Folder):
     """
     a folder that contains devices
     """
-    __name__=__parent__=None
+    __name__=__parent__= None
     implements(IDeviceContainer)
-    def __delitem__(self,key):
-        u"Move to the trash instead of deleting it"
-        if len(self[key].supports) == 0:
-            super(DeviceContainer, self).__delitem__(key)
-        else :
-            trash = getSite()['trash']
-            device = self[key]
-            device_name = INameChooser(trash).chooseName(u"",device)
-            trash[device_name]=device
-            super(DeviceContainer, self).__delitem__(key)
-            device.__name__ = device_name
-            device.__parent__ = trash
-            u"then unindex the trashed object"
-            getUtility(ICatalog).unindex_doc(getUtility(IIntIds).getId(device))
-
 
 class Device(Persistent):
     implements(IDevice, ISubDevices)
@@ -46,7 +38,7 @@ class Device(Persistent):
     pciid=""
     usbid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :
-    __name__=__parent__=None
+    __name__=__parent__= None
     def __init__(self):
         u"the list of supported software that lead to the Support objects"
         self.supports = OOBTree()
@@ -89,14 +81,11 @@ class DeviceNameChooser(NameChooser):
         else :
             return True
 
-
 # Autre méthode pour créer un objectwidget ? (pas encore testé)
 #class DeviceWidget(ObjectWidget):
 #    __used_for__ = IDevice
 #    subdevices_widget = CustomWidgetFactory(ObjectWidget, Device)
 
-
-# tests sur la recherche avec le catalog
 class SearchableTextOfDevice(object):
     u"""
     l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet device.
@@ -137,7 +126,6 @@ class DeviceSource(object):
             if 'devices' in root['organizations'][orga] and value.__name__ in root['organizations'][orga]['devices'].keys():
                 return True
         return False
-
 
 class DeviceVocabularyFactory(object):
     implements(IVocabularyFactory)

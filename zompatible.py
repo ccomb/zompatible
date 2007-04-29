@@ -73,7 +73,7 @@ def ZompatibleInitialSetup(event):
     u"then create and register the catalog"
     catalog = Catalog()
     sm['catalog']=catalog
-    sm.registerUtility(catalog, ICatalog, u"zompatible.catalog")
+    sm.registerUtility(catalog, ICatalog)
 
     u"Register the level utilities"
     sm['easiness_levels'] = EasinessLevels()
@@ -94,4 +94,3 @@ def ZompatibleInitialSetup(event):
 class Trash(Folder):
     u"""the implementation of the site trash as a folder"""
     implements(ITrash)
-

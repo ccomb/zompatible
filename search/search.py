@@ -62,7 +62,7 @@ class ObjectIndex(AttributeIndex, BaseIndex, Contained):
 class SearchObject(object):
     implements(ISearchObject)
     def update(self, **query):
-        catalog=getUtility(ICatalog, u"zompatible.catalog")
+        catalog=getUtility(ICatalog)
         del self._results
         self._results=[]
         for q in query:

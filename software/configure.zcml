@@ -25,6 +25,8 @@
   type="zope.app.content.interfaces.IContentType"
 />
 
+<zope:subscriber handler=".software.SoftwareRemovedEvent" />
+
 <zope:adapter factory=".software.SearchableTextOfSoftware" />
 <zope:adapter factory=".software.SoftwareNameChooser" />
 <zope:adapter factory=".browser.SoftwareTerms" />

@@ -2,12 +2,10 @@
 from persistent import Persistent
 from zope.app.folder.folder import Folder
 from zope.interface import implements
-from zope.component import adapts, getUtility
-from zope.app.catalog.interfaces import ICatalog
-from zope.app.container.interfaces import INameChooser
+from zope.component import adapts, adapter
+from zope.app.container.interfaces import INameChooser, IObjectRemovedEvent
 from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
-from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ObjectMover
 import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
@@ -16,25 +14,18 @@ from BTrees.OOBTree import OOBTree
 from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware, ISubSoftware
 
 
+@adapter(ISoftware, IObjectRemovedEvent)
+def SoftwareRemovedEvent(software, event):
+    u"a subscriber that put software to trash if it contains support objects, before deleting it"
+    if event.newParent is None and len(software.supports) != 0 :
+        trash = getSite()['trash']
+        software_name = INameChooser(trash).chooseName(u"",software)
+        trash[software_name]=software
 
 class SoftwareContainer(Folder):
     "a container for all software"
     implements(ISoftwareContainer)
     __name__=__parent__=None
-    def __delitem__(self,key):
-        u"Move to the trash instead of deleting it"
-        if len(self[key].supports) == 0:
-            super(SoftwareContainer, self).__delitem__(key)
-        else :
-            trash = getSite()['trash']
-            software = self[key]
-            software_name = INameChooser(trash).chooseName(u"",software)
-            trash[software_name]=software
-            super(SoftwareContainer, self).__delitem__(key)
-            software.__name__ = software_name
-            software.__parent__ = trash
-            u"then unindex the trashed object"
-            getUtility(ICatalog).unindex_doc(getUtility(IIntIds).getId(software))
         
 class Software(Persistent):
     implements(ISoftware, ISubSoftware)

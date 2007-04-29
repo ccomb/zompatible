@@ -32,6 +32,8 @@
 <zope:adapter factory=".browser.DeviceQueryView" />
 <zope:adapter factory=".device.DeviceNameChooser" />
 
+<zope:subscriber handler=".device.DeviceRemovedEvent" />
+
 <!-- Device views -->
 <browser:page
     name="device.Device"
