@@ -12,13 +12,19 @@ from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
+from zope.app.form.browser import TextAreaWidget
 import string
 
 from software import Software, SoftwareSource
 
+class CustomTextWidget(TextAreaWidget):
+    width=40
+    height=5
+
 class SoftwareAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__', 'organization')
+    form_fields['description'].custom_widget = CustomTextWidget
     label=u"Adding a Software"
     def nextURL(self):
         return AbsoluteURL(self.software, self.request)
@@ -29,10 +35,10 @@ class SoftwareAdd(AddForm):
         self.context.contentName=string.lower(INameChooser(self.software).chooseName(u"",self.software))
         return self.software
 
-
 class SoftwareEdit(EditForm):
     label="Edit Software details"
     form_fields=Fields(ISoftware, ISubSoftware).omit('__name__', '__parent__')
+    form_fields['description'].custom_widget = CustomTextWidget
     #template=ViewPageTemplateFile("software_form.pt")
     u"We create the list of actions of the form"
     actions = Actions(Action('Apply', success='handle_edit_action'), )

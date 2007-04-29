@@ -31,7 +31,7 @@ class MyMultiCheckBoxWidget(MultiCheckBoxWidget):
 
 
 class CustomTextWidget(TextAreaWidget):
-    width=50
+    width=40
     height=5
 
 class OrganizationAdd(AddForm):
