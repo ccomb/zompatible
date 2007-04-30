@@ -7,6 +7,7 @@ from zope.app.container.interfaces import INameChooser, IObjectRemovedEvent
 from zope.app.container.contained import NameChooser
 from zope.app.component.hooks import getSite
 from zope.copypastemove import ObjectMover
+from zope.component.factory import Factory
 import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from BTrees.OOBTree import OOBTree
@@ -57,6 +58,13 @@ class Software(Persistent):
         else:
             super(Software, self).__setattr__(name, value)
 
+        
+softwareFactory = Factory(
+    Software,
+    title=u"Software factory",
+    description = u"This factory instantiates new Software."
+    )
+    
 class SoftwareNameChooser(NameChooser):
     u"""
     adapter that allows to choose the name of the Software from the container point of view

@@ -95,6 +95,10 @@ def ZompatibleInitialSetup(event):
     ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").importdata(sm['temp'])
     del sm['temp']
     
+    sm['temp'] = createObject("zompatible.Software")
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_software_categories.txt").importdata(sm['temp'])
+    del sm['temp']
+    
     u"create an intid for all objects added in content space and site manager. (the intid is not yet active)"
     u"KEEP THIS AT THE BOTTOM"
     for object in findObjectsProviding(site,Interface):

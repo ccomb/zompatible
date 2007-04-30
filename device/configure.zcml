@@ -33,6 +33,18 @@
 <zope:adapter factory=".device.DeviceNameChooser" />
 
 <zope:subscriber handler=".device.DeviceRemovedEvent" />
+    
+<!-- registered named utility used in the subdevices interface -->
+<zope:utility
+    factory=".device.DeviceVocabularyFactory"
+    name="devicesource"
+/>
+<!-- a factory for devices -->
+<zope:utility
+    component=".device.deviceFactory"
+    name="zompatible.Device"
+    permission="zope.Public"
+/>
 
 <!-- Device views -->
 <browser:page
@@ -72,19 +84,6 @@
     for=".interfaces.IDeviceContainer"
     menu="my_actions"
 />
-    
-<!-- registered named utility used in the subdevices interface -->
-<zope:utility
-    factory=".device.DeviceVocabularyFactory"
-    name="devicesource"
-/>
-  
-<zope:utility
-    component=".device.deviceFactory"
-    name="zompatible.Device"
-    permission="zope.Public"
-/>
-
 
 <!-- juste pour la ZMI -->
 <browser:addMenuItem

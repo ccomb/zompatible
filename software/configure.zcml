@@ -32,6 +32,18 @@
 <zope:adapter factory=".browser.SoftwareTerms" />
 <zope:adapter factory=".browser.SoftwareQueryView" />
 
+<!-- registered named utility used in the Support interface -->
+<zope:utility
+    factory=".software.SoftwareVocabularyFactory"
+    name="softwaresource"
+/>
+<!-- a factory for software -->
+<zope:utility
+    component=".software.softwareFactory"
+    name="zompatible.Software"
+    permission="zope.Public"
+/>
+
 <!-- Software views -->
 <browser:page
     name="software.Software"
@@ -88,12 +100,6 @@
         action="edit_software.html"
     />
 </browser:menuItems>
-
-<!-- registered named utility used in the Support interface -->
-<zope:utility
-    factory=".software.SoftwareVocabularyFactory"
-    name="softwaresource"
-/>
 
 
 

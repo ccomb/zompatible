@@ -1,0 +1,24 @@
+# Initial Software categories
+#
+# Syntax :  names[0], names[1], names[2], ..., names[X]  : description
+# The first spaces are used to determine the subcategory level (group of 4 spaces)
+
+Operating System
+    Linux Distribution
+    Unix like
+    Windows or equivalent
+    
+    
+Component, subsystem
+    Linux kernel module
+    # à déplacer probablement dans les catégories d'usage
+    for Display
+    for Audio
+    for Printing
+    for Scanning
+    for Video
+    
+Games
+
+Other Software
+
