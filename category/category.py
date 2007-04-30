@@ -13,8 +13,8 @@ class Category(Folder):
     implements(ICategory)
     names = []
     description = u""
-    def __init__(self, name=None, description=None):
-        self.names = [ name ]
+    def __init__(self, names=None, description=None):
+        self.names = names
         self.description = description
         super(Category, self).__init__()
 
@@ -162,7 +162,7 @@ class SearchableTextOfCategorizable(object):
         sourcetext = texttoindex = u''
         # First, gather all interesting text
         for category in ICategories(self.context).categories: # Peut-être déporter ça dans la gestion des categories
-            sourcetext += category.description + " " + category.__name__ # + reduce(lambda x,y: x+" "+y, category.names) AVEC names avec au moins 1 element !!!
+            sourcetext += category.description + " " + reduce(lambda x,y: x+" "+y, category.names)
         # then split all words into subwords
         for word in sourcetext.split():        
             for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:

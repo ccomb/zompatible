@@ -1,45 +1,137 @@
-COMPOSANTS : composants internes
+# Initial Device categories
+#
+# Syntax :  names[0], names[1], names[2], ..., names[X]  : description
+# The first spaces are used to determine the subcategory level (group of 4 spaces)
+
+##############################################
+# Ce fichier doit être nettoyé pour distinguer les vrais catégories de matériel, afin de supprimer les catégories d'usage, les features, les physical ports, etc.
+# Par ex, un disque dur ne doit pas contenir de sous-catégories pour IDE, SATA, SCSI, car ceci doit être placé dans la catégories de feature "physical port".
+# Donc l'objet Category "disque dur" doit être "featured", et posséder la feature "physical ports", et les sous-features "IDE", "SCSI", "SATA".
+# Peut-être est-il possible de gérer les features elle-mêmes sous formes de catégories ?
+#
+##############################################
+
+Composants, pièces détachées
     Alimentation
-    Boitier      ATX, microATX, mini-ITX ?
-    Boitier externe
+    Boîtier
+        AT
+        ATX
+        BTX
+        microATX
+        mini-ITX
+        nano-ITX
+        pico-ITX
+
     Câbles et connectiques
-    Carte contrôleur
-    Carte d'acquisition
-    Carte graphique
-    Carte mère
-    Carte son
-    Carte tuner TV/TNT
-    Clé USB
+    Cartes d'extension
+        Cartes contrôleur
+            IDE, Ultra-ATA, PATA, P-ATA : ancienne génération avec cables plats (nappes)
+            SATA, Serial-ATA, S-ATA
+            RAID
+            SCSI
+            
+        Cartes d'acquisition
+        Cartes graphiques, carte vidéo
+        Cartes mères
+            AT
+            ATX
+            BTX
+            microATX
+            mini-ITX
+            nano-ITX
+            pico-ITX
+
+        Carte son
+        Carte tuner TV TNT
     Disque dur
-    Disque dur externe
     Dissipateur
-    Graveur BluRay
-    Graveur CD
-    Graveur DVD
-    Graveur externe
-    Kit évolution
-    Lecteur CD
-    Lecteur de disquette
-    Lecteur DVD
-    Lecteur multi-cartes externe
-    Mémoire DDR
-    Mémoire DDR2
-    Mémoire Rambus
-    Mémoire SDRAM
-    Mémoire So-dimm
+    Graveur
+        BluRay
+        CD
+        DVD
+        HD-DVD
+    Lecteur
+        CD
+        disquette
+        DVD
+    Mémoire
+        DDR
+        DDR2
+        Rambus
+        SDRAM
+        So-dimm
     Mini PC
     Pate thermique
-    Processeur
+    Processeur, CPU
     Rack & rhéobus
     Tuning
-    Ventilateur carte graphique
-    Ventilateur de boîtier
-    Ventilateur disque dur
-    Ventilateur processeur
-    Watercooling
-Son, baladeurs et audio PRO : tout pour le son
+    Refroidissement
+        Ventilateur
+            de carte graphique
+            de boîtier
+            de disque dur
+            de processeur
+        Watercooling
+Périphériques    
+    Boitier externe
+    Lecteur
+        multi-cartes externe
+
+    Moniteurs, Écrans  
+        LCD, écran plat
+        OLED, Organic LED : nouvelle génération d'écrans à diodes organiques
+        Cathodique : les anciens écrans à tube
+        Plasma
+ 
+    Son et multimédia  
+        Enceintes
+        Casque
+        Casque micro
+        Webcam
+ 
+    Impression et scanners  
+        Jet d'encre
+        Laser
+        Multifonction fax
+        Multifonction jet d'encre
+        Multifonction laser
+        Photo portable
+        Scanner
+        Télécopieur
+        Fax
+ 
+    Périphériques de saisie  
+        Clavier
+        Souris
+        Pavé numérique
+        Accessoires
+        Tablette graphique
+        Tapis de souris
+ 
+    Stockage, sauvegarde  
+        cartouches, cassettes
+        Clé USB
+        Disque dur externe
+        Graveur externe
+        Sauvegarde
+ 
+    Pour les jeux
+        Joypad
+        Joystick
+        Volant
+ 
+    Câbles, connectiques  
+        Câbles
+        Hub USB
+        multiprise
+        Onduleur
+        Switch KVM
+ 
+    Gadgets
+    
+  ####### catégorie à virer (audio est plutôt une catégorie d'utilisation)
+Audio : tout pour le son
      Baladeur    
-    Tous les baladeurs
     Baladeur USB
     Juke Box
     Multimédia (audio/video)
@@ -72,41 +164,41 @@ Son, baladeurs et audio PRO : tout pour le son
 
 Téléviseurs et vidéo    
     Télévision  
-    LCD
-    Plasma
-    TV Portable
+        LCD
+        Plasma
+        TV Portable
     Rétroprojecteur
  
     Lecteur et Enregistreur DVD  
-    Enregistreur avec disque dur
-    Enregistreur sans disque dur
-    Lecteur DVD/DivX
-    Lecteur DVD/Divx portable
-    Lecteur HD-DVD / Blu-Ray
-    Lecteur Multimédia
-    Combi DVD Magnétoscope
-    Accessoire DVD portable
-    Films DVD
+        Enregistreur avec disque dur
+        Enregistreur sans disque dur
+        Lecteur DVD/DivX
+        Lecteur DVD/Divx portable
+        Lecteur HD-DVD / Blu-Ray
+        Lecteur Multimédia
+        Combi DVD Magnétoscope
+        Accessoire DVD portable
+        Films DVD
  
     TNT et Satellite  
-    Récepteur TNT et satellite
+        Récepteur TNT et satellite
  
     Video-Projection  
-    Video projecteur
-    Ecran de projection
+        Video projecteur
+        Ecran de projection
  
     Home Cinéma  
-    Ampli Audio / Video
-    Enceintes Home Cinéma
-    Pieds d'enceintes
+        Ampli Audio / Video
+        Enceintes Home Cinéma
+        Pieds d'enceintes
  
     Accessoires téléviseur  
-    Câbles et connectiques
-    Télécommande Universelle
-    Meubles
-    Support mural
-    DVD et CD Vierges
-    Boitiers et étuis
+        Câbles et connectiques
+        Télécommande Universelle
+        Meubles
+        Support mural
+        DVD et CD Vierges
+        Boitiers et étuis
 Impression     :       imprimantes et consommables
     Câble d'imprimante
     Cartouches d'encres
@@ -121,89 +213,76 @@ Impression     :       imprimantes et consommables
     Toutes les cartouches
  
     Médias vierges  
-    BD-R
-    BD-RE
-    CD-R
-    CD-RW
-    Disquette
-    DVD+R
-    DVD+RW
-    DVD-R
-    DVD-RW
-    Marqueur
-    Packs gravure
+        BD-R
+        BD-RE
+        CD-R
+        CD-RW
+        Disquette
+        DVD+R
+        DVD+RW
+        DVD-R
+        DVD-RW
+        Marqueur
+        Packs gravure
  
     Accessoires  
-    Accessoires nettoyage
-    Chargeur
-    Lingettes nettoyantes
-    Piles
+        Accessoires nettoyage
+        Chargeur
+        Lingettes nettoyantes
+        Piles
  
     Rangement  
-    Malette pour portable
-    Pour CD
-Ordinateurs de bureau
-    Ordinateur de bureau  
-    Bureautique
-    Multimédia
-    Jeux
-    Hardcore gamer
-    Mini PC
-    AMD Live!
+        Malette pour portable
+        Pour CD
+Ordinateurs
+    fixe, de bureau
+        # sous catégories à mettre en catégories d'usage
+        Bureautique
+        Multimédia
+        Jeux
+        Hardcore gamer
+        Mini PC
+        AMD Live!
     Serveur
-    Tous les ordinateurs
+    Ordinateur portable
+        # sous catégories à mettre en catégories d'usage
+        Pour elle
+        Multimédia
+        Jeux
+        Professionnels
+        Ultra portable
+        Tous les portables
  
     Accessoires  
-    Câbles et connectiques
-    Clavier/souris
-    Clé USB
-    Disque dur externe
-    Disque dur externe Divx
-    Enceintes
-    Imprimante multi-fonctions
-    Moniteur
-    Multi-prise
-    Onduleur
-    Webcam
-
-    Logiciels  
-
-    Sécurité
-    Système d'exploitation
+        Câbles et connectiques
+        Clavier/souris
+        Enceintes
+        Imprimante multi-fonctions
+        Moniteur
+        Multi-prise
+        Onduleur
+        Webcam
     
-Ordinateur portable    
-    Ordinateur portable  
-    Pour elle
-    Multimédia
-    Jeux
-    Professionnels
-    Ultra portable
-    Tous les portables
- 
-    Accessoires  
-    Accessoires divers
-    Adaptateur secteur
-    Assurance
-    Batteries
-    Câbles et connectiques
-    Cartes PCMCIA
-    Extention de garantie
-    Mallette
-    Station d'accueil
-    Recherche par prix  
-    Inférieur à 800 € (16)
-    De 800 à 1100 € (53)
-    De 1100 à 1500 € (35)
-    De 1500 à 2000 € (24)
-    Supérieur à 2000 € (7)
-    
+    portable
+
+    # à déplacer vers une catégorie d'usage
+    Accessoires   pour portables
+        Accessoires divers
+        Adaptateur secteur
+        Assurance
+        Batteries
+        Câbles et connectiques
+        Cartes PCMCIA
+        Mallette
+        Station d'accueil
+
 Appareils photos    
     Appareils photo  
-    Les compacts
-    les bridges
-    Les réflex
+        Les compacts
+        les bridges
+        Les réflex
     Les accessoires
-    Mémoire flash
+        Mémoire flash
     Tous les appareils photo
     Imprimantes portables
     Cadres photo numériques
@@ -211,14 +290,14 @@ Appareils photos
  
 Caméscope numérique  
     Camescopes  
-    Caméscopes à disque dur
-    Caméscopes mini DV
-    Caméscopes à mémoire flash
-    Caméscopes mini DVD
+        Caméscopes à disque dur
+        Caméscopes mini DV
+        Caméscopes à mémoire flash
+        Caméscopes mini DVD
     Accessoires
-    Mémoires flash
+        Mémoires flash
     Tous les caméscopes
-    Configurateur d'accessoires
+
  GPS    
     Accessoires GPS
     Configurateur GPS
@@ -228,11 +307,9 @@ Caméscope numérique
     Tous les GPS
  
 PDA  
-    Configurateur accessoires
-    PDA Bluetooth
-    PDA Communicant
-    PDA Wifi
-    Tous les PDA
+    Bluetooth
+    Communiquant
+    Wifi
  
 Téléphonie  
     Téléphones fixes
@@ -243,58 +320,7 @@ Téléphonie
     Talkies walkies
  
 Calculatrices  
-    Calculatrices financieres
-    Calculatrices graphiques
-    Calculatrices scientifiques
+    financieres
+    graphiques
+    scientifiques
 
-Périphériques    
-
-    Moniteurs - Ecrans  
-    Moniteur LCD
- 
-    Son et multimédia  
-    Enceintes
-    Casque
-    Casque micro
-    Webcam
- 
-    Impression et scanners  
-    Jet d'encre
-    Laser
-    Multifonction fax
-    Multifonction jet d'encre
-    Multifonction laser
-    Photo portable
-    Scanner
-    Télécopieur
- 
-    Périphériques de saisie  
-    Clavier
-    Clavier souris
-    Pavé numérique
-    Souris
-    Souris accessoires
-    Tablette graphique
-    Tapis de souris
- 
-    Stockage et sauvegarde  
-    cassette dat
-    Clé USB
-    Disque dur externe
-    Disque dur externe Divx
-    Graveur externe
-    Sauvegarde
- 
-    Périphériques de jeux  
-    Joypad
-    Joystick
-    Volant
- 
-    Câbles et connectiques  
-    Câbles
-    Hub USB
-    multiprise
-    Onduleur
-    Switch KVM
- 
-    Gadgets

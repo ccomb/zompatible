@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from importdata import ImportFile
+from importdata import ImportFile, getUrlString
 from zope.component import createObject
 from zompatible.category.interfaces import IAvailableCategories
 
@@ -16,26 +16,24 @@ class ImportCategoryFile(ImportFile):
             raise "No file provided"
         categorycontainer = IAvailableCategories(context)
         parentcategory = previouscategory = categorycontainer
+        currentlevel = 0
         for line in open(self.infile):
-                if line.strip() == '':
-                    continue
+                if line.strip() == '' or line.strip()[0]=='#':
+                    continue # skip comments and empty lines
                 newlevel = line.find(line.lstrip())/4 # the number of '    ' before the first letter
-                if newlevel == 0:
-                    parentcategory = categorycontainer
-                    currentlevel = 0
-                if newlevel == currentlevel + 1:
+                if newlevel == currentlevel + 1: # a subcategory
                     parentcategory = previouscategory
-                if newlevel == currentlevel:
+                if newlevel == currentlevel: # a category at the same level
                     pass
-                if newlevel < currentlevel:
+                if newlevel < currentlevel: # an upper category
                     for i in range(currentlevel - newlevel):
                         parentcategory = parentcategory.__parent__
                 currentlevel = newlevel
-                name = line.split(':')[0].strip()
+                names = [ name.strip() for name in line.split(':')[0].split(',') ]
                 description = u""
                 if len(line.split(':')) > 1:
                     description = line.split(':')[1].strip()
-                new = createObject("zompatible.Category", name = name, description = description)
-                previouscategory = parentcategory[name.decode('utf-8')] = new
+                new = createObject("zompatible.Category", names = names, description = description)
+                previouscategory = parentcategory[getUrlString(names[0].decode('utf-8'))] = new
 
 
