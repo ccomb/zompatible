@@ -9,6 +9,7 @@ import transaction
 from zope.app.component.hooks import getSite
 
 from zompatible.organization.interfaces import IManufacturer, IOrganizationInterfaces
+from zope.app.container.interfaces import INameChooser
 from zompatible.ids.interfaces import IPciDeviceId, IUsbDeviceId
 
 from interfaces import *
@@ -56,10 +57,10 @@ class ImportData(Import):
       root = getSite()
       # Check if the organisation already exists
       mainOrga = None
-      
+
       # First, look for the same usb/pci ids
       # and look for the same name (in case the name was added by an other file)       
-      for orga in  root[u'organizations']: 
+      for orga in  root[u'organizations']:
          if ((self.fileType == u'pciids' and id in root[u'organizations'][orga].pciids) or
              (self.fileType == u'usbids' and id in root[u'organizations'][orga].usbids) or
              name in root[u'organizations'][orga].names):
@@ -82,9 +83,13 @@ class ImportData(Import):
                      
       # Otherwise, the organization does not exists, we add it
       else:
-         urlName = getUrlString(name)
          toto = createObject(u"zompatible.Organization")
          toto.names = [ name ]
+         urlName2 = urlName = getUrlString(INameChooser(toto).chooseName(u"",toto))
+         i=0
+         while urlName in root[u'organizations']:
+            urlName = u'%s_%d' % (urlName2,i)
+            i = i + 1
          if self.fileType == u'pciids':
             toto.pciids  = [ id ]
             toto.usbids = []
@@ -92,9 +97,6 @@ class ImportData(Import):
             toto.pciids  = []
             toto.usbids = [ id]
          # Do not use HTTP reserved caracters in URL path !
-         # FIXME: ici il faudrait que le nom soit: urlName = INameChooser(toto).chooseName(urlName,toto)
-         # car les noms de containment sont moches dans l'URL (%20, %chose, etc...)
-         # Mais dans ce cas il faut adapter le rester de l'import
          root[u'organizations'][urlName] = toto
          IOrganizationInterfaces(toto).interfaces = [ IManufacturer ]
          
@@ -128,15 +130,14 @@ class ImportData(Import):
          
       # Otherwise, the device does not exists, we add it
       else:
-         urlName = urlName2 = getUrlString(name)
+         a = createObject(u"zompatible.Device")
+         a.names = [ name ]
+         urlName = urlName2 = getUrlString(INameChooser(a).chooseName(u"",a))
          i=0
          # This is needed as some devices has the same name, but not the same id !!!
          while urlName in root[u'organizations'][orga][u'devices']:
             urlName = u'%s_%d' % (urlName2,i)
             i = i + 1
-            
-         a = createObject(u"zompatible.Device")
-         a.names = [ name ]
          if self.fileType == u'pciids':
             a.pciid = id
             a.usbid = u''
@@ -213,7 +214,10 @@ class ImportData(Import):
          if len(l) >= 2:
             # No tab => organization
             if l[0].count(u'\t') == 0: 
-               orgaName = getUrlString(l[1])
+               dummyorga=createObject(u"zompatible.Organization")
+               dummyorga.names = [ l[1] ]
+               orgaName = getUrlString(INameChooser(dummyorga).chooseName(u"",dummyorga))
+               del dummyorga
                orgaId = l[0]
             # One tab => device
             elif l[0].count(u'\t') == 1:      

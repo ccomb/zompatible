@@ -39,13 +39,10 @@ class IOrganizationContainer(IContainer, IContained):
   """
   contains(IOrganization)
   
-  
 class ISearchableTextOfOrganization(ISearchableText):
     u"""
     on déclare un index juste pour cette interface de façon à indexer juste les organisations
     """
-
-
 
 class IManufacturer(Interface):
     pciids=List(title=u'PCI IDs', description=u'list of pci ids for the manufacturer', value_type=TextLine(title=u'PCI ID', description=u'a PCI ID given to the manufacturer'))
