@@ -4,12 +4,11 @@ from zope.interface import implements
 from interfaces import IImport, IImportData
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.component import createObject   
-import transaction
 from zope.app.component.hooks import getSite
 
 from zompatible.organization.interfaces import IManufacturer, IOrganizationInterfaces
-from zope.app.container.interfaces import INameChooser
+from zompatible.organization.organization import OrganizationNameChooser, Organization
+from zompatible.device.device import DeviceNameChooser, Device
 from zompatible.ids.interfaces import IPciDeviceId, IUsbDeviceId
 
 from interfaces import *
@@ -49,17 +48,17 @@ class ImportData(Import):
            if it exists but still do not has this pciid, the organization data are updated,
            if those data are already in the ZODB, it does nothing.
       """
-      root = getSite()
+      organizations = getSite()[u'organizations']
       # Check if the organisation already exists
       mainOrga = None
 
       # First, look for the same usb/pci ids
       # and look for the same name (in case the name was added by an other file)       
-      for orga in  root[u'organizations']:
-         if ((self.fileType == u'pciids' and id in root[u'organizations'][orga].pciids) or
-             (self.fileType == u'usbids' and id in root[u'organizations'][orga].usbids) or
-             name in root[u'organizations'][orga].names):
-            mainOrga = root[u'organizations'][orga]
+      for orga in organizations:
+         if ((self.fileType == u'pciids' and id in organizations[orga].pciids) or
+             (self.fileType == u'usbids' and id in organizations[orga].usbids) or
+             name in organizations[orga].names):
+            mainOrga = organizations[orga]
             break
 
       if mainOrga:
@@ -78,11 +77,11 @@ class ImportData(Import):
                      
       # Otherwise, the organization does not exists, we add it
       else:
-         toto = createObject(u"zompatible.Organization")
+         toto = Organization()
          toto.names = [ name ]
-         urlName2 = urlName = INameChooser(toto).chooseName(u"",toto)
+         urlName2 = urlName = OrganizationNameChooser(None).chooseName(u"",toto)
          i=0
-         while urlName in root[u'organizations']:
+         while urlName in organizations:
             urlName = u'%s_%d' % (urlName2,i)
             i = i + 1
          if self.fileType == u'pciids':
@@ -91,28 +90,27 @@ class ImportData(Import):
          elif self.fileType == u'usbids':
             toto.pciids  = []
             toto.usbids = [ id]
-         # Do not use HTTP reserved caracters in URL path !
-         root[u'organizations'][urlName] = toto
+         organizations[urlName] = toto
          IOrganizationInterfaces(toto).interfaces = [ IManufacturer ]
          
          return statusAdded
 
 
    def addDevice(self, orga, orgaId, name, id, subdevOrgaName=None, subdevId=None):
-      root = getSite()
+      organizations = getSite()[u'organizations']
       
       #Find the ORGA folder FIRST !
-      for o in root[u'organizations']:
-         if orga in root[u'organizations'][o].names:
+      for o in organizations:
+         if orga in organizations[o].names:
             orga = o
             break;
       
       # Check if a device already exists with the same id
       mainDev = None
-      for dev in  root[u'organizations'][orga][u'devices']: 
-         if (self.fileType == u'pciids' and root[u'organizations'][orga][u'devices'][dev].pciid == id or
-              self.fileType == u'usbids' and root[u'organizations'][orga][u'devices'][dev].usbid == id):
-            mainDev = root[u'organizations'][orga][u'devices'][dev]
+      for dev in  organizations[orga][u'devices']: 
+         if (self.fileType == u'pciids' and organizations[orga][u'devices'][dev].pciid == id or
+              self.fileType == u'usbids' and organizations[orga][u'devices'][dev].usbid == id):
+            mainDev = organizations[orga][u'devices'][dev]
             break
             
       # If a device already exists and if the new name of this device is not in the list, we add it 
@@ -125,12 +123,12 @@ class ImportData(Import):
          
       # Otherwise, the device does not exists, we add it
       else:
-         a = createObject(u"zompatible.Device")
+         a = Device()
          a.names = [ name ]
-         urlName = urlName2 = INameChooser(a).chooseName(u"",a)
+         urlName = urlName2 = DeviceNameChooser(None).chooseName(u"",a)
          i=0
          # This is needed as some devices has the same name, but not the same id !!!
-         while urlName in root[u'organizations'][orga][u'devices']:
+         while urlName in organizations[orga][u'devices']:
             urlName = u'%s_%d' % (urlName2,i)
             i = i + 1
          if self.fileType == u'pciids':
@@ -146,9 +144,8 @@ class ImportData(Import):
             IUsbDeviceId(a)._vendorId = orgaId
             IUsbDeviceId(a)._productId = id
          a.subdevices = []
-         # Do not use HTTP reserved caracters in URL path !
-         root[u'organizations'][orga][u'devices'][urlName] = a
-         mainDev = root[u'organizations'][orga][u'devices'][urlName]
+         organizations[orga][u'devices'][urlName] = a
+         mainDev = organizations[orga][u'devices'][urlName]
          status = statusAdded
    
       # Subdevice part
@@ -158,11 +155,11 @@ class ImportData(Import):
          if len(l) == 0:
             # Then, we look for the subdevice object
             subdev=None
-            for o in root[u'organizations']:
-               if subdevOrgaName in root[u'organizations'][o].names:
-                  for dev in root[u'organizations'][o][u'devices']:
-                     if subdevId == root[u'organizations'][o][u'devices'][dev].pciid:
-                        subdev=root[u'organizations'][o][u'devices'][dev]
+            for o in organizations:
+               if subdevOrgaName in organizations[o].names:
+                  for dev in organizations[o][u'devices']:
+                     if subdevId == organizations[o][u'devices'][dev].pciid:
+                        subdev=organizations[o][u'devices'][dev]
                         break
                   
             # Finaly, we add it to the list
@@ -187,7 +184,7 @@ class ImportData(Import):
                                                    len(l[0])==4 and  
                                                    l[1]!=None)             ]
                                                    
-      root = getSite()
+      organizations = getSite()[u'organizations']
       nOrga = [ 0, 0, 0 ]
       for orga in orgas:
          name = orga[1]
@@ -209,10 +206,7 @@ class ImportData(Import):
          if len(l) >= 2:
             # No tab => organization
             if l[0].count(u'\t') == 0: 
-               dummyorga=createObject(u"zompatible.Organization")
-               dummyorga.names = [ l[1] ]
-               orgaName = INameChooser(dummyorga).chooseName(u"",dummyorga)
-               del dummyorga
+               orgaName = OrganizationNameChooser(None).chooseName(l[1],None)
                orgaId = l[0]
             # One tab => device
             elif l[0].count(u'\t') == 1:      
@@ -225,17 +219,15 @@ class ImportData(Import):
                Ids = l[0].replace(u'\t',u'').strip().split(" ")
                productVendorId = Ids[0]
                productDeviceId = Ids[1]
-               for o in root[u'organizations']:
+               for o in organizations:
                   # If we find the organization from its id
-                  if productVendorId in root[u'organizations'][o].pciids:
+                  if productVendorId in organizations[o].pciids:
                      nDev[self.addDevice(o, productVendorId, productName, productDeviceId, orgaName, chipId)] += 1                  
                      break
                         
             elif l[0] != None:
                print "%s non traitée" % (l[0])
-            
-      transaction.commit()
-      
+
       self.status = u'Organizations:\n%d added,\n%d updated,\n%d not modified.\n' % (nOrga[statusAdded], nOrga[statusUpdated], nOrga[statusExist])
       self.status += u'Devices:\n%d added,\n%d updated,\n%d not modified.\n' % (nDev[statusAdded], nDev[statusUpdated], nDev[statusExist])
       if self.fileType == u'pci.ids':

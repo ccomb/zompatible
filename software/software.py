@@ -74,12 +74,17 @@ class SoftwareNameChooser(NameChooser):
     implements(INameChooser)
     adapts(ISoftware)
     def chooseName(self, name, software):
+        if not name and software is None:
+            raise "SoftwareNameChooser Error"
+        rawname = name
+        if software is not None and len(software.names)>0:
+            rawname = software.names[0]
         codename = version = u""
-        if software.codename is not None:
+        if software.codename:
             codename="-" + software.codename
-        if software.version is not None:
+        if software.version:
             version = software.version
-        return string.lower(software.names[0] + "-" + version + codename).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
+        return string.lower(rawname + "-" + version + codename).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
     def checkName(self, name, software):
         if name in software.__parent__ and software is not software.__parent__['name']:
             return False

@@ -47,14 +47,20 @@ organizationFactory = Factory(
 
 class OrganizationNameChooser(NameChooser):
     u"""
-    adapter qui permet de choisir le nom de l'organization auprès du container
-    Le vrai nom est stocké dans un attribut, mais ce nom est aussi important
-    car il apparaît dans l'URL, et sert pour le traversing.
+    adapter that allow to choose the __name__ of an organization
+    The real pretty name is stored in an attribute, but this name is also important
+    as it appears in the URL ans is used for traversing.
     """
     implements(INameChooser)
     adapts(IOrganization)
     def chooseName(self, name, organization):
-        return string.lower(organization.names[0]).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
+        if not name and organization is None:
+            raise "OrganizationNameChooser Error"
+        if name:
+            rawname = name
+        if organization is not None and len(organization.names)>0:
+            rawname = organization.names[0]
+        return string.lower(rawname).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
     def checkName(self, name, organization):
         if name in organization.__parent__ and organization is not organization.__parent__['name']:
             return False
