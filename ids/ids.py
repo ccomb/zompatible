@@ -41,6 +41,7 @@ class DeviceIdAbstract(object):
    def __getattr__(self, key):
       # TODO AttributeError: type object 'object' has no attribute '__getattr__' !!!
       # So it does not work... but is it necessary ?
+      # ccomb: j'ai eu ça une fois, c'était à cause d'un attribut non initialisé dans la classe
       if key == '_typeId':
          return self.context._typeId
       if key == '_productId':

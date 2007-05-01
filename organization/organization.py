@@ -47,7 +47,7 @@ organizationFactory = Factory(
 
 class OrganizationNameChooser(NameChooser):
     u"""
-    adapter that allow to choose the __name__ of an organization
+    adapter that allows to choose the __name__ of an organization
     The real pretty name is stored in an attribute, but this name is also important
     as it appears in the URL ans is used for traversing.
     """
