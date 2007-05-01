@@ -14,11 +14,6 @@ from zompatible.ids.interfaces import IPciDeviceId, IUsbDeviceId
 
 from interfaces import *
 
-def getUrlString(s):
-   """
-   """
-   return s.replace(u'/',u'-').lstrip('+@').strip()
-
 
 statusAdded = 0
 statusUpdated = 1
@@ -85,7 +80,7 @@ class ImportData(Import):
       else:
          toto = createObject(u"zompatible.Organization")
          toto.names = [ name ]
-         urlName2 = urlName = getUrlString(INameChooser(toto).chooseName(u"",toto))
+         urlName2 = urlName = INameChooser(toto).chooseName(u"",toto)
          i=0
          while urlName in root[u'organizations']:
             urlName = u'%s_%d' % (urlName2,i)
@@ -132,7 +127,7 @@ class ImportData(Import):
       else:
          a = createObject(u"zompatible.Device")
          a.names = [ name ]
-         urlName = urlName2 = getUrlString(INameChooser(a).chooseName(u"",a))
+         urlName = urlName2 = INameChooser(a).chooseName(u"",a)
          i=0
          # This is needed as some devices has the same name, but not the same id !!!
          while urlName in root[u'organizations'][orga][u'devices']:
@@ -216,7 +211,7 @@ class ImportData(Import):
             if l[0].count(u'\t') == 0: 
                dummyorga=createObject(u"zompatible.Organization")
                dummyorga.names = [ l[1] ]
-               orgaName = getUrlString(INameChooser(dummyorga).chooseName(u"",dummyorga))
+               orgaName = INameChooser(dummyorga).chooseName(u"",dummyorga)
                del dummyorga
                orgaId = l[0]
             # One tab => device

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from importdata import ImportFile, getUrlString
+from importdata import ImportFile
 from zope.component import createObject
 from zompatible.category.interfaces import IAvailableCategories
 
@@ -34,6 +34,6 @@ class ImportCategoryFile(ImportFile):
                 if len(line.split(':')) > 1:
                     description = line.split(':')[1].strip()
                 new = createObject("zompatible.Category", names = names, description = description)
-                previouscategory = parentcategory[getUrlString(names[0].decode('utf-8'))] = new
+                previouscategory = parentcategory[names[0].decode('utf-8').strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')] = new
 
 

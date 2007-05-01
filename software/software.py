@@ -79,7 +79,7 @@ class SoftwareNameChooser(NameChooser):
             codename="-" + software.codename
         if software.version is not None:
             version = software.version
-        return string.lower(software.names[0] + "-" + version + codename).replace(' ','-')
+        return string.lower(software.names[0] + "-" + version + codename).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
     def checkName(self, name, software):
         if name in software.__parent__ and software is not software.__parent__['name']:
             return False

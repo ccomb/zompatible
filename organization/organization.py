@@ -54,7 +54,7 @@ class OrganizationNameChooser(NameChooser):
     implements(INameChooser)
     adapts(IOrganization)
     def chooseName(self, name, organization):
-        return string.lower(organization.names[0]).replace(' ','-')
+        return string.lower(organization.names[0]).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
     def checkName(self, name, organization):
         if name in organization.__parent__ and organization is not organization.__parent__['name']:
             return False

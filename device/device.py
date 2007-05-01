@@ -74,7 +74,7 @@ class DeviceNameChooser(NameChooser):
     implements(INameChooser)
     adapts(IDevice)
     def chooseName(self, name, device):
-        return string.lower(device.names[0]).replace(' ','-')
+        return string.lower(device.names[0]).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
     def checkName(self, name, device):
         if name in device.__parent__ and device is not device.__parent__['name']:
             return False
