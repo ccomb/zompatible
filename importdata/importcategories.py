@@ -11,9 +11,11 @@ class ImportCategoryFile(ImportFile):
     An import utility for default categories
     See initial_device_categories.txt
     """
-    def importdata(self, context):
+    def importcategories(self, context):
         if self.infile == u"":
             raise "No file provided"
+        if context is None:
+            raise "ImportCategoryFile Error"
         categorycontainer = IAvailableCategories(context)
         parentcategory = previouscategory = categorycontainer
         currentlevel = 0

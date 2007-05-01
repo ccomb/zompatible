@@ -43,8 +43,6 @@ class ICategories(Interface):
     Just call ICategories(object) then you can access the 'categories' attribute
     """
     categories = List(title=u'categories', description=u'list of categories', value_type=Choice(title=u'category', vocabulary="categories"))
-    def get_utility_name():
-        pass 
 
 class ISearchableTextOfCategorizable(Interface):
     u"""

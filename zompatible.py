@@ -48,59 +48,61 @@ def newZompatibleSiteAdded(site, event):
 
 @adapter(IZompatibleSiteManagerSetEvent)
 def ZompatibleInitialSetup(event):
-    u"do the necessary!"
+    u"create the initial objects required by the site"
+    # do the necessary!
     site=event.object
     sm = site.getSiteManager()
     
-    u"create and register the intid utility"
+    # create and register the intid utility
     intid = IntIds()
     sm['unique integer IDs']=intid
     sm.registerUtility(intid, IIntIds)
 
-    u"create and register the importdata utility"
+    # create and register the importdata utility
     importdata = createObject("zompatible.importData")
     sm['importdata']=importdata
     sm.registerUtility(importdata, IImportData)
     
-    u"then create the organizations folder"
+    # then create the organizations folder
     event.object['organizations'] = createObject(u"zompatible.OrganizationContainer")
 
-    u" and the support folder"
+    # and the support folder
     event.object['supports'] = createObject(u"zompatible.SupportContainer")
     
-    u" and the Trash for objects deleted but still referenced in a support object"
+    # and the Trash for objects deleted but still referenced in a support object
     event.object['trash'] = Trash()
      
-    u"then create and register the catalog"
+    # then create and register the catalog
     catalog = Catalog()
     sm['catalog']=catalog
     sm.registerUtility(catalog, ICatalog)
 
-    u"Register the level utilities"
+    # Register the level utilities
     sm['easiness_levels'] = EasinessLevels()
     sm.registerUtility(sm['easiness_levels'], ILevels, 'easiness_levels')
     sm['stability_levels'] = StabilityLevels()
     sm.registerUtility(sm['stability_levels'], ILevels, 'stability_levels')
      
-    u"then create and register the wanted indices in the catalog"
+    # then create and register the wanted indices in the catalog
     catalog['device_text'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
     catalog['organization_text'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
     catalog['software_text'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
-    #catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
+    # catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
     catalog['categorizable_text'] = TextIndex(interface=ISearchableTextOfCategorizable, field_name='getSearchableText', field_callable=True)
     catalog['device_organization'] = ObjectIndex(interface=IDevice, field_name='organization', field_callable=False)
     catalog['software_organization'] = ObjectIndex(interface=ISoftware, field_name='organization', field_callable=False)
 
+    # importcategories needs a context to be able to find its AvailableCategoriesContainer
     sm['temp'] = createObject("zompatible.Device")
-    ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").importdata(sm['temp'])
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").importcategories(sm['temp'])
     del sm['temp']
     
     sm['temp'] = createObject("zompatible.Software")
-    ImportCategoryFile("../lib/python/zompatible/importdata/initial_software_categories.txt").importdata(sm['temp'])
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_software_categories.txt").importcategories(sm['temp'])
     del sm['temp']
     
-    u"create an intid for all objects added in content space and site manager. (the intid is not yet active)"
-    u"KEEP THIS AT THE BOTTOM"
+    #create an intid for all objects added in content space and site manager. (the intid is not yet active)"
+    #KEEP THIS AT THE BOTTOM"
     for object in findObjectsProviding(site,Interface):
         intid.register(object)
     for object in findObjectsProviding(sm,Interface):
