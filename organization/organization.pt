@@ -15,14 +15,16 @@
 
 <h2 tal:content="python: context.names[0]">organization name</h2> 
 
-<div tal:content="context/description">brief description of the organization</div>
+<p tal:content="context/description">brief description of the organization</p>
 
 <br/>
-(other names: <tal:block repeat="name python:context.names[1:]"><span tal:content="name">list</span><tal:block condition="not:repeat/name/end" content="string:, "/></tal:block>)<br/>
+<p tal:condition="python:len(context.names)>1">
+Other names: <tal:block repeat="name python:context.names[1:]"><span tal:content="name">list</span><tal:block condition="not:repeat/name/end" content="string:, "/></tal:block>)<br/>
+</p>
+<p>
 web site : <a href="#" tal:attributes="href context/url"><span tal:content="context/url">url</span></a><br/>
 products : <tal:block repeat="product view/get_product_interfaces"><a href="#" tal:attributes="href product/url" tal:content="product/name">product type</a><tal:block content="string:, " condition="not:repeat/product/end"/></tal:block><br/>
-
-<br/>
+</p>
 
 </div>
 

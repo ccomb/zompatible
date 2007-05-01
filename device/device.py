@@ -35,6 +35,7 @@ class Device(Persistent):
     implements(IDevice, ISubDevices)
     names=PersistentList()
     subdevices=[]
+    description = u""
     pciid=""
     usbid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :

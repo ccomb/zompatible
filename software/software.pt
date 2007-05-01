@@ -15,10 +15,15 @@
 
 <h2 tal:content="view/prettyName">software name</h2> 
 
-(other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)<br/>
+<p tal:content="context/description">brief description of the organization</p>
+
+<p tal:condition="python:len(context.names)>1">
+Other names: <span tal:repeat="name python:context.names[1:]" tal:omit-tag=""><span tal:content="name">list</span><span tal:condition="not:repeat/name/end">, </span></span>)<br/>
+</p>
 Organization: <span tal:content="python: context.organization.names[0]">organization name</span><br/>
 web site : <a href="#" tal:attributes="href context/link"><span tal:content="context/link">url</span></a>
-<p>
+
+<p tal:condition="context/subsoftware">
 included components :<span tal:repeat="soft context/subsoftware" tal:omit-tag=""><a href="#" tal:attributes="href soft/@@absolute_url" tal:content="soft/__name__">list</a><span tal:condition="not:repeat/soft/end">, </span></span>
 </p>
 

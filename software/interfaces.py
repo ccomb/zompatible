@@ -15,7 +15,7 @@ class ISoftware(IContained):
     version = TextLine(title=u'version', description=u'a text string describing the version', required=True)
     builtVersion = TextLine(title=u'built version', description=u'built version', required=False)
     codename=TextLine(title=u'code name (if any)', description=u'the code name of the software', required=False)
-    description=Text(title=u'Description', description=u'Description of the software', required=False)
+    description=Text(title=u'Description', description=u'Software description', required=False)
     #license = Choice......(title=u'which license?', description=u'the licence of the software', schema=ILicense)
     #features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
     #stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))

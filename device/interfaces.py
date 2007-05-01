@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains
-from zope.schema import List, TextLine, Choice
+from zope.schema import List, TextLine, Choice, Text
 from zope.interface import Interface
 from zope.index.text.interfaces import ISearchableText
 
@@ -14,6 +14,7 @@ class IDevice(IContained):
     #contains('zompatible.driver.interfaces.IDriver')
     names = List(title=u'names', description=u'possible names of the device', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the device (commercial name, code name, etc.)'))
     organization = Choice(title=u'Organization', description=u'the organization producing this device', source="orgasource", required=False)
+    description = Text(title=u"description", description=u"description of the device", required=False, max_length=1000)
 #    physicalinterfaces = List(title=u'physical interfaces', description=u'list of physical interfaces on the device', value_type=Object(title=u'physical interface', description=u'a physical interface on the device', schema=IPhysicalInterface))
 #    existingdrivers = List(title=u'existing drivers', description=u'list of supported OS', value_type=Object(title=u'supported OS', description=u'OS on which the device works', schema=IDriver))
     pciid = TextLine(title=u'pci id', description=u'PCI identifier', required=False)

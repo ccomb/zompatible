@@ -11,16 +11,20 @@ from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
 from zope.app.container.interfaces import INameChooser
 from zope.traversing.browser.absoluteurl import AbsoluteURL
+from zope.app.form.browser import TextAreaWidget
 import string, urllib
 
 from device import Device, DeviceSource
 from interfaces import *
     
-
+class CustomTextWidget(TextAreaWidget):
+    width=40
+    height=5
 
 class DeviceAdd(AddForm):
     "La vue (classe) de formulaire pour l'ajout"
     form_fields=Fields(IDevice, ISubDevices)
+    form_fields['description'].custom_widget = CustomTextWidget
     #form_fields['subdevices'].custom_widget=subdevices_widget
     form_fields=form_fields.omit('__name__', '__parent__', 'organization')
     label=u"Ajout d'un matériel"
@@ -41,6 +45,7 @@ class DeviceEdit(EditForm):
     label=u"Edit a device"
     form_fields=Fields(IDevice, ISubDevices, render_context=True)
     #form_fields['subdevices'].custom_widget=subdevices_widget
+    form_fields['description'].custom_widget = CustomTextWidget
     form_fields=form_fields.omit('__name__', '__parent__')
     ## template désactivé
     #template=ViewPageTemplateFile("device_form.pt")
