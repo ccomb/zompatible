@@ -74,7 +74,7 @@
     class=".browser.SoftwareContainerView"
     template="software_container.pt"
     permission="zope.Public"
-    menu="my_actions" title="View"
+    menu="my_actions" title="Software List"
 />
 <browser:menuItem
     title="add Software"

@@ -76,7 +76,7 @@
     class=".browser.DeviceContainerView"
     template="device_container.pt"
     permission="zope.Public"
-    menu="my_actions" title="View"
+    menu="my_actions" title="Device List"
 />
 <browser:menuItem
     title="add Device"
