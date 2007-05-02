@@ -30,12 +30,12 @@ class SoftwareContainer(Folder):
         
 class Software(Persistent):
     implements(ISoftware, ISubSoftware)
-    builtVersion=u""
-    description=u""
+    builtVersion = u""
+    description = u""
     subsoftware = []
-    names=architectures=[]
-    version=codename=u""
-    link=u""
+    names = architectures = []
+    version = codename = u""
+    link = u""
     url=""
     __name__=__parent__=None
     def __init__(self):

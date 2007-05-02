@@ -3,7 +3,6 @@ from zope.interface import implements
 from persistent import Persistent
 from zope.app.folder.folder import Folder
 from zope.component import adapts, adapter
-from persistent.list import PersistentList
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
 from zope.app.container.interfaces import INameChooser, IObjectRemovedEvent
@@ -33,7 +32,7 @@ class DeviceContainer(Folder):
 
 class Device(Persistent):
     implements(IDevice, ISubDevices)
-    names=PersistentList()
+    names=[]
     subdevices=[]
     description = u""
     pciid=""
@@ -138,4 +137,17 @@ class DeviceVocabularyFactory(object):
     def __call__(self, context):
         return DeviceSource()
 
-
+#class FuzzyDevice(Device):
+    #u"""
+    #A class that represents a device or another, for people that don't
+    #really know which one to choose. This just a container for a series of
+    #devices that are the same, or in which people don't really see the difference
+    #or that are managed by the same driver
+    #"""
+    #implements(IDevice, ISupported)
+    #names = []
+    ##organization = None
+    #description = u""
+    #devices = []
+    #supports
+    
