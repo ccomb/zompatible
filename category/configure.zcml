@@ -14,6 +14,8 @@
 <zope:class class=".category.Categories">
   <require permission="zope.View"          interface=".interfaces.ICategories" />
   <require permission="zope.ManageContent" set_schema=".interfaces.ICategories" />
+  <!-- allow to access the adapted object (required in the CategorieVocabulary) -->
+  <require permission="zope.View"          attributes="context" />
 </zope:class>
 
 <zope:utility

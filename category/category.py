@@ -6,6 +6,7 @@ from zope.app.intid.interfaces import IIntIds
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
 from zope.component.factory import Factory
+from zope.proxy import removeAllProxies
 
 from interfaces import *
 
@@ -43,7 +44,7 @@ class CategoryVocabulary(object):
         We first get an adapter that will return the correct categories utility
         (the folder that contains predefined Category objects)
         """
-        self.availablecategories = queryUtility(IAvailableCategories, self.context.context, [])
+        self.availablecategories = IAvailableCategories(removeAllProxies(self.context.context))
         self._cur = self._current = self._parent = self.availablecategories # store the current categorie to be able to iterate in its subcategories
         self.parent_iterators = [ ] # list of iterators of the current category and its parents: [ iter(toplevel), iter(subcategory), iter(subsubcategory, etc... ]
     def getTerm(self, value):
@@ -126,6 +127,7 @@ class Categories(object):
                     parent = parent.__parent__
             self.context.categories = value
         object.__setattr__(self, name, value)
+        
 
 @adapter(ICategorizable)
 def AvailableCategories(context):
@@ -134,13 +136,13 @@ def AvailableCategories(context):
     where reside all the available categories for a particular object type.
     This allows to have a different category container for each content type
     """
-    utilityname = type(context).__name__ + u'_categories'
-    try: # the category container should be registered is sitemanager for ICategories
-        return getUtility(ICategories, utilityname)
+    utilityname = type(removeAllProxies(context)).__name__ + u'_categories'
+    try: # the category container should be registered in the sitemanager for ICategories
+        return getUtility(IAvailableCategories, utilityname)
     except: # we create and register a new category container for the object type"
         sm = getSiteManager(context)
         sm[utilityname] = AvailableCategoriesContainer()
-        sm.registerUtility(sm[utilityname], ICategories, utilityname)
+        sm.registerUtility(sm[utilityname], IAvailableCategories, utilityname)
         return sm[utilityname]
 
 @adapter(ICategories)
