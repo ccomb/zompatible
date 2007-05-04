@@ -1,0 +1,13 @@
+# Initial usage categories
+# this is independant from the object (device, software)
+
+
+# PAS ENCORE UTILISE
+
+Desktop
+Server
+Home
+Game
+Work
+Multimedia
+Education

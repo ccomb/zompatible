@@ -21,7 +21,6 @@ class IDevice(IContained):
     usbid = TextLine(title=u'usb id', description=u'USB identifier', required=False)
 
 
-
 class IDeviceContainer(IContainer, IContained):
     u"""
     a toplevel device container. This is a base storage for devices.

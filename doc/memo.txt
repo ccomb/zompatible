@@ -239,14 +239,16 @@ Tags => ensemble de mots  (mieux pour des images)
 
 L'imprimante est une catégorie, mais il y a des catégories d'imprimantes (laser, jet d'encre, sublimation, etc.)
 Pb du classement => quel critère ?
+==>laser, jet d'encre, sublimation sont des SOUS-CATEGORIES d'imprimantes → les catégories sont arborescentes
 Feature => méthode d'impression. Est-ce définissable hors du contexte d'une imprimante ? (Non a priori)
 
 => choisir un nombre précis, arbitraire et limité de features pour définir une catégorie ? (ex: port + méthode d'impression)
 Notion de JEU = utilisation, ce n'est pas une feature, et pourtant c'est un classement possible (laptop pour le jeu/laptop pour le travail)
 Utilisation : Professionnelle  / jeu/loisir/divertissement
 
-Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON   (=> Attention penser que ce type d'info n'est pas pérène dans le temps...)
-=> Définir des phrases types avec la features, posées aux visiteur automatiquement et influençant la catégorisation.
+Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON
+(=> Attention penser que ce type d'info n'est pas pérenne dans le temps...)
+=> Définir des phrases types avec les features, posées aux visiteur automatiquement et influençant la catégorisation.
 
 Déclenchement d'actions suscitées : Question sur le bord du site : « Avez-vous utilisé ce matériel sous [v][linux] [OUI ] => démarrage d'un userreport.
 (liste déroulante comportant linux, freebsd, osX, etc...)
@@ -274,7 +276,7 @@ Inversement, une feature peut être catégorisée car on peut décider qu'elle e
 La boucle est bouclée, vive zope3. :)
 
 Donc ensuite on peut dire qu'un objet quelconque est une imprimante en disant qu'elle est catégorisable et que l'une de ses catégories est l'objet imprimante.
-Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...FGvfsffdasd
+Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...
 PhysicalInterface est une CATEGORIE. USB est une feature située dans la catégorie PhysicalInterface (çàd qui possède physInt parmi ses catégories.)
 PhysicalInterface est une catégorie offrant des features ? : USB, AGP, 1394, DIMM, SO-DIMM
 

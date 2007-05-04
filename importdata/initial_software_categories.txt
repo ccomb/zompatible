@@ -3,10 +3,20 @@
 # Syntax :  names[0], names[1], names[2], ..., names[X]  : description
 # The first spaces are used to determine the subcategory level (group of 4 spaces)
 
+
 Operating System
+    for Server 
+    for Desktop
+    for Cluster
+    for Education
+    for Multimedia
+    Live CD/DVD
+    Multimedia
+    
     Linux Distribution
     Unix like
     Windows or equivalent
+    BSD system
     
     
 Component, subsystem

@@ -89,24 +89,18 @@ Périphériques
         Casque micro
         Webcam
  
-    Impression et scanners  
+    Imprimante
         Jet d'encre
         Laser
-        Multifonction fax
-        Multifonction jet d'encre
-        Multifonction laser
-        Photo portable
-        Scanner
-        Télécopieur
-        Fax
- 
+        Sublimation thermique
+    scanner
+    fax 
     Périphériques de saisie  
         Clavier
         Souris
         Pavé numérique
         Accessoires
         Tablette graphique
-        Tapis de souris
  
     Stockage, sauvegarde  
         cartouches, cassettes
