@@ -44,7 +44,7 @@ class CategoryVocabulary(object):
         We first get an adapter that will return the correct categories utility
         (the folder that contains predefined Category objects)
         """
-        self.availablecategories = IAvailableCategories(removeAllProxies(self.context.context))
+        self.availablecategories = IAvailableCategories(self.context.context)
         self._cur = self._current = self._parent = self.availablecategories # store the current categorie to be able to iterate in its subcategories
         self.parent_iterators = [ ] # list of iterators of the current category and its parents: [ iter(toplevel), iter(subcategory), iter(subsubcategory, etc... ]
     def getTerm(self, value):
