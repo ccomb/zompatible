@@ -180,9 +180,7 @@ class ImportData(Import):
       lignes = self.getOnlyInterestingData()
 
       # Then first we add the organisation and after the devices
-      orgas = [ l for l in lignes if ( len(l)>=2 and
-                                                   len(l[0])==4 and  
-                                                   l[1]!=None)             ]
+      orgas = ( l for l in lignes if len(l)>=2 and len(l[0])==4 and l[1]!=None )
                                                    
       organizations = getSite()[u'organizations']
       nOrga = [ 0, 0, 0 ]
