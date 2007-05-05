@@ -11,18 +11,17 @@
 #
 ##############################################
 
-Composants, pièces détachées
-    Alimentation
-    Boîtier
-        AT
-        ATX
-        BTX
-        microATX
-        mini-ITX
-        nano-ITX
-        pico-ITX
 
-    Câbles et connectiques
+Ordinateurs
+    fixe, de bureau
+    Serveur
+    Ordinateur portable
+        classic laptop
+        desktop replacement
+        ultra-portable
+
+Composants pour ordinateur, pièces détachées
+    Carte mère
     Cartes d'extension
         Cartes contrôleur
             IDE, Ultra-ATA, PATA, P-ATA : ancienne génération avec cables plats (nappes)
@@ -30,291 +29,53 @@ Composants, pièces détachées
             RAID
             SCSI
             
-        Cartes d'acquisition
+        Cartes d'acquisition vidéo
         Cartes graphiques, carte vidéo
-        Cartes mères
-            AT
-            ATX
-            BTX
-            microATX
-            mini-ITX
-            nano-ITX
-            pico-ITX
-
         Carte son
-        Carte tuner TV TNT
+        Carte TV TNT
     Disque dur
-    Dissipateur
-    Graveur
-        BluRay
-        CD
-        DVD
-        HD-DVD
-    Lecteur
-        CD
-        disquette
-        DVD
-    Mémoire
-        DDR
-        DDR2
-        Rambus
-        SDRAM
-        So-dimm
-    Mini PC
-    Pate thermique
+    Graveur de disques
+    Lecteur de disques
     Processeur, CPU
-    Rack & rhéobus
-    Tuning
-    Refroidissement
-        Ventilateur
-            de carte graphique
-            de boîtier
-            de disque dur
-            de processeur
-        Watercooling
-Périphériques    
-    Boitier externe
-    Lecteur
-        multi-cartes externe
 
+Périphériques pour ordinateurs
+    Boitier externe
     Moniteurs, Écrans  
-        LCD, écran plat
-        OLED, Organic LED : nouvelle génération d'écrans à diodes organiques
-        Cathodique : les anciens écrans à tube
-        Plasma
- 
-    Son et multimédia  
-        Enceintes
-        Casque
-        Casque micro
-        Webcam
- 
+    Webcam
     Imprimante
-        Jet d'encre
-        Laser
-        Sublimation thermique
     scanner
-    fax 
+    Fax 
     Périphériques de saisie  
         Clavier
         Souris
         Pavé numérique
-        Accessoires
         Tablette graphique
- 
     Stockage, sauvegarde  
-        cartouches, cassettes
         Clé USB
         Disque dur externe
         Graveur externe
-        Sauvegarde
- 
-    Pour les jeux
+        lecteur de cartes
+    joysticks, pad, wheel
         Joypad
         Joystick
         Volant
- 
-    Câbles, connectiques  
-        Câbles
-        Hub USB
-        multiprise
-        Onduleur
-        Switch KVM
- 
-    Gadgets
-    
-  ####### catégorie à virer (audio est plutôt une catégorie d'utilisation)
-Audio : tout pour le son
-     Baladeur    
-    Baladeur USB
-    Juke Box
-    Multimédia (audio/video)
-    Casque audio
-    Accessoires
- 
-    Hifi & Home cinéma  
-    Chaîne HIFI
-    Ampli HIFI
-    Amplificateur Audio/Video
-    Lecteur CD de salon
-    Platine Vinyle
-    Radio K7 CD
- 
-    Audio PRO  
-    Toute l'audio PRO
-    Carte son
-    Casques pro
-    Enceintes
-    Micro
- 
-    Périphériques MIDI  
-    Clavier midi
-    Interface
- 
-    Auto  
-    Autoradio
+    interface audio externe
+    Onduleur
+    Video projecteur
 
-    Radio reveil
+Standalone Devices
+    Baladeur    
+    Appareils photos    
+        compacts
+        bridges
+        réflex
+    Caméscope
+    GPS    
+    PDA  
+        Bluetooth
+        Communiquant
+        Wifi
+    Téléphones, Smartphones  
+    Calculatrices  
 
-Téléviseurs et vidéo    
-    Télévision  
-        LCD
-        Plasma
-        TV Portable
-    Rétroprojecteur
- 
-    Lecteur et Enregistreur DVD  
-        Enregistreur avec disque dur
-        Enregistreur sans disque dur
-        Lecteur DVD/DivX
-        Lecteur DVD/Divx portable
-        Lecteur HD-DVD / Blu-Ray
-        Lecteur Multimédia
-        Combi DVD Magnétoscope
-        Accessoire DVD portable
-        Films DVD
- 
-    TNT et Satellite  
-        Récepteur TNT et satellite
- 
-    Video-Projection  
-        Video projecteur
-        Ecran de projection
- 
-    Home Cinéma  
-        Ampli Audio / Video
-        Enceintes Home Cinéma
-        Pieds d'enceintes
- 
-    Accessoires téléviseur  
-        Câbles et connectiques
-        Télécommande Universelle
-        Meubles
-        Support mural
-        DVD et CD Vierges
-        Boitiers et étuis
-Impression     :       imprimantes et consommables
-    Câble d'imprimante
-    Cartouches d'encres
-    Impression sur CD
-    Packs de cartouches
-    Packs de cartouches et papiers
-    Papier
-    Ruban
-    Tambour
-    Toner
-    Tous les toners
-    Toutes les cartouches
- 
-    Médias vierges  
-        BD-R
-        BD-RE
-        CD-R
-        CD-RW
-        Disquette
-        DVD+R
-        DVD+RW
-        DVD-R
-        DVD-RW
-        Marqueur
-        Packs gravure
- 
-    Accessoires  
-        Accessoires nettoyage
-        Chargeur
-        Lingettes nettoyantes
-        Piles
- 
-    Rangement  
-        Malette pour portable
-        Pour CD
-Ordinateurs
-    fixe, de bureau
-        # sous catégories à mettre en catégories d'usage
-        Bureautique
-        Multimédia
-        Jeux
-        Hardcore gamer
-        Mini PC
-        AMD Live!
-    Serveur
-    Ordinateur portable
-        # sous catégories à mettre en catégories d'usage
-        Pour elle
-        Multimédia
-        Jeux
-        Professionnels
-        Ultra portable
-        Tous les portables
- 
-    Accessoires  
-        Câbles et connectiques
-        Clavier/souris
-        Enceintes
-        Imprimante multi-fonctions
-        Moniteur
-        Multi-prise
-        Onduleur
-        Webcam
-    
-    portable
-
-    # à déplacer vers une catégorie d'usage
-    Accessoires   pour portables
-        Accessoires divers
-        Adaptateur secteur
-        Assurance
-        Batteries
-        Câbles et connectiques
-        Cartes PCMCIA
-        Mallette
-        Station d'accueil
-
-Appareils photos    
-    Appareils photo  
-        Les compacts
-        les bridges
-        Les réflex
-    Les accessoires
-        Mémoire flash
-    Tous les appareils photo
-    Imprimantes portables
-    Cadres photo numériques
-    Configurateur accessoires
- 
-Caméscope numérique  
-    Camescopes  
-        Caméscopes à disque dur
-        Caméscopes mini DV
-        Caméscopes à mémoire flash
-        Caméscopes mini DVD
-    Accessoires
-        Mémoires flash
-    Tous les caméscopes
-
- GPS    
-    Accessoires GPS
-    Configurateur GPS
-    GPS autonome (Tomtom)
-    GPS bluetooth
-    Kit PDA + GPS
-    Tous les GPS
- 
-PDA  
-    Bluetooth
-    Communiquant
-    Wifi
- 
-Téléphonie  
-    Téléphones fixes
-    Téléphones mobiles
-    Accessoires téléphones
-    Configurateur d'accessoires
-    Mémoires flash
-    Talkies walkies
- 
-Calculatrices  
-    financieres
-    graphiques
-    scientifiques
 

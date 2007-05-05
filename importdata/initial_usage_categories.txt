@@ -3,11 +3,24 @@
 
 
 # PAS ENCORE UTILISE
+# inutile au début
+
+
+
+# il y a un rapprochement à faire entre usage et feature. Les fonctionnalités et les usages sont proches.
+# Peut-être qu'un type d'usage est un ensemble de fonctionnalités. ?
+# On pourrait lister tout ce qu'on peut faire avec un ordinateur dans la liste des usages ?
+# c'est peut-être une extension pour plus tard.
 
 Desktop
 Server
 Home
 Game
-Work
+    hardcore gamer
+Work, professional
 Multimedia
 Education
+For her
+For children
+For travel
+

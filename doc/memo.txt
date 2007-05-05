@@ -1,9 +1,4 @@
 
-# code qui me fait chier, en attendant de faire marcher le package software.
-# ETAIT DANS INTERFACES.PY
-
--------------------
-
 ----------------------
 Mémo sur les étapes de la création d'une appli web
 - séparer les fonctionnalités

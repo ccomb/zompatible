@@ -1,0 +1,61 @@
+# initial features
+
+
+# features are something for which we can say "it works" or "it doesn't work"
+
+# this objects must be added into nature categories
+# A printer (Category) will contain some features that will
+# represent the choice for a particular printer
+
+# des catégories apportent des features
+# il faut lister ces features précisemment et les inclure dans la liste des catégories ?
+# ne mettre que des features qui intéressent les gens et qui leur parlent
+# chaque feature devra avoir un niveau de support et des reports
+
+# Toutes ces features pourraient être placées directement dans la liste des catégories
+
+# syntax:
+#
+# device_category
+#    feature
+#    feature
+#    etc...
+
+sound card
+    recording
+    playback
+    midi synthesis
+    other features
+
+graphic card
+    2D display
+    3D acceleration
+    dual-screen
+    other features    
+    SLi
+
+mouse
+    basic mouse features
+    wheel
+    additional buttons
+    physical ports ( usb, serial, bluetooth )    
+
+laptop
+    hibernation, 
+    
+burner
+    read CD
+    read CD-R
+    read CD-RW
+    read DVD-ROM
+    read DVD-R
+    read DVD+R
+    read DVD-RW
+    read DVD+RW
+    read DVD-RAM
+    writes CD
+        DVD-ROM
+        DVD-R
+        DVD+R
+        DVD-RW
+        DVD+RW
