@@ -1,0 +1,102 @@
+
+
+# pas encore utilisé
+# inutile au début
+
+# à nettoyer
+
+Interface physique
+    USB
+    Firewire
+    ATA
+    SATA
+    eSATA
+    ethernet
+    VGA
+    DVI-I
+    HDMI
+    PCI-e
+    PCI
+    VGA
+    PCIX
+
+
+Architecture
+    PC
+        i386
+        i486
+        i686
+        k7
+        k8
+        k9
+        intel core
+    PowerPc
+        G4
+        G5
+        Cell
+    Sparc
+    Alpha
+    Mips
+
+
+Cartes mères
+    format
+        AT
+        ATX
+        BTX
+        microATX
+        mini-ITX
+        nano-ITX
+        pico-ITX
+        
+    Mémoire
+        DDR
+        DDR2
+        Rambus
+        SDRAM
+        So-dimm
+Moniteurs, Écrans  
+    LCD, écran plat
+    OLED, Organic LED : nouvelle génération d'écrans à diodes organiques
+    Cathodique : les anciens écrans à tube
+    Plasma
+
+Imprimante
+    Jet d'encre
+    Laser
+    Sublimation thermique
+    
+Camescopes  
+    à disque dur
+    à mini DV
+    à mémoire flash
+    à mini DVD
+
+GPS    
+    GPS autonome
+    GPS bluetooth
+
+
+Dimension
+    Hauteur
+    Largeur
+    Profondeur
+    Epaisseur
+    
+
+Capacité
+    Mémoire
+    Volume
+
+Vitesse    (VALEUR !!)
+    Horloge (MHz, GHz)
+    Impression (PPM)
+    # et impression photo, impression brouillon ?
+    Mb/s
+    
+Qualité
+    impression
+
+Résolution, finesse
+    dpi (ex: 100dpi)
+    screen resolution (ex: 2560x1600)
