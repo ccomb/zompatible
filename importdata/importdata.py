@@ -228,7 +228,6 @@ class ImportData(Import):
                
       # Delete empty organizations (work on a copy of the keys)
       for o in [ h for h in organizations.keys()]:
-          print "pour %s : %s" % (o, len(organizations[o]['devices']))
           if len(organizations[o]['devices']) == 0 or len(organizations[o]) == 0 :
               del organizations[o]
               nOrga[statusDeleted]+=1
