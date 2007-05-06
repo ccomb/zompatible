@@ -17,6 +17,7 @@ from interfaces import *
 statusAdded = 0
 statusUpdated = 1
 statusExist = 2
+statusDeleted = 3
 
 class Import(object):
    implements(IImport)
@@ -183,13 +184,12 @@ class ImportData(Import):
       orgas = ( l for l in lignes if len(l)>=2 and len(l[0])==4 and l[1]!=None )
                                                    
       organizations = getSite()[u'organizations']
-      nOrga = [ 0, 0, 0 ]
+      nOrga = [ 0, 0, 0, 0 ]
       for orga in orgas:
          name = orga[1]
          id = orga[0]
-         
          nOrga[self.addOrganization(name, id)] += 1
-      
+
       nDev = [ 0, 0, 0]
       # Now we parse the devices
       orgaName = u''
@@ -225,8 +225,15 @@ class ImportData(Import):
                         
             elif l[0] != None:
                print "%s non traitée" % (l[0])
+               
+      # Delete empty organizations (work on a copy of the keys)
+      for o in [ h for h in organizations.keys()]:
+          print "pour %s : %s" % (o, len(organizations[o]['devices']))
+          if len(organizations[o]['devices']) == 0 or len(organizations[o]) == 0 :
+              del organizations[o]
+              nOrga[statusDeleted]+=1
 
-      self.status = u'Organizations:\n%d added,\n%d updated,\n%d not modified.\n' % (nOrga[statusAdded], nOrga[statusUpdated], nOrga[statusExist])
+      self.status = u'Organizations:\n%d added,\n%d updated,\n%d not modified.\n%d deleted (without device)\n' % (nOrga[statusAdded], nOrga[statusUpdated], nOrga[statusExist], nOrga[statusDeleted])
       self.status += u'Devices:\n%d added,\n%d updated,\n%d not modified.\n' % (nDev[statusAdded], nDev[statusUpdated], nDev[statusExist])
       if self.fileType == u'pci.ids':
          self.status += u'pci.ids: import successfull'            
