@@ -21,6 +21,11 @@ class ISoftware(IContained):
     #stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))
     link = URI(title=u'a link to software', description=u'link to the software', required=False)
 
+class IFuzzy(Interface):
+    u"""
+    interface for an imprecise software
+    """
+    group = List(title=u'variations', description=u'variations of the software', min_length=1, value_type=Choice(title=u"variation", source="softwaresource"))
 
 class ISubSoftware(Interface):
     u"""
@@ -47,14 +52,6 @@ class ISearchableTextOfSoftware(ISearchableText):
 
 
 # ce qui est dessous ne sert pas pour l'instant
-
-class IOperatingSystem(IContainer, IContained, ISoftware):
-    u"""an software: linux distribution, freebsd, etc...
-    the version is included here because 2 versions of a distro are 2 different software
-    Cette interface est vide car tout ce qui concerne les OS concerne avant tout les logiciels,
-    donc le schema est dans ISoftware
-    """
-    containers("zompatible.software.interfaces.ISoftwareContainer")
 
 
 class ILicense(Interface):
@@ -87,7 +84,7 @@ class IPatchedSoftware(ISoftware):
   
 class IDriver(ISoftware):
     u"""
-    a driver for an software
+    a driver for a software
     we must think of how to speak about ndiswrapper, which is not a driver
     And a driver can apply to a kernel, or be in userspace for xorg. So... ?
     We must express that a linux driver may exist for a device, but not be included in a distro, or in the kernel

@@ -1,0 +1,244 @@
+
+# syntax : name1, name2, name3   : version : codename
+
+Linux
+    Linux, Linux kernel : 2.4.0
+    Linux, Linux kernel : 2.4.1
+    Linux, Linux kernel : 2.4.2
+    Linux, Linux kernel : 2.4.3
+    Linux, Linux kernel : 2.4.4
+    Linux, Linux kernel : 2.4.5
+    Linux, Linux kernel : 2.4.6
+    Linux, Linux kernel : 2.4.7
+    Linux, Linux kernel : 2.4.8
+    Linux, Linux kernel : 2.4.9
+    Linux, Linux kernel : 2.4.10
+    Linux, Linux kernel : 2.4.11
+    Linux, Linux kernel : 2.4.12
+    Linux, Linux kernel : 2.4.13
+    Linux, Linux kernel : 2.4.14
+    Linux, Linux kernel : 2.4.15
+    Linux, Linux kernel : 2.4.16
+    Linux, Linux kernel : 2.4.17
+    Linux, Linux kernel : 2.4.18
+    Linux, Linux kernel : 2.4.19
+    Linux, Linux kernel : 2.4.20
+    Linux, Linux kernel : 2.4.21
+    Linux, Linux kernel : 2.4.22
+    Linux, Linux kernel : 2.4.23
+    Linux, Linux kernel : 2.4.24
+    Linux, Linux kernel : 2.4.25
+    Linux, Linux kernel : 2.4.26
+    Linux, Linux kernel : 2.4.27
+    Linux, Linux kernel : 2.4.28
+    Linux, Linux kernel : 2.4.29
+    Linux, Linux kernel : 2.4.30
+    Linux, Linux kernel : 2.4.31
+    Linux, Linux kernel : 2.4.32
+    Linux, Linux kernel : 2.4.33
+    Linux, Linux kernel : 2.4.33.1
+    Linux, Linux kernel : 2.4.33.2
+    Linux, Linux kernel : 2.4.33.3
+    Linux, Linux kernel : 2.4.33.4
+    Linux, Linux kernel : 2.4.33.5
+    Linux, Linux kernel : 2.4.33.6
+    Linux, Linux kernel : 2.4.33.7
+    Linux, Linux kernel : 2.4.34
+    Linux, Linux kernel : 2.4.34.1
+    Linux, Linux kernel : 2.4.34.2
+    Linux, Linux kernel : 2.4.34.3
+    Linux, Linux kernel : 2.4.34.4
+    Linux, Linux kernel : 2.6.0
+    Linux, Linux kernel : 2.6.1
+    Linux, Linux kernel : 2.6.2
+    Linux, Linux kernel : 2.6.3
+    Linux, Linux kernel : 2.6.4
+    Linux, Linux kernel : 2.6.5
+    Linux, Linux kernel : 2.6.6
+    Linux, Linux kernel : 2.6.7
+    Linux, Linux kernel : 2.6.8
+    Linux, Linux kernel : 2.6.9
+    Linux, Linux kernel : 2.6.10
+    Linux, Linux kernel : 2.6.11
+    Linux, Linux kernel : 2.6.11.1
+    Linux, Linux kernel : 2.6.11.2
+    Linux, Linux kernel : 2.6.11.3
+    Linux, Linux kernel : 2.6.11.4
+    Linux, Linux kernel : 2.6.11.5
+    Linux, Linux kernel : 2.6.11.6
+    Linux, Linux kernel : 2.6.11.7
+    Linux, Linux kernel : 2.6.11.8
+    Linux, Linux kernel : 2.6.11.9
+    Linux, Linux kernel : 2.6.11.10
+    Linux, Linux kernel : 2.6.11.11
+    Linux, Linux kernel : 2.6.11.12
+    Linux, Linux kernel : 2.6.12
+    Linux, Linux kernel : 2.6.12.1
+    Linux, Linux kernel : 2.6.12.2
+    Linux, Linux kernel : 2.6.12.3
+    Linux, Linux kernel : 2.6.12.4
+    Linux, Linux kernel : 2.6.12.5
+    Linux, Linux kernel : 2.6.12.6
+    Linux, Linux kernel : 2.6.13
+    Linux, Linux kernel : 2.6.13.1
+    Linux, Linux kernel : 2.6.13.2
+    Linux, Linux kernel : 2.6.13.3
+    Linux, Linux kernel : 2.6.13.4
+    Linux, Linux kernel : 2.6.13.5
+    Linux, Linux kernel : 2.6.14
+    Linux, Linux kernel : 2.6.14.1
+    Linux, Linux kernel : 2.6.14.2
+    Linux, Linux kernel : 2.6.14.3
+    Linux, Linux kernel : 2.6.14.4
+    Linux, Linux kernel : 2.6.14.5
+    Linux, Linux kernel : 2.6.14.6
+    Linux, Linux kernel : 2.6.14.7
+    Linux, Linux kernel : 2.6.15
+    Linux, Linux kernel : 2.6.15.1
+    Linux, Linux kernel : 2.6.15.2
+    Linux, Linux kernel : 2.6.15.3
+    Linux, Linux kernel : 2.6.15.4
+    Linux, Linux kernel : 2.6.15.5
+    Linux, Linux kernel : 2.6.15.6
+    Linux, Linux kernel : 2.6.15.7
+    Linux, Linux kernel : 2.6.16
+    Linux, Linux kernel : 2.6.16.1
+    Linux, Linux kernel : 2.6.16.2
+    Linux, Linux kernel : 2.6.16.3
+    Linux, Linux kernel : 2.6.16.4
+    Linux, Linux kernel : 2.6.16.5
+    Linux, Linux kernel : 2.6.16.6
+    Linux, Linux kernel : 2.6.16.7
+    Linux, Linux kernel : 2.6.16.8
+    Linux, Linux kernel : 2.6.16.9
+    Linux, Linux kernel : 2.6.16.10
+    Linux, Linux kernel : 2.6.16.11
+    Linux, Linux kernel : 2.6.16.12
+    Linux, Linux kernel : 2.6.16.13
+    Linux, Linux kernel : 2.6.16.14
+    Linux, Linux kernel : 2.6.16.15
+    Linux, Linux kernel : 2.6.16.16
+    Linux, Linux kernel : 2.6.16.17
+    Linux, Linux kernel : 2.6.16.18
+    Linux, Linux kernel : 2.6.16.19
+    Linux, Linux kernel : 2.6.16.20
+    Linux, Linux kernel : 2.6.16.21
+    Linux, Linux kernel : 2.6.16.22
+    Linux, Linux kernel : 2.6.16.23
+    Linux, Linux kernel : 2.6.16.24
+    Linux, Linux kernel : 2.6.16.25
+    Linux, Linux kernel : 2.6.16.26
+    Linux, Linux kernel : 2.6.16.27
+    Linux, Linux kernel : 2.6.16.28
+    Linux, Linux kernel : 2.6.16.29
+    Linux, Linux kernel : 2.6.16.30
+    Linux, Linux kernel : 2.6.16.31
+    Linux, Linux kernel : 2.6.16.32
+    Linux, Linux kernel : 2.6.16.33
+    Linux, Linux kernel : 2.6.16.34
+    Linux, Linux kernel : 2.6.16.35
+    Linux, Linux kernel : 2.6.16.36
+    Linux, Linux kernel : 2.6.16.37
+    Linux, Linux kernel : 2.6.16.38
+    Linux, Linux kernel : 2.6.16.39
+    Linux, Linux kernel : 2.6.16.40
+    Linux, Linux kernel : 2.6.16.41
+    Linux, Linux kernel : 2.6.16.42
+    Linux, Linux kernel : 2.6.16.43
+    Linux, Linux kernel : 2.6.16.44
+    Linux, Linux kernel : 2.6.16.45
+    Linux, Linux kernel : 2.6.16.46
+    Linux, Linux kernel : 2.6.16.47
+    Linux, Linux kernel : 2.6.16.48
+    Linux, Linux kernel : 2.6.16.49
+    Linux, Linux kernel : 2.6.16.50
+    Linux, Linux kernel : 2.6.17
+    Linux, Linux kernel : 2.6.17.1
+    Linux, Linux kernel : 2.6.17.2
+    Linux, Linux kernel : 2.6.17.3
+    Linux, Linux kernel : 2.6.17.4
+    Linux, Linux kernel : 2.6.17.5
+    Linux, Linux kernel : 2.6.17.6
+    Linux, Linux kernel : 2.6.17.7
+    Linux, Linux kernel : 2.6.17.8
+    Linux, Linux kernel : 2.6.17.9
+    Linux, Linux kernel : 2.6.17.10
+    Linux, Linux kernel : 2.6.17.11
+    Linux, Linux kernel : 2.6.17.12
+    Linux, Linux kernel : 2.6.17.13
+    Linux, Linux kernel : 2.6.17.14
+    Linux, Linux kernel : 2.6.18
+    Linux, Linux kernel : 2.6.18.1
+    Linux, Linux kernel : 2.6.18.2
+    Linux, Linux kernel : 2.6.18.3
+    Linux, Linux kernel : 2.6.18.4
+    Linux, Linux kernel : 2.6.18.5
+    Linux, Linux kernel : 2.6.18.6
+    Linux, Linux kernel : 2.6.18.7
+    Linux, Linux kernel : 2.6.18.8
+    Linux, Linux kernel : 2.6.19
+    Linux, Linux kernel : 2.6.19.1
+    Linux, Linux kernel : 2.6.19.2
+    Linux, Linux kernel : 2.6.19.3
+    Linux, Linux kernel : 2.6.19.4
+    Linux, Linux kernel : 2.6.19.5
+    Linux, Linux kernel : 2.6.19.6
+    Linux, Linux kernel : 2.6.19.7
+    Linux, Linux kernel : 2.6.20
+    Linux, Linux kernel : 2.6.20.1
+    Linux, Linux kernel : 2.6.20.2
+    Linux, Linux kernel : 2.6.20.3
+    Linux, Linux kernel : 2.6.20.4
+    Linux, Linux kernel : 2.6.20.5
+    Linux, Linux kernel : 2.6.20.6
+    Linux, Linux kernel : 2.6.20.7
+    Linux, Linux kernel : 2.6.20.8
+    Linux, Linux kernel : 2.6.20.9
+    Linux, Linux kernel : 2.6.20.10
+    Linux, Linux kernel : 2.6.20.11
+    Linux, Linux kernel : 2.6.21
+    Linux, Linux kernel : 2.6.21.1
+
+
+Debian
+    Debian : 3.0 : Woody
+    Debian : 3.1 : Sarge
+    Debian : 4.0 : Etch
+    
+Canonical
+    Ubuntu : 7.04 : Feisty Fawn
+    Kubuntu : 7.04 : Feisty Fawn
+    Xubuntu : 7.04 : Feisty Fawn
+    Edubuntu : 7.04 : Feisty Fawn
+    
+    Ubuntu : 6.10 : Edgy Eft
+    Kubuntu : 6.10 : Edgy Eft
+    Xubuntu : 6.10 : Edgy Eft
+    Edubuntu : 6.10 : Edgy Eft
+    
+    Ubuntu : 6.06 : Dapper Drake
+    Kubuntu : 6.06 : Dapper Drake
+    Xubuntu : 6.06 : Dapper Drake
+    Edubuntu : 6.06 : Dapper Drake
+
+    Ubuntu : 5.10 : Breezy Badger
+    Kubuntu : 5.10 : Breezy Badger
+    Xubuntu : 5.10 : Breezy Badger
+    Edubuntu : 5.10 : Breezy Badger
+
+Redhat
+
+Novell
+
+Microsoft
+    Windows :98
+    Windows :98 Second Edition
+    Windows :ME
+    Windows :2000 Professional
+    Windows :XP Home
+    Windows :XP Professional
+    Windows :Vista Home Basic
+    Windows :Vista Home Premium
+    Windows :Vista Business
+    Windows :Vista 
+    

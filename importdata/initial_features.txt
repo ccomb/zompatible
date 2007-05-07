@@ -41,7 +41,8 @@ mouse
     physical ports ( usb, serial, bluetooth )    
 
 laptop
-    hibernation, 
+    suspend to disk, hibernate
+    suspend to RAM, sleep
     
 burner
     read CD

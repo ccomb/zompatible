@@ -11,7 +11,7 @@ class ImportCategoryFile(ImportFile):
     An import utility for default categories
     See initial_device_categories.txt
     """
-    def importcategories(self, context):
+    def do_import(self, context):
         if self.infile == u"":
             raise "No file provided"
         if context is None:

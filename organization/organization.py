@@ -36,6 +36,10 @@ class Organization(Folder):
     pciids=[] # une Organization peut fournir IManufacturer !!
     usbids=[] # idem
     __name__=__parent__=None
+    def __init__(self, names=None, description=None):
+        self.names = names
+        self.description = description
+        super(Organization, self).__init__()
 
 from zope.component.factory import Factory
 

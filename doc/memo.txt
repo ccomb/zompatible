@@ -20,6 +20,23 @@ pilote : nom ("nv"), libre O/N, version, stable O/N
 distrib : id?, nom, version
 
 
+liens entre softs
+=================
+plusieurs notions de liens possibles :
+
+* le fuzzy software, dont on connait peu de détail (ex : ubuntu 7.04 mais kubuntu ? xubuntu ?) et qui doit être utilisé
+    lors de la sélection par un débutant qui ne connait pas toutes les variantes.
+* la variante (kubuntu) qui permet d'obtenir les meme Supports
+* la nouvelle version (7.04 par rapport à 6.10) qui pourrait être implémentée par juste une fonction d'import
+    qui crée un seul objet Support indiquant que le matériel était compatible avec une version antérieure.
+    Mais ceci est peut-être inutile car la fonction qui indique que ça marche ailleurs dit suffire. Ca n'apporte
+    pas grand chose de plus de dire que ça marche sur la version précédente d'ubuntu plutot que sur fedora.
+    C'est d'ailleurs même plus significatif de dire que ça marche sur une distro de même génération.
+    Par contre pour une version mineure, il faut tout garder : par ex pour 6.06.1 vis à vis de 6.06
+    (ainsi que pour les debian 3.1r1, 3.1r2, etc.)
+
+
+
 Soumission matériel
 ==================
 

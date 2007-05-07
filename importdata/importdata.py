@@ -92,7 +92,7 @@ class ImportData(Import):
             toto.pciids  = []
             toto.usbids = [ id]
          organizations[urlName] = toto
-         IOrganizationInterfaces(toto).interfaces = [ IManufacturer ]
+         IOrganizationInterfaces(toto).interfaces += [ IManufacturer ]
          
          return statusAdded
 
@@ -106,9 +106,11 @@ class ImportData(Import):
             orga = o
             break;
       
+      IOrganizationInterfaces(organizations[orga]).interfaces += [ IManufacturer ]
+      
       # Check if a device already exists with the same id
       mainDev = None
-      for dev in  organizations[orga][u'devices']: 
+      for dev in  organizations[orga][u'devices']:
          if (self.fileType == u'pciids' and organizations[orga][u'devices'][dev].pciid == id or
               self.fileType == u'usbids' and organizations[orga][u'devices'][dev].usbid == id):
             mainDev = organizations[orga][u'devices'][dev]
@@ -228,7 +230,7 @@ class ImportData(Import):
                
       # Delete empty organizations (work on a copy of the keys)
       for o in [ h for h in organizations.keys()]:
-          if len(organizations[o]['devices']) == 0 or len(organizations[o]) == 0 :
+          if IManufacturer.providedBy(organizations[o]) and ( len(organizations[o]['devices']) == 0 or len(organizations[o]) == 0 ) :
               del organizations[o]
               nOrga[statusDeleted]+=1
 
@@ -266,7 +268,7 @@ class ImportFile(object):
     infile = u""
     def __init__(self, infile=u""):
         self.infile = infile
-    def importfile(self):
+    def do_import(self):
         u"this method must be implemented by the subclass"
         raise NotImplementedError
 

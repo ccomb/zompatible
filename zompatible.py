@@ -22,6 +22,7 @@ from category.interfaces import ISearchableTextOfCategorizable
 from search.search import ObjectIndex
 from importdata.interfaces import IImportData
 from importdata.importcategories import ImportCategoryFile
+from importdata.importsoftware import ImportSoftwareFile
 
 class ZompatibleSiteManagerSetEvent(object):
     implements(IZompatibleSiteManagerSetEvent)
@@ -94,12 +95,15 @@ def ZompatibleInitialSetup(event):
 
     # importcategories needs a context to be able to find its AvailableCategoriesContainer
     sm['temp'] = createObject("zompatible.Device")
-    ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").importcategories(sm['temp'])
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_device_categories.txt").do_import(sm['temp'])
     del sm['temp']
     
     sm['temp'] = createObject("zompatible.Software")
-    ImportCategoryFile("../lib/python/zompatible/importdata/initial_software_categories.txt").importcategories(sm['temp'])
+    ImportCategoryFile("../lib/python/zompatible/importdata/initial_software_categories.txt").do_import(sm['temp'])
     del sm['temp']
+
+    # import initial software list
+    ImportSoftwareFile("../lib/python/zompatible/importdata/initial_software.txt").do_import(context=site)
     
     #create an intid for all objects added in content space and site manager. (the intid is not yet active)"
     #KEEP THIS AT THE BOTTOM"
@@ -107,6 +111,8 @@ def ZompatibleInitialSetup(event):
         intid.register(object)
     for object in findObjectsProviding(sm,Interface):
         intid.register(object)
+    # reindex eveything
+    catalog.updateIndexes()
 
 class Trash(Folder):
     u"""the implementation of the site trash as a folder"""

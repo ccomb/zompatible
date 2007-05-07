@@ -39,9 +39,12 @@ class Device(Persistent):
     usbid=""
     # IDevice fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__= None
-    def __init__(self):
+    def __init__(self, names=None, description=None):
         u"the list of supported software that lead to the Support objects"
+        self.names = names
+        self.description = description
         self.supports = OOBTree()
+        super(Device, self).__init__()
     def __getattr__(self, name):
         if name == 'organization':
             if self.__parent__ is not None:

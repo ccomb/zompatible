@@ -76,7 +76,7 @@ class SoftwareView(BrowserPage):
             codename = self.context.codename
         if self.context.version is not None:
             version = self.context.version
-        return "%s %s %s" % (self.context.names[0], version, codename) 
+        return "%s %s %s" % (self.context.names[0], version, codename)
     
 class SoftwareContainerView(object):
     u"""

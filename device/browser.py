@@ -76,6 +76,8 @@ class DeviceView(BrowserPage):
     "la vue qui permet d'afficher un device"
     label=u"Visualisation d'un matériel"
     __call__=ViewPageTemplateFile("device.pt")
+    def prettyName(self):
+        return self.names[0]
 
 
 class DeviceTerms(object):

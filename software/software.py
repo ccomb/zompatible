@@ -12,7 +12,7 @@ import string
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from BTrees.OOBTree import OOBTree
 
-from interfaces import ISoftwareContainer, ISoftware, ISearchableTextOfSoftware, ISubSoftware
+from interfaces import *
 
 
 @adapter(ISoftware, IObjectRemovedEvent)
@@ -38,9 +38,12 @@ class Software(Persistent):
     link = u""
     url=""
     __name__=__parent__=None
-    def __init__(self):
+    def __init__(self, names=None, description=None):
         u"a list of support devices, that lead to the Support objects"
+        self.names = names
+        self.description = description
         self.supports = OOBTree()
+        super(Software, self).__init__()
     def __getattr__(self, name):
         if name == 'organization':
             if self.__parent__ is not None:
@@ -132,5 +135,18 @@ class SoftwareVocabularyFactory(object):
     implements(IVocabularyFactory)
     def __call__(self, context):
         return SoftwareSource()
+
+class FuzzySoftware(Software):
+    u"""
+    a software representing several softwares
+    For ex : ubuntu representing all variants (kubuntu, ubuntu server, etc.)
+    It contains the union of all support objects an can have its own supports.
+    """
+    implements(IFuzzy)
+    group = []
+    
+
+
+
 
 
