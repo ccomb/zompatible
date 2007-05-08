@@ -27,6 +27,7 @@ plusieurs notions de liens possibles :
 * le fuzzy software, dont on connait peu de détail (ex : ubuntu 7.04 mais kubuntu ? xubuntu ?) et qui doit être utilisé
     lors de la sélection par un débutant qui ne connait pas toutes les variantes.
 * la variante (kubuntu) qui permet d'obtenir les meme Supports
+* le fork
 * la nouvelle version (7.04 par rapport à 6.10) qui pourrait être implémentée par juste une fonction d'import
     qui crée un seul objet Support indiquant que le matériel était compatible avec une version antérieure.
     Mais ceci est peut-être inutile car la fonction qui indique que ça marche ailleurs dit suffire. Ca n'apporte
@@ -34,13 +35,22 @@ plusieurs notions de liens possibles :
     C'est d'ailleurs même plus significatif de dire que ça marche sur une distro de même génération.
     Par contre pour une version mineure, il faut tout garder : par ex pour 6.06.1 vis à vis de 6.06
     (ainsi que pour les debian 3.1r1, 3.1r2, etc.)
+* l'équivalent qui permet de dire que 2 objets sont en fait les memes. Il faudrait dans ce cas pouvoir fusionner
 
 parsing du noyau linux:
 =======================
 Le but est d'analyser le noyau, et d'en retirer toutes les informations de compatibilité possibles.
 Plusieurs pistes à creuser :
-* Info sur les modules associés à un device (map générées par depmod)
-* infos sur les drivers intégrés au kernel (...?)
+* infos sur les modules et les pciid associés, directement dans le code source
+* Info sur les modules associés à un device, map générées par depmod
+* infos sur les drivers intégrés au kernel
+* infos sur les modules activés ou désactivés (option de compil)
+
+Bon, on va simplifier à mort sinon ce ne sera jamais fini. => on ne crée pas un objet
+par module du noyau, mais on se content de récupérer les modules.map des distributions linux.
+Le fait d'ajouter la catégorie Distribution Linux ajoute la possibilité d'uploader le modules.map
+et de créer un objet Report pour chaque ID rencontré. Cet objet report permet juste
+d'affirme que ça « peut » marcher, et de donner le nom du noyau linux concerné.
 
 
 Soumission matériel

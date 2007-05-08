@@ -217,6 +217,7 @@ Canonical
     Kubuntu : 7.04 : Feisty Fawn
     Xubuntu : 7.04 : Feisty Fawn
     Edubuntu : 7.04 : Feisty Fawn
+    Ubuntu Studio : 7.04 Feisty Fawn
     
     Ubuntu : 6.10 : Edgy Eft
     Kubuntu : 6.10 : Edgy Eft
@@ -232,6 +233,9 @@ Canonical
     Kubuntu : 5.10 : Breezy Badger
     Xubuntu : 5.10 : Breezy Badger
     Edubuntu : 5.10 : Breezy Badger
+
+    Ubuntu : 5.04 : Hoary Hedgehog
+    Ubuntu : 4.10 : Warty Warthog
 
 Mandrake
 
@@ -266,4 +270,13 @@ Microsoft
     Windows :Vista Home Premium
     Windows :Vista Business
     Windows :Vista 
+
+Apple Computer Inc.
+    Mac Os X : 10.0 : Cheetah
+    Mac Os X : 10.1 : Puma
+    Mac Os X : 10.2 : Jaguar
+    Mac Os X : 10.3 : Panther
+    Mac Os X : 10.4 : Tiger
+    Mac Os X : 10.5 : Leopard
+
     
