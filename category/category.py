@@ -7,6 +7,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
 from zope.component.factory import Factory
 from zope.proxy import removeAllProxies
+from zompatible.skin.navigation.browser import PrettyName
 
 from interfaces import *
 
@@ -50,11 +51,11 @@ class CategoryVocabulary(object):
     def getTerm(self, value):
         "here, value is a a category"
         token = self._intid.getId(value)
-        title = (len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
+        title = (len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + PrettyName(value, None)() # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def getTermByToken(self, token):
         value=self._intid.getObject(int(token))
-        title=(len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.__name__ # TODO: remplacer les "____" par un niveau de liste
+        title=(len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + PrettyName(value, None)() # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def __iter__(self):
         "The class is used as its own iterator. The next() method will use the last iterator in the parent_iterators list"

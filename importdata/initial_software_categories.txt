@@ -20,6 +20,7 @@ Operating System
     
     
 Component, subsystem
+    Linux kernel
     Linux kernel module
     # à déplacer probablement dans les catégories d'usage
     for Display

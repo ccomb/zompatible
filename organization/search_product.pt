@@ -18,8 +18,7 @@
 <i tal:condition="nodevice">None</i>
 <ul tal:condition="not: nodevice" tal:repeat="device view/getDevices">
 <li>
-    <a tal:content="device/@@pretty_name" tal:attributes="device/@@absolute_url" href="#">some device</a>
-    </span>
+    <a tal:content="device/@@pretty_name" tal:attributes="href device/@@absolute_url" href="#">some device</a>
 </li>
 </ul>
 </tal:block>
@@ -29,8 +28,7 @@
 <i tal:condition="no_software">None</i>
 <ul tal:condition="not: no_software" tal:repeat="software view/getSoftwares">
 <li>
-    <a tal:content="software/@@pretty_name" tal:attributes="software/@@absolute_url" href="#">some software</a>
-    </span>
+    <a tal:content="software/@@pretty_name" tal:attributes="href software/@@absolute_url" href="#">some software</a>
 </li>
 </ul>
 </tal:block>

@@ -15,10 +15,10 @@
 
 Il faut transformer cette vue en viewlet pour pouvoir l'incorporer dans un viewlet manager du Device.
 
-<h2 tal:content="python: context.names[0]">categorizable object</h2>
+<h2 tal:content="context/@@pretty_name">categorizable object</h2>
 
 <ul>
-<li tal:repeat="category view/get_categories" tal:content="category/__name__">category</li>
+<li tal:repeat="category view/get_categories" tal:content="category/@@pretty_name">category</li>
 </ul>
 
 

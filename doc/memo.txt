@@ -35,6 +35,12 @@ plusieurs notions de liens possibles :
     Par contre pour une version mineure, il faut tout garder : par ex pour 6.06.1 vis à vis de 6.06
     (ainsi que pour les debian 3.1r1, 3.1r2, etc.)
 
+parsing du noyau linux:
+=======================
+Le but est d'analyser le noyau, et d'en retirer toutes les informations de compatibilité possibles.
+Plusieurs pistes à creuser :
+* Info sur les modules associés à un device (map générées par depmod)
+* infos sur les drivers intégrés au kernel (...?)
 
 
 Soumission matériel

@@ -105,7 +105,7 @@ class SearchableTextOfSoftware(object):
     def getSearchableText(self):
         sourcetext = texttoindex = u''
         u"First, gather all interesting text"
-        for word in self.context.names:
+        for word in self.context.names + [ self.context.version, self.context.codename ] :
             sourcetext += word + " "
         u"then split all words into subwords"
         for word in sourcetext.split():        

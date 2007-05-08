@@ -202,8 +202,15 @@ Linux
 
 Debian
     Debian : 3.0 : Woody
-    Debian : 3.1 : Sarge
-    Debian : 4.0 : Etch
+    Debian : 3.1r0 : Sarge
+    Debian : 3.1r0a : Sarge
+    Debian : 3.1r1 : Sarge
+    Debian : 3.1r2 : Sarge
+    Debian : 3.1r3 : Sarge
+    Debian : 3.1r4 : Sarge
+    Debian : 3.1r5 : Sarge
+    Debian : 3.1r6 : Sarge
+    Debian : 4.0r0 : Etch
     
 Canonical
     Ubuntu : 7.04 : Feisty Fawn
@@ -226,7 +233,21 @@ Canonical
     Xubuntu : 5.10 : Breezy Badger
     Edubuntu : 5.10 : Breezy Badger
 
+Mandrake
+
+Mandriva
+    Mandriva Corporate Server : 4.0
+    Mandriva Corporate Desktop : 3.0
+    Mandriva Linux Discovery : 2007 : Spring
+    Mandriva Linux PowerPack : 2007 : Spring
+    Mandriva Linux PowerPack+ : 2007 : Spring
+
 Redhat
+    Red Hat Enterprise Linux Desktop, RHEL Desktop : 5
+    Red Hat Enterprise Linux server, RHEL Desktop : 5
+    
+Fedora
+    Fedora Core : 6
 
 Novell
 
@@ -236,7 +257,11 @@ Microsoft
     Windows :ME
     Windows :2000 Professional
     Windows :XP Home
+    Windows :XP Home SP1
+    Windows :XP Home SP2
     Windows :XP Professional
+    Windows :XP Professional SP1
+    Windows :XP Professional SP2
     Windows :Vista Home Basic
     Windows :Vista Home Premium
     Windows :Vista Business

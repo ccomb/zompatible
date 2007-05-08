@@ -228,9 +228,9 @@ class ImportData(Import):
             elif l[0] != None:
                print "%s non traitée" % (l[0])
                
-      # Delete empty organizations (work on a copy of the keys)
+      # Delete empty organizations (work on a copy of the keys because of btree behaviour when deleting on looping)
       for o in [ h for h in organizations.keys()]:
-          if IManufacturer.providedBy(organizations[o]) and ( len(organizations[o]['devices']) == 0 or len(organizations[o]) == 0 ) :
+          if ('devices' not in organizations[o] or len(organizations[o]['devices']) == 0) and ('software' not in organizations[o] or len(organizations[o]['software']) == 0 ):
               del organizations[o]
               nOrga[statusDeleted]+=1
 
