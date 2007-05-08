@@ -14,16 +14,12 @@
 
 <h1 tal:content="view/label">label de la vue</h1>
 
-<h2 tal:content="context/__name__">objet en question (hard ou soft)</h2>
+<h2 tal:content="context/@@pretty_name">objet en question (hard ou soft)</h2>
 
-<div class="content" tal:condition="python: view.support is not None">Compatibilité avec <span tal:replace="python: view.getrelated().__name__">Product</span>&nbsp;:<br/>
-<br/>
-(nothing yet)
-</div>
 
 <div class="content" tal:condition="python: view.support is None" >
 <ul tal:repeat="support view/getitems">
-    <li><a tal:content="python: support['related'].names[0]" tal:attributes="href support/support/@@absolute_url" href="#">some device</a></li>
+    <li><a tal:content="support/related/@@pretty_name" tal:attributes="href support/support/@@absolute_url" href="#">some device</a></li>
 </ul>
 </div>
 

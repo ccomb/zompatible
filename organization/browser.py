@@ -142,9 +142,9 @@ class SearchProductView(BrowserPage):
             self.results['software']=createObject("zompatible.SearchObject", software_text=query).getResults()
         return ViewPageTemplateFile('search_product.pt')(self)
     def getDevices(self):
-        return [ { 'device' : device, 'prettyname': DeviceView(device, self.request).prettyName() , 'url' : AbsoluteURL(device, self.request) } for device in self.results['devices'] ]
+        return self.results['devices']
     def getSoftwares(self):
-        return [ { 'software' : software, 'prettyname': SoftwareView(software, self.request).prettyName() , 'url' : AbsoluteURL(software, self.request) } for software in self.results['software'] ]
+        return self.results['software']
             
 class OrgaTerms(object):
     u"""

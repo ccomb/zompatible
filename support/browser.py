@@ -83,8 +83,7 @@ class CompatibilityView(BrowserPage):
             return ( { 'support': support, 'related' : support.software } for support in self.context.supports.values() )
         if (ISoftware.providedBy(self.context)):
             return ( { 'support': support, 'related' : support.device } for support in self.context.supports.values() )
-    def getrelated(self):
-        if (IDevice.providedBy(self.context) and self.support is not None):
-            return self.support.software
-        if (ISoftware.providedBy(self.context) and self.support is not None):
-            return self.support.device
+
+
+
+

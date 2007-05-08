@@ -7,6 +7,7 @@ from zope.component import adapts
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.app.component.hooks import getSite
 from zope.component import createObject
+from zope.publisher.browser import BrowserView
 
 from interfaces import *
 from zompatible.organization.interfaces import IOrganization
@@ -83,3 +84,20 @@ class ProductSearchViewlet(object):
             return self.context.names[0]
         if IOrganization.providedBy(self.context.__parent__):
             return self.context.__parent__.names[0] 
+
+class PrettyName(BrowserView):
+    u"""
+    the universal adapter that computes a pretty name for http links of any object
+    Specialized adapters must be provided for objects that want a particular pretty name
+    """
+    implements(IBrowserView)
+    def __call__(self):
+        if hasattr(self.context, 'name') and len(self.context.names)>0:
+            return self.context.name
+        if hasattr(self.context, 'names') and len(self.context.names)>0:
+            return self.context.names[0]
+        if hasattr(self.context, '__name__') and len(self.context.__name__)>0:
+            return self.context.__name__
+            
+            
+            

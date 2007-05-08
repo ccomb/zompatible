@@ -2,11 +2,11 @@
 from interfaces import *
 from zope.interface import implements
 from zope.formlib.form import EditForm, Fields, AddForm, applyChanges, Actions, Action, getWidgetsData
-from zope.publisher.browser import BrowserPage
+from zope.publisher.browser import BrowserPage, BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.component import adapts, getUtility, createObject
 from zope.app.form.browser.interfaces import ITerms, ISourceQueryView
-from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.publisher.interfaces.browser import IBrowserRequest, IBrowserView
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.intid.interfaces import IIntIds
 from zope.copypastemove import ContainerItemRenamer
@@ -70,7 +70,10 @@ class SoftwareView(BrowserPage):
     __call__=ViewPageTemplateFile("software.pt")
     def __init__(self, context, request):
         self.context, self.request = context, request
-    def prettyName(self):
+
+class SoftwarePrettyName(BrowserView):
+    implements(IBrowserView)
+    def __call__(self):
         codename = version = u""
         if self.context.codename is not None:
             codename = self.context.codename

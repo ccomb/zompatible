@@ -15,9 +15,9 @@
 <h1 tal:content="view/label">label de la vue</h1>
 
 Between
-<a href="#" tal:attributes="href context/device/@@absolute_url" tal:content="python: context.device.names[0]">Device</a>
+<a href="#" tal:attributes="href context/device/@@absolute_url" tal:content="context/device/@@pretty_name">Device</a>
 and
-<a href="#" tal:attributes="href context/software/@@absolute_url" tal:content="python: context.software.names[0]">Software</a>
+<a href="#" tal:attributes="href context/software/@@absolute_url" tal:content="context/software/@@pretty_name">Software</a>
 
 <p>Ici il faut calculer un niveau global de support</p>
 

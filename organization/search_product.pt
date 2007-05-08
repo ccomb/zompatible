@@ -16,10 +16,9 @@
 <h2>Devices</h2>
 <tal:block define="nodevice python: not len(view.getDevices())">
 <i tal:condition="nodevice">None</i>
-<ul tal:condition="not: nodevice" tal:repeat="device_info view/getDevices">
+<ul tal:condition="not: nodevice" tal:repeat="device view/getDevices">
 <li>
-    <a tal:content="python: device_info['prettyname']" tal:attributes="href python: device_info['url']" href="#">some device</a>
-    <span tal:condition="python: len(device_info['device'].names)>=2" tal:repeat="name python:device_info['device'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
+    <a tal:content="device/@@pretty_name" tal:attributes="device/@@absolute_url" href="#">some device</a>
     </span>
 </li>
 </ul>
@@ -28,10 +27,9 @@
 <h2>Software</h2>
 <tal:block define="no_software python: not len(view.getSoftwares())">
 <i tal:condition="no_software">None</i>
-<ul tal:condition="not: no_software" tal:repeat="software_info view/getSoftwares">
+<ul tal:condition="not: no_software" tal:repeat="software view/getSoftwares">
 <li>
-    <a tal:content="python: software_info['prettyname']" tal:attributes="href python: software_info['url']" href="#">some software</a>
-    <span tal:condition="python: len(software_info['software'].names)>=2" tal:repeat="name python:software_info['software'].names[1:]" tal:omit-tag=""><span tal:condition="repeat/name/start" tal:omit-tag="">&nbsp;(</span><span tal:content="name" tal:omit-tag="">other name</span><span tal:condition="not:repeat/name/end" tal:omit-tag="">, </span><span tal:condition="repeat/name/end" tal:omit-tag="">)</span>    
+    <a tal:content="software/@@pretty_name" tal:attributes="software/@@absolute_url" href="#">some software</a>
     </span>
 </li>
 </ul>
