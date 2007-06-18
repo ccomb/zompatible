@@ -16,7 +16,7 @@ class AdminAreaManager(ViewletManagerBase):
 class AdminHeaderViewlet(object):
     u"""
     The viewlet that displays the title of the admin area
-    No template here, we do a real implementation od IViewlet just to test.
+    No template here, we do a real implementation of IViewlet just to test.
     """
     implements(IViewlet)
     def update(self):

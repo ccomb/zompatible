@@ -49,7 +49,7 @@ class SoftwareEdit(EditForm):
         if string.lower(oldname)!=newname:
             renamer = ContainerItemRenamer(self.context.__parent__)
             renamer.renameItem(oldname, newname)
-            return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_software.html")
+        return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_software.html")
     def validate(self, action, data):
         u"we retrieve data from the form and fill the data attribute"
         getWidgetsData(self.widgets, 'form', data)
@@ -60,6 +60,7 @@ class SoftwareEdit(EditForm):
         u"we compute the new name with the dummy (a bit ugly)"
         newname = INameChooser(dummy).chooseName(u"",dummy)
         u"if already exists, return an error"
+        u"#####################  REMPLACER CA PAR LE CHECKNAME :"
         if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
             return ("The name <i>"+newname+"</i> conflicts with another Software",)
         return super(SoftwareEdit, self).validate(action, data)

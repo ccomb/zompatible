@@ -25,7 +25,7 @@
     layer=".interfaces.IZompatibleSkin"
 />
 
-<!-- Ensuite on décide que la macro particulière dont le nom est "page" correspond à la vue/macro/template MyMainMacro -->
+<!-- Ensuite on décide que la macro particulière dont le nom est "mymainmacro" correspond à la vue/macro/template MyMainMacro -->
 <browser:view
     name="mymainmacro"
     for="*"

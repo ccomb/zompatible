@@ -69,7 +69,7 @@ class OrganizationNameChooser(NameChooser):
         if name in organization.__parent__ and organization is not organization.__parent__['name']:
             return False
         else :
-            return true
+            return True
 
 class OrganizationInterfaces(object):
     u"""
@@ -86,7 +86,7 @@ class OrganizationInterfaces(object):
                 u"When accessing orga.interfaces, return the provided interfaces of type IOrganizationType)" 
                 return [ interface for interface in self.availableinterfaces if interface.providedBy(self.orga) ]
             else :
-                return self.__dict__[name]
+                return self.__dict__[name]    # FOIREUX #############################
 
     def __setattr__(self, name, value):
         u"Same as getitem, but we tell the object to provide the wanted interfaces when we write orga.interfaces"
@@ -99,7 +99,7 @@ class OrganizationInterfaces(object):
                         self.orga[i.getTaggedValue('containername')] = InternalContainerFactory(i)
                     alsoProvides(removeAllProxies(self.orga), i)
         else :
-            self.__dict__[name]=value
+            self.__dict__[name]=value    # FOIREUX #############################
 
 class Manufacturer(object):
     implements(IManufacturer)
@@ -111,7 +111,7 @@ class Manufacturer(object):
             return self.context['devices']
         else:
             try :
-                return self.__dict__[name]
+                return self.__dict__[name]    # FOIREUX #############################
             except :
                 return None
 
@@ -124,7 +124,7 @@ class SoftwareEditor(object):
         if name == "products":
             return self.context['software']
         else:
-            return self.__dict__[name]
+            return self.__dict__[name]    # FOIREUX #############################
 
 def InternalContainerFactory(i):
     u"fonction qui crée le bon container en fonction de l'interface"

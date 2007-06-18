@@ -23,6 +23,8 @@ distrib : id?, nom, version
 liens entre softs
 =================
 plusieurs notions de liens possibles :
+C parsing fun
+Helo ppl!
 
 * le fuzzy software, dont on connait peu de détail (ex : ubuntu 7.04 mais kubuntu ? xubuntu ?) et qui doit être utilisé
     lors de la sélection par un débutant qui ne connait pas toutes les variantes.
@@ -36,6 +38,9 @@ plusieurs notions de liens possibles :
     Par contre pour une version mineure, il faut tout garder : par ex pour 6.06.1 vis à vis de 6.06
     (ainsi que pour les debian 3.1r1, 3.1r2, etc.)
 * l'équivalent qui permet de dire que 2 objets sont en fait les memes. Il faudrait dans ce cas pouvoir fusionner
+
+→ zc.relationship ?
+
 
 parsing du noyau linux:
 =======================
@@ -51,6 +56,23 @@ par module du noyau, mais on se content de récupérer les modules.map des distr
 Le fait d'ajouter la catégorie Distribution Linux ajoute la possibilité d'uploader le modules.map
 et de créer un objet Report pour chaque ID rencontré. Cet objet report permet juste
 d'affirme que ça « peut » marcher, et de donner le nom du noyau linux concerné.
+update: Le probleme, tout ça ne permet pas de gérer les licences des modules, et donc de savoir si 
+un driver est libre ou non. Donc à la limite, il vaudrait mieux ne pas gérer les noyaux, mais associer directement
+les distros aux modules kernel.
+→ On revient à l'idée de départ. → liste de tous les kernels, et liste de tous les modules avec leurs versions.
+→ Il faut parser tous les noyaux linux vanilla à la recherche de :
+des PCI Ids, ou USB Ids, associés à des modules, et le n° de version, description du module.
+Tous ces objets pourront être invisibles pour certains utilisateurs débutants s'ils sont correctement catégorisés.
+
+Ok, le principe est de compiler un noyau avec l'option make allmodconfig, puis make, puis make INSTALL_MOD_PATH=`pwd` modules_install
+Ceci génère les fichiers de map pour l'architecture concernée. Il suffit ensuite d'injecter ce fichier en import.
+Le fichier modules.ofmap est vide, il faut surement compiler pour PPC pour avoir qque chose.
+Il faut répéter cette opération pour chaque noyau depuis le 2.6.0 (et peut-être 2.4.X) et pour toutes les architectures,
+en commençant avec intel.
+Comment exprimer le fait que deux objets nvidia 1.1 et nvidia 1.2 sont en fait les mêmes ?
+Il faut peut-être ne pas mettre le n° de version dans l'objet, et ne mettre la version que dans l'objet Report.
+Cela oblige à donner la version pour chaque report... Il suffirait d'indiquer dans le Report comment donner le n° de version.
+Cela permettrait d'éviter d'accumuler trop de versions différentes.
 
 
 Soumission matériel
@@ -64,7 +86,7 @@ Objet Software + choix type ? catégorie ?
 Type à choisir :
 - OperatingSystem (+ catégories : Linux Distribution, Proprietary OS, Realtime OS, ...=catégories d'OS)
 - Driver
-- Autre logiciel (SANE, freebob, a
+- Autre logiciel (SANE, freebob, alsa)
 - kernel ??
 Moyen de lier un software à une catégorie de matériel ? freebob ←→ cartes firewire
 

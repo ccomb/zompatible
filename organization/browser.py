@@ -72,7 +72,7 @@ class OrganizationEdit(EditForm):
         if string.lower(oldname)!=newname:
             renamer = ContainerItemRenamer(self.context.__parent__)
             renamer.renameItem(oldname, newname)
-            return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_organization.html")
+        return self.request.response.redirect(AbsoluteURL(self.context, self.request)()+"/edit_organization.html")
     def validate(self, action, data):
         u"on récupère les données du formulaire et on remplit data"
         getWidgetsData(self.widgets, 'form', data)
@@ -83,6 +83,7 @@ class OrganizationEdit(EditForm):
         u"on calcule le nouveau nom avec le dummy (un peu loourdingue)"
         newname = INameChooser(dummy).chooseName(u"",dummy)
         u"s'il existe déjà on retourne une erreur"
+        u"#####################  REMPLACER CA PAR LE CHECKNAME :"
         if newname in list(self.context.__parent__.keys()) and self.context != self.context.__parent__[newname]:
             return ("The name <i>"+newname+"</i> conflicts with another Organization",)
         return super(OrganizationEdit, self).validate(action, data)
