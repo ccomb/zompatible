@@ -1,4 +1,5 @@
     >>> from zompatible.organization.organization import Organization
+    >>> from zope.interface import providedBy
 
 We define a new organization
 
@@ -6,10 +7,24 @@ We define a new organization
     >>> nvidia.names
     []
     >>> nvidia.names.append(u'Nvidia')
-    >>> providedBy(nvidia)
+    >>> list(providedBy(nvidia))
+    [<InterfaceClass zompatible.organization.interfaces.IOrganization>,
+     <InterfaceClass zope.app.folder.interfaces.IFolder>,
+     <InterfaceClass persistent.interfaces.IPersistent>,
+     <InterfaceClass zope.app.component.interfaces.IPossibleSite>,
+     <InterfaceClass zope.app.container.interfaces.IContained>]
+
 
 We define a new product
 
     >>> nvs = Product()
-    >>> nvs.names[0] = u'NVS 110M'
+    >>> nvs.names[0] = u'Quadro NVS 110M'
+    >>> list(providedBy(nvs))
+    LIST OF INTERFACES (TO FILL)
+
+Now we tell that a product is categorizable
+
+    >>> provides(nvs, ICategorizable)
+    >>> registerAdapter(ProductCategories, ICategories, ICategorizable)
+    >>> categories = ICategories(nvs)
 
