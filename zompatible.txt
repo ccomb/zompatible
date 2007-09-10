@@ -1,0 +1,15 @@
+    >>> from zompatible.organization.organization import Organization
+
+We define a new organization
+
+    >>> nvidia = Organization()
+    >>> nvidia.names
+    []
+    >>> nvidia.names.append(u'Nvidia')
+    >>> providedBy(nvidia)
+
+We define a new product
+
+    >>> nvs = Product()
+    >>> nvs.names[0] = u'NVS 110M'
+
