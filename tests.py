@@ -24,6 +24,10 @@ class ExampleTestCase(unittest.TestCase):
               
     def test_example1(self):
         pass # here we do the tests
+
+    def test_example2(self):
+        pass # here we do the tests
+
     
     def tearDown(self):
         # we clean the setup
