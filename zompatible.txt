@@ -16,7 +16,7 @@ We define a new organization
 =======
 PRODUCT
 =======
-We define a new product (multi fonction printer/scanner/card reader)
+We define a new product (multi function USB printer/scanner/card reader)
 
 	>>> from zompatible.product.product import Product
     >>> multi = Product()
@@ -79,14 +79,36 @@ set with default values. A product associated with a category will get a copy
 of the category as a subProduct.
 
     >>> from zompatible.category.category import Category
-   	>>> printer = Category()
-   	>>> printer.name = u'Printer'
-   	>>> alsoProvides(printer, IHasResolution)
- 	>>> IResolution(printer).Name()
+   	>>> printerCategory = Category()
+   	>>> printerCategory.name = u'Printer'
+   	>>> alsoProvides(printerCategory, IHasResolution)
+ 	>>> IResolution(printerCategory).Name()
  	Resolution
-	>>> IResolution(printer).unit = 'dpi'
+	>>> IResolution(printerCategory).unit = 'dpi'
+	>>> from zompatible.category.category import IIsPrinter
+	>>> alsoProvides(printerCategory, IIsPrinter)
 	
-	>>> multi = printer
+Duplicate the category in order to create a new object and to
+add it as a newsub product to the multi function product:
+	>>> import copy
+	>>> printer = copy.deepcopy(printerCategory)
+	>>> multi.subProducts.append(printer)
+	
+Setting up the caracteristic of the printer:
+	>>> IResolution(printer).x = 4800
+	>>> IResolution(printer).y = 1200
+	>>> IResolution(printer).Display()
+	Name: Printer
+	Resolution: 4800 x 1200 dpi
+	>>> multi.Display()	
+	Name: Hewlett-Packard PhotoSmart C5180
+	Interface: USB
+	-----
+	Name: scanner
+	Resolution: 2400 x 4800 dpi
+	-----
+	Name: Printer
+	Resolution: 4800 x 1200 dpi
 
 ===	
 END
