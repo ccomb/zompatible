@@ -6,6 +6,9 @@ from zope.schema import TextLine
 
 from zope.interface import Interface
 
+###########
+# PRODUCTS
+###########
 class IProduct(Interface):
     """
     """
@@ -22,8 +25,10 @@ class Product(object):
     
     def __init__(self, context):
         self.context = context
-    
 
+#################    
+# CARACTERISTICS
+#################
 class IPrinter(Interface):
     """
     """
@@ -45,6 +50,30 @@ class HasPrinter(object):
     def Name(self):
         print u"Printer interface"
         return
+    
+
+##############
+# CATEGORIES
+##############
+import copy
+from zope.interface import directlyProvidedBy, directlyProvides
+
+class ICategory(IProduct):
+    """
+    """
+    pass
+
+class Category(Product):
+#    implements(ICategory)
+    
+    def __init__(self, context):
+        self.context = context
+        alsoProvides(self, ICategory)
+        
+    def NewProduct(self):
+        prod = copy.deepcopy(self)
+        directlyProvides(prod, directlyProvidedBy(prod) - ICategory)
+        return prod
 
 
 dev = Product("multi")
