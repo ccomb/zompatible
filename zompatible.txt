@@ -1,5 +1,5 @@
     >>> from zompatible.organization.organization import Organization
-    >>> from zope.interface import providedBy, alsoProvides
+    >>> from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directlyProvides
 
 We define a new organization
     >>> nvidia = Organization()
@@ -43,7 +43,7 @@ We verify that we can write/read through the IPhysInterface interface:
 	
 Now we will add the sub product scanner to the multifunction product.
 
-First we create the scanner product with the resolution:
+First we create a scanner product with the resolution:
 	>>> scanner = Product()
 	>>> scanner.name = u'scanner'
 	>>> from zompatible.caracteristic.interface import IResolution, IHasResolution
@@ -63,7 +63,9 @@ First we create the scanner product with the resolution:
 We add the sub product:
 	>>> multi.subProduct
 	[]
-	>>> multi.subProduct.append(scanner)
+	>>> multi.AddProduct(scanner)
+	>>> multi.subProduct
+	[ TODO ] 
 	>>> multi.Display()
 	Name: Hewlett-Packard PhotoSmart C5180
 	Interface: USB
@@ -90,9 +92,14 @@ of the category as a subProduct.
 	
 Duplicate the category in order to create a new object and to
 add it as a newsub product to the multi function product:
-	>>> import copy
-	>>> printer = copy.deepcopy(printerCategory)
+	>>> printer = printerCategory.NewProduct()
 	>>> multi.subProducts.append(printer)
+
+Retreiving the 	categories covered by the product:
+	>>> multi.GetCategories()
+
+Retreive the sub product given its category type:
+	>>> printer = multi.GetProduct(IIsPrinter)
 	
 Setting up the caracteristic of the printer:
 	>>> IResolution(printer).x = 4800
