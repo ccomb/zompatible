@@ -1,3 +1,6 @@
+from zope.interface import implements
+
+from interfaces import IProduct
 
 class Product(object):
     implements(IProduct)
@@ -6,3 +9,11 @@ class Product(object):
  
     def __init__(self, name=None):
         self.name = name
+        
+    def Display(self):
+        s = u'Name: %s' % self.name
+        return s
+    
+    
+
+

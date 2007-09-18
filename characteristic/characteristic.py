@@ -1,0 +1,104 @@
+from zope.interface import implements
+from zope.component import adapts
+
+from interfaces import *
+
+#################
+# ABSTRACT CLASS
+#################
+class Caracteristic(object):
+    """ Base class for any characteristic adapter. 
+    
+        It stores interface attributes into the adapted object.
+        These attributes are stored with the adapter class name
+        as prefix to be sure not to override any data of the object.
+        
+        The concrete characteristic class should adapt the
+        characteristicName attribute and the Display() method
+        to itself.
+    """
+    characteristicName = u'You should name this caracteristic'
+
+# PUBLIC
+
+    def __init__(self, context):
+        self.context = context
+
+    def Name(self):
+        """ Return the characteristic name.
+        """
+        return self.characteristicName
+
+    def Display(self):
+        """ Return the values of the caracteristic.
+        """
+        return u'Display the characteristic value overriding the Display() method'
+
+# PRIVATE
+
+    def InterfaceAttributes(self):
+        """ Return all the attributes from the interfaces implemented.
+        """
+        l = []
+        [l.extend(e.names()) for e in list(self.__provides__) ]
+        return l
+
+    def Prefix(self):
+        """ Return the adapter class name
+        """
+        l = str(self.__class__).split('\'')[1].split('.')
+        return l[len(l)-1]
+
+    def TranslateAttribute(self, key):
+        """ Return the key prefixed with the adapter class name.
+        """
+        return u'%s.%s' % (self.Prefix(), key)
+
+    def __getattr__(self, key):
+        if key in self.InterfaceAttributes():
+            # Get all object attributes that are not callable to verify that the key exists
+            attributeList = [e for e in dir(self.context) if not callable(getattr(self.context, e))]
+            key = self.TranslateAttribute(key)
+            if key in attributeList:
+                return getattr(self.context, key)
+            else:
+                return None
+        else:
+            object.__getattr__(self, key)
+        
+    def __setattr__(self, key, value):
+        if key in self.InterfaceAttributes():
+            key = self.TranslateAttribute(key)
+            setattr(self.context, key, value)
+        else:
+            object.__setattr__(self, key, value)
+
+###################
+# CONCRETE CLASSES
+###################
+
+class HasPhysInterface(Caracteristic):
+    implements(IPhysInterface)
+    adapts(IHasPhysInterface)
+    
+    characteristicName = u'Interface'
+
+    def Display(self):
+        # TODO : test values data (None)
+        return u'%s: %s' % (self.Name(), self.interface)
+
+
+class HasResolution(Caracteristic):
+    implements(IResolution)
+    adapts(IHasResolution)
+    
+    characteristicName = u'Resolution'
+   
+    def Display(self):
+        # TODO : test values data (None)
+        return u'%s: %dx%d%s' % (self.Name(),
+                                 self.x,
+                                 self.y,
+                                 self.unit
+                                 )
+        

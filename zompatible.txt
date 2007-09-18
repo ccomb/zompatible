@@ -1,17 +1,3 @@
-    >>> from zompatible.organization.organization import Organization
-    >>> from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directlyProvides
-
-We define a new organization
-    >>> nvidia = Organization()
-    >>> nvidia.names
-    []
-    >>> nvidia.names.append(u'Nvidia')
-    >>> list(providedBy(nvidia))
-    [<InterfaceClass zompatible.organization.interfaces.IOrganization>,
-     <InterfaceClass zope.app.folder.interfaces.IFolder>,
-     <InterfaceClass persistent.interfaces.IPersistent>,
-     <InterfaceClass zope.app.component.interfaces.IPossibleSite>,
-     <InterfaceClass zope.app.container.interfaces.IContained>]
 
 =======
 PRODUCT
@@ -19,24 +5,30 @@ PRODUCT
 We define a new product (multi function USB printer/scanner/card reader)
 
 	>>> from zompatible.product.product import Product
-    >>> multi = Product()
-    >>> multi.name = u'Hewlett-Packard PhotoSmart C5180'
+    >>> from zope.interface import providedBy, alsoProvides
+
+    >>> multi = Product(u'Hewlett-Packard PhotoSmart C5180')
     >>> list(providedBy(multi))
-    LIST OF INTERFACES (TO FILL)
-    >>> multi.Display()
+    [<InterfaceClass zompatible.product.interfaces.IProduct>]
+    >>> print multi.Display()
     Name: Hewlett-Packard PhotoSmart C5180
 
 The interface describing the physical interface is added to the product:
-	>>> from zompatible.caracteristic.interface import IHasPhysInterface, IPhysInterface
+    >>> from zope.interface import alsoProvides
+	>>> from zope.component import provideAdapter
+	>>> from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
+	>>> from zompatible.characteristic.characteristic import HasPhysInterface
+	
 	>>> alsoProvides(multi,IHasPhysInterface)
 	>>> provideAdapter(HasPhysInterface) # implement(IPhysInterface) adapts(IHasPhysInterface)
 	>>> IPhysInterface(multi).Name()
-	Interface
+	u'Interface'
+	
 	
 We verify that we can write/read through the IPhysInterface interface:
 	>>> IPhysInterface(multi).interface = u'USB'
 	>>> IPhysInterface(multi).Display()
-	USB
+	u'Interface: USB'
 	>>> multi.Display()
 	Name: Hewlett-Packard PhotoSmart C5180
 	Interface: USB
@@ -120,6 +112,21 @@ Setting up the caracteristic of the printer:
 ===	
 END
 ===	
+    >>> from zompatible.organization.organization import Organization
+    >>> from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directlyProvides
+
+We define a new organization
+    >>> nvidia = Organization()
+    >>> nvidia.names
+    []
+    >>> nvidia.names.append(u'Nvidia')
+    >>> list(providedBy(nvidia))
+    [<InterfaceClass zompatible.organization.interfaces.IOrganization>,
+     <InterfaceClass zope.app.folder.interfaces.IFolder>,
+     <InterfaceClass persistent.interfaces.IPersistent>,
+     <InterfaceClass zope.app.component.interfaces.IPossibleSite>,
+     <InterfaceClass zope.app.container.interfaces.IContained>]
+
 	
 	>>> usb = Caracteristic()
 	>>> usb.name = 'USB'
