@@ -89,6 +89,7 @@ list(providedBy(dev))
 
 from zompatible.product.product import Product
 from zope.interface import providedBy, alsoProvides
+from zope.component.interface import  provideInterface
 
 multi = Product(u'Hewlett-Packard PhotoSmart C5180')
 list(providedBy(multi))
@@ -98,6 +99,7 @@ from zope.component import provideAdapter
 from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
 from zompatible.characteristic.characteristic import HasPhysInterface
 
+provideInterface('', IPhysInterface)
 alsoProvides(multi,IHasPhysInterface)
 provideAdapter(HasPhysInterface) # implement(IPhysInterface) adapts(IHasPhysInterface)
 IPhysInterface(multi).Name()
@@ -110,6 +112,7 @@ multi.Display()
 from zompatible.characteristic.interfaces import IHasResolution, IResolution
 from zompatible.characteristic.characteristic import HasResolution
 
+provideInterface('', IResolution)
 alsoProvides(multi,IHasResolution)
 provideAdapter(HasResolution)
 IResolution(multi).x = 4800
@@ -117,5 +120,26 @@ IResolution(multi).y = 1200
 IResolution(multi).unit = u'dpi'
 
 IResolution(multi).Display()
+
+#from zope.component import queryAdapter
+from zope.component.interface import queryInterface
+from zope.component.interface import  provideInterface
+
+provideInterface('', IPhysInterface)
+str(list(providedBy(multi))[0]).strip('><').split()[1] 
+queryInterface('zompatible.characteristic.interfaces.IPhysInterface')
+
+def getCharacteristicInterfaces(obj):
+    l = list(providedBy(obj))
+    l = [str(e) for e in l]
+    l = [e for e in l if e.find('zompatible.characteristic.interfaces.') >= 0]
+    l = [ e.replace(u'interfaces.IHas',u'interfaces.I') for e in l ]
+    l = [e.strip('><').split()[1] for e in l]
+    l = [ queryInterface(e) for e in l ]
+    
+    return l
+
+
+
 
 

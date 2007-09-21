@@ -1,12 +1,14 @@
 from zope.interface import implements
 from zope.component import adapts
+from zope.interface import providedBy
+from zope.component.interface import queryInterface
 
 from interfaces import *
 
 #################
 # ABSTRACT CLASS
 #################
-class Caracteristic(object):
+class Characteristic(object):
     """ Base class for any characteristic adapter. 
     
         It stores interface attributes into the adapted object.
@@ -73,11 +75,21 @@ class Caracteristic(object):
         else:
             object.__setattr__(self, key, value)
 
+def getCharacteristicInterfaces(obj):
+    l = list(providedBy(obj))
+    l = [str(e) for e in l]
+    l = [e for e in l if e.find('zompatible.characteristic.interfaces.') >= 0]
+    l = [ e.replace(u'interfaces.IHas',u'interfaces.I') for e in l ]
+    l = [e.strip('><').split()[1] for e in l]
+    l = [ queryInterface(e) for e in l ]
+    
+    return l
+
 ###################
 # CONCRETE CLASSES
 ###################
 
-class HasPhysInterface(Caracteristic):
+class HasPhysInterface(Characteristic):
     implements(IPhysInterface)
     adapts(IHasPhysInterface)
     
@@ -88,7 +100,7 @@ class HasPhysInterface(Caracteristic):
         return u'%s: %s' % (self.Name(), self.interface)
 
 
-class HasResolution(Caracteristic):
+class HasResolution(Characteristic):
     implements(IResolution)
     adapts(IHasResolution)
     
