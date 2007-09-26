@@ -12,6 +12,7 @@ We define a new product (multi function USB printer/scanner/card reader)
     [<InterfaceClass zompatible.product.interfaces.IProduct>]
     >>> print multi.Display()
     Name: Hewlett-Packard PhotoSmart C5180
+    None
 
 The interface describing the physical interface is added to the product:
     >>> from zope.interface import alsoProvides
@@ -28,9 +29,10 @@ The interface describing the physical interface is added to the product:
 We verify that we can write/read through the IPhysInterface interface:
 	>>> IPhysInterface(multi).interface = u'USB'
 	>>> IPhysInterface(multi).Display()
-	u'Interface: USB'
+	Interface: USB
 	>>> multi.Display()
 	Name: Hewlett-Packard PhotoSmart C5180
+	Characteristics:
 	Interface: USB
 	
 Now we will add the sub product scanner to the multifunction product.
@@ -38,19 +40,21 @@ Now we will add the sub product scanner to the multifunction product.
 First we create a scanner product with the resolution:
 	>>> scanner = Product()
 	>>> scanner.name = u'scanner'
-	>>> from zompatible.caracteristic.interface import IResolution, IHasResolution
+	>>> from zompatible.characteristic.interfaces import IResolution, IHasResolution
+	>>> from zompatible.characteristic.characteristic import HasResolution
 	>>> alsoProvides(scanner, IHasResolution)
 	>>> provideAdapter(HasResolution) # implement(IResolution) adapts(IHasResolution)
 	>>> IResolution(scanner).Name()
-	Resolution
+	u'Resolution'
 	>>> IResolution(scanner).x = 2400
 	>>> IResolution(scanner).y = 4800
 	>>> IResolution(scanner).unit = 'dpi'
 	>>> IResolution(scanner).Display()
-	2400 x 4800 dpi
+	Resolution: 2400x4800 dpi
 	>>> scanner.Display()
 	Name: scanner
-	Resolution: 2400 x 4800 dpi
+	Characteristics:
+	Resolution: 2400x4800 dpi
 	
 We add the sub product:
 	>>> multi.subProduct

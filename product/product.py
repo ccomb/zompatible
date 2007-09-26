@@ -19,12 +19,15 @@ class Product(object):
         self.DisplayProducts()
     
     def DisplayCharacteristics(self):
-        s = u''
         l = getCharacteristicInterfaces(self)
-        for e in l:
-            s = u'\n'.join([s, e(self).Display()])
-        print s
+        if len(l) > 0:
+            print u'Characteristics:'
+            for e in l:
+#                s = u'\n'.join([s, e(self).Display()])
+                e(self).Display()
+            
+        
 
     def DisplayProducts(self):
-        return ""
+        pass
 

@@ -1,5 +1,8 @@
 from zope.interface import Interface
 from zope.schema import Choice, TextLine, Int
+from zope.component.interface import  provideInterface
+
+
 
 class IPhysInterface(Interface):
     """
@@ -15,6 +18,8 @@ class IHasPhysInterface(Interface):
     """ Marker interface
     """
     pass
+
+provideInterface('', IPhysInterface)
 
 class IResolution(Interface):
     """
@@ -40,3 +45,5 @@ class IHasResolution(Interface):
     """ Marker interface
     """
     pass
+
+provideInterface('', IResolution)

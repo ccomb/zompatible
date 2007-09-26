@@ -34,7 +34,7 @@ class Characteristic(object):
     def Display(self):
         """ Return the values of the caracteristic.
         """
-        return u'Display the characteristic value overriding the Display() method'
+        print u'Display the characteristic value overriding the Display() method'
 
 # PRIVATE
 
@@ -97,7 +97,7 @@ class HasPhysInterface(Characteristic):
 
     def Display(self):
         # TODO : test values data (None)
-        return u'%s: %s' % (self.Name(), self.interface)
+        print u'%s: %s' % (self.Name(), self.interface)
 
 
 class HasResolution(Characteristic):
@@ -108,7 +108,7 @@ class HasResolution(Characteristic):
    
     def Display(self):
         # TODO : test values data (None)
-        return u'%s: %dx%d%s' % (self.Name(),
+        print u'%s: %dx%d %s' % (self.Name(),
                                  self.x,
                                  self.y,
                                  self.unit
