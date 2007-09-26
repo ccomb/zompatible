@@ -7,9 +7,11 @@ class Product(object):
     implements(IProduct)
     
     name = u""
+    subProducts = []
  
     def __init__(self, name=None):
         self.name = name
+        self.subProducts = []
         
     def Display(self):
         # Display the product name
@@ -26,8 +28,10 @@ class Product(object):
 #                s = u'\n'.join([s, e(self).Display()])
                 e(self).Display()
             
-        
-
     def DisplayProducts(self):
-        pass
+        for e in self.subProducts:
+            print u'-----'
+            e.Display()
 
+    def AddProduct(self, product):
+        self.subProducts.append(product) 

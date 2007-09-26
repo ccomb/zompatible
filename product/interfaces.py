@@ -1,4 +1,4 @@
-from zope.schema import TextLine
+from zope.schema import TextLine, List
 from zope.interface import Interface
 
 
@@ -11,4 +11,8 @@ class IProduct(Interface):
                     required = True
                     )
 
-                    
+    subProducts = List(
+                    title = u"Sub products",
+                    description = u"Sub products describing specific categories",
+                    required = False
+                    )

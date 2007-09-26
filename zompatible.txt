@@ -37,7 +37,7 @@ We verify that we can write/read through the IPhysInterface interface:
 	
 Now we will add the sub product scanner to the multifunction product.
 
-First we create a scanner product with the resolution:
+First we create a scanner product with the resolution characteristic:
 	>>> scanner = Product()
 	>>> scanner.name = u'scanner'
 	>>> from zompatible.characteristic.interfaces import IResolution, IHasResolution
@@ -57,17 +57,19 @@ First we create a scanner product with the resolution:
 	Resolution: 2400x4800 dpi
 	
 We add the sub product:
-	>>> multi.subProduct
-	[]
+	>>> len(multi.subProducts)
+	0
 	>>> multi.AddProduct(scanner)
-	>>> multi.subProduct
-	[ TODO ] 
+	>>> len(multi.subProducts)
+	1
 	>>> multi.Display()
 	Name: Hewlett-Packard PhotoSmart C5180
+	Characteristics:
 	Interface: USB
 	-----
 	Name: scanner
-	Resolution: 2400 x 4800 dpi
+	Characteristics:
+	Resolution: 2400x4800 dpi
 
 ========
 CATEGORY
@@ -76,14 +78,14 @@ A category is virtual product, with all the needed caracteristic interfaces
 set with default values. A product associated with a category will get a copy
 of the category as a subProduct.
 
-    >>> from zompatible.category.category import Category
+    >>> from zompatible.categorynew.categorynew import Category
    	>>> printerCategory = Category()
    	>>> printerCategory.name = u'Printer'
    	>>> alsoProvides(printerCategory, IHasResolution)
  	>>> IResolution(printerCategory).Name()
  	Resolution
 	>>> IResolution(printerCategory).unit = 'dpi'
-	>>> from zompatible.category.category import IIsPrinter
+	>>> from zompatible.categorynew.categorynew import IIsPrinter
 	>>> alsoProvides(printerCategory, IIsPrinter)
 	
 Duplicate the category in order to create a new object and to
@@ -148,7 +150,7 @@ Now we tell that a product is categorizable
     
 Category creation (Scanner)
 
-    >>> from zompatible.category.category import Category
+    >>> from zompatible.categorynew.categorynew import Category
    	>>> scanner = Category()
    	>>> scanner.name = u'Scanner'
    	
