@@ -47,3 +47,20 @@ class IHasResolution(Interface):
     pass
 
 provideInterface('', IResolution)
+
+class IFlashCardSlots(Interface):
+    """
+    """
+    type = Choice (
+                   title = u"Flash cards slots",
+                   description = u"List of all the flash cards slots available",
+                   values=[u'CF', u'Merory Stick', u'SD'],
+                   required = True
+                   )
+
+class IHasFlashCardSlots(Interface):
+    """ Marker interface
+    """
+    pass
+
+provideInterface('', IFlashCardSlots)

@@ -110,7 +110,6 @@ class HasPhysInterface(Characteristic):
     characteristicName = u'Interface'
 
     def Display(self):
-        # TODO : test values data (None)
         if self.CanDisplay():
             print u'%s: %s' % (self.Name(), self.interface)
 
@@ -122,7 +121,6 @@ class HasResolution(Characteristic):
     characteristicName = u'Resolution'
    
     def Display(self):
-        # TODO : test values data (None)
         if self.CanDisplay():
             print u'%s: %dx%d %s' % (self.Name(),
                                      self.x,
@@ -130,3 +128,17 @@ class HasResolution(Characteristic):
                                      self.unit
                                      )
         
+class HasFlashCardSlots(Characteristic):
+    implements(IFlashCardSlots)
+    adapts(IHasFlashCardSlots)
+    
+    characteristicName = u'Flash card slots'
+   
+    def Display(self):
+        if self.CanDisplay():
+            s = u'%s: ' % self.Name()
+            for e in self.type:
+                s = s + e + u','
+            print s
+
+            

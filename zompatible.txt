@@ -71,6 +71,7 @@ We add the sub product:
 	Characteristics:
 	Resolution: 2400x4800 dpi
 	
+We delete a sub product knowing 
 
 ========
 CATEGORY
@@ -135,6 +136,39 @@ Setting up the caracteristic of the printer (good ones):
 	Name: Printer
 	Characteristics:
 	Resolution: 4800x1200 dpi
+	
+Adding a new category to the product:
+	>>> from zompatible.characteristic.interfaces import IFlashCardSlots, IHasFlashCardSlots
+	>>> from zompatible.categorynew.interfaces import IIsFlashCardReader
+	>>> from zompatible.characteristic.characteristic import HasFlashCardSlots
+		
+	>>> cardReaderCategory = Category(u'Card Reader')
+	>>> alsoProvides(cardReaderCategory, IIsFlashCardReader)
+	>>> alsoProvides(cardReaderCategory, IHasFlashCardSlots)
+	>>> provideAdapter(HasFlashCardSlots)
+	
+	>>> cf = cardReaderCategory.NewProduct()
+	>>> IFlashCardSlots(cf).type = [ u'CF', u'SD' ]
+	>>> multi.AddProduct(cf)
+	>>> multi.GetCategories()
+	['<InterfaceClass zompatible.categorynew.interfaces.IIsPrinter>', '<InterfaceClass zompatible.categorynew.interfaces.IIsFlashCardReader>']
+	
+	>>> multi.Display()
+	Name: Hewlett-Packard PhotoSmart C5180
+	Characteristics:
+	Interface: USB
+	-----
+	Name: Scanner
+	Characteristics:
+	Resolution: 2400x4800 dpi
+	-----
+	Name: Printer
+	Characteristics:
+	Resolution: 4800x1200 dpi
+	-----
+	Name: Card Reader
+	Characteristics:
+	Flash card slots: CF,SD,
 
 ===	
 END

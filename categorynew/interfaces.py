@@ -8,3 +8,7 @@ class IIsPrinter(Interface):
     """
     pass
 
+class IIsFlashCardReader(Interface):
+    """ Category marker interface
+    """
+    pass
