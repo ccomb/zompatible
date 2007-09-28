@@ -31,11 +31,6 @@ class Characteristic(object):
         """
         return self.characteristicName
 
-    def Display(self):
-        """ Return the values of the caracteristic.
-        """
-        print u'Display the characteristic value overriding the Display() method'
-
 # PRIVATE
 
     def InterfaceAttributes(self):
@@ -56,6 +51,23 @@ class Characteristic(object):
         """
         return u'%s.%s' % (self.Prefix(), key)
 
+# PUBLIC 
+    def CanDisplay(self):
+        """ Return True if data can be displayed. False, otherwise.
+            Data connot if at least one interface attribute is not initialized (==None)
+        """
+        for e in self.InterfaceAttributes():
+            if self.__getattr__(e) == None:
+                return False
+            
+        return True
+
+    def Display(self):
+        """ Return the values of the caracteristic.
+        """
+        if self.CanDisplay():
+            print u'Display the characteristic value overriding the Display() method'
+       
     def __getattr__(self, key):
         if key in self.InterfaceAttributes():
             # Get all object attributes that are not callable to verify that the key exists
@@ -66,6 +78,7 @@ class Characteristic(object):
             else:
                 return None
         else:
+            # If key is not in the interface, we call the default method
             object.__getattr__(self, key)
         
     def __setattr__(self, key, value):
@@ -73,6 +86,7 @@ class Characteristic(object):
             key = self.TranslateAttribute(key)
             setattr(self.context, key, value)
         else:
+            # If key is not in the interface, we call the default method
             object.__setattr__(self, key, value)
 
 def getCharacteristicInterfaces(obj):
@@ -97,7 +111,8 @@ class HasPhysInterface(Characteristic):
 
     def Display(self):
         # TODO : test values data (None)
-        print u'%s: %s' % (self.Name(), self.interface)
+        if self.CanDisplay():
+            print u'%s: %s' % (self.Name(), self.interface)
 
 
 class HasResolution(Characteristic):
@@ -108,9 +123,10 @@ class HasResolution(Characteristic):
    
     def Display(self):
         # TODO : test values data (None)
-        print u'%s: %dx%d %s' % (self.Name(),
-                                 self.x,
-                                 self.y,
-                                 self.unit
-                                 )
+        if self.CanDisplay():
+            print u'%s: %dx%d %s' % (self.Name(),
+                                     self.x,
+                                     self.y,
+                                     self.unit
+                                     )
         

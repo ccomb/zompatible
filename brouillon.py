@@ -140,6 +140,16 @@ def getCharacteristicInterfaces(obj):
     return l
 
 
+from zompatible.categorynew.category import Category
+printerCategory = Category(u'Printer')
+alsoProvides(printerCategory, IHasResolution)
+IResolution(printerCategory).Name()
+IResolution(printerCategory).unit = 'dpi'
+from zompatible.categorynew.interfaces import IIsPrinter
+alsoProvides(printerCategory, IIsPrinter)
+printer = printerCategory.NewProduct()
 
-
+IResolution(printer).x = 4800
+IResolution(printer).y = 1200
+IResolution(printer).Display()
 
