@@ -128,6 +128,15 @@ class HasResolution(Characteristic):
                                      self.unit
                                      )
         
+    def __cmp__(self, other):
+        """ TODO: units management !
+        """
+        reso1 = self.x  * self.y
+        reso2 = other.x * other.y
+
+        return cmp(reso1, reso2)
+ 
+        
 class HasFlashCardSlots(Characteristic):
     implements(IFlashCardSlots)
     adapts(IHasFlashCardSlots)

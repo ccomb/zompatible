@@ -1,3 +1,8 @@
+from persistent import Persistent
+
+from zope.app.folder.folder import Folder
+from zope.app.folder.interfaces import IFolder
+
 from zope.interface import implements, providedBy
 
 from zompatible.characteristic.characteristic import getCharacteristicInterfaces
@@ -5,15 +10,16 @@ from zompatible.categorynew.utilities import getCategoryInterfaces
 
 from interfaces import *
 
-class Product(object):
-    implements(IProduct)
+class Product(Folder):
+    implements(IProduct, IFolder)
     
-    name = u""
-    subProducts = []
- 
     def __init__(self, name=None):
+        Folder.__init__(self)
+        self.__name__ = name
+        self.__parent__ = None
+
         self.name = name
-        self.subProducts = []
+        self.categories = []
         
     def Display(self):
         # Display the product name
@@ -30,31 +36,32 @@ class Product(object):
                 e(self).Display()
             
     def DisplayProducts(self):
-        for e in self.subProducts:
+        for e in self.items():
             print u'-----'
-            e.Display()
+            e[1].Display()
 
-    def AddProduct(self, product):
-        u""" Add a sub product to the product
-        """
-        self.subProducts.append(product) 
-        
     def GetCategories(self):
-        u""" Return the list of categories the product belongs to. 
+        u""" Return the list of categories names the product belongs to. 
         """
-        cat = getCategoryInterfaces(self)
-        for e in self.subProducts:
-            cat.extend(getCategoryInterfaces(e))
+        cat = []
+        for e in self.categories:
+            cat.append(e.name)
+        for e in self.items():
+            cat.extend(e[1].GetCategories())
         return cat
     
     def GetProduct(self, category):
-        if category.providedBy(self):
-            return self
-        else:
-            for e in self.subProducts:
-                if category.providedBy(e):
-                    return e.GetProduct(category)
-            return None
+        u""" Return a sub product that belongs to the category
+        """
+        for e in self.categories:
+            if category == e.name:
+                return self
 
+        for e in self.items():
+            obj = e[1].GetProduct(category)
+            if obj != None:
+                return obj
 
-    
+        return None
+
+        

@@ -14,4 +14,5 @@ class Category(Product):
     def NewProduct(self):
         prod = copy.deepcopy(self)
         directlyProvides(prod, directlyProvidedBy(prod) - ICategory)
+        prod.categories.append(self)
         return prod

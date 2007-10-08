@@ -2,9 +2,12 @@ from zope.interface import Interface
 from zope.schema import Choice, TextLine, Int
 from zope.component.interface import  provideInterface
 
+class ICharacteristic(Interface):
+    """ Marker interface
+    """
+    pass
 
-
-class IPhysInterface(Interface):
+class IPhysInterface(ICharacteristic):
     """
     """
     interface = Choice (
@@ -21,7 +24,7 @@ class IHasPhysInterface(Interface):
 
 provideInterface('', IPhysInterface)
 
-class IResolution(Interface):
+class IResolution(ICharacteristic):
     """
     """
     x = Int (
@@ -48,7 +51,7 @@ class IHasResolution(Interface):
 
 provideInterface('', IResolution)
 
-class IFlashCardSlots(Interface):
+class IFlashCardSlots(ICharacteristic):
     """
     """
     type = Choice (

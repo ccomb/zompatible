@@ -11,8 +11,11 @@ class IProduct(Interface):
                     required = True
                     )
 
-    subProducts = List(
-                    title = u"Sub products",
-                    description = u"Sub products describing specific categories",
-                    required = False
-                    )
+    """ Sould it be a list or only one category ? (As the product should contain
+         sub products describing each category)
+    """ 
+    Categories = List(
+                      title = u"Categories",
+                      description = u"List of categories the product belongs to",
+                      required = False
+                      )
