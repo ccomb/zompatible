@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+
+<adapter factory=".characteristic.HasPhysInterface" 
+		 for=".interfaces.IHasPhysInterface"
+		 trusted="True" />
+
+<class class=".characteristic.HasPhysInterface">
+	<require permission="zope.View"            interface =".interfaces.IPhysInterface" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.IPhysInterface" />
+</class>
+
+
+<include package=".browser" />
+
+</configure>

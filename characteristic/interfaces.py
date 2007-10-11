@@ -5,7 +5,9 @@ from zope.component.interface import  provideInterface
 class ICharacteristic(Interface):
     """ Marker interface
     """
-    pass
+    def Name(self):
+        u""" Return the characteristic name.
+        """
 
 class IPhysInterface(ICharacteristic):
     """

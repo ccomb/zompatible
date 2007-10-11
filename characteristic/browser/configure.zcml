@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/browser"
+    >
+
+<page
+ 	for="zompatible.characteristic.interfaces.IHasPhysInterface"
+	name="edit_phys_interface.html"
+    class=".characteristic.PhysInterfaceEditForm"
+    permission="zope.ManageContent"
+    menu="zmi_views" title="Edit Interface"
+/>
+
+</configure>

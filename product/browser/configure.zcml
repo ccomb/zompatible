@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/browser"
+    >
+
+
+<page
+ 	for="zompatible.product.interfaces.IProduct"
+	name="index.html"
+	class=".product.ProductView"
+	permission="zope.View"
+/>
+
+<page
+ 	for="zompatible.product.interfaces.IProduct"
+	name="edit.html"
+    class=".product.ProductEditForm"
+    permission="zope.ManageContent"
+    menu="zmi_views" title="Edit"
+/>
+
+
+<configure package="zope.app.preview">
+    <page
+	 	for="zompatible.product.interfaces.IProduct"
+	    name="preview.html"
+       	template="preview.pt"
+       	permission="zope.ManageContent"
+       	menu="zmi_views" title="Preview"
+        />
+</configure>
+
+
+<addMenuItem
+      title="Product"
+      factory="zompatible.Product"
+      permission="zope.ManageContent"
+/> 
+
+
+</configure>

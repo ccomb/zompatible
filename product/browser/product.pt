@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:tal="http://xml.zope.org/namespaces/tal" 
+    xmlns:metal="http://xml.zope.org/namespaces/metal" 
+    xml:lang="en" lang="en"
+    metal:use-macro="context/@@standard_macros/page"
+>
+
+<body>
+
+	<div id="body" metal:fill-slot="body">
+
+		<table>
+			<tr>
+				<td>Product name:</td>
+				<td><tal:var replace="context/name">my_name</tal:var></td>
+			</tr>
+				<td>Categories:</td>				
+				<td>
+					<ul>
+						<li tal:repeat="category context/categories"
+							tal:replace="category/name">category_name</li>
+					</ul>
+				</td>				
+			<tr>
+				
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+
+</html>

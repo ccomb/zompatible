@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+<class class=".product.Product">
+	<require permission="zope.View"          interface =".interfaces.IProduct zope.app.folder.interfaces.IFolder" />
+	<require permission="zope.ManageContent" set_schema=".interfaces.IProduct" />
+</class>
+
+<utility
+    component=".product.productFactory"
+    name="zompatible.Product"
+    permission="zope.Public"
+/>
+
+<include package=".browser" />
+
+</configure>

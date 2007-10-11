@@ -26,6 +26,8 @@
 <include package=".category" />
 <include package=".ids" />
 <include package=".search" />
+<include package=".product" />
+<include package=".characteristic" />
 
 
 

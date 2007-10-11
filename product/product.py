@@ -3,10 +3,12 @@ from persistent import Persistent
 from zope.app.folder.folder import Folder
 from zope.app.folder.interfaces import IFolder
 
-from zope.interface import implements, providedBy
+from zope.interface import implements, providedBy, alsoProvides
+from zope.component.factory import Factory
 
 from zompatible.characteristic.characteristic import getCharacteristicInterfaces
 from zompatible.categorynew.utilities import getCategoryInterfaces
+from zompatible.characteristic.interfaces import IHasPhysInterface
 
 from interfaces import *
 
@@ -20,6 +22,7 @@ class Product(Folder):
 
         self.name = name
         self.categories = []
+        alsoProvides(self, IHasPhysInterface)
         
     def Display(self):
         # Display the product name
@@ -63,5 +66,11 @@ class Product(Folder):
                 return obj
 
         return None
+
+productFactory = Factory(
+                         Product,
+                         title=u"Product factory",
+                         description = u"This factory instantiates a new Product."
+                         )
 
         
