@@ -39,9 +39,19 @@ class CharacteristicBase(object):
         """ Return all the attributes from the interfaces implemented.
         """
         l = []
-        [l.extend(e.names()) for e in list(self.__provides__) ]
+        for e in list(self.__provides__):
+            l.extend(e.names())
         return l
-
+    
+    def InterfaceAttributesType(self):
+        l = []
+        for e in list(self.__provides__):
+            l.extend(e.namesAndDescriptions())
+        d = {}
+        for e in l:
+            d[e[0]] = e[1].__class__.__name__
+        return d
+        
     def Prefix(self):
         """ Return the adapter class name
         """
@@ -61,6 +71,8 @@ class CharacteristicBase(object):
         for e in self.InterfaceAttributes():
             if self.__getattr__(e) == None:
                 return False
+            elif self.__getattr__(e) == []:
+                return False
             
         return True
 
@@ -78,10 +90,13 @@ class CharacteristicBase(object):
         if key in self.InterfaceAttributes():
             # Get all object attributes that are not callable to verify that the key exists
             attributeList = [e for e in dir(self.context) if not callable(getattr(self.context, e))]
-            key = self.TranslateAttribute(key)
-            if key in attributeList:
-                return getattr(self.context, key)
+            prefixedKey = self.TranslateAttribute(key)
+            if prefixedKey in attributeList:
+                return getattr(self.context, prefixedKey)
             else:
+                # Default initial value depends on the field type
+                if self.InterfaceAttributesType()[key] == 'List':
+                    return []
                 return None
         else:
             # If key is not in the interface, we call the default method
@@ -89,8 +104,8 @@ class CharacteristicBase(object):
         
     def __setattr__(self, key, value):
         if key in self.InterfaceAttributes():
-            key = self.TranslateAttribute(key)
-            setattr(self.context, key, value)
+            prefixedKey = self.TranslateAttribute(key)
+            setattr(self.context, prefixedKey, value)
         else:
             # If key is not in the interface, we call the default method
             object.__setattr__(self, key, value)
@@ -276,10 +291,31 @@ class HasFlashCardSlots(CharacteristicBase):
 
     def __str__(self):
         if self.CanDisplay():
-            s = u'%s: %s' % (self.Name(), self.type)
+            s = u'%s: ' % self.Name()
+            for e in self.type:
+                s = s + e + u','
             return s
         else:
             return u''
 
+class HasPaperFormat(CharacteristicBase):
+    implements(IPaperFormat)
+    adapts(IHasPaperFormat)
+    
+    characteristicName = u'Paper format'
+   
+    def Display(self):
+        if self.CanDisplay():
+            s = u'%s: %s' % (self.Name(), self.paperType)
+            print s
+
+    def __str__(self):
+        if self.CanDisplay():
+            s = u'%s: ' % self.Name()
+            for e in self.paperType:
+                s = s + e + u','
+            return s
+        else:
+            return u''
 
             

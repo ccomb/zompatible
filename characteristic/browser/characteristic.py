@@ -1,10 +1,7 @@
 from zope.formlib.form import EditForm, Fields
 
-from zompatible.characteristic.interfaces import ICharacteristicManager, \
-                                                 ICharacteristic, \
-                                                 IPhysInterface,  \
-                                                 IResolution, \
-                                                 IFlashCardSlots
+from zompatible.characteristic.interfaces import *
+
 
 class CharacteristicEditForm(EditForm):
     
@@ -33,3 +30,7 @@ class FlashCardSlotsEditForm(CharacteristicEditForm):
     """
     form_fields = Fields(IFlashCardSlots)       
         
+class PaperFormatEditForm(CharacteristicEditForm):
+    u""" Allows a characteristic edition.
+    """
+    form_fields = Fields(IPaperFormat)       

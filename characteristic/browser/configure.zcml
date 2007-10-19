@@ -34,4 +34,12 @@
     menu="zmi_views" title="Edit FlashCardSlots"
 />
 
+<page
+ 	for="zompatible.characteristic.interfaces.IHasPaperFormat"
+	name="editPaperFormat.html"
+    class=".characteristic.PaperFormatEditForm"
+    permission="zope.ManageContent"
+    menu="zmi_views" title="Edit paper format"
+/>
+
 </configure>

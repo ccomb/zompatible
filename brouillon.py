@@ -105,12 +105,13 @@ alsoProvides(multi, ICharacterizable)
 list(providedBy(multi))
 multi.Display()
 
-from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
-from zompatible.characteristic.characteristic import HasPhysInterface
+from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface, IFlashCardSlots
+from zompatible.characteristic.characteristic import HasPhysInterface, HasFlashCardSlots
 
 provideInterface('', IPhysInterface)
 alsoProvides(multi,IHasPhysInterface)
 provideAdapter(HasPhysInterface) # implement(IPhysInterface) adapts(IHasPhysInterface)
+provideAdapter(HasFlashCardSlots)
 IPhysInterface(multi).Name()
 
 IPhysInterface(multi).interface = u'USB'
@@ -148,7 +149,7 @@ ICharacteristicManager(multi).characteristicInterfaces = [ u'Flash card slots' ]
 ICharacteristicManager(multi).characteristicInterfaces
 list(directlyProvidedBy(multi))
 
-
+IFlashCardSlots(multi).InterfaceAttributesType
 
 
 from zope.component import getUtility

@@ -106,10 +106,12 @@ provideInterface('', IHasResolution)
 class IFlashCardSlots(ICharacteristic):
     u""" Flash card reader characteristics.
     """
-    type = Choice(
+    type = List(
                   title = u"Flash cards slot",
                   description = u"flash card slot",
-                  values=[u'CF', u'Memory Stick', u'SD'],
+                  value_type = Choice(
+                                      values=[u'CF', u'Memory Stick', u'SD']
+                                      ),
                   required = True
                   )
 
@@ -120,3 +122,24 @@ class IHasFlashCardSlots(Interface):
 
 provideInterface('', IFlashCardSlots)
 provideInterface('', IHasFlashCardSlots)
+
+class IPaperFormat(ICharacteristic):
+    u""" Describe the paper formats supported.
+    """
+    paperType = List (
+                      title = u"Paper format",
+                      description = u"Paper format",
+                      value_type = Choice(
+                                          values=[u'A3', u'A4', u'A6', u'A7']
+                                          ),
+                      required = True
+                      )
+
+class IHasPaperFormat(Interface):
+    u""" Marker interface
+    """
+    pass
+
+provideInterface('', IPaperFormat)
+provideInterface('', IHasPaperFormat)
+

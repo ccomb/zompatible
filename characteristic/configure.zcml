@@ -45,6 +45,14 @@
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IFlashCardSlots" />
 </class>
 
+<adapter factory=".characteristic.HasPaperFormat" 
+		 trusted="True" />
+
+<class class=".characteristic.HasPaperFormat">
+	<require permission="zope.View"            interface =".interfaces.IPaperFormat" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.IPaperFormat" />
+</class>
+
 
 <include package=".browser" />
 
