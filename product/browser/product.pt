@@ -16,6 +16,7 @@
 				<td>Product name:</td>
 				<td><tal:var replace="context/name">my_name</tal:var></td>
 			</tr>
+			<tr>
 				<td>Categories:</td>				
 				<td>
 					<ul>
@@ -23,8 +24,15 @@
 							tal:replace="category/name">category_name</li>
 					</ul>
 				</td>				
+			</tr>
 			<tr>
-				
+				<td>Characteristics:</td>
+				<td>
+					<ul>
+						<li tal:repeat="charact view/char"
+							tal:content="charact">characteristic</li>
+					</ul>
+				</td>
 			</tr>
 		</table>
 

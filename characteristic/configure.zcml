@@ -1,13 +1,48 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
+<adapter factory=".characteristic.CharacteristicManager" 
+		 trusted="True" />
+
+<class class=".characteristic.CharacteristicManager">
+	<require permission="zope.View"            interface =".interfaces.ICharacteristicManager" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.ICharacteristicManager" />
+</class>
+
+<utility component=".characteristic.characteristicNameVocabulary"
+		 name="Characteristic Names"
+		 provides="zope.schema.interfaces.IVocabularyFactory"
+/>
+
+<adapter factory=".characteristic.Characteristic" 
+		 trusted="True" />
+
+<class class=".characteristic.Characteristic">
+	<require permission="zope.View"            interface =".interfaces.ICharacteristic" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.ICharacteristic" />
+</class>
 
 <adapter factory=".characteristic.HasPhysInterface" 
-		 for=".interfaces.IHasPhysInterface"
 		 trusted="True" />
 
 <class class=".characteristic.HasPhysInterface">
 	<require permission="zope.View"            interface =".interfaces.IPhysInterface" />
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IPhysInterface" />
+</class>
+
+<adapter factory=".characteristic.HasResolution" 
+		 trusted="True" />
+
+<class class=".characteristic.HasResolution">
+	<require permission="zope.View"            interface =".interfaces.IResolution" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.IResolution" />
+</class>
+
+<adapter factory=".characteristic.HasFlashCardSlots" 
+		 trusted="True" />
+
+<class class=".characteristic.HasFlashCardSlots">
+	<require permission="zope.View"            interface =".interfaces.IFlashCardSlots" />
+	<require permission="zope.ManageContent"   set_schema=".interfaces.IFlashCardSlots" />
 </class>
 
 

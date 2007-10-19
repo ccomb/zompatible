@@ -88,14 +88,23 @@ list(providedBy(dev))
 #######################################
 
 from zompatible.product.product import Product
-from zope.interface import providedBy, alsoProvides
+from zompatible.product.interfaces import IProduct
+from zope.interface import providedBy, alsoProvides, directlyProvidedBy
 from zope.component.interface import  provideInterface
-
-multi = Product(u'Hewlett-Packard PhotoSmart C5180')
-list(providedBy(multi))
-print multi.Display()
 from zope.interface import alsoProvides
 from zope.component import provideAdapter
+
+multi = Product(u'Hewlett-Packard PhotoSmart C5180')
+
+from zompatible.characteristic.characteristic import CharacteristicManager
+from zompatible.characteristic.interfaces import ICharacterizable, ICharacteristicManager
+
+provideAdapter(CharacteristicManager)
+alsoProvides(multi, ICharacterizable)
+
+list(providedBy(multi))
+multi.Display()
+
 from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
 from zompatible.characteristic.characteristic import HasPhysInterface
 
@@ -109,17 +118,43 @@ IPhysInterface(multi).Display()
 
 multi.Display()
 
-from zompatible.characteristic.interfaces import IHasResolution, IResolution
+from zompatible.characteristic.interfaces import *
 from zompatible.characteristic.characteristic import HasResolution
 
 provideInterface('', IResolution)
 alsoProvides(multi,IHasResolution)
 provideAdapter(HasResolution)
 IResolution(multi).x = 4800
+
 IResolution(multi).y = 1200
 IResolution(multi).unit = u'dpi'
 
 IResolution(multi).Display()
+
+# CHARACTERIZABLE
+
+ICharacteristicManager(multi).AvailableList()
+ICharacteristicManager(multi).CurrentList()
+
+ICharacteristicManager(multi).Add(IFlashCardSlots)
+ICharacteristicManager(multi).CurrentList()
+list(directlyProvidedBy(multi))
+ICharacteristicManager(multi).Remove(IFlashCardSlots)
+ICharacteristicManager(multi).CurrentList()
+list(directlyProvidedBy(multi))
+
+ICharacteristicManager(multi).characteristicInterfaces
+ICharacteristicManager(multi).characteristicInterfaces = [ u'Flash card slots' ]
+ICharacteristicManager(multi).characteristicInterfaces
+list(directlyProvidedBy(multi))
+
+
+
+
+from zope.component import getUtility
+from zope.schema.interfaces import  IVocabularyFactory
+interfaces_factory = getUtility(IVocabularyFactory, u"Interfaces")
+interfaces = interfaces_factory(multi)
 
 #from zope.component import queryAdapter
 from zope.component.interface import queryInterface

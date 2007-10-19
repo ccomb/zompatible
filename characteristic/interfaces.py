@@ -1,16 +1,64 @@
 from zope.interface import Interface
-from zope.schema import Choice, TextLine, Int
+from zope.interface.interfaces import IInterface
+from zope.schema import Choice, TextLine, Int, List, Iterable
 from zope.component.interface import  provideInterface
 
-class ICharacteristic(Interface):
-    """ Marker interface
+class ICharacterizable(Interface):
+    u""" Marker interface to be able to provide ICharactericManager on any object.
     """
+
+class ICharacteristicManager(Interface):
+    u""" This interface manages characteristic interfaces that can be provided by a
+         ICharacterizable object
+    """
+    characteristicInterfaces = List(title=u"Characteristics", 
+                                    description=u"Characteristics that can be provided by a ICharacterizable", 
+                                    value_type=Choice(
+                                                      title=u'Name', 
+                                                      description=u'Characteristic Names', 
+                                                      vocabulary="Characteristic Names"
+                                                      )
+                                    )
+
+    def Add(self, iface):
+        u""" Add the characteristic "iface"
+        """
+
+    def Remove(self, iface):
+        u""" Remove the characteristic interface "iface"
+             TODO: Should it also remove the values stored in the object ?
+        """
+    def Provides(self, ifaceList):
+        u""" Replace characteristics by those provided in ifaceList (list of interfaces NAMES). 
+        """
+    def CurrentList(self):
+        u""" Return all the characteristic interfaces NAMES provided by an object
+        """
+    def AvailableList(self):
+        u""" Return all the characteristic available as a list of tuples:
+            - name of the characteristic,
+            - characteristic description (__doc__ of the Interface),
+            - marker interface NAME (needs a queryInterface() call to be used),
+            - interface NAME (needs a queryInterface())
+        """
+
+class ICharacteristic(Interface):
+    u""" Base interface for characteristitics
+    """
+
     def Name(self):
         u""" Return the characteristic name.
         """
+    
+    def __str__(self,context):
+        u"""
+        """
+
+provideInterface('', ICharacteristic)
+
 
 class IPhysInterface(ICharacteristic):
-    """
+    u""" Describe a physical interface (USB, PCI, ...)
     """
     interface = Choice (
                         title = u"Physical interface",
@@ -20,14 +68,15 @@ class IPhysInterface(ICharacteristic):
                         )
     
 class IHasPhysInterface(Interface):
-    """ Marker interface
+    u""" Marker interface
     """
     pass
 
 provideInterface('', IPhysInterface)
+provideInterface('', IHasPhysInterface)
 
 class IResolution(ICharacteristic):
-    """
+    u""" Resolution parameter.
     """
     x = Int (
              title = u"X",
@@ -47,25 +96,27 @@ class IResolution(ICharacteristic):
                   )
     
 class IHasResolution(Interface):
-    """ Marker interface
+    u""" Marker interface
     """
     pass
 
 provideInterface('', IResolution)
+provideInterface('', IHasResolution)
 
 class IFlashCardSlots(ICharacteristic):
+    u""" Flash card reader characteristics.
     """
-    """
-    type = Choice (
-                   title = u"Flash cards slots",
-                   description = u"List of all the flash cards slots available",
-                   values=[u'CF', u'Merory Stick', u'SD'],
-                   required = True
-                   )
+    type = Choice(
+                  title = u"Flash cards slot",
+                  description = u"flash card slot",
+                  values=[u'CF', u'Memory Stick', u'SD'],
+                  required = True
+                  )
 
 class IHasFlashCardSlots(Interface):
-    """ Marker interface
+    u""" Marker interface
     """
     pass
 
 provideInterface('', IFlashCardSlots)
+provideInterface('', IHasFlashCardSlots)

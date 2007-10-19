@@ -3,12 +3,11 @@ from persistent import Persistent
 from zope.app.folder.folder import Folder
 from zope.app.folder.interfaces import IFolder
 
-from zope.interface import implements, providedBy, alsoProvides
+from zope.interface import implements
+from zope.component.interface import queryInterface
 from zope.component.factory import Factory
 
-from zompatible.characteristic.characteristic import getCharacteristicInterfaces
-from zompatible.categorynew.utilities import getCategoryInterfaces
-from zompatible.characteristic.interfaces import IHasPhysInterface
+from zompatible.characteristic.interfaces import ICharacteristicManager
 
 from interfaces import *
 
@@ -22,7 +21,6 @@ class Product(Folder):
 
         self.name = name
         self.categories = []
-        alsoProvides(self, IHasPhysInterface)
         
     def Display(self):
         # Display the product name
@@ -32,11 +30,12 @@ class Product(Folder):
         self.DisplayProducts()
     
     def DisplayCharacteristics(self):
-        l = getCharacteristicInterfaces(self)
+        l = ICharacteristicManager(self).CurrentList()
         if len(l) > 0:
             print u'Characteristics:'
             for e in l:
-                e(self).Display()
+                iface = queryInterface(e)
+                iface(self).Display()
             
     def DisplayProducts(self):
         for e in self.items():

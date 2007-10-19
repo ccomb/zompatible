@@ -3,6 +3,8 @@
 <class class=".product.Product">
 	<require permission="zope.View"          interface =".interfaces.IProduct zope.app.folder.interfaces.IFolder" />
 	<require permission="zope.ManageContent" set_schema=".interfaces.IProduct" />
+	<!-- We make products characterizable -->
+	<implements interface="zompatible.characteristic.interfaces.ICharacterizable" />
 </class>
 
 <utility
