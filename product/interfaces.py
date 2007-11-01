@@ -20,10 +20,10 @@ class IProduct(Interface):
                       required = False
                       )
     
-    def Display(self):
+    def Display( ):
         u"""
         """
         
-    def DisplayCharacteristics(self):
+    def DisplayCharacteristics( ):
         u"""
         """

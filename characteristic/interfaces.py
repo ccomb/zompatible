@@ -4,7 +4,7 @@ from zope.schema import Choice, TextLine, Int, List, Iterable
 from zope.component.interface import  provideInterface
 
 class ICharacterizable(Interface):
-    u""" Marker interface to be able to provide ICharactericManager on any object.
+    u""" Marker interface to be able to provide ICharacteristicManager on any object.
     """
 
 class ICharacteristicManager(Interface):
