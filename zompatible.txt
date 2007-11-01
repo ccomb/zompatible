@@ -4,77 +4,77 @@ PRODUCT
 =======
 We define a new product (multi function USB printer/scanner/card reader)
 
-	>>> from zompatible.product.product import Product
+    >>> from zompatible.product.product import Product
     >>> from zope.interface import providedBy, alsoProvides
 
     >>> multi = Product(u'Hewlett-Packard PhotoSmart C5180')
     >>> list(providedBy(multi))
-	[<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.folder.interfaces.IFolder>, <InterfaceClass persistent.interfaces.IPersistent>, <InterfaceClass zope.app.component.interfaces.IPossibleSite>, <InterfaceClass zope.app.container.interfaces.IContained>]
-	>>> from zompatible.characteristic.characteristic import Characteristic
-	>>> from zope.component import provideAdapter
-	>>> provideAdapter(Characteristic)
+    [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.folder.interfaces.IFolder>, <InterfaceClass persistent.interfaces.IPersistent>, <InterfaceClass zope.app.component.interfaces.IPossibleSite>, <InterfaceClass zope.app.container.interfaces.IContained>]
+    >>> from zompatible.characteristic.characteristic import Characteristic
+    >>> from zope.component import provideAdapter
+    >>> provideAdapter(Characteristic)
     >>> print multi.Display()
     Name: Hewlett-Packard PhotoSmart C5180
     None
 
 The interface describing the physical interface is added to the product:
     >>> from zope.interface import alsoProvides
-	>>> from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
-	>>> from zompatible.characteristic.characteristic import HasPhysInterface
-	
-	>>> alsoProvides(multi,IHasPhysInterface)
-	>>> provideAdapter(HasPhysInterface) # implement(IPhysInterface) adapts(IHasPhysInterface)
-	>>> IPhysInterface(multi).Name()
-	u'Interface'
-	
-	
+    >>> from zompatible.characteristic.interfaces import IHasPhysInterface, IPhysInterface
+    >>> from zompatible.characteristic.characteristic import HasPhysInterface
+    
+    >>> alsoProvides(multi,IHasPhysInterface)
+    >>> provideAdapter(HasPhysInterface) # implement(IPhysInterface) adapts(IHasPhysInterface)
+    >>> IPhysInterface(multi).Name()
+    u'Interface'
+    
+    
 We verify that we can write/read through the IPhysInterface interface:
-	>>> IPhysInterface(multi).interface = u'USB'
-	>>> IPhysInterface(multi).Display()
-	Interface: USB
-	>>> str(IPhysInterface(multi))
-	'Interface: USB'
-	>>> multi.Display()
-	Name: Hewlett-Packard PhotoSmart C5180
-	Characteristics:
-	Interface: USB
-	
+    >>> IPhysInterface(multi).interface = u'USB'
+    >>> IPhysInterface(multi).Display()
+    Interface: USB
+    >>> str(IPhysInterface(multi))
+    'Interface: USB'
+    >>> multi.Display()
+    Name: Hewlett-Packard PhotoSmart C5180
+    Characteristics:
+    Interface: USB
+    
 Now we will add the sub product scanner to the multifunction product.
 
 First we create a scanner product with the resolution characteristic:
-	>>> scanner = Product()
-	>>> scanner.name = u'Scanner'
-	>>> from zompatible.characteristic.interfaces import IResolution, IHasResolution
-	>>> from zompatible.characteristic.characteristic import HasResolution
-	>>> alsoProvides(scanner, IHasResolution)
-	>>> provideAdapter(HasResolution) # implement(IResolution) adapts(IHasResolution)
-	>>> IResolution(scanner).Name()
-	u'Resolution'
-	>>> IResolution(scanner).x = 2400
-	>>> IResolution(scanner).y = 4800
-	>>> IResolution(scanner).unit = 'dpi'
-	>>> IResolution(scanner).Display()
-	Resolution: 2400x4800 dpi
-	>>> scanner.Display()
-	Name: Scanner
-	Characteristics:
-	Resolution: 2400x4800 dpi
-	
+    >>> scanner = Product()
+    >>> scanner.name = u'Scanner'
+    >>> from zompatible.characteristic.interfaces import IResolution, IHasResolution
+    >>> from zompatible.characteristic.characteristic import HasResolution
+    >>> alsoProvides(scanner, IHasResolution)
+    >>> provideAdapter(HasResolution) # implement(IResolution) adapts(IHasResolution)
+    >>> IResolution(scanner).Name()
+    u'Resolution'
+    >>> IResolution(scanner).x = 2400
+    >>> IResolution(scanner).y = 4800
+    >>> IResolution(scanner).unit = 'dpi'
+    >>> IResolution(scanner).Display()
+    Resolution: 2400x4800 dpi
+    >>> scanner.Display()
+    Name: Scanner
+    Characteristics:
+    Resolution: 2400x4800 dpi
+    
 We add the sub product:
-	>>> len(multi)
-	0
-	>>> multi[scanner.name] = scanner
-	>>> len(multi)
-	1
-	>>> multi.Display()
-	Name: Hewlett-Packard PhotoSmart C5180
-	Characteristics:
-	Interface: USB
-	-----
-	Name: Scanner
-	Characteristics:
-	Resolution: 2400x4800 dpi
-	
+    >>> len(multi)
+    0
+    >>> multi[scanner.name] = scanner
+    >>> len(multi)
+    1
+    >>> multi.Display()
+    Name: Hewlett-Packard PhotoSmart C5180
+    Characteristics:
+    Interface: USB
+    -----
+    Name: Scanner
+    Characteristics:
+    Resolution: 2400x4800 dpi
+    
 We delete a sub product knowing its category.
 
 ========
@@ -85,169 +85,169 @@ set with default values. A product associated with a category will get a copy
 of the category as a subProduct.
 
     >>> from zompatible.categorynew.category import Category
-   	>>> printerCategory = Category(u'Printer')
-   	>>> alsoProvides(printerCategory, IHasResolution)
- 	>>> IResolution(printerCategory).Name()
- 	u'Resolution'
-	>>> IResolution(printerCategory).unit = 'dpi'
-	>>> from zompatible.categorynew.interfaces import IIsPrinter
-	>>> alsoProvides(printerCategory, IIsPrinter)
-	
+       >>> printerCategory = Category(u'Printer')
+       >>> alsoProvides(printerCategory, IHasResolution)
+     >>> IResolution(printerCategory).Name()
+     u'Resolution'
+    >>> IResolution(printerCategory).unit = 'dpi'
+    >>> from zompatible.categorynew.interfaces import IIsPrinter
+    >>> alsoProvides(printerCategory, IIsPrinter)
+    
 Duplicate the category in order to create a new object and to
 add it as a newsub product to the multi function product:
-	>>> printer = printerCategory.NewProduct()
+    >>> printer = printerCategory.NewProduct()
 
 Check that no error occurs if data are not initialized
-	>>> printer.Display()
-	Name: Printer
-	Characteristics:
+    >>> printer.Display()
+    Name: Printer
+    Characteristics:
 
 Setting up the printer resolution (wrong ones):
-	>>> IResolution(printer).x = 123
-	>>> IResolution(printer).y = 456
-	>>> printer.Display()
-	Name: Printer
-	Characteristics:
-	Resolution: 123x456 dpi
+    >>> IResolution(printer).x = 123
+    >>> IResolution(printer).y = 456
+    >>> printer.Display()
+    Name: Printer
+    Characteristics:
+    Resolution: 123x456 dpi
 
-	>>> multi[printer.name] = printer
+    >>> multi[printer.name] = printer
 
-Retreiving the 	categories covered by the product:
-	>>> c = multi.GetCategories()
-	>>> c
-	[u'Printer']
+Retreiving the     categories covered by the product:
+    >>> c = multi.GetCategories()
+    >>> c
+    [u'Printer']
 
 Retreive the sub product given its category type:
-	>>> printer = multi.GetProduct(c[0])
-	>>> printer.Display()
-	Name: Printer
-	Characteristics:
-	Resolution: 123x456 dpi
+    >>> printer = multi.GetProduct(c[0])
+    >>> printer.Display()
+    Name: Printer
+    Characteristics:
+    Resolution: 123x456 dpi
 
 Setting up the caracteristic of the printer (good ones):
-	>>> IResolution(printer).x = 4800
-	>>> IResolution(printer).y = 4800
-	>>> IResolution(printer).Display()
-	Resolution: 4800x4800 dpi
-	>>> multi.Display()	
-	Name: Hewlett-Packard PhotoSmart C5180
-	Characteristics:
-	Interface: USB
-	-----
-	Name: Printer
-	Characteristics:
-	Resolution: 4800x4800 dpi
-	-----
-	Name: Scanner
-	Characteristics:
-	Resolution: 2400x4800 dpi
-	
+    >>> IResolution(printer).x = 4800
+    >>> IResolution(printer).y = 4800
+    >>> IResolution(printer).Display()
+    Resolution: 4800x4800 dpi
+    >>> multi.Display()    
+    Name: Hewlett-Packard PhotoSmart C5180
+    Characteristics:
+    Interface: USB
+    -----
+    Name: Printer
+    Characteristics:
+    Resolution: 4800x4800 dpi
+    -----
+    Name: Scanner
+    Characteristics:
+    Resolution: 2400x4800 dpi
+    
 Adding a new category to the product:
-	>>> from zompatible.characteristic.interfaces import IFlashCardSlots, IHasFlashCardSlots
-	>>> from zompatible.categorynew.interfaces import IIsFlashCardReader
-	>>> from zompatible.characteristic.characteristic import HasFlashCardSlots
-		
-	>>> cardReaderCategory = Category(u'Card Reader')
-	>>> alsoProvides(cardReaderCategory, IIsFlashCardReader)
-	>>> alsoProvides(cardReaderCategory, IHasFlashCardSlots)
-	>>> provideAdapter(HasFlashCardSlots)
-	
-	>>> cf = cardReaderCategory.NewProduct()
-	>>> IFlashCardSlots(cf).type = [ u'CF', u'SD' ]
-	>>> multi[cf.name] = cf
-	>>> multi.GetCategories()
-	[u'Card Reader', u'Printer']
-	
-	>>> multi.Display()
-	Name: Hewlett-Packard PhotoSmart C5180
-	Characteristics:
-	Interface: USB
-	-----
-	Name: Card Reader
-	Characteristics:
-	Flash card slots: CF,SD,
-	-----
-	Name: Printer
-	Characteristics:
-	Resolution: 4800x4800 dpi
-	-----
-	Name: Scanner
-	Characteristics:
-	Resolution: 2400x4800 dpi
+    >>> from zompatible.characteristic.interfaces import IFlashCardSlots, IHasFlashCardSlots
+    >>> from zompatible.categorynew.interfaces import IIsFlashCardReader
+    >>> from zompatible.characteristic.characteristic import HasFlashCardSlots
+        
+    >>> cardReaderCategory = Category(u'Card Reader')
+    >>> alsoProvides(cardReaderCategory, IIsFlashCardReader)
+    >>> alsoProvides(cardReaderCategory, IHasFlashCardSlots)
+    >>> provideAdapter(HasFlashCardSlots)
+    
+    >>> cf = cardReaderCategory.NewProduct()
+    >>> IFlashCardSlots(cf).type = [ u'CF', u'SD' ]
+    >>> multi[cf.name] = cf
+    >>> multi.GetCategories()
+    [u'Card Reader', u'Printer']
+    
+    >>> multi.Display()
+    Name: Hewlett-Packard PhotoSmart C5180
+    Characteristics:
+    Interface: USB
+    -----
+    Name: Card Reader
+    Characteristics:
+    Flash card slots: CF,SD,
+    -----
+    Name: Printer
+    Characteristics:
+    Resolution: 4800x4800 dpi
+    -----
+    Name: Scanner
+    Characteristics:
+    Resolution: 2400x4800 dpi
 
 ============
  COMPARISON
 ============
 We check that the comparison between the printer and the scanner resolution works:
-	>>> IResolution(multi.GetProduct(u'Printer')) < IResolution(scanner)
-	False
-	>>> IResolution(scanner).x = 9600
-	>>> IResolution(multi.GetProduct(u'Printer')) < IResolution(scanner)
-	True
+    >>> IResolution(multi.GetProduct(u'Printer')) < IResolution(scanner)
+    False
+    >>> IResolution(scanner).x = 9600
+    >>> IResolution(multi.GetProduct(u'Printer')) < IResolution(scanner)
+    True
 
 =========
  INDEXES
 =========
 In order to index products, they have to be stored in the ZODB. So we create a dummy database (cf p367 WCDZ3):
-	>>> from ZODB.DemoStorage import DemoStorage
-	>>> from ZODB import DB
-	>>> db = DB(DemoStorage())
-	>>> conn = db.open()
-	>>> root = conn.root()
-	>>> root['multifunction'] = multi
-	>>> import transaction
-	>>> transaction.commit()
-	
-	>>> from zope.app.keyreference.persistent import KeyReferenceToPersistent
-	>>> from persistent.interfaces import IPersistent
-	>>> provideAdapter(KeyReferenceToPersistent, adapts=[IPersistent])
-	
-	>>> from zope.app.intid import IntIds
-	>>> from zope.app.intid.interfaces import IIntIds
-	>>> from zope.component import provideUtility
-	>>> intids = IntIds()
-	>>> provideUtility(intids, IIntIds)
-	>>> imulti = intids.register(multi)
-	
+    >>> from ZODB.DemoStorage import DemoStorage
+    >>> from ZODB import DB
+    >>> db = DB(DemoStorage())
+    >>> conn = db.open()
+    >>> root = conn.root()
+    >>> root['multifunction'] = multi
+    >>> import transaction
+    >>> transaction.commit()
+    
+    >>> from zope.app.keyreference.persistent import KeyReferenceToPersistent
+    >>> from persistent.interfaces import IPersistent
+    >>> provideAdapter(KeyReferenceToPersistent, adapts=[IPersistent])
+    
+    >>> from zope.app.intid import IntIds
+    >>> from zope.app.intid.interfaces import IIntIds
+    >>> from zope.component import provideUtility
+    >>> intids = IntIds()
+    >>> provideUtility(intids, IIntIds)
+    >>> imulti = intids.register(multi)
+    
 Now, we can create the catalog and index the products:
-	>>> from zope.app.catalog.catalog import Catalog
-	>>> from zope.app.catalog.text import TextIndex
-	>>> from zope.app.catalog.field import FieldIndex
-	>>> from zope.app.catalog.attribute import AttributeIndex
-	>>> from zope.app.catalog.interfaces import ICatalog
-	>>> from zope.component import queryUtility
-	
-	>>> cat = Catalog()
-	>>> provideUtility(cat, ICatalog, '')
-	
-	>>> cat2 = queryUtility(ICatalog)
-	>>> cat2['interface'] = TextIndex(interface=IPhysInterface, field_name='interface', field_callable=False)
-	>>> cat2.index_doc(intids.getId(multi), multi)
-	
-	>>> for result  in cat2.searchResults(interface=u'PCI'):
-	...		print result.name
-	
+    >>> from zope.app.catalog.catalog import Catalog
+    >>> from zope.app.catalog.text import TextIndex
+    >>> from zope.app.catalog.field import FieldIndex
+    >>> from zope.app.catalog.attribute import AttributeIndex
+    >>> from zope.app.catalog.interfaces import ICatalog
+    >>> from zope.component import queryUtility
+    
+    >>> cat = Catalog()
+    >>> provideUtility(cat, ICatalog, '')
+    
+    >>> cat2 = queryUtility(ICatalog)
+    >>> cat2['interface'] = TextIndex(interface=IPhysInterface, field_name='interface', field_callable=False)
+    >>> cat2.index_doc(intids.getId(multi), multi)
+    
+    >>> for result  in cat2.searchResults(interface=u'PCI'):
+    ...        print result.name
+    
 Expecting nothing.
 
-	>>> for result  in cat2.searchResults(interface=u'USB'):
-	...		print result.name
-	Hewlett-Packard PhotoSmart C5180
+    >>> for result  in cat2.searchResults(interface=u'USB'):
+    ...        print result.name
+    Hewlett-Packard PhotoSmart C5180
 
-	>>> from zope.component import getAllUtilitiesRegisteredFor
-	>>> from zompatible.characteristic.interfaces import ICharacteristic
+    >>> from zope.component import getAllUtilitiesRegisteredFor
+    >>> from zompatible.characteristic.interfaces import ICharacteristic
 
-	>>> list(getAllUtilitiesRegisteredFor(IPhysInterface))
-	>>> filter = ProductFilter()
-	>>> alsoProvides(filter, IHasPhysInterface)
-	>>> IPhysInterface(filter) = u'USB'
-	>>> filter.Query()
-	
-	
-	
-	
-===	
+    >>> list(getAllUtilitiesRegisteredFor(IPhysInterface))
+    >>> filter = ProductFilter()
+    >>> alsoProvides(filter, IHasPhysInterface)
+    >>> IPhysInterface(filter) = u'USB'
+    >>> filter.Query()
+    
+    
+    
+    
+===    
 END
-===	
+===    
     >>> from zompatible.organization.organization import Organization
     >>> from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directlyProvides
 
@@ -263,9 +263,9 @@ We define a new organization
      <InterfaceClass zope.app.component.interfaces.IPossibleSite>,
      <InterfaceClass zope.app.container.interfaces.IContained>]
 
-	
-	>>> usb = Caracteristic()
-	>>> usb.name = 'USB'
+    
+    >>> usb = Caracteristic()
+    >>> usb.name = 'USB'
 
 
 
@@ -281,50 +281,50 @@ Now we tell that a product is categorizable
 Category creation (Scanner)
 
     >>> from zompatible.categorynew.categorynew import Category
-   	>>> scanner = Category()
-   	>>> scanner.name = u'Scanner'
-   	
+       >>> scanner = Category()
+       >>> scanner.name = u'Scanner'
+       
 Adapter from ICaracterizable to ICaracteristics
     >>> from zompatible.caracteristic.caracteristic import Caracteristics
-	>>> provideAdapter(Caracteristics)
-	
+    >>> provideAdapter(Caracteristics)
+    
 Add all possible caracteristics to the category
-	>>> alsoProvides(scanner, ICaracterizable)
-	>>> ICaracteristics(Scanner).caracteristics
-	[]
-	
+    >>> alsoProvides(scanner, ICaracterizable)
+    >>> ICaracteristics(Scanner).caracteristics
+    []
+    
 Caracteristic creation
-	>>> from zompatible.caracteristic.caracteristic import Caracteristic
-	>>> usb = Caracteristic()
-	>>> usb.name = 'USB'
-	
+    >>> from zompatible.caracteristic.caracteristic import Caracteristic
+    >>> usb = Caracteristic()
+    >>> usb.name = 'USB'
+    
 To be able to add a caracteristic recursively we could provide ICaracterizable
-	>>> # alsoProvides(usb, ICaracterizable)
-	>>> usb2 = Caracteristic()
-	>>> usb2.name = 'USB'
+    >>> # alsoProvides(usb, ICaracterizable)
+    >>> usb2 = Caracteristic()
+    >>> usb2.name = 'USB'
 
 
-	>>> IPhysicalInterfaces(scanner) # means we have an adapter from IHasPhysicalInterface to IPhysicalInterface
-	
-	IPhysicalInterfaces de type ICaracteristic (type d'interface) ??
-	
-	>>> ICaracteristics(scanner)
-	
+    >>> IPhysicalInterfaces(scanner) # means we have an adapter from IHasPhysicalInterface to IPhysicalInterface
+    
+    IPhysicalInterfaces de type ICaracteristic (type d'interface) ??
+    
+    >>> ICaracteristics(scanner)
+    
 We tell that usb is a physical interface
 
-	>>> alsoProvides(usb, IPhysicalInterface)
+    >>> alsoProvides(usb, IPhysicalInterface)
 
 
-	
+    
 Add a caracteristic to a category
-	>>> 
-	
+    >>> 
+    
 Select a category for a product
 
 Add a caracteristic to a product that is not included in a category
 
-	
-	
+    
+    
 
 
 
