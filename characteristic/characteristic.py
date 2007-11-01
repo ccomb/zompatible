@@ -55,8 +55,7 @@ class CharacteristicBase(object):
     def Prefix(self):
         """ Return the adapter class name
         """
-        l = str(self.__class__).split('\'')[1].split('.')
-        return l[len(l)-1]
+        return self.__class__.__name__
 
     def TranslateAttribute(self, key):
         """ Return the key prefixed with the adapter class name.
