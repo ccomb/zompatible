@@ -20,21 +20,21 @@ class ICharacteristicManager(Interface):
                                                       )
                                     )
 
-    def Add(self, iface):
+    def Add(iface):
         u""" Add the characteristic "iface"
         """
 
-    def Remove(self, iface):
+    def Remove(iface):
         u""" Remove the characteristic interface "iface"
              TODO: Should it also remove the values stored in the object ?
         """
-    def Provides(self, ifaceList):
+    def Provides(ifaceList):
         u""" Replace characteristics by those provided in ifaceList (list of interfaces NAMES). 
         """
-    def CurrentList(self):
+    def CurrentList( ):
         u""" Return all the characteristic interfaces NAMES provided by an object
         """
-    def AvailableList(self):
+    def AvailableList( ):
         u""" Return all the characteristic available as a list of tuples:
             - name of the characteristic,
             - characteristic description (__doc__ of the Interface),
@@ -46,11 +46,11 @@ class ICharacteristic(Interface):
     u""" Base interface for characteristitics
     """
 
-    def Name(self):
+    def Name( ):
         u""" Return the characteristic name.
         """
     
-    def __str__(self,context):
+    def __str__(context):
         u"""
         """
 
