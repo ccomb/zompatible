@@ -17,6 +17,10 @@ A basic product is a contained persistent object, and is a container::
     >>> list(providedBy(multi))
     [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.container.interfaces.IContainer>, <InterfaceClass zope.app.container.interfaces.IContained>, <InterfaceClass persistent.interfaces.IPersistent>]
 
+===============
+CHARACTERISTICS
+===============
+
 Every product has characteristics, so we always have an ICharacteristics adapter on any product.
 Our device has no characteristics yet (empty list)::
 
@@ -94,16 +98,34 @@ Now we add the subproduct 'scanner' into the multifunction product.
 First we create a scanner product with the resolution characteristic::
 
     >>> scanner = Product(name = u'Scanner')
-    >>> from zompatible.characteristic.interfaces import IResolution, IHasResolution
-    >>> from zompatible.characteristic.characteristic import Resolution
+    >>> from zompatible.characteristic.interfaces import IResolution, IHasResolution, IResolutions
+    >>> from zompatible.characteristic.characteristic import Resolution, Resolutions
     >>> alsoProvides(scanner, IHasResolution)
+
+We can get the resolutions provided by the scanner, as well as the best resolution
+
+    >>> provideAdapter(Resolutions)
     >>> provideAdapter(Resolution) # FIXME, why not several kinds of resolution adapters: ScanResolution, PrintResolution, DisplayResolution?
+    >>> resolutions = IResolutions(scanner)
+    >>> ICharacteristics.providedBy(resolutions)
+    True
+    >>> resolutions.append(Resolution(x=200, y=200))
+    >>> resolutions.append(Resolution(x=2400, y=4800, unit='dpi'))
+    >>> resolutions
+    [ <class Resolution>, <class Resolution> ]
+
+So the scanner has several resolutions available, but we can get *the* resolution
+of the scanner, ie the best resolution.
+
     >>> resolution = IResolution(scanner)
+    >>> resolution
+    <class Resolution>
+    >>> resolution.x
+    2400
     >>> ICharacteristic.providedBy(resolution)
     True
-    >>> resolution.x = 2400
-    >>> resolution.y = 4800
-    >>> resolution.unit = 'dpi'
+    >>> resolution.unit
+    'dpi'
 
 We can list the characteristics of the scanner::
 
