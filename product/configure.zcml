@@ -16,3 +16,235 @@
 <include package=".browser" />
 
 </configure>
+
+
+
+
+
+
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+<!-- we define r/w permissions on objects that implement IDevice -->
+<zope:class class=".device.Device">
+  <require permission="zope.View"          interface=".interfaces.IDevice" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IDevice" />
+  <!-- We decide that a Device can have subdevices -->
+  <require permission="zope.View"          interface=".interfaces.ISubDevices" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISubDevices" />
+  <!-- We decide that Device objects implement ISupported, so they carry a compatibility database -->
+  <implements interface="zompatible.support.interfaces.ISupported
+                          zompatible.category.interfaces.ICategorizable
+                          zompatible.ids.interfaces.IDeviceId" />
+  <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.View"          interface="zompatible.ids.interfaces.IDeviceId" />
+  <require permission="zope.ManageContent" set_schema="zompatible.ids.interfaces.IDeviceId" />
+</zope:class>
+
+<zope:class class=".device.DeviceContainer">
+  <require permission="zope.View"          interface=".interfaces.IDeviceContainer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IDeviceContainer" />
+</zope:class>
+
+<zope:interface  
+  interface=".interfaces.IDevice"
+  type="zope.app.content.interfaces.IContentType"
+/>
+
+<zope:adapter factory=".device.SearchableTextOfDevice" />
+<zope:adapter factory=".browser.DeviceTerms" />
+<zope:adapter factory=".browser.DeviceQueryView" />
+<zope:adapter factory=".device.DeviceNameChooser" />
+
+<zope:subscriber handler=".device.DeviceRemovedEvent" />
+    
+<!-- registered named utility used in the subdevices interface -->
+<zope:utility
+    factory=".device.DeviceVocabularyFactory"
+    name="devicesource"
+/>
+<!-- a factory for devices -->
+<zope:utility
+    component=".device.deviceFactory"
+    name="zompatible.Device"
+    permission="zope.Public"
+/>
+
+<!-- Device views -->
+<browser:page
+    name="device.Device"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.DeviceAdd"
+    permission="zope.Public"
+    menu="my_addings" title="new device"
+/>
+<browser:page
+    name="edit_device.html"
+    for=".interfaces.IDevice"
+    class=".browser.DeviceEdit"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.IDevice"
+    class=".browser.DeviceView"
+    permission="zope.Public"
+    menu="my_actions" title="View"
+/>
+
+<!-- Device Container view -->
+<browser:page
+    name="index.html"
+    for=".interfaces.IDeviceContainer"
+    class=".browser.DeviceContainerView"
+    template="device_container.pt"
+    permission="zope.Public"
+    menu="my_actions" title="Device List"
+/>
+<browser:menuItem
+    title="add Device"
+    action="+/device.Device"
+    for=".interfaces.IDeviceContainer"
+    menu="my_actions"
+/>
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Device Container"
+    class=".device.DeviceContainer"
+    permission="zope.ManageContent"
+/>
+<browser:addMenuItem
+    title="Device"
+    class=".device.Device"
+    permission="zope.ManageContent"
+    view="device.Device"
+/>
+<browser:menuItems
+    menu="zmi_views"
+    for="zompatible.device.interfaces.IDevice"
+>
+    <menuItem
+        title="edit"
+        action="edit_device.html"
+    />
+</browser:menuItems>
+
+
+
+
+</configure>
+
+
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+
+
+<zope:class class=".software.Software">
+  <require permission="zope.View"          interface=".interfaces.ISoftware" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISoftware" />
+  <!-- We decide that a Software object can have subsoftware (software components) -->
+  <require permission="zope.View"          interface=".interfaces.ISubSoftware" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISubSoftware" />
+  <!-- We decide that Software objects implement ISupported, so they carry a compatibility database -->
+  <implements interface="zompatible.support.interfaces.ISupported
+                           zompatible.category.interfaces.ICategorizable" />
+  <require permission="zope.View"          interface="zompatible.support.interfaces.ISupported" />
+  <require permission="zope.ManageContent" set_schema="zompatible.support.interfaces.ISupported" />
+</zope:class>
+
+<zope:class class=".software.SoftwareContainer">
+  <require permission="zope.View"          interface=".interfaces.ISoftwareContainer" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ISoftwareContainer" />
+</zope:class>
+
+<!-- We declare that ISoftware provides IContentType which is a marker interface that declares IDevice as a content type -->
+<zope:interface  
+  interface=".interfaces.ISoftware"
+  type="zope.app.content.interfaces.IContentType"
+/>
+
+<zope:subscriber handler=".software.SoftwareRemovedEvent" />
+
+<zope:adapter factory=".software.SearchableTextOfSoftware" />
+<zope:adapter factory=".software.SoftwareNameChooser" />
+<zope:adapter factory=".browser.SoftwareTerms" />
+<zope:adapter factory=".browser.SoftwareQueryView" />
+
+<!-- registered named utility used in the Support interface -->
+<zope:utility
+    factory=".software.SoftwareVocabularyFactory"
+    name="softwaresource"
+/>
+<!-- a factory for software -->
+<zope:utility
+    component=".software.softwareFactory"
+    name="zompatible.Software"
+    permission="zope.Public"
+/>
+
+<!-- Software views -->
+<browser:page
+    name="software.Software"
+    for="zope.app.container.interfaces.IAdding"
+    class=".browser.SoftwareAdd"
+    permission="zope.Public"
+    menu="my_addings" title="new Software"
+/>
+<browser:page
+    name="edit_software.html"
+    for=".interfaces.ISoftware"
+    class=".browser.SoftwareEdit"
+    permission="zope.Public"
+    menu="my_actions" title="Edit"
+/>
+<browser:page
+    name="index.html"
+    for=".interfaces.ISoftware"
+    class=".browser.SoftwareView"
+    permission="zope.Public"
+    menu="my_actions" title="View"
+/>
+<browser:view
+    for=".interfaces.ISoftware"
+    name="pretty_name"
+    class=".browser.SoftwarePrettyName"
+    permission="zope.Public"
+/>
+<!-- Software Container view -->
+<browser:page
+    name="index.html"
+    for=".interfaces.ISoftwareContainer"
+    class=".browser.SoftwareContainerView"
+    template="software_container.pt"
+    permission="zope.Public"
+    menu="my_actions" title="Software List"
+/>
+<browser:menuItem
+    title="add Software"
+    action="+/software.Software"
+    for=".interfaces.ISoftwareContainer"
+    menu="my_actions"
+/>
+
+<!-- juste pour la ZMI -->
+<browser:addMenuItem
+    title="Software"
+    class=".software.Software"
+    permission="zope.ManageContent"
+    view="software.Software"
+/>
+
+<browser:menuItems
+    menu="zmi_views"
+    for="zompatible.software.interfaces.ISoftware"
+>
+    <menuItem
+        title="edit"
+        action="edit_software.html"
+    />
+</browser:menuItems>
+
+
+
+</configure>
