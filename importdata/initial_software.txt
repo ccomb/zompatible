@@ -254,7 +254,9 @@ Fedora
     Fedora Core : 6
 
 Novell
-
+    SUSE Linux Enterprise Server : 10
+    SUSE Linux Enterprise Desktop : 10
+    
 Microsoft
     Windows :98
     Windows :98 Second Edition

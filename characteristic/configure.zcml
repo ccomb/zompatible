@@ -21,34 +21,34 @@
 	<require permission="zope.ManageContent"   set_schema=".interfaces.ICharacteristic" />
 </class>
 
-<adapter factory=".characteristic.HasPhysInterface" 
+<adapter factory=".characteristic.PhysInterface" 
 		 trusted="True" />
 
-<class class=".characteristic.HasPhysInterface">
+<class class=".characteristic.PhysInterface">
 	<require permission="zope.View"            interface =".interfaces.IPhysInterface" />
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IPhysInterface" />
 </class>
 
-<adapter factory=".characteristic.HasResolution" 
+<adapter factory=".characteristic.Resolution" 
 		 trusted="True" />
 
-<class class=".characteristic.HasResolution">
+<class class=".characteristic.Resolution">
 	<require permission="zope.View"            interface =".interfaces.IResolution" />
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IResolution" />
 </class>
 
-<adapter factory=".characteristic.HasFlashCardSlots" 
+<adapter factory=".characteristic.FlashCardSlots" 
 		 trusted="True" />
 
-<class class=".characteristic.HasFlashCardSlots">
+<class class=".characteristic.FlashCardSlots">
 	<require permission="zope.View"            interface =".interfaces.IFlashCardSlots" />
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IFlashCardSlots" />
 </class>
 
-<adapter factory=".characteristic.HasPaperFormat" 
+<adapter factory=".characteristic.PaperFormat" 
 		 trusted="True" />
 
-<class class=".characteristic.HasPaperFormat">
+<class class=".characteristic.PaperFormat">
 	<require permission="zope.View"            interface =".interfaces.IPaperFormat" />
 	<require permission="zope.ManageContent"   set_schema=".interfaces.IPaperFormat" />
 </class>

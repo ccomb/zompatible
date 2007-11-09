@@ -82,8 +82,8 @@ class DeviceNameChooser(NameChooser):
         rawname = name
         if device is not None and len(device.names)>0:
             rawname = device.names[0]
-        return string.lower(rawname).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
-    def checkName(self, name, device):
+        return string.lower(rawname).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@') # UTILISER PEUT-ÊTRE UNICODE.LOWER*********************
+    def checkName(self, name, device): # **************************utiliser le super.checkName ) la place
         if name in device.__parent__ and device is not device.__parent__['name']:
             return False
         else :

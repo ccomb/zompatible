@@ -5,6 +5,7 @@ from interfaces import IImport, IImportData
 from zope.component import adapter
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.app.component.hooks import getSite
+from zope.publisher.browser import BrowserPage
 
 from zompatible.organization.interfaces import IManufacturer, IOrganizationInterfaces
 from zompatible.organization.organization import OrganizationNameChooser, Organization
@@ -12,7 +13,6 @@ from zompatible.device.device import DeviceNameChooser, Device
 from zompatible.ids.interfaces import IPciDeviceId, IUsbDeviceId
 
 from interfaces import *
-
 
 statusAdded = 0
 statusUpdated = 1
@@ -264,11 +264,15 @@ provideHandler(updateZodbFromData)
 
 
 class ImportFile(object):
+    u"""
+    Base class for file import implementations
+    """
     implements(IImportFile)
     infile = u""
-    def __init__(self, infile=u""):
-        self.infile = infile
+    fileupload = None
+    def __init__(self, filename=u"", fileupload=None):
+        self.infile = filename
+        self.fileupload = fileupload
     def do_import(self):
         u"this method must be implemented by the subclass"
         raise NotImplementedError
-

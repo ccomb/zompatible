@@ -3,37 +3,38 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     >
     
-  <browser:page
+<browser:page
       for="zompatible.importdata.interfaces.IImportData"
       name="index.html"
       class=".importData.ViewImportData"
       permission="zope.Public"
-      /> 
+/> 
  
- <configure package="zope.app.preview">
+<configure package="zope.app.preview">
     <browser:page
        for="zompatible.importdata.interfaces.IImportData"
-	    name="preview.html"
+	   name="preview.html"
        template="preview.pt"
        permission="zope.ManageContent"
        menu="zmi_views" title="Preview"
-        />
-  </configure>
+    />
+</configure>
  
-    <browser:page
+<browser:page
        for="zompatible.importdata.interfaces.IImportData"
 	    name="edit.html"
        class=".importData.ImportDataEditForm"
        permission="zope.ManageContent"
        menu="zmi_views" title="Edit"
-        />
+/>
 
 
-  <browser:addMenuItem
+<browser:addMenuItem
       title="ImportData"
       factory="zompatible.importData"
       permission="zope.ManageContent"
-      /> 
+/> 
+
 
 
 </configure>

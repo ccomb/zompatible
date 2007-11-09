@@ -1,7 +1,9 @@
-from zope.interface import Interface
-from zope.schema import Text, URI
+# -*- coding: utf-8 -*-
+from zope.interface import Interface, Attribute
+from zope.schema import Text
 from zope.app.container.constraints import containers
 from zope.app.component.interfaces import ILocalSiteManager
+
 
 class IImport(Interface):
 	"""Import information to fill the data base
@@ -33,10 +35,13 @@ class IImportData(IImport):
 		""" Import data from usb.ids file format
 		"""
 
-class IImportFile(IImport):
+class IImportFile(Interface):
     """
-    interface of a file import utility
+    interface of a file import utility.
+    The file may come from the local filesystem (→ use filename attribute)
+    or from an upload (→ use the fileupload attribute)
     """
-    infile = URI(title=u'File to import', description=u'URI of the file to import', max_length=150, required=True)
+    filename = Attribute(u"the filename from which to import")
+    fileupload = Attribute(u"the FileUpload object from which to read")
     def importfile():
         u"perform the import"

@@ -12,8 +12,6 @@ class ImportCategoryFile(ImportFile):
     See initial_device_categories.txt
     """
     def do_import(self, context):
-        if self.infile == u"":
-            raise "No file provided"
         if context is None:
             raise "ImportCategoryFile Error"
         categorycontainer = IAvailableCategories(context)

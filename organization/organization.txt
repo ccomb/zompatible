@@ -1,0 +1,18 @@
+============
+ORGANIZATION
+============
+    >>> from zompatible.organization.organization import Organization
+    >>> from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directlyProvides
+
+We define a new organization
+    >>> nvidia = Organization()
+    >>> nvidia.names
+    []
+    >>> nvidia.names.append(u'Nvidia')
+    >>> list(providedBy(nvidia))
+    [<InterfaceClass zompatible.organization.interfaces.IOrganization>,
+     <InterfaceClass zope.app.folder.interfaces.IFolder>,
+     <InterfaceClass persistent.interfaces.IPersistent>,
+     <InterfaceClass zope.app.component.interfaces.IPossibleSite>,
+     <InterfaceClass zope.app.container.interfaces.IContained>]
+

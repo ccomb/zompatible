@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.publisher.browser import BrowserPage
 from zope.formlib.form import EditForm, Fields
 from zompatible.importdata.interfaces import IImportData
@@ -19,4 +20,3 @@ class ImportDataEditForm(EditForm):
 	form_fields = Fields(IImportData).omit('__parent__') # omit parent because containers constraint adds __parent__ in the schema
 	form_fields['status'].custom_widget = StatusWidget
 	label = u"Copy file data here"
-	

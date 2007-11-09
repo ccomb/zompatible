@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from zope.app.container.interfaces import IContainer
 from zope.app.container.constraints import contains
-from zope.schema import List, TextLine
+from zope.schema import List, TextLine, Choice
 from zope.interface import Interface, Attribute
 
 
@@ -20,7 +20,7 @@ class IFeature(Interface):
     """
     names = List(title=u'names', description=u'possible names of the feature', value_type=TextLine(title=u'feature', description=u'a name for the feature (ex: wifi, wi-fi, 802.11'))
     version = TextLine(title=u'feature version', description=u'the version of the feature (ex: 2)')
-    value = Attribute()
+    value = Attribute(u'value of the attribute') #FIXME check this
 
 
 class IValueFeature(IFeature):
@@ -46,6 +46,6 @@ class IFeatures(Interface):
     u"""
     l'interface qui permet de connaître les features d'un objet
     """
-    features = Attribute()
+    features = Attribute(u'features') # FIXME check this
     
 

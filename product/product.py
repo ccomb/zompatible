@@ -2,7 +2,8 @@ from persistent import Persistent
 
 from zope.app.folder.folder import Folder
 from zope.app.folder.interfaces import IFolder
-
+from zope.app.container.contained import Contained
+from zope.app.container.interfaces import IContained, IContainer
 from zope.interface import implements
 from zope.component.interface import queryInterface
 from zope.component.factory import Factory
@@ -11,11 +12,10 @@ from zompatible.characteristic.interfaces import ICharacteristicManager
 
 from interfaces import *
 
-class Product(Folder):
-    implements(IProduct, IFolder)
+class Product(Persistent, Contained):
+    implements(IProduct, IContainer, IContained)
     
     def __init__(self, name=None):
-        Folder.__init__(self)
         self.__name__ = name
         self.__parent__ = None
 
@@ -24,8 +24,7 @@ class Product(Folder):
         
     def Display(self):
         # Display the product name
-        s = u'Name: %s' % self.name
-        print s
+        print u'Name: %s' % self.name
         self.DisplayCharacteristics()
         self.DisplayProducts()
     

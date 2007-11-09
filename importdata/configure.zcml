@@ -1,22 +1,33 @@
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
 
-  <class class=".importdata.ImportData">
+<zope:class class=".importdata.ImportData">
     <require
         permission="zope.Public"
         interface=".interfaces.IImportData"
-        />
+    />
     <require
         permission="zope.ManageContent"
         set_schema=".interfaces.IImportData"
-        />
-  </class>
+    />
+</zope:class>
 
-  <utility
+<zope:utility
       component=".importdata.importDataFactory"
       name="zompatible.importData"
       permission="zope.Public"
-      />
+/>
 
-  <include package=".browser" />
+
+<include package=".browser" />
+
+
+
+<!-- à déplacer dans le module pciids -->
+<browser:page
+    name="upload_pcimap.html"
+    for="zompatible.software.interfaces.ISoftware"
+    class=".importreports.UploadModulesPciMap"
+    permission="zope.Public"
+/>
 
 </configure>

@@ -21,7 +21,7 @@ class CharacteristicBase(object):
         characteristicName attribute and the Display() method
         to itself.
     """
-    characteristicName = u'You should name this caracteristic'
+    characteristicName = u'You should name this characteristic'
 
 # PUBLIC
 
@@ -76,12 +76,12 @@ class CharacteristicBase(object):
         return True
 
     def Display(self):
-        """ Return the values of the caracteristic.
+        """ Return the values of the characteristic.
         """
         print u'Display the characteristic value overriding the Display() method'
 
     def __str__(self):
-        """ Return the values of the caracteristic.
+        """ Return the values of the characteristic.
         """
         return u'Display the characteristic value overriding the Display() method'
 
@@ -125,11 +125,11 @@ class CharacteristicManager(object):
         l = CharacteristicBase.__class__.__subclasses__(CharacteristicBase)
         nameList = [ e.characteristicName for e in l ]
         #TODO: remove the element from the l list to avoid list with different sizes
-        nameList.remove(u'You should name this caracteristic')
+        nameList.remove(u'You should name this characteristic')
         l = [str(e) for e in l]
         l = [e for e in l if e.find('characteristic.characteristic.Has') >= 0]
         l = [ e.replace(u'characteristic.Has',u'interfaces.I') for e in l ]
-        l = [e.strip('><').split()[1].strip('\'') for e in l]
+        l = [e.strip('><').split()[1].strip("'") for e in l]
         interfaceList = l
         markerList = [e.replace(u'interfaces.I',u'interfaces.IHas') for e in l]
         i = 0
@@ -216,7 +216,7 @@ class CharacteristicManager(object):
 def characteristicNameVocabulary(context):
     l = CharacteristicBase.__class__.__subclasses__(CharacteristicBase)
     nameList = [ e.characteristicName for e in l ]
-    nameList.remove(u'You should name this caracteristic')
+    nameList.remove(u'You should name this characteristic')
     return SimpleVocabulary.fromValues(nameList)
 
 class Characteristic(CharacteristicBase):
@@ -225,9 +225,9 @@ class Characteristic(CharacteristicBase):
 
     
 
-class HasPhysInterface(CharacteristicBase):
+class PhysInterface(CharacteristicBase):
     implements(IPhysInterface)
-    adapts(IHasPhysInterface)
+    adapts(IHasPhysInterfaces)
     
     characteristicName = u'Interface'
 
@@ -242,7 +242,7 @@ class HasPhysInterface(CharacteristicBase):
             return u''
 
 
-class HasResolution(CharacteristicBase):
+class Resolution(CharacteristicBase):
     implements(IResolution)
     adapts(IHasResolution)
     
@@ -275,7 +275,7 @@ class HasResolution(CharacteristicBase):
         return cmp(reso1, reso2)
  
         
-class HasFlashCardSlots(CharacteristicBase):
+class FlashCardSlots(CharacteristicBase):
     implements(IFlashCardSlots)
     adapts(IHasFlashCardSlots)
     
@@ -297,7 +297,7 @@ class HasFlashCardSlots(CharacteristicBase):
         else:
             return u''
 
-class HasPaperFormat(CharacteristicBase):
+class PaperFormat(CharacteristicBase):
     implements(IPaperFormat)
     adapts(IHasPaperFormat)
     

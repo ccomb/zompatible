@@ -1,0 +1,65 @@
+================
+PRODUCT TEMPLATE (was categorynew)
+================
+A product template is a virtual product, with all the needed characteristic interfaces,
+ with default values, and a set of default categories.
+A product created from the template will get the same characteristics and categories.
+
+    >>> from zompatible.product.template import ProductTemplate
+    >>> printer_template = ProductTemplate(u'Printer')
+    >>> alsoProvides(printer_template, IHasResolution)
+    >>> IResolution(printer_template).name
+    u'Resolution'
+    >>> IResolution(printer_template).unit = 'dpi'
+    >>> from zompatible.categorynew.interfaces import IIsPrinter
+    >>> alsoProvides(printer_template, IIsPrinter)
+    
+The template can act as a product factory to create new products::
+
+    >>> printer = printer_template.createProduct()
+    to fill: ERROR missing name
+
+Oops, we forgot the name::
+
+    >>> printer = printer_template.createProduct(name=u'integrated printer')
+
+We already can retrieve the general characteristics, or some specific characteristics.
+They are normally empty::
+
+    >>> ICharacteristics(printer)
+    to fill: [ default characteristics common to all printers ]
+    >>> IResolution(printer)
+    to fill: [<class Resolution>]
+    >>> IResolution(printer).unit
+    None
+    >>> IPhysInterface(printer)
+    to fill: [<class PhysInterface>]
+
+We set the correct resolution (wrong ones)::
+
+    >>> IResolution(printer).x = 123
+    >>> IResolution(printer).y = 'invalid'
+    to fill: ERROR y resolution must be numeric
+    >>> IResolution(printer).y = 456
+    >>> IResolution(printer).unit = 'toto'
+    to fill: ERROR bad unit (not in some dictionary) FIXME: how to support i18n? dpi = ppp (point par pouce)... i18n dependent dictionary? unit object?
+    >>> IResolution(printer).unit = 'dpi'
+    >>> IResolution(printer).x
+    123
+    >>> IResolution(printer).y
+    456
+    >>> printer.Display()
+    Name: Printer
+    Characteristics:
+    Resolution: 123x456 dpi
+
+We add the printer to the multifunction device
+
+    >>> multi[printer.name] = printer
+
+We can list the characteristics of the whole device.
+It is sorted by every sub-product::
+
+    >>> ICharacteristics(multi)
+    to fill: [<class PhysInterface>, <class WirelessInterface>, <class WiredInterface>, <class Characteristics>]
+

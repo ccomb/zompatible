@@ -1,0 +1,46 @@
+==========
+CATEGORIES
+==========
+
+Since our object has been created from a template, it is already categorizable::
+
+    >>> from zompatible.category.interfaces import ICategorizable, ICategories
+    >>> ICategorizable.providedBy(printer)
+    True
+    
+So we can lookup an ICategories adapter, and retrieve the categories covered by the product::
+
+    >>> printercategories = ICategories(printer)
+    >>> printercategories
+    tofill: [ <class Categories> ]
+    >>> [ c.name for c in printercategories ]
+    [ u'Printer' ]
+
+We can add a category to the printer::
+
+    >>> printercategories.append(Category(name=u'for travel'))
+    >>> [c.name for c in printercategories]
+    [ u'Printer', u'for travel' ]
+
+And also to the multifunction device::
+
+    >>> categories = ICategories(multi)
+    >>> categories.append(Category(name=u'multifunction'))
+    
+The categories of the device does not contain the categories of the printer::
+
+    >>> [c.name for c in categories]
+    tofill: [ u'multifunction']
+    >>> [c.name for c in categories[1]]
+    [ u'Printer', u'for travel' ]
+
+But we can get all the categories recursively::
+
+    >>> categories.get_recurse()
+    [u'multifunction', u'Printer', u'for travel']
+
+We can retrieve the subproduct given its category::  #FIXME this should go in the product doctest
+
+    >>> printers = multi.get_subproducts(category=u'Printer')
+    >>> [p.name for p in printer.name
+    u'Printer'

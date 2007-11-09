@@ -67,13 +67,13 @@ class IPhysInterface(ICharacteristic):
                         required = True
                         )
     
-class IHasPhysInterface(Interface):
+class IHasPhysInterfaces(Interface):
     u""" Marker interface
     """
     pass
 
 provideInterface('', IPhysInterface)
-provideInterface('', IHasPhysInterface)
+provideInterface('', IHasPhysInterfaces)
 
 class IResolution(ICharacteristic):
     u""" Resolution parameter.

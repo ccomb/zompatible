@@ -11,7 +11,7 @@
 />
 
 <page
- 	for="zompatible.characteristic.interfaces.IHasPhysInterface"
+ 	for="zompatible.characteristic.interfaces.IHasPhysInterfaces"
 	name="editPhysInterface.html"
     class=".characteristic.PhysInterfaceEditForm"
     permission="zope.ManageContent"

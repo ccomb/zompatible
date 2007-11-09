@@ -1,0 +1,16 @@
+=======
+PRODUCT
+=======
+A product can be hardware or software.
+
+We define a new product (multi function USB printer/scanner/card reader)::
+
+    >>> from zompatible.product.product import Product
+    >>> from zope.interface import providedBy, alsoProvides
+    >>> multi = Product(u'Hewlett-Packard PhotoSmart C5180')
+
+A basic product is a contained persistent object, and is a container::
+
+    >>> list(providedBy(multi))
+    [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.container.interfaces.IContainer>, <InterfaceClass zope.app.container.interfaces.IContained>, <InterfaceClass persistent.interfaces.IPersistent>]
+
