@@ -1,40 +1,133 @@
-<configure
-    xmlns="http://namespaces.zope.org/browser"
-    >
+<configure xmlns:browser="http://namespaces.zope.org/browser">
 
+<!-- PRODUCT -->
+<page name="index.html"
+      for="zompatible.product.interfaces.IProduct"
+      class=".product.ProductView"
+      permission="zope.View" />
 
-<page
- 	for="zompatible.product.interfaces.IProduct"
-	name="index.html"
-	class=".product.ProductView"
-	permission="zope.View"
-/>
-
-<page
- 	for="zompatible.product.interfaces.IProduct"
-	name="edit.html"
-    class=".product.ProductEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit"
-/>
+<page name="edit.html"
+      for="zompatible.product.interfaces.IProduct"
+      class=".product.ProductEditForm"
+      permission="zope.ManageContent"
+      menu="zmi_views"
+      title="Edit" />
 
 
 <configure package="zope.app.preview">
-    <page
-	 	for="zompatible.product.interfaces.IProduct"
-	    name="preview.html"
-       	template="preview.pt"
-       	permission="zope.ManageContent"
-       	menu="zmi_views" title="Preview"
-        />
+    <page name="preview.html"
+          for="zompatible.product.interfaces.IProduct"
+          template="preview.pt"
+          permission="zope.ManageContent"
+          menu="zmi_views"
+          title="Preview" />
 </configure>
 
+<addMenuItem title="Product"
+             factory="zompatible.Product"
+             permission="zope.ManageContent" />
 
-<addMenuItem
-      title="Product"
-      factory="zompatible.Product"
-      permission="zope.ManageContent"
-/> 
+<!-- DEVICE -->
+<page name="product.Device"
+      for="zope.app.container.interfaces.IAdding"
+      class=".browser.DeviceAdd"
+      permission="zope.Public"
+      menu="my_addings"
+      title="new device" />
 
+<page name="edit_device.html"
+      for=".interfaces.IDevice"
+      class=".browser.DeviceEdit"
+      permission="zope.Public"
+      menu="my_actions"
+      title="Edit" />
+
+<page name="index.html"
+      for=".interfaces.IDevice"
+      class=".browser.DeviceView"
+      permission="zope.Public"
+      menu="my_actions"
+      title="View" />
+
+<page name="index.html"
+      for=".interfaces.IDeviceContainer"
+      class=".browser.DeviceContainerView"
+      template="device_container.pt"
+      permission="zope.Public"
+      menu="my_actions"
+      title="Device List" />
+
+<menuItem title="add Device"
+          action="+/device.Device"
+          for=".interfaces.IDeviceContainer"
+          menu="my_actions" />
+
+<!-- juste pour la ZMI -->
+<addMenuItem title="Device Container"
+             class=".device.DeviceContainer"
+             permission="zope.ManageContent" />
+
+<addMenuItem title="Device"
+             class=".device.Device"
+             permission="zope.ManageContent"
+             view="device.Device" />
+
+<menuItems menu="zmi_views"
+           for="zompatible.device.interfaces.IDevice">
+    <menuItem title="edit"
+              action="edit_device.html" />
+</menuItems>
+
+<!-- SOFTWARE -->
+<page name="software.Software"
+      for="zope.app.container.interfaces.IAdding"
+      class=".browser.SoftwareAdd"
+      permission="zope.Public"
+      menu="my_addings"
+      title="new Software" />
+
+<page name="edit_software.html"
+      for=".interfaces.ISoftware"
+      class=".browser.SoftwareEdit"
+      permission="zope.Public"
+      menu="my_actions"
+      title="Edit" />
+
+<page name="index.html"
+      for=".interfaces.ISoftware"
+      class=".browser.SoftwareView"
+      permission="zope.Public"
+      menu="my_actions"
+      title="View" />
+
+<view for=".interfaces.ISoftware"
+      name="pretty_name"
+      class=".browser.SoftwarePrettyName"
+      permission="zope.Public" />
+
+<page name="index.html"
+      for=".interfaces.ISoftwareContainer"
+      class=".browser.SoftwareContainerView"
+      template="software_container.pt"
+      permission="zope.Public"
+      menu="my_actions"
+      title="Software List" />
+
+<menuItem title="add Software"
+          action="+/software.Software"
+          for=".interfaces.ISoftwareContainer"
+          menu="my_actions" />
+
+<!-- juste pour la ZMI -->
+<addMenuItem title="Software"
+             class=".software.Software"
+             permission="zope.ManageContent"
+             view="software.Software" />
+
+<menuItems menu="zmi_views"
+           for="zompatible.software.interfaces.ISoftware">
+    <menuItem title="edit"
+              action="edit_software.html" />
+</menuItems>
 
 </configure>
