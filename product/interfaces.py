@@ -6,48 +6,47 @@ from zope.interface import Interface
 from zope.index.text.interfaces import ISearchableText
 
 
-class IDevice(IContained):
+class IProduct(IContained):
     u"""
-    IDevice offers basic attributes of a device
+    IProduct offers the basic attributes of a product
     """
-    #containers('zompatible.device.interfaces.IDeviceContainer')
+    #containers('zompatible.product.interfaces.IProductContainer')
     #contains('zompatible.driver.interfaces.IDriver')
-    names = List(title=u'names', description=u'possible names of the device', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the device (commercial name, code name, etc.)'))
-    organization = Choice(title=u'Organization', description=u'the organization producing this device', source="orgasource", required=False)
-    description = Text(title=u"description", description=u"description of the device", required=False, max_length=1000)
-#    physicalinterfaces = List(title=u'physical interfaces', description=u'list of physical interfaces on the device', value_type=Object(title=u'physical interface', description=u'a physical interface on the device', schema=IPhysicalInterface))
-#    existingdrivers = List(title=u'existing drivers', description=u'list of supported OS', value_type=Object(title=u'supported OS', description=u'OS on which the device works', schema=IDriver))
+    names = List(title=u'names', description=u'possible names of the product', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the product (commercial name, code name, etc.)'))
+    organization = Choice(title=u'Organization', description=u'the organization producing this product', source="orgasource", required=False)
+    description = Text(title=u"description", description=u"description of the product", required=False, max_length=1000)
+#    physicalinterfaces = List(title=u'physical interfaces', description=u'list of physical interfaces on the product', value_type=Object(title=u'physical interface', description=u'a physical interface on the product', schema=IPhysicalInterface))
+#    existingdrivers = List(title=u'existing drivers', description=u'list of supported OS', value_type=Object(title=u'supported OS', description=u'OS on which the product works', schema=IDriver))
     pciid = TextLine(title=u'pci id', description=u'PCI identifier', required=False)
     usbid = TextLine(title=u'usb id', description=u'USB identifier', required=False)
 
-
-class IDeviceContainer(IContainer, IContained):
+class IProductContainer(IContainer, IContained):
     u"""
-    a toplevel device container. This is a base storage for devices.
+    a toplevel product container. This is a base storage for products.
     """
-    contains(IDevice)
-    
+    contains(IProduct)
 
-
-class ISubDevices(Interface):
+class ISubProducts(IContainer):
     u"""
-    interface of an object that has subdevices.
-    The source is called as a named utility registered for IVocabularyFactory (see in device.py)
-    """
-    subdevices = List(title=u'subdevices', value_type=Choice(title=u'subdevice', description=u'a subdevice (chip, component)', source="devicesource"), required=False)
-
-
-class ISearchableTextOfDevice(ISearchableText):
-    u"""
-    Marker interface that allows to index devices separately
+    Interface provided by products that have suproducts.
+    This gives access to the subproducts of a product
+    in a simple containment manner.
     """
 
-class ISoftware(IContained):
+class ISearchableTextOfProduct(ISearchableText):
     u"""
-    Base attributes of a software
+    Marker interface that allows to index products separately
     """
-    names = List(title=u'names', description=u'possible software names', min_length=1, value_type=TextLine(title=u'name', description=u'possible software names (commercial name, code name, etc.'))
-    organization = Choice(title=u'Organization', description=u'the organization producing this software', source="orgasource", required=False)
+
+class IDevice(IProduct):
+    u"""
+    A device is a physical product
+    """
+
+class ISoftware(IProduct):
+    u"""
+    A piece of software is also a product, with some specific fields
+    """
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
     version = TextLine(title=u'version', description=u'a text string describing the version', required=True)
     builtVersion = TextLine(title=u'built version', description=u'built version', required=False)
@@ -56,35 +55,14 @@ class ISoftware(IContained):
     #license = Choice......(title=u'which license?', description=u'the licence of the software', schema=ILicense)
     #features = List(title=u'features', description=u'list of features of the driver', value_type=Object(title=u'feature', description=u'a feature of the driver', schema=IFeature))
     #stabilityreports = List(title=u'stability levels', description=u'provided stability levels', value_type=Object(title=u'stability level',description=u'stability level', schema=IStabilityReport))
-    link = URI(title=u'a link to software', description=u'link to the software', required=False)
+    url = URI(title=u'a link to software', description=u'link to the software', required=False)
 
-class IFuzzy(Interface):
+class IFuzzy(Interface): # FIXME confirm the usefulness of this interface
     u"""
-    interface for an imprecise software
+    interface for an imprecise product
+    a product we don't really know which one it is.
     """
     group = List(title=u'variations', description=u'variations of the software', min_length=1, value_type=Choice(title=u"variation", source="softwaresource"))
-
-class ISubSoftware(Interface):
-    u"""
-    interface of an object that has subsoftware.
-    The source is called as a named utility registered for IVocabularyFactory (see in software.py)
-    """
-    subsoftware = List(title=u'subsoftware', value_type=Choice(title=u'subsoftware', description=u'a subsoftware (kernel, driver, library, etc.)', source="softwaresource"), required=False)
-
-
-class ISoftwareContainer(IContainer, IContained):
-    u"""
-    L'interface du dossier racine qui contient les OS
-    """
-    contains(ISoftware)
-
-class ISearchableTextOfSoftware(ISearchableText):
-    u"""
-    on déclare un index juste pour cette interface de façon à indexer juste les software
-    """
-
-
-
 
 
 
@@ -124,14 +102,14 @@ class IDriver(ISoftware):
     a driver for a software
     we must think of how to speak about ndiswrapper, which is not a driver
     And a driver can apply to a kernel, or be in userspace for xorg. So... ?
-    We must express that a linux driver may exist for a device, but not be included in a distro, or in the kernel
+    We must express that a linux driver may exist for a product, but not be included in a distro, or in the kernel
     In hardware reviews, we can often find references to kernel versions, so we should include IKernel?
     a driver is included in the kernel, and can be added by a distro
     so a driver applies to a kernel AND a distro
-    We must express that the fact that distroX use kernelY automatically brings POSSIBLE support of a particular device
+    We must express that the fact that distroX use kernelY automatically brings POSSIBLE support of a particular product
     a distro contains a kernel, that contains a driver
-    The features of the driver should be a subset of the features of the device
-    subset : one of the device features is not accessible from the computer, or a feature is not implemented in the driver.
+    The features of the driver should be a subset of the features of the product
+    subset : one of the product features is not accessible from the computer, or a feature is not implemented in the driver.
     superset : the driver offers a feature purely by software (ex: winmodem) (?)
     """
     subsystems = List(title=u'for which subsystems?', description=u'the driver is for which subsystems? (kernel, xorg, ...)', value_type=Object(title=u'subsystem', description=u'subsystem this driver applies to', schema=(ISoftware)))
