@@ -3,14 +3,64 @@ PRODUCT
 =======
 A product can be hardware or software.
 
-We define a new product (multi function USB printer/scanner/card reader)::
+Let's create a new product (a multi function USB printer/scanner/card reader)::
 
     >>> from zompatible.product.product import Product
     >>> from zope.interface import providedBy, alsoProvides
     >>> multi = Product(u'Hewlett-Packard PhotoSmart C5180')
 
-A basic product is a contained persistent object, and is a container::
+We can also create this Product using a factory::
+
+    >>> from zompatible.product.product import productFactory
+    >>> multi = productFactory(u'Hewlett-Packard PhotoSmart C5180')
+
+A product is basically a contained persistent object::
 
     >>> list(providedBy(multi))
-    [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.container.interfaces.IContainer>, <InterfaceClass zope.app.container.interfaces.IContained>, <InterfaceClass persistent.interfaces.IPersistent>]
+    [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.container.interfaces.IContained>, <InterfaceClass persistent.interfaces.IPersistent>]
 
+The name of the product is available in the name attribute::
+
+    >>> multi.name
+    u'Hewlett-Packard PhotoSmart C5180'
+
+A product can have several names, and the main name is the first name::
+
+    >>> multi.names
+    [u'Hewlett-Packard PhotoSmart C5180']
+    >>> multi.names.append(u'HP Photosmart C-5180')
+    >>> multi.names
+    [u'Hewlett-Packard PhotoSmart C5180', u'HP Photosmart C-5180']
+    >>> multi.name = u'HP Photosmart C-5180'
+    >>> multi.names = [u'HP Photosmart C-5180', u'Hewlett-Packard PhotoSmart C5180']
+
+We can write a description of the object::
+
+    >>> multi.description = u"This is a multifunction device"
+    >>> multi.description
+    u'This is a multifunction device'
+
+The product is currently associated with no organization
+
+    >>> multi.organization
+
+We can put the product into an organization, and 
+The organization happens to be the container for the product!::
+
+    >>> from zompatible.organization.organization import Organization
+    >>> orga1 = Organization(u'orga1')
+    >>> multi.organization = orga1
+    >>> multi in orga1.values()
+    True
+    >>> multi.name in orga1
+    True
+
+We can set another organization for the product, and
+the product is moved to the new organization::
+
+    >>> orga2 = Organization(u'orga2')
+    >>> multi.organization = orga2
+    >>> multi in orga1.values()
+    False
+    >>> multi in orga2.values()
+    True

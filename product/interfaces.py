@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains
-from zope.schema import List, TextLine, Choice, Text
-from zope.interface import Interface
+from zope.schema import List, TextLine, Choice, Text, URI, Bool, Object
+from zope.interface import Interface, Attribute
 from zope.index.text.interfaces import ISearchableText
 
 
-class IProduct(IContained):
+class IProduct(Interface):
     u"""
     IProduct offers the basic attributes of a product
     """
     #containers('zompatible.product.interfaces.IProductContainer')
     #contains('zompatible.driver.interfaces.IDriver')
+    name = Attribute(u'The main name of the product')
     names = List(title=u'names', description=u'possible names of the product', min_length=1, value_type=TextLine(title=u'name', description=u'a name for the product (commercial name, code name, etc.)'))
     organization = Choice(title=u'Organization', description=u'the organization producing this product', source="orgasource", required=False)
     description = Text(title=u"description", description=u"description of the product", required=False, max_length=1000)
@@ -20,9 +21,11 @@ class IProduct(IContained):
     pciid = TextLine(title=u'pci id', description=u'PCI identifier', required=False)
     usbid = TextLine(title=u'usb id', description=u'USB identifier', required=False)
 
-class IProductContainer(IContainer, IContained):
+class IProductContainer(IContainer):
     u"""
-    a toplevel product container. This is a base storage for products.
+    a product container. This is a base storage for products.
+    Basically, an organization can be a product container.
+    But the Trash also is.
     """
     contains(IProduct)
 

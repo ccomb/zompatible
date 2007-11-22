@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
 from persistent import Persistent
-from zope.app.folder.folder import Folder
 from zope.component import adapts, adapter
 from zope.schema.interfaces import ISource, IVocabularyFactory
 from zope.app.component.hooks import getSite
@@ -11,61 +10,72 @@ from zope.component.factory import Factory
 from zope.copypastemove import ObjectMover
 import string
 from BTrees.OOBTree import OOBTree
-from zope.app.folder.interfaces import IFolder
 from zope.app.container.contained import Contained
 from zope.app.container.interfaces import IContained, IContainer
-from zope.component.interface import queryInterface
-from zompatible.characteristic.interfaces import ICharacteristicManager
 from interfaces import *
 
 class Product(Persistent):
-    implements(IProduct, ISubProducts)
+    implements(IProduct, IContained)
     names=[]
-    subdevices=[]
+    subproducts=[]
     description = u""
     pciid=""
     usbid=""
-    # IDevice fournit IContained donc il faut mettre ces attributs :
+    # IProduct fournit IContained donc il faut mettre ces attributs :
     __name__=__parent__= None
-    def __init__(self, names=None, description=None):
-        self.names = names
+    def __init__(self, name=None, description=None):
+        self.name = name
         self.description = description
         self.supports = OOBTree() #the list of supported software that lead to the Support objects
-        super(Device, self).__init__()
-    def __get_organization(self): # used in the property
+        super(Product, self).__init__()
+
+    def __get_name(self):
+        return self.names[0]
+    def __set_name(self, name):
+        while name in self.names:
+            self.names.remove(name)
+        self.names.insert(0,name)
+    def __del_name(self):
+        if len(self.names):
+            del self.names[0]
+    name = property(__get_name, __set_name, __del_name)
+
+    def __get_organization(self):
         if self.__parent__ is not None:
             return self.__parent__.__parent__
         return None
-    def __set_organization(self, orga): # used in the property
-        if orga is not self.__parent__ and orga is not None and self.__parent__ is not None:
+    def __set_organization(self, orga):
+        if self.__parent__ is None:
+            orga[self.name] = self
+            self.__parent__ = orga
+        elif orga is not self.__parent__ and orga is not None:
             mover = ObjectMover(self)
-            if not mover.moveableTo(orga['products']):
+            if not mover.moveableTo(orga):
                 raise "Impossible action" # FIXME set a correct derived exception
             else:
-                mover.moveTo(value['products'])
+                mover.moveTo(orga)
     def __del_organization(self):
-        raise NotImplementedError # FIXME → move the product in a noname area
+        raise NotImplementedError # FIXME → move the product into a noname area
     organization = property(__get_organization, __set_organization, __del_organization)
         
-deviceFactory = Factory( Device,
-                         title = u"Product factory",
-                         description = u"This factory instantiates a new Product.")
+productFactory = Factory( Product,
+                          title = u"Product factory",
+                          description = u"This factory instantiates a new Product.")
 
 class Device(Product):
-    u"FIXME: should probably be removed since a device is a product category"
+    u"FIXME: should probably be removed since a device is a product category?"
     implements(IDevice)
     pciid=""
     usbid=""
 
 class Software(Product):
-    u"FIXME: should probably be removed since a software is a product category"
+    u"FIXME: should probably be removed since a software is a product category?"
     implements(ISoftware)
     builtVersion = u""
     architectures = []
     version = codename = u""
     url=""
     #architectures = List(title=u'architectures', description=u'architectures that software applies to', value_type=Object(title=u'architecture',description=u'list of architectures', schema=IArchitecture))
-
 
 @adapter(IProduct, IObjectRemovedEvent)
 def ProductRemovedEvent(product, event):
@@ -74,15 +84,6 @@ def ProductRemovedEvent(product, event):
         trash = getSite()['trash']
         device_name = INameChooser(trash).chooseName(u"",product)
         trash[device_name]=product
-
-        
-class ProductContainer(Folder):
-    """
-    a folder that contains devices
-    """
-    __name__=__parent__= None
-    implements(IProductContainer)
-
 
 class ProductNameChooser(NameChooser):
     u"""
@@ -121,7 +122,6 @@ class SoftwareNameChooser(ProductNameChooser): # FIXME: should be remove if soft
             version = software.version
         return string.lower(rawname + "-" + version + codename).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
 
-
 # Autre méthode pour créer un objectwidget ? (pas encore testé)
 #class DeviceWidget(ObjectWidget):
 #    __used_for__ = IDevice
@@ -150,12 +150,11 @@ class SearchableTextOfProduct(object):
                 texttoindex += subword + " "
         return texttoindex
 
-
 class SearchableTextOfSoftware(object):
     u"""
     The adapter that allows to index software objects
     """
-    implements(ISearchableTextOfSoftware)
+    implements(ISearchableTextOfProduct)
     adapts(ISoftware)
     def __init__(self, context):
         self.context = context

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-from zope.app.folder.folder import Folder
 from zope.component import adapts, getAllUtilitiesRegisteredFor
-from zope.app.folder.interfaces import IFolder
 from zope.app.container.interfaces import INameChooser
+from zope.app.container.btree import BTreeContainer
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized, ISource
 from zope.component.interface import nameToInterface, interfaceToName
 from zope.schema.vocabulary import SimpleTerm
@@ -16,27 +15,25 @@ from zope.app.component.hooks import getSite
 import string
 
 from interfaces import *
-from zompatible.device.device import DeviceContainer
-from zompatible.software.software import SoftwareContainer
 from interfaces import IOrganization, IOrganizationType
 
 
-class OrganizationContainer(Folder):
+class OrganizationContainer(BTreeContainer):
   "a organization container"
   implements(IOrganizationContainer)
-  __name__=__parent__=None
+  __name__ = __parent__ = None
 
 OrganizationContainerFactory = Factory(OrganizationContainer)
     
-class Organization(Folder):
-    implements(IOrganization,IFolder)
-    names=[]
-    url=""
-    description=u""
-    pciids=[] # une Organization peut fournir IManufacturer !!
-    usbids=[] # idem
-    __name__=__parent__=None
-    def __init__(self, names=None, description=None):
+class Organization(BTreeContainer):
+    implements(IOrganization,IContainer)
+    names = []
+    url = ""
+    description = u""
+    pciids = [] # une Organization peut fournir IManufacturer !!
+    usbids = [] # idem
+    __name__ = __parent__ = None
+    def __init__(self, names = None, description = None):
         self.names = names
         self.description = description
         super(Organization, self).__init__()
@@ -45,7 +42,7 @@ from zope.component.factory import Factory
 
 organizationFactory = Factory(
     Organization,
-    title=u"Organization factory",
+    title = u"Organization factory",
     description = u"This factory instantiates new Organization."
     )
 
@@ -82,7 +79,7 @@ class OrganizationInterfaces(object):
         self.availableinterfaces = list(getAllUtilitiesRegisteredFor(IOrganizationType))
         self.__parent__ = self.orga.__parent__
     def __getattr__(self, name):
-            if name=='interfaces':
+            if name == 'interfaces': # FIXME: replace with a property
                 u"When accessing orga.interfaces, return the provided interfaces of type IOrganizationType)" 
                 return [ interface for interface in self.availableinterfaces if interface.providedBy(self.orga) ]
             else :
@@ -90,25 +87,25 @@ class OrganizationInterfaces(object):
 
     def __setattr__(self, name, value):
         u"Same as getitem, but we tell the object to provide the wanted interfaces when we write orga.interfaces"
-        if name=='interfaces':
+        if name == 'interfaces':
             for i in self.availableinterfaces:
                 noLongerProvides(removeAllProxies(self.orga), i)
                 if i in value:
-                    u"on crée le DeviceContainer ou SoftwareContainer si absent"
+                    u"on crée le ProductContainer ou SoftwareContainer si absent"
                     if i.getTaggedValue('containername') not in self.orga:
                         self.orga[i.getTaggedValue('containername')] = InternalContainerFactory(i)
                     alsoProvides(removeAllProxies(self.orga), i)
         else :
-            self.__dict__[name]=value    # FOIREUX #############################
+            self.__dict__[name] = value    # FOIREUX #############################
 
 class Manufacturer(object):
     implements(IManufacturer)
     adapts(IOrganization)
     def __init__(self, context):
-        self.context=context
+        self.context = context
     def __getattr__(self, name):
-        if name == "products":
-            return self.context['devices']
+        if name ==  "products":
+            return self.context['products']
         else:
             try :
                 return self.__dict__[name]    # FOIREUX #############################
@@ -119,9 +116,9 @@ class SoftwareEditor(object):
     implements(ISoftwareEditor)
     adapts(IOrganization)
     def __init__(self, context):
-        self.context=context
+        self.context = context
     def __getattr__(self, name):
-        if name == "products":
+        if name ==  "products":
             return self.context['software']
         else:
             return self.__dict__[name]    # FOIREUX #############################
@@ -129,7 +126,7 @@ class SoftwareEditor(object):
 def InternalContainerFactory(i):
     u"fonction qui crée le bon container en fonction de l'interface"
     if (i is IManufacturer):
-        return DeviceContainer()
+        return ProductContainer()
     if (i is ISoftwareEditor):
         return SoftwareContainer()
 
@@ -145,10 +142,10 @@ class SearchableTextOfOrganization(object):
     def getSearchableText(self):
         sourcetext = texttoindex = u''
         for word in self.context.names:
-            sourcetext += word + " "
+            sourcetext ==  word + " "
         for word in sourcetext.split():        
-            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>=1 ]:
-                texttoindex += subword + " "
+            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>= 1 ]:
+                texttoindex ==  subword + " "
         return texttoindex
 
 class OrganizationTypeVocabulary(object):
@@ -157,11 +154,11 @@ class OrganizationTypeVocabulary(object):
     """
     implements(IVocabularyTokenized)
     adapts('zompatible.organization.interfaces.IOrganization')
-    index=0
+    index = 0
     def __init__(self, context):
         "here the context is the Organization"
-        self.context=context
-        self.index=0
+        self.context = context
+        self.index = 0
         self.interfaces = list(getAllUtilitiesRegisteredFor(IOrganizationType))
     def getTerm(self, value):
         "here, value is a an organization interface, such as IManufacturer"
@@ -169,17 +166,17 @@ class OrganizationTypeVocabulary(object):
         title = value.getTaggedValue('name')
         return SimpleTerm(value, token, title)
     def getTermByToken(self, token):
-        value=nameToInterface(self.context, token.decode('base64'))
-        title=value.getTaggedValue('name')
+        value = nameToInterface(self.context, token.decode('base64'))
+        title = value.getTaggedValue('name')
         return SimpleTerm(value, token, title)
     def __iter__(self):
         "we decide the iterator is the object itself. So we need to implement next() and have our own internal index"
-        self.index=0
+        self.index = 0
         return self
     def next(self):
-        if self.index>=len(self.interfaces):
+        if self.index>= len(self.interfaces):
             raise StopIteration
-        self.index=self.index+1
+        self.index = self.index+1
         return self.getTerm(self.interfaces[self.index-1])
     def __len__(self):
         return len(self.interfaces)
