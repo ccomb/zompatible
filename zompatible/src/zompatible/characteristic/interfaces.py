@@ -2,10 +2,21 @@ from zope.interface import Interface
 from zope.interface.interfaces import IInterface
 from zope.schema import Choice, TextLine, Int, List, Iterable
 from zope.component.interface import  provideInterface
+from zope.annotation.interfaces import IAttributeAnnotatable
 
-class ICharacterizable(Interface):
+class ICharacterizable(IAttributeAnnotatable):
     u""" Marker interface to be able to provide ICharacteristicManager on any object.
     """
+
+class ICharacteristics(Interface):
+    """interface through which object characteristics are retrieved or set
+    """
+    characteristics = List(title = u"Characteristics", 
+                           description = u"Characteristics provided by an object",
+                           value_type = Choice(title = u"Name", 
+                                               description = u"Characteristic Names", 
+                                               vocabulary = 'Characteristic Names'))
+
 
 class ICharacteristicManager(Interface):
     u""" This interface manages characteristic interfaces that can be provided by a

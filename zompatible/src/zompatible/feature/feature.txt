@@ -1,0 +1,12 @@
+========
+Features
+========
+
+A feature is a functional element of a product. The usufulness of a product
+can be fully described by the list of its features. A feature work or doesn't work,
+can be enabled or disabled.
+
+todo: A feature of a product can work in association with another product:
+For instance, a soundcard sample rate of 96kHz will work if the hosts operating
+system has a driver supporting this frequency.
+So the feature should be copied to the support object to be leveled.

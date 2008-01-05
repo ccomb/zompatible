@@ -15,8 +15,8 @@ So we must first register the adapter, then try to use categories::
 
     >>> from zompatible.category.interfaces import ICategorizable, ICategories
     >>> from zompatible.category.category import Categories
-    >>> from zope.app.testing import ztapi
-    >>> ztapi.provideAdapter(ICategorizable, ICategories, Categories)
+    >>> from zope.component import provideAdapter
+    >>> provideAdapter(Categories, provides=ICategories)
 
     >>> class MyObject(object):
     ...     pass
@@ -31,9 +31,8 @@ We must also register the annotation adapter.
 By beeing categorizable, our object becomes annotatable
 
     >>> from zope.annotation.attribute import AttributeAnnotations
-    >>> from zope.annotation.interfaces import IAttributeAnnotatable, IAnnotations
-    >>> ztapi.provideAdapter(IAttributeAnnotatable, IAnnotations, AttributeAnnotations)
-    >>> from zope.annotation.interfaces import IAnnotatable, IAttributeAnnotatable
+    >>> from zope.annotation.interfaces import IAttributeAnnotatable, IAnnotations, IAnnotatable
+    >>> provideAdapter(AttributeAnnotations, provides=IAnnotations)
     >>> IAnnotatable.providedBy(myobj) or IAttributeAnnotatable.providedBy(myobj)
     False
     >>> from zope.interface import alsoProvides

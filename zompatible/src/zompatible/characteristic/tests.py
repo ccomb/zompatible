@@ -16,7 +16,11 @@ def test_suite( ):
     suite = unittest.TestSuite()
 
     # we add the doctests contained in the zompatible.txt text file
-    suite.addTest(doctest.DocFileSuite('characteristic.txt', setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown))
+    suite.addTest(doctest.DocFileSuite(
+            'characteristic.txt',
+             setUp = placelesssetup.setUp,
+             tearDown = placelesssetup.tearDown,
+             optionflags = doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS))
     
     return suite
 

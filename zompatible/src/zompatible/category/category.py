@@ -107,7 +107,7 @@ class CategoryVocabularyFactory(object):
     def __call__(self, context):
         return CategoryVocabulary(context)
 
-CATEGORIESKEY = 'zompatible.category'
+CATEGORIES_KEY = 'zompatible.category'
 
 class Categories(Location):
     u"""
@@ -121,10 +121,10 @@ class Categories(Location):
 
     def _get_categories(self):
         try:
-            return IAnnotations(self.context)[CATEGORIESKEY]
+            return IAnnotations(self.context)[CATEGORIES_KEY]
         except KeyError:
             categories = PersistentList()
-            IAnnotations(self.context)[CATEGORIESKEY] = categories
+            IAnnotations(self.context)[CATEGORIES_KEY] = categories
             return categories
 
     def _set_categories(self, categories):
@@ -134,7 +134,7 @@ class Categories(Location):
                 if parent not in categories:
                     categories.append(parent)
                 parent = parent.__parent__
-        IAnnotations(self.context)[CATEGORIESKEY] = PersistentList(categories)
+        IAnnotations(self.context)[CATEGORIES_KEY] = PersistentList(categories)
 
     categories = property(_get_categories, _set_categories)
     

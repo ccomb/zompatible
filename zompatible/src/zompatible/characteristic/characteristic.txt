@@ -1,18 +1,82 @@
-
 ===============
 CHARACTERISTICS
 ===============
 
-Every product has characteristics, so we always have an ICharacteristics adapter on any product.
-Our device has no characteristics yet (empty list)::
+A characteristic is a physical and intrinsic descriptive element of a product.
+A product should be fully described by the list of its characteristics.
+For instance, a TV screen can be described by its size, its weight, its resolution, etc.
+So we should have a characteristic object that materialize the resolution.
+For a motherboard, we can also have a characteristic object that represent
+the CPU socket. That say, the motherboard has a socket 975, this socket is a
+female socket. A characteristic can also store characteristics to have hierarchic
+characteristics : A possible characteristic for a laptop is to have a DVD burner.
+The dvd burner can have characteristics itself (weight), or features (burning speed)
+So a characteristic can itself be a product : the burner is at the same time a 
+characteristic of the laptop, and a product made by an organization.
 
+Warning: Characteristics are (are they?) different from features.
+Features are a functionnal description, and are used to describe
+the usage of the product, what works, what doesn't work,
+what can be enabled or disabled, etc.
+
+Setting and getting characteristics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's create a dummy object, so we can put characteristics on this object.
+
+    >>> class MyObject(object):
+    ...     pass
+    >>> myobj = MyObject()
+
+We register the adapter from ICharacterizable to ICharacteristics
+and the annotation adapter
+
+    >>> from zompatible.characteristic.interfaces import ICharacteristics, ICharacterizable
     >>> from zompatible.characteristic.characteristic import Characteristics
     >>> from zope.component import provideAdapter
-    >>> provideAdapter(Characteristics)
-    >>> ICharacteristics(multi)
+    >>> provideAdapter(Characteristics, provides=ICharacteristics)
+
+    >>> from zope.annotation.attribute import AttributeAnnotations
+    >>> from zope.annotation.interfaces import IAttributeAnnotatable, IAnnotations
+    >>> provideAdapter(AttributeAnnotations, provides=IAnnotations)
+
+This object is not yet characterizable, we cannot get its characteristics::
+
+    >>> ICharacteristics(myobj)
+    Traceback (most recent call last):
+    ...
+    TypeError: ('Could not adapt',
+                <MyObject object at ...>,
+                <InterfaceClass zompatible.characteristic.interfaces.ICharacteristics>)
+
+Now we make our object characterizable, so we can get the (empty) list
+of characteristics::
+
+    >>> from zope.interface import alsoProvides
+    >>> alsoProvides(myobj, ICharacterizable)
+    >>> characteristics = ICharacteristics(myobj).characteristics
+    >>> characteristics
     []
 
-We express the fact that the device can have physical interfaces by adding a marker interface::
+Characteristic object
+~~~~~~~~~~~~~~~~~~~~~
+
+A characteristic is an object. Each characteristic will have its own implementation.
+Let's try with the resolution.
+
+    >>> from zompatible.characteristic.characteristic import Resolution, PhysicalInterface
+    >>> reso = Resolution(1600, 1200)
+    >>> characteristics.append(reso)
+    >>> phys = PhysicalInterface(gender='Male')
+    >>> characteristics.append(phys)
+    >>> phys.gender
+    'Male'
+    
+
+
+
+We express the fact that the device can have physical interfaces by adding 
+a marker interface::
 
     >>> from zope.interface import alsoProvides
     >>> from zompatible.characteristic.interfaces import IHasPhysInterfaces

@@ -4,8 +4,36 @@ from zope.interface import providedBy, alsoProvides, directlyProvidedBy, directl
 from zope.component.interface import queryInterface
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.interfaces import IVocabularyFactory
-
+from zope.location import Location
+from zope.annotation.interfaces import IAnnotations
+from persistent.list import PersistentList
 from interfaces import *
+
+CHARACTERISTICS_KEY = 'zompatible.category'
+
+class Characteristics(Location):
+    u"""
+    The adapter that writes and retrieves the characteristics put on any object
+    """
+    adapts(ICharacterizable)
+    implements(ICharacteristics)
+
+    def __init__(self, context):
+        self.context = context
+
+    def _get_characteristics(self):
+        try:
+            return IAnnotations(self.context)[CHARACTERISTICS_KEY]
+        except KeyError:
+            characteristics = PersistentList()
+            IAnnotations(self.context)[CHARACTERISTICS_KEY] = characteristics
+            return characteristics
+
+    def _set_characteristics(self, categories):
+        IAnnotations(self.context)[CHARACTERISTICS_KEY] = PersistentList(characteristics)
+
+    characteristics = property(_get_characteristics, _set_characteristics)
+
 
 #################
 # ABSTRACT CLASS
