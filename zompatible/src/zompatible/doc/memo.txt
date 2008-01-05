@@ -1,0 +1,491 @@
+
+----------------------
+Mémo sur les étapes de la création d'une appli web
+- séparer les fonctionnalités
+- imaginer l'interface
+- imaginer la hierarchie d'objets
+- savoir comment sera utilisée l'URL (objets localisables en accès directs ? cachés à travers des vues ?)
+
+    
+
+Deux modes :
+- recherche de matériel
+- soumission de matériel
+
+
+modèle : nom, constructeur, fonctionnalités, chipset, pciid, pilotes
+fonctionnalité : nom ("3D", protocole?), type mat. (ex: carte graph), 
+constructeur : nom
+pilote : nom ("nv"), libre O/N, version, stable O/N
+distrib : id?, nom, version
+
+
+liens entre softs
+=================
+plusieurs notions de liens possibles :
+C parsing fun
+Helo ppl!
+
+* le fuzzy software, dont on connait peu de détail (ex : ubuntu 7.04 mais kubuntu ? xubuntu ?) et qui doit être utilisé
+    lors de la sélection par un débutant qui ne connait pas toutes les variantes.
+* la variante (kubuntu) qui permet d'obtenir les meme Supports
+* le fork
+* la nouvelle version (7.04 par rapport à 6.10) qui pourrait être implémentée par juste une fonction d'import
+    qui crée un seul objet Support indiquant que le matériel était compatible avec une version antérieure.
+    Mais ceci est peut-être inutile car la fonction qui indique que ça marche ailleurs dit suffire. Ca n'apporte
+    pas grand chose de plus de dire que ça marche sur la version précédente d'ubuntu plutot que sur fedora.
+    C'est d'ailleurs même plus significatif de dire que ça marche sur une distro de même génération.
+    Par contre pour une version mineure, il faut tout garder : par ex pour 6.06.1 vis à vis de 6.06
+    (ainsi que pour les debian 3.1r1, 3.1r2, etc.)
+* l'équivalent qui permet de dire que 2 objets sont en fait les memes. Il faudrait dans ce cas pouvoir fusionner
+
+→ zc.relationship ?
+
+
+parsing du noyau linux:
+=======================
+Le but est d'analyser le noyau, et d'en retirer toutes les informations de compatibilité possibles.
+Plusieurs pistes à creuser :
+* infos sur les modules et les pciid associés, directement dans le code source
+* Info sur les modules associés à un device, map générées par depmod
+* infos sur les drivers intégrés au kernel
+* infos sur les modules activés ou désactivés (option de compil)
+
+Bon, on va simplifier à mort sinon ce ne sera jamais fini. => on ne crée pas un objet
+par module du noyau, mais on se content de récupérer les modules.map des distributions linux.
+Le fait d'ajouter la catégorie Distribution Linux ajoute la possibilité d'uploader le modules.map
+et de créer un objet Report pour chaque ID rencontré. Cet objet report permet juste
+d'affirme que ça « peut » marcher, et de donner le nom du noyau linux concerné.
+update: Le probleme, tout ça ne permet pas de gérer les licences des modules, et donc de savoir si 
+un driver est libre ou non. Donc à la limite, il vaudrait mieux ne pas gérer les noyaux, mais associer directement
+les distros aux modules kernel.
+→ On revient à l'idée de départ. → liste de tous les kernels, et liste de tous les modules avec leurs versions.
+→ Il faut parser tous les noyaux linux vanilla à la recherche de :
+des PCI Ids, ou USB Ids, associés à des modules, et le n° de version, description du module.
+Tous ces objets pourront être invisibles pour certains utilisateurs débutants s'ils sont correctement catégorisés.
+
+Ok, le principe est de compiler un noyau avec l'option make allmodconfig, puis make, puis make INSTALL_MOD_PATH=`pwd` modules_install
+Ceci génère les fichiers de map pour l'architecture concernée. Il suffit ensuite d'injecter ce fichier en import.
+Le fichier modules.ofmap est vide, il faut surement compiler pour PPC pour avoir qque chose.
+Il faut répéter cette opération pour chaque noyau depuis le 2.6.0 (et peut-être 2.4.X) et pour toutes les architectures,
+en commençant avec intel.
+Comment exprimer le fait que deux objets nvidia 1.1 et nvidia 1.2 sont en fait les mêmes ?
+Il faut peut-être ne pas mettre le n° de version dans l'objet, et ne mettre la version que dans l'objet Report.
+Cela oblige à donner la version pour chaque report... Il suffirait d'indiquer dans le Report comment donner le n° de version.
+Cela permettrait d'éviter d'accumuler trop de versions différentes.
+
+
+Soumission matériel
+==================
+
+Lors de la prise d'infos, captiver l'utilisateur de sorte à l'entrainer dans la fourniture d'infos de + en + précises (voir Viadeo)
+Utiliser d'abord les formulaires standards de zope3, puis si besoin créer des widgets personalisés.
+
+Soumission d'un logiciel :
+Objet Software + choix type ? catégorie ?
+Type à choisir :
+- OperatingSystem (+ catégories : Linux Distribution, Proprietary OS, Realtime OS, ...=catégories d'OS)
+- Driver
+- Autre logiciel (SANE, freebob, alsa)
+- kernel ??
+Moyen de lier un software à une catégorie de matériel ? freebob ←→ cartes firewire
+
+WORKING SETUPS
+==============
+Les objets Report stockent l'état de compatibilité d'un couple Soft/Hard. Un utilisateur peut avoir envie de connaître le résultat d'un assemblage entre plusieurs soft et hard. Par exemple, j'ai un portable Latitude, avec une Ubuntu 6.10, et une carte son Firepod. Je veux savoir si ça va marcher.
+
+Le système doit d'abord trouver les bons couples soft/hard, ici Ubuntu/Latitude et Ubuntu/Firepod (Deux objets Support)
+
+Dans chacun de ces couples, c'est des Feature particulières qui nous intéresse : le firewire pour le 1er, et l'ensemble des Features offertes par la Firepod dans l'autre. Il faut donc faire le lien entre ces deux Support, pour trouver ce qui permet de déterminer le fonctionnement global. Dans le 1er couple, c'est la Feature firewire qui nous intéresse
+Ubuntu/Latitude → 
+Ce qui nous intéresse dans le 1er couple, est le fonctionnement de la prise firewire du Latitude sous Ubuntu. Ce qui nous intéresse dans le 2eme couple, c'est le fonctionnement (ou pas) de freebob avec la Firepod. 
+
+
+
+ARCHITECTURE, DIVERS:
+====================
+lien principal = chip <-> driver  implique lien  device <-> distro
+
+(manuf  (device  (chip ) )  )  <->  (os  (kernel  (driver  ) ) +programme? )
+
+commencer par indexer le kernel, les pilotes, les pciid et remplir la base avec ça
+Accueillir ensuite les user_experience
+
+Workflow d'objets ?  en création, créé, douteux, confirmé ? caché en attente de doublons ?
+
+pciid = feature de pcidevice ?
+
+fiche systeme (ex=portable)  liste des composants et de leurs supports respectifs.  Systeme = somme de devices
+
+Imaginer une vue complete pour chaque objet. device, manuf, systeme
+
+
+
+
+    So a Device would be a container that can contain Features, Chips, PhysicalInterfaces and Driver
+    Un device pourrait être une implémentation fournissant IDevice, IPhysicalInterface, IChiped, etc... ?
+    Pour un contenu potentiellement infini (ex: devices pour un organization), faire un folder
+    Pour un contenu limité (ex: chip dans un device), mettre en attributs.
+    
+    L'attribut supports contient un OOBTree qui associe Software → Support
+
+
+
+
+
+Add subdevice  -> search existing  :
+- if found -> add
+- not found  ->  Tell to add later
+
+Implémenter un objet User_Experience qui permet de rendre compte de l'avis d'un personne, avec son matériel, les détails sur sa distrib, etc.
+Gestion des cas particuliers : si l'avis est comme tout le monde -> ok.  Sinon demander détails pour trouver la particularité qui fait que c'est différent (matériel spécifique ?)
+
+Objet Personne : liste d'avis, d'informations, taux fiabilité de la personne (?), liste de matériels.
+
+Fiche matériel : photo matériel ? possède un pilote linux proprio / libre ou : peut fonctionner sous linux (moyennant bidouillage)  ou : fonctionne directement avec : Ubuntu, Mandriva, etc.
+
+Page recherche : ipod -> choix ipod nano, ipod video, G3, G4, etc. -> liste des systèmes + liste logiciels utiles
+Page recherche : ubuntu lecteur mp3 -> ubuntu + liste meilleurs lecteurs mp3. -> choix d'un lecteur -> résumé lecteur + posts, rating, procédure d'install (script, commentaires)
+Une page ubuntu+ipod serait une sorte de multiview sur 2 objets (multi-adapter) ?
+
+Trois grand objets principaux :
+-device (dont le conteneur est un manufacturer)
+-OS
+-user (avec expériences=rapports)
+
+??? 
+Pour chaque objet, 1 attribut contenant les propositions d'erreurs : error report = { __:__, etc. } (key=nom de l'attribut (ou à effacer),  value=valeur proposée
+???
+Le principe est que n'importe qui ne peut pas modifier directement la base de données, mais peut exprimer une opinion, un peu comme un vote,
+pour dire que telle partie de la base est erronée, ou incomplète, etc. Comme on ne peut pas forcément faire confiance à tout le monde,
+on autorise tout le monde à seulement ajouter un rapport de modification sur un objet, mais pas à le modifier directement.
+Ce rapport de modification est un objet stocké dans les meta-données de l'objet à modifier.
+Lorsque plusieurs rapports de modifications identiques sont soumis par plusieurs personnes, on modifie l'objet directement
+selon les désirs de toutes ces personnes, puis on efface les rapports de modification.
+Un tel comportement peut être implémenté de manière générique grâce à une interface, et appliqué à n'importe quel type d'objet (manufacturer, device, etc.)
+
+
+
+
+
+Utiliser des sources ou vocabularies pour les attributs
+- le __name__ d'un objet doit être calculé par les URLs (cf NameChooser) Le DisplayName doit être le bon (voir p293)
+
+
+Un device peut fournir l'interface ISubDevices qui indique qu'il peut contenir des subdevices.
+Non. Un Device peut fournir bêtement l'interface IDeviceContainer qui indique qu'il peut contenir lui-même des devices.
+Un device peut (doit?) fournir l'interface IFeatured qui indique qu'il contient des features
+
+---
+
+interface style Google -> Recherche d'un mot ou 2, ex: Linksys -> recherche partout
+Si un mot pas connu -> suggestions sur orthographes voisines + Demande : « qu'est-ce que Linksys ? » + radio choice :
+1 fabricant ?  si oui : formulaire d'ajout de fabricant
+1 matériel ? si oui : qui est le fabricant ? + formulaire d'ajout de matériel
+(1 distrib ?)  : formulaire d'ajout de distrib
+1 feature ?  : formulaire d'ajout de feature
+1 Physical interface ?  : formulaire d'ajout de feature
+1 driver ?  : 1 driver appartient à quoi ? un OS ? un fabricant ? une distrib ? un noyau ?
+Comment différencier feature de physical interface ? Ca pourrait être le même objet, mais avec un interface en plus spécifiant que c'est une interface physique.
+Une physical interface est une feature d'un matériel.
+   ---> Oui mais, c'est étroitement lié au chip qui ne sait gérer que le PCI, le SCSI ou l'USB... Je veux dire que pour un chip donné, tu n'as qu'une interface physique possible, par contre les Features peuvent 
+bien être différentes d'un matériel à un autre avec ce même chip. C'est vrai qu'on voit bien le role particulier de l'interface physique et que c'est tout de même une feature... On pourrait tout de même le voir
+comme la feature PRINCIPALE d'un matériel étant donné que c'est le support physique qui lui permet de communiquer avec les autres matériels: c'est LA feature qui se retrouve dans TOUT MATERIEL.
+
+Quatre grand types d'objets contenus :
+o Organisation
+o Matériel
+o Logiciel
+o Caractéristique
+Organisation = fabricant, éditeur, association
+Matériel = carte, chip, périphérique, laptop
+Logiciel = OS, driver, logiciel, sous-système (X11), ndiswrapper, freebob, SANE, alsa, 
+Caractéristique = port PCI, prise VGA, socket 775, wi-fi, 3D, WPA, Qté RAM
+Certaines caractéristiques peuvent être un Vocabulaire (Socket = socket 939, socket 775, etc..  Port = PCI, AGP, PCI-e, PCI-X
+D'autres peuvent être une valeur avec une unité ou non: Qté RAM = 512Mo
+
+Deux niveaux d'information :
+- fourni par l'utilisateur = UserReport
+- calculée automatiquement = - présence d'un driver,  - présence d'une feature d'un logiciel (ex: gestion WPA)
+Matériel <-- [ Driver ] --> Os
+Matériel <-- [ Feature ] --> Logiciel/Driver
+
+[ Matériel ] features   [ Driver ]
+[          ]<---------> [        ]    feature = module kernel ??
+[          ]            [        ]
+
+Le fait qu'il existe une page web relatant "ça marche" est un "user report"
+Il y a plusieurs niveaux dans un UserReport :
+« je sais que ça ne marche pas »         [ÇA] = quoi ??  Matériel lui-même, ou juste Feature.
+« je pense que ça ne marche pas »
+« j'ai lu/entendu que ça marce »
+« je l'ai vu marcher »
+« je l'ai fait marcher »
+autre niveau : 
+- ça a marché tout de suite sans rien faire
+- j'ai bidouillé
+Notion d'actions à accomplir, puis de scripts
+
+Actions :
+- rien faire
+- installer un paquet/logiciel  intégré distro / externe
+
+Donc UserReport contient :
+- contexte (=feature ou device)       rem: contexte=> Adapter ?!? Multiadapter(IUserReportable, context,report) ??  stockage dans Report.
+- niveau (voir plus haut)
+
+Une UserReport peut être stocké (à décider) dans :
+- le user (permet à un utilisateur de retrouver ses reports et de les faire évoluer)
+- le contexte (permet d'afficher plus facilement tous les reports d'un device)
+- à part dans leur propre container.
+- dans l'objet Support associant soft/hard. C'est le comportement actuel
+- dans une base SQL sachant que les reports sont une liste plus ou moins linéaire et chronologique. (se réserver la possibilité de le faire plus tard au cas ou la zodb ne suit pas)
+
+
+Gestion des Catégories. Quelle différence avec une gestion des tags ?
+
+
+Gestion de l'évolution de la compatibilité ? Comment gérer un nouveau driver, son amélioration ?
+Faire une moyenne des userreports sur X semaines ? (sorte de moyenne flottance ?) 
+De toute façon il est peu probable qu'une distro particulière améliore son support direct d'un matériel.
+
+
+Objet catégory -> avoir un workflow : -proposé (1x, 2x, ... 5x-> validation)  -actif  -annulé
+Carte vidéo ET d'acquisition se définit ?  => features = sortie VGA + entrée Vidéo
+Notion entrée/sortie/bi-di sur PhysicalInterface
+Donc une catégorie se définit par des features ??
+IPhysicalInterface(IFeature)
+AGP doit être une implémentation de IPhysicalInterface ?
++ faire un conteneur de PhysicalInterface car c'est un choix et non un int.
+class IPhysicalInterface(IFeature)
+  name=Source(... vocabulary définit par le conteneur...)
+Dossier Features
+    Physical Interfaces
+            AGP
+            USB
+            VGA
+IPhysicalInterfaces = List(IPhysicalInterface) ?
+
+Category
+    Imprimante : IPhysicalInterface + ISpeed + ... ?
+    Carte graphique : IPhys + 
+ISpeed = value + unit
+
+Ce qui définit l'imprimante est la liste des types de features, ce qui définit la Laserjet4000 c'est les valeurs de ces features.
+imprimante = (usb|ethernet|parallele) + Xppm + Xdpi
+laserjet4000 = (parallele+ethernet) + 10ppm + 1200dpi
+
+Catégorie = ensemble de features,   ensemble d'interfaces de features ??
+Faut-il définir une interface IPrinter ??
+class IPrinter
+    ports = Source([usb,parallel,ethernet])
+    qualité d'impression = Int
+
+Certaines catégories de matériel ont un choix limité de features
+Par ex: imprimante : port = usb ou parallele ou ethernet   APN = usb ou firewire(?)
+
+Catégories => ensemble de features
+Tags => ensemble de mots  (mieux pour des images)
+
+L'imprimante est une catégorie, mais il y a des catégories d'imprimantes (laser, jet d'encre, sublimation, etc.)
+Pb du classement => quel critère ?
+==>laser, jet d'encre, sublimation sont des SOUS-CATEGORIES d'imprimantes → les catégories sont arborescentes
+Feature => méthode d'impression. Est-ce définissable hors du contexte d'une imprimante ? (Non a priori)
+
+=> choisir un nombre précis, arbitraire et limité de features pour définir une catégorie ? (ex: port + méthode d'impression)
+Notion de JEU = utilisation, ce n'est pas une feature, et pourtant c'est un classement possible (laptop pour le jeu/laptop pour le travail)
+Utilisation : Professionnelle  / jeu/loisir/divertissement
+
+Influence sur le tagging : « peut-on jouer avec ce portable » « Ce portable est-il fait pour jouer ?»  [_]OUI [_]NON
+(=> Attention penser que ce type d'info n'est pas pérenne dans le temps...)
+=> Définir des phrases types avec les features, posées aux visiteur automatiquement et influençant la catégorisation.
+
+Déclenchement d'actions suscitées : Question sur le bord du site : « Avez-vous utilisé ce matériel sous [v][linux] [OUI ] => démarrage d'un userreport.
+(liste déroulante comportant linux, freebsd, osX, etc...)
+  
+
+Un objet Category est un objet qui définit une catégorie de matériel et qui est implémenté sous la forme soit d'une liste d'interfaces dérivées d'IFeature
+soit sous la forme d'un objet fournissant les interfaces dérivées d'IFeature.
+
+
+Critères de sélection d'un matériel :
+- Usage (interface IUsage)
+- Prix (IPricing)
+- User Rating
+- 
+
+Pour chaque interface, définir un viewlet qui s'affiche dans un cadre à droite et qui permet d'agir.
+
+Peut-être vaudrait-il mieux se concentrer sur quelques devices et définir ceux-ci de manière complète grâce à des interfaces spécialisées du type IPrinter.?
+
+Permettre de déterminer automatiquement la compatibilité ENTRE matériels, ex: carte mère <-> RAM ?
+
+EUREKA:  Il y a un module Category permettant de définir qu'un objet quelconque est catégorisable ET il y a un module Feature permettant de
+définir qu'un objet quelconque possède des features. Donc pour dire qu'une catégorie offre des features, il suffit de dire qu'un objet Category est featured.
+Inversement, une feature peut être catégorisée car on peut décider qu'elle est catégorisable. Donc une feature peut être catégorisée et une catégorie peut offrir des features.
+La boucle est bouclée, vive zope3. :)
+
+Donc ensuite on peut dire qu'un objet quelconque est une imprimante en disant qu'elle est catégorisable et que l'une de ses catégories est l'objet imprimante.
+Le fait de dire que cette catégorie est imprimante apporte l'ensemble des features des imprimantes. Notamment : un ensemble de physicalinterfaces...
+PhysicalInterface est une CATEGORIE. USB est une feature située dans la catégorie PhysicalInterface (çàd qui possède physInt parmi ses catégories.)
+PhysicalInterface est une catégorie offrant des features ? : USB, AGP, 1394, DIMM, SO-DIMM
+
+Implémentations d'objets Category : printer, fax, multifonction, carte graphique, carte d'acquisition, barette RAM (ou barette mémoire), 
+********* Il y a des catégories de Features, des catégories de Device, des catégories d'Action, des catégories d'Usage ****************
+PhysicalInterface est une catégorie de Feature.
+Printer est une catégorie de Device
+Installation est une catégorie d'Action
+Catégories de features : physical interface, Speed, Capacity, Alimentation
+
+Implémentation d'objets Feature : USB,  AGP, 1394, DIMM, SO-DIMM, 3D, 2D, WPA, WEP, capacité RAM, nb de DPI, nb de PPM
+USB, AGP sont des features de la catégorie PhysicalInterface
+Capacité RAM est une feature de la catégorie Capacity
+nb de PPM est une feature ayant les catégories Speed, Printer, 
+feature AGP : categories = carte graphique, physical interface, carte d'acquisition
+feature PCI : carte d'extension, physical interface, 
+
+Usage JEU : 
+Catégory printer : features = physicalinterface, nb PPM, nb DPI, taille bac
+(usb et ethernet ne sont pas exclusif, une imprimante peut offrir usb + ethernet)
+physical interface est une feature ou une catégorie ????!!??  une catégorie de feature ??
+
+Carte graphique : features : AGP, PCI,   characteristics : gpu speed 500MHz
+
+
+Laserjet :
+    physical interface = usb
+    physical interface = ethernet
+    speed : nb de PPM  = 14ppm
+    finesse d'impression : nb de DPI = 1200 DPI
+
+powercolor machin :
+    physical interface  = AGP
+    physical interface = DVI
+    physical interface = VGA
+    
+    
+DeviceCategory
+    printer
+    carte graphique
+    multifonction
+FeatureCategory
+    physical interface
+    interface série
+    speed
+    finesse
+    capacity
+ActionCategory
+    installation
+    configuration
+UsageCategory
+    travail
+    jeu
+    gestion d'entreprise
+UserCategory
+    beginner
+    intermediate
+    advanced linux user
+    advanced windows user
+Device
+    powercolor machin
+    geforce7800
+    laserjet
+Feature  = un truc qui peut ou non fonctionner (ex: sous linux)
+    USB
+    3D
+    WPA
+Caractéristics = une valeur caractéristique de ...
+    nb DPI
+    nb PPM    
+    pciid
+Action
+Usage
+
+
+
+
+Un device peut être : featured, caracteristics, categorized
+Une feature peut être characteristics
+une caractéristique peut être : 
+une category peut être caracteristics et featured
+
+
+Un objet a des caractéristiques matérielles et des caracteristiques fonctionnelles.
+
+
+USB : implémentation de IFeature, offrant ICategorizable et dont la catégorie est PhysicalInterface 
+
+
+
+L'objet Software doit être dérivé en différentes catégories intrinsèques, implémentées en dur sous forme d'interfaces additionnelles à ISoftware. Ces catégories doivent être peu nombreuses, exclusives mutuellement, définies de manière non discutable et appartenir à un ensemble non (ou peu) extensible. Elles doivent être représentatives de ce que sait faire le site. Toute autre catégorie à caractère subjectif, vague ou extensible doit être implémentée sous forme d'objet Category (ex: LinuxDistribution) :
+
+Les catégories intrinsèques de software peuvent être :
+
+- IOperatingSystem (celui qui intéresse le public)
+
+- IDriver
+
+ZC.RELATIONSHIP
+===============
+
+Cet objet Support est typiquement le principe de « Relationship ». On lie deux objets entre eux par une relation : un Device et un Software sont liés par une relation de support ou de compatibilité. Il existe un framework de relation pour gérer tout ça : zc.relationship : http://cheeseshop.python.org/pypi/zc.relationship/1.1a
+Le principe de base est qu'une relation est un objet à part entière, et que cet objet Relation peut être stockée dans un Container spécial qui peut faire des recherches, et aussi indexé dans un index spécial (fourni avec zc.relationship) qui permet de faire des requêtes évoluées sur les relations.[[BR]]
+Ce package pourrait en fait gérer tous les types de relations :
+ * un device « est fabriqué par » tel fabricant
+ * un pilote « prend en charge » tel device (= objet Support)
+ * un module « est inclus dans » tel kernel
+ * un kernel « est inclus dans » telle distro (et par transitivité, un module est inclus dans telle distro).
+Voir : http://svn.zope.org/zc.relationship/trunk/src/zc/relationship/container.txt?rev=72198&view=auto
+
+
+PAGE MATERIEL
+=============
+ex: WMP54G :
+
+OS : pilote inclus / non inclus
+
+comparaison    device features <-> driver features   -> %age de support du matériel par le driver
+gestion de l'architecture ????   ex : feature de driver uniquement sur x86 et pas sur alpha.
+
+Que veut-on : principalement :  Savoir si ça marche tout de suite    ou     Savoir s'il faut bidouiller
+
+internationalisation
+====================
+affichage automatique dans la langue de l'utilisateur. Si non traduit : proposition pour traduire.
+Propositions de trad retenues mais non affichées. À partir de x propositions identiques, validation automatique.
+Seuls les commentaires ou user_experiences de la langue de l'utilisateur sont affichées. + lien vers ceux d'autres langues.
+
+Clients possibles
+=================
+boutiques en ligne qui veulent récupérer/afficher les caractéristiques d'un matériel pour le vendre mieux, ainsi que des commentaires et notes.
+
+Baratin résumé de « Laying out a site »
+=======================================
+package as a minimal layer (voir svn) with traversal error handling + a few other registrations
+Master template or set of master macros
+Use: zope.contentprovider + zope.viewlet a lot!
+Less slots in the main template
++ templates for the different content types
+
+Pour accéder à un objet:
+→ register as a utility → reuse code in zope.app.component.vocabulary
+→ ou lookup the container
+Voir zope.webdev (srichter: it was an attempt to bring TTW development to Zope 3, but it was too much work, and I abondened it)
+Different skin for different user: → set the skin in a handler to BeforeTraverseEvent
+Mieux: Different URL / different user → different skins
+Menu sorted by interface first  Voir: zope.app.publisher.browser.menu
+BUT: menu code not used! Use viewlets!
+Workflow: zope.wfmc et zope.app.wfmc
+i18nfile errir → use UTF-8 in site.py  conf of python
+
+2008
+====
+une catégorie doit apporter un certain nombre de fonctionnalités.
+Quand on ajoute un matériel dans le site, on choisit un certain nombre de catégories,
+ces catégories ramènent chacune plusieurs fonctionnalités.
+ 
+
+
+
+
+---------------------------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+
+      [console_scripts]
+      zompatible-debug = zompatible.startup:interactive_debug_prompt
+      zompatible-ctl = zompatible.startup:zdaemon_controller
+      [paste.app_factory]
+      main = zompatible.startup:application_factory
+      

@@ -1,0 +1,51 @@
+<configure xmlns:zope="http://namespaces.zope.org/zope">
+
+<!-- we define r/w permissions on the Product class -->
+<class class=".product.Product">
+    <!-- We decide that Product objects are characterizable, categorizable, and are supported (ie carry a compatibility database) -->
+    <implements interface="zompatible.support.interfaces.ISupported
+                           zompatible.category.interfaces.ICategorizable
+                           zompatible.ids.interfaces.IProductId
+                           zompatible.characteristic.interfaces.ICharacterizable" />
+    <require permission="zope.View"
+             interface=".interfaces.IProduct" />
+    <require permission="zope.ManageContent"
+             set_schema=".interfaces.IProduct" />
+	<!-- We make products characterizable -->
+    <require permission="zope.View"
+             interface="zompatible.support.interfaces.ISupported" />
+    <require permission="zope.ManageContent"
+             set_schema="zompatible.support.interfaces.ISupported" />
+    <require permission="zope.View"
+             interface="zompatible.ids.interfaces.IProductId" />
+    <require permission="zope.ManageContent"
+             set_schema="zompatible.ids.interfaces.IProductId" />
+</class>
+
+<interface interface=".interfaces.IProduct"
+           type="zope.app.content.interfaces.IContentType" />
+
+<utility component=".product.productFactory"
+         name="zompatible.Product"
+         permission="zope.ManageContent" />
+
+<adapter factory=".product.SearchableTextOfProduct" />
+<adapter factory=".browser.ProductTerms" />
+<adapter factory=".browser.ProductQueryView" />
+<adapter factory=".product.ProductNameChooser" />
+
+<subscriber handler=".product.ProductRemovedEvent" />
+
+<!-- registered named utility used in the subproducts interface -->
+<utility factory=".product.ProductVocabularyFactory"
+         name="productsource" />
+
+<!-- a factory for products -->
+<utility component=".product.productFactory"
+         name="zompatible.Product"
+         permission="zope.Public" />
+
+<include package=".template" />
+<include package=".browser" />
+
+</configure>

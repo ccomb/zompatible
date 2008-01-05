@@ -1,0 +1,105 @@
+============
+ORGANIZATION
+============
+    >>> from zompatible.organization.organization import Organization
+    >>> from zope.interface import providedBy
+
+We create a new organization. It still has no name::
+
+    >>> nvidia = Organization()
+    >>> nvidia.names
+    []
+    >>> nvidia.name
+    u''
+
+An Organization is a persistent container providing IOrganization.::
+
+    >>> list(providedBy(nvidia))
+    [<InterfaceClass zompatible.organization.interfaces.IOrganization>,
+     <InterfaceClass zope.app.container.interfaces.IContainer>,
+     <InterfaceClass zope.app.container.interfaces.IContained>,
+     <InterfaceClass persistent.interfaces.IPersistent>]
+
+Organization Names
+~~~~~~~~~~~~~~~~~~
+
+We can add a name, it appears in the name list and as the main name
+    >>> nvidia.names.append(u'Nvidia')
+    >>> nvidia.names
+    [u'Nvidia']
+    >>> nvidia.name
+    u'Nvidia'
+
+We can add a name, either by appending the list or setting the main name::
+
+    >>> nvidia.names.append(u'NVIDIA')
+    >>> nvidia.names
+    [u'Nvidia', u'NVIDIA']
+    >>> nvidia.name
+    u'Nvidia'
+
+    >>> nvidia.name = u'nvidia'
+    >>> nvidia.name
+    u'nvidia'
+    >>> nvidia.names
+    [u'nvidia', u'Nvidia', u'NVIDIA']
+
+We can delete a name::
+
+    >>> nvidia.names.remove(u'nvidia')
+    >>> nvidia.name
+    u'Nvidia'
+    >>> nvidia.names
+    [u'Nvidia', u'NVIDIA']
+
+Factory
+~~~~~~~
+
+We can also create the organization with its factory
+
+    >>> from zompatible.organization.organization import organization_factory
+    >>> ati = organization_factory(name=u'ATI')
+    >>> ati.names
+    [u'ATI']
+    >>> ati.name
+    u'ATI'
+
+Organization Container
+~~~~~~~~~~~~~~~~~~~~~~
+
+An organization can be put in a specific container,
+providing IOrganizationContainer, and IContainer::
+
+    >>> from zompatible.organization.organization import OrganizationContainer
+    >>> from zompatible.organization.interfaces import IOrganizationContainer
+    >>> from zope.app.container.interfaces import IContainer
+    >>> orgas = OrganizationContainer()
+    >>> orgas['nvidia'] = nvidia
+    >>> orgas['ati'] = ati
+    >>> sorted(list(orgas.keys()))
+    [u'ati', u'nvidia']
+    >>> IOrganizationContainer.providedBy(orgas)
+    True
+    >>> IContainer.providedBy(orgas)
+    True
+
+Name chooser
+~~~~~~~~~~~~
+
+The organization name chooser allows to choose the __name__ of the organization.
+This is an adapter registered for the organization *container*!!. (to check)
+It will be used for traversing and will appear in the URL::
+
+    >>> from zompatible.organization.organization import OrganizationNameChooser
+    >>> from zompatible.organization.interfaces import IOrganization
+    >>> from zope.app.container.interfaces import INameChooser
+    >>> from zope.app.testing import ztapi
+    >>> ztapi.provideAdapter(IOrganizationContainer, INameChooser, OrganizationNameChooser)    
+    >>> namechooser = INameChooser(orgas)
+    >>> nvidia.name = u'NvIdIa'
+    >>> namechooser.chooseName(None, nvidia)
+    u'nvidia'
+    >>> namechooser.checkName(u'nvidia', nvidia)
+    Traceback (most recent call last):
+    ...
+    UserError: The given name is already being used

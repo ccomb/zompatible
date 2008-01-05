@@ -1,0 +1,63 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="zompatible">
+
+  <include package="zope.security" file="meta.zcml" />
+  <include package="zope.app.zcmlfiles" file="meta.zcml" />
+
+  <include package="zope.publisher" />
+  <include package="zope.traversing" />
+  <include package="zope.traversing.browser" />
+  <include package="zope.app.zcmlfiles" />
+
+  <!-- The following packages aren't needed from the beginning, but
+       end up being used in most applications -->
+  <include package="zope.i18n" file="meta.zcml" />
+  <include package="zope.annotation" />
+  <include package="zope.copypastemove" />
+  <include package="zope.formlib" />
+  <include package="zope.i18n.locales" />
+  <include package="zope.app.authentication" />
+  <include package="zope.app.session" />
+  <include package="zope.app.intid" />
+  <include package="zope.app.keyreference" />
+  <include package="zope.app.catalog" />
+
+  <!-- Add your own component registrations here -->
+
+
+<class class=".zompatible.ZompatibleSite">
+  <require permission="zope.View"          interface=".interfaces.IZompatibleSite" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.IZompatibleSite" />
+</class>
+<class class=".zompatible.Trash">
+  <require permission="zope.View"          interface=".interfaces.ITrash" />
+  <require permission="zope.ManageContent" set_schema=".interfaces.ITrash" />
+</class>
+
+<subscriber handler=".zompatible.newZompatibleSiteAdded" />
+<subscriber handler=".zompatible.ZompatibleInitialSetup" />
+
+<include package=".generations" />
+<include package=".skin" />
+<include package=".organization" />
+<include package=".level" />
+<include package=".report" />
+<include package=".support" />
+<include package=".importdata" />
+<include package=".user" />
+<include package=".category" />
+<include package=".ids" />
+<include package=".search" />
+<include package=".product" />
+<include package=".characteristic" />
+
+
+<browser:addMenuItem
+    title="Zompatible Site"
+    class=".zompatible.ZompatibleSite"
+    permission="zope.ManageContent"
+/>
+
+
+</configure>
