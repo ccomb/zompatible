@@ -8,8 +8,12 @@ def test_suite( ):
     # we create a testsuite
     suite = unittest.TestSuite()
 
-    # we add the doctests contained in the zompatible.txt text file
-    suite.addTest(doctest.DocFileSuite('template.txt', setUp=placelesssetup.setUp, tearDown=placelesssetup.tearDown))
+    # we add the doctests contained in the docfile
+    suite.addTest(doctest.DocFileSuite(
+            'template.txt',
+             setUp = placelesssetup.setUp,
+             tearDown = placelesssetup.tearDown,
+             optionflags = doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS))
     
     return suite
 
