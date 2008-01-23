@@ -12,7 +12,9 @@ from interfaces import *
 ELEVEN_NUMBER = 11
 
 class MyFirstClass(object):
-    implements(IMyFirstInterface)
+# FIXME:  launching doctest suite leads to :
+#         NameError: name 'IMyFirstInterface' is not defined
+#    implements(IMyFirstInterface)
     
     def displayText(self, text):
         """ Display the text "text".
