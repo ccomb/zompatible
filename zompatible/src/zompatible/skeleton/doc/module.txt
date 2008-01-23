@@ -1,0 +1,11 @@
+===================
+ doctest de Module
+===================
+
+Texte bidon:
+
+	>>> from module import MyFirstClass
+	>>> c = MyFirstClass()
+	>>> c.displayText("The test is OK.")
+	The test is OK.
+	
