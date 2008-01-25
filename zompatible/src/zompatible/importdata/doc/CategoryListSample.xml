@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE ICECAT-interface SYSTEM "http://data.icecat.biz/dtd/ICECAT-interface_response.dtd">
+ <ICECAT-interface>
+   <Response ID="50423669" Status="1" Date="Tue Jan 15 04:49:12 2008" Request_ID="1200368951">
+    <CategoriesList>
+      <Category ID="559" UNCATID="45111601" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT559.jpg" Score="455" LowPic="http://data.icecat.biz/img/low_pic/559-250.jpg">
+       <ParentCategory ID="558">
+        <Names>
+          <Name ID="1117" langid="1">projectors</Name>
+          <Name ID="6610" langid="3">projecteurs</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="1119" Value="pointers" langid="1"/>
+        <Name ID="6611" Value="pointers" langid="3"/>
+      </Category>
+      <Category ID="1169" UNCATID="39111517" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT1169.jpg" Score="11" LowPic="http://data.icecat.biz/img/low_pic/1169-469.jpg">
+       <ParentCategory ID="559">
+        <Names>
+          <Name ID="9765" langid="1">office furniture</Name>
+          <Name ID="9766" langid="3">mobilier de bureau</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="10728" Value="wax candles" langid="1"/>
+        <Name ID="10729" Value="wax candles" langid="3"/>
+      </Category>
+      <Category ID="1049" UNCATID="60121525" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT1049.jpg" Score="1676" LowPic="http://data.icecat.biz/img/low_pic/1049-902.jpg">
+       <ParentCategory ID="453">
+        <Names>
+          <Name ID="907" langid="1">writing instruments</Name>
+          <Name ID="6521" langid="3">writing instruments</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="9437" Value="fineliners" langid="1"/>
+        <Name ID="9438" Value="stylos techniques" langid="3"/>
+      </Category>
+      <Category ID="127" UNCATID="43171520" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT127.jpg" Score="391" LowPic="http://data.icecat.biz/img/low_pic/127-2590.jpg">
+       <ParentCategory ID="242">
+        <Names>
+          <Name ID="485" langid="1">networks</Name>
+          <Name ID="6315" langid="3">réseaux</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="255" Value="telephone rests" langid="1"/>
+        <Name ID="6200" Value="telephone rests" langid="3"/>
+      </Category>
+      <Category ID="32" UNCATID="43161902" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT32.jpg" Score="133299" LowPic="http://data.icecat.biz/img/low_pic/32-2247.jpg">
+       <ParentCategory ID="21">
+        <Names>
+          <Name ID="43" langid="1">multimedia software</Name>
+          <Name ID="6094" langid="3">logiciels de multimedia</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="65" Value="graphics/photo imaging software" langid="1"/>
+        <Name ID="6105" Value="logiciels de graphiques" langid="3"/>
+      </Category>
+      <Category ID="443" UNCATID="44121613" Searchable="0" ThumbPic="http://data.icecat.biz/thumbs/CAT443.jpg" Score="301" LowPic="http://data.icecat.biz/img/low_pic/443-2948.jpg">
+       <ParentCategory ID="438">
+        <Names>
+          <Name ID="877" langid="1">desk supplies</Name>
+          <Name ID="6506" langid="3">desk supplies</Name>
+        </Names>
+       </ParentCategory>
+        <Name ID="887" Value="staple removers" langid="1"/>
+        <Name ID="6511" Value="dégrafeurs" langid="3"/>
+      </Category>
+    </CategoriesList>
+   </Response>
+ </ICECAT-interface>

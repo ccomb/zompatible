@@ -1,0 +1,62 @@
+========
+ ICEcat
+========
+
+Le module `importicecat` permet de récupérer et parser les différents fichiers 
+xml fournis par le site ICEcat[#]_ et de mettre à jour la ZODB avec ces données.
+
+.. contents: Index
+
+Avant propos
+============
+Les fichiers utilisés pour les tests sont situés dans le répertoire accessible 
+via la variable globale `path`.
+
+Valider les fichiers xml (via les DTD)
+======================================
+Vérification du bon comportement de la méthode de validation de la syntaxe du
+fichier xml::
+
+	>>> import os
+	>>> from importicecat import ImportICEcat
+	>>> importFile = ImportICEcat(os.path.join(path,"NotExistingFile"))
+	>>> importFile.validate()
+	*** I/O error reading...
+	>>> importFile = ImportICEcat(os.path.join(path,"CategoryListSample.xml"))
+	>>> importFile.validate()
+	True
+
+Importer les Catégories
+=======================
+
+Générer un aperçu de l'arborescence des catégorie de ICEcat, nous permettra 
+d'estimer s'il est opportun de calquer celle de Zompatible dessus.
+
+Nous utilisons dans ce premier test un extrait du fichier CategoryList.xml[#]_
+afin de valider l'algo (nous venons de valider le format de ce fichier 
+CategoryListSample.xml)::
+
+	>>> importFile.importCategories()
+	Category ID not found: 558...
+	>>> print importFile
+	|-- pointers
+	|  `-- wax candles
+	|-- dégrafeurs
+	|-- logiciels de graphiques
+	|-- stylos techniques
+	|-- telephone rests
+	<BLANKLINE>
+	
+Maintenant, analysons le fichier complet::
+
+	>>> importFile2 = ImportICEcat(os.path.join(path,"CategoriesList.xml"))
+	>>> importFile2.importCategories()
+	>>> print importFile2
+	|-- 
+	|  |-- stockage
+	|  |  |-- lecteurs de disquettes
+	|  |  |-- lecteurs ZIP...
+	
+	
+.. [#] voir http://cody.gorfou.fr/trac/wiki/OpenIceCat
+.. [#] voir http://data.icecat.biz/export/freexml.int/refs/

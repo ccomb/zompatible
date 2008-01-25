@@ -31,6 +31,7 @@ setup(name='zompatible',
                         'zope.app.wsgi>=3.4.0',
                         'zope.app.appsetup',
                         'zope.app.zcmlfiles',
+                        'lxml',
                         # The following packages aren't needed from the
                         # beginning, but end up being used in most apps
                         'zope.annotation',
