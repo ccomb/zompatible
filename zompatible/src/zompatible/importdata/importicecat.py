@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from interfaces import *
+from zope.interface import implements
 from importdata import ImportFile
 import os
 from lxml import etree
@@ -15,6 +16,7 @@ class CategoryDesc(object):
 class ImportICEcat(ImportFile):
     u""" Manages import from xml files coming from ICEcat website.
     """
+    implements(IImportFile)
     categories = {}
     
     def validate(self):
@@ -46,6 +48,10 @@ class ImportICEcat(ImportFile):
         return dtd.validate(doc) == 1
     
     def categoryTree(self, cat, niv, car):
+        u"
+        FIXME: add a description
+        (however the description should go in the interface definition)
+        "
         s = ""
         for i in range(niv):
             s = s + "|  "
@@ -62,6 +68,8 @@ class ImportICEcat(ImportFile):
     
     def importCategories(self):
         u""" 
+        import categories into the 'categories' attribute
+        (FIXME: add an interface describing this attribute?)
         """
         if self.validate() != True:
             print "*** DTD not satisfied by the XML file %s" % self.infile
@@ -98,7 +106,8 @@ class ImportICEcat(ImportFile):
                         print "Category ID not found: %s" % elt.attrib['ID']
              
                             
-    def doImport(self):
+    def do_import(self):
+        u"See IImportFile. Real import should be done here"
         pass
     
     def __str__(self):
