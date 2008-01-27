@@ -7,6 +7,7 @@ zope.traversing
 zope.app.wsgi>=3.4.0
 zope.app.appsetup
 zope.app.zcmlfiles
+lxml
 zope.annotation
 zope.copypastemove
 zope.formlib

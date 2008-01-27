@@ -48,9 +48,29 @@ Now we can access the categories of the object::
     >>> list(categories)
     []
 
-We can add a category::
+We can add one or several categories::
 
     >>> categories.append(category)
     >>> [cat.name for cat in ICategories(myobj).categories]
     [u'printer']
 
+We can remove a category::
+
+    >>> 
+
+Categories are plain objects stored in a category container, in a hierarchical manner.
+
+    >>>
+    
+A category can be marked as "inactive"
+
+    >>>
+    
+A category can be marked as "deleted"
+
+    >>>
+
+category deletion : objects are not modified, but the category is just marked as "deleted".
+Each time a category is accessed from an object, the category of the object is changed to
+the parent category, or deleted if there is no parent. So we don't need to update the whole
+database when modifying a category object.

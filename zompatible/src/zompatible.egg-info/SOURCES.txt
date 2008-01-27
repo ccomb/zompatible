@@ -72,6 +72,7 @@ src/zompatible/importdata/__init__.py
 src/zompatible/importdata/configure.zcml
 src/zompatible/importdata/importcategories.py
 src/zompatible/importdata/importdata.py
+src/zompatible/importdata/importicecat.py
 src/zompatible/importdata/importreports.py
 src/zompatible/importdata/importsoftware.py
 src/zompatible/importdata/initial_device_categories.txt
@@ -86,6 +87,13 @@ src/zompatible/importdata/browser/__init__.py
 src/zompatible/importdata/browser/configure.zcml
 src/zompatible/importdata/browser/file_import.pt
 src/zompatible/importdata/browser/importData.py
+src/zompatible/importdata/doc/CategoriesList.xml
+src/zompatible/importdata/doc/CategoryListSample.xml
+src/zompatible/importdata/doc/ICECAT-interface_response.dtd
+src/zompatible/importdata/doc/ICEcat.txt
+src/zompatible/importdata/tests/__init__.py
+src/zompatible/importdata/tests/gettests.py
+src/zompatible/importdata/tests/test_docs.py
 src/zompatible/level/__init__.py
 src/zompatible/level/browser.py
 src/zompatible/level/configure.zcml
@@ -133,6 +141,14 @@ src/zompatible/search/__init__.py
 src/zompatible/search/configure.zcml
 src/zompatible/search/interfaces.py
 src/zompatible/search/search.py
+src/zompatible/skeleton/__init__.py
+src/zompatible/skeleton/interfaces.py
+src/zompatible/skeleton/module.py
+src/zompatible/skeleton/doc/module.txt
+src/zompatible/skeleton/tests/__init__.py
+src/zompatible/skeleton/tests/gettests.py
+src/zompatible/skeleton/tests/test_docs.py
+src/zompatible/skeleton/tests/test_module.py
 src/zompatible/skin/__init__.py
 src/zompatible/skin/configure.zcml
 src/zompatible/skin/interfaces.py

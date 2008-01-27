@@ -11,16 +11,17 @@ the CPU socket. That say, the motherboard has a socket 975, this socket is a
 female socket. A characteristic can also store characteristics to have hierarchic
 characteristics : A possible characteristic for a laptop is to have a DVD burner.
 The dvd burner can have characteristics itself (weight), or features (burning speed)
-So a characteristic can itself be a product : the burner is at the same time a 
+So a product can itself be a characteristic : the burner is at the same time a 
 characteristic of the laptop, and a product made by an organization.
+This could be made by letting a product implement ICharacteristic (?)
 
 Warning: Characteristics are (are they?) different from features.
 Features are a functionnal description, and are used to describe
 the usage of the product, what works, what doesn't work,
 what can be enabled or disabled, etc.
 
-Setting and getting characteristics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Accessing object characteristics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's create a dummy object, so we can put characteristics on this object.
 
@@ -61,13 +62,27 @@ of characteristics::
 Characteristic object
 ~~~~~~~~~~~~~~~~~~~~~
 
-A characteristic is an object. Each characteristic will have its own implementation.
-Let's try with the resolution.
+A characteristic is an object. There are so many characteristics that we can't write an
+implementation for each one. But there are different classes of characteristics:
+ - Some characteristics have only a name, a description, and a true/false value,
+       ex: "Removable/replaceable power unit" : yes/no
+ - other characteristics have a name, a description, a numerical value and a unit:
+       ex: "Line-out maximum output" : 34 dBV
+ - other characteristics have a name, a tuple of numerical values and a single unit:
+       ex: "Display resolution" : 1280x1024 pixels
+ - or three values in a tuple and a single unit : dimension (LongxLargxHaut): 40x50x60 mm
+ - or n values and n units : 
+ - or even a list : Certification : [ TCO'03, ISO 13406-2, MPR III, CE, TÜV GS, FCC-B, UL/C-UL, VCCI-B]
+ - or a range : Horizontal scan range : 24 - 80 KHz
+ - or a text string : Colour of product : White
+ - or even a compound characteristic :  Power supply type  :  AC 100 - 240 V, 50/60 Hz
 
-    >>> from zompatible.characteristic.characteristic import Resolution, PhysicalInterface
-    >>> reso = Resolution(1600, 1200)
+Let's try to implement a screen resolution and a physical interface::
+
+    >>> from zompatible.characteristic.characteristic import Characteristic
+    >>> reso = Characteristic(name="Resolution", unit=("px","px") value=(1600, 1200)
     >>> characteristics.append(reso)
-    >>> phys = PhysicalInterface(gender='Male')
+    >>> phys = Characteristic(name="PhysicalInterface", unit="", value=""(gender='Male')
     >>> characteristics.append(phys)
     >>> phys.gender
     'Male'
@@ -79,20 +94,20 @@ We express the fact that the device can have physical interfaces by adding
 a marker interface::
 
     >>> from zope.interface import alsoProvides
-    >>> from zompatible.characteristic.interfaces import IHasPhysInterfaces
-    >>> alsoProvides(multi,IHasPhysInterfaces)
+    >>> from zompatible.characteristic.interfaces import IHasPhysicalInterfaces
+    >>> alsoProvides(multi,IHasPhysicalInterfaces)
 
-Having IHasPhysInterfaces means that we can lookup an IPhysInterfaces adapter to manage the physical interfaces::
+Having IHasPhysicalInterfaces means that we can lookup an IPhysicalInterfaces adapter to manage the physical interfaces::
 
-    >>> from zompatible.characteristic.characteristic import PhysInterfaces
-    >>> provideAdapter(PhysInterface)
-    >>> physinterfaces = IPhysInterfaces(multi)
+    >>> from zompatible.characteristic.characteristic import PhysicalInterfaces
+    >>> provideAdapter(PhysicalInterface)
+    >>> physinterfaces = IPhysicalInterfaces(multi)
     >>> physinterfaces
-    to fill: <class PhysInterfaces>
-    >>> IPhysInterfaces.providedBy(physinterfaces)
+    to fill: <class PhysicalInterfaces>
+    >>> IPhysicalInterfaces.providedBy(physinterfaces)
     True
 
-For now, the physical interfaces is an empty list of PhysInterface objects.
+For now, the physical interfaces is an empty list of PhysicalInterface objects.
 
     >>> physinterfaces
     []
@@ -105,22 +120,22 @@ We can also list the characteristics, which is still an empty list::
 The device has two communication ports: usb2 and parallel
 We create and add them to the list of phys interfaces::
 
-    >>> usb2 = PhysInterface(name=u'USB', version="2.0")
-    >>> parallel = PhysInterface(name=u'Parallel')
+    >>> usb2 = PhysicalInterface(name=u'USB', version="2.0")
+    >>> parallel = PhysicalInterface(name=u'Parallel')
     >>> physinterfaces.append(usb2)
     >>> physinterfaces.append(parallel)
     >>> physinterfaces
-    to fill: [<class PhysInterface>, <class PhysInterface>]
+    to fill: [<class PhysicalInterface>, <class PhysicalInterface>]
 
-A PhysInterface object must at least have a name::
+A PhysicalInterface object must at least have a name::
 
-    >>> invalid = PhysInterface()
+    >>> invalid = PhysicalInterface()
     to fill: ERROR bidule
 
 We can be more precise to define a physical interface, say we have a bluetooth connection on the device.
 
     >>> from zompatible.characteristic.characteristic import WirelessInterface
-    >>> IPhysInterface.implementedBy(WirelessInterface)
+    >>> IPhysicalInterface.implementedBy(WirelessInterface)
     True
     >>> bluetooth = WirelessInterface(name=u"Bluetooth", version="1.0")
     >>> physinterfaces.append(bluetooth)
@@ -130,14 +145,14 @@ We can also be more precise for the wired interfaces::
     >>> from zompatible.characteristic.characteristic import WiredInterface
     >>> physinterfaces.remove(usb2)
     >>> usb2 = WiredInterface(name=u'USB', version="2.0")
-    >>> IPhysInterface.providedBy(usb2)
+    >>> IPhysicalInterface.providedBy(usb2)
     True
     >>> physinterfaces.append(usb2)
 
 After having added these two communication ports, they appear as characteristics::
 
     >>> ICharacteristics(multi)
-    to fill: [<class PhysInterface>, <class WirelessInterface>, <class WiredInterface>]
+    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>]
     
 Now we add the subproduct 'scanner' into the multifunction product.
 
@@ -195,9 +210,9 @@ as well as the characteristics of the scanner, as a single Characteristic*s* obj
 
     >>> characteristics = ICharacteristics(multi)
     >>> characteristics
-    to fill: [<class PhysInterface>, <class WirelessInterface>, <class WiredInterface>]
+    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>]
     >>> characteristics.get_recurse()
-    to fill: [<class PhysInterface>, <class WirelessInterface>, <class WiredInterface>, <class Characteristics>]
+    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>, <class Characteristics>]
 
 We can know where the latter Characteristics object comes from::
 

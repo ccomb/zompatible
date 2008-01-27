@@ -131,7 +131,7 @@
     />
 </browser:menuItems>
 
-<!-- registered named utility used to choose the interfaces provided by organizatioins -->
+<!-- registered named utility used to choose the interfaces provided by organizations -->
 <zope:utility
     factory=".organization.OrganizationInterfacesVocabularyFactory"
     name="organization_type"

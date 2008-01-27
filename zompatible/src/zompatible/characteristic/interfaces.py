@@ -68,7 +68,7 @@ class ICharacteristic(Interface):
 provideInterface('', ICharacteristic)
 
 
-class IPhysInterface(ICharacteristic):
+class IPhysicalInterface(ICharacteristic):
     u""" Describe a physical interface (USB, PCI, ...)
     """
     interface = Choice (
@@ -78,13 +78,13 @@ class IPhysInterface(ICharacteristic):
                         required = True
                         )
     
-class IHasPhysInterfaces(Interface):
+class IHasPhysicalInterfaces(Interface):
     u""" Marker interface
     """
     pass
 
-provideInterface('', IPhysInterface)
-provideInterface('', IHasPhysInterfaces)
+provideInterface('', IPhysicalInterface)
+provideInterface('', IHasPhysicalInterfaces)
 
 class IResolution(ICharacteristic):
     u""" Resolution parameter.

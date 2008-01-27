@@ -247,15 +247,15 @@ def characteristicNameVocabulary(context):
     nameList.remove(u'You should name this characteristic')
     return SimpleVocabulary.fromValues(nameList)
 
-class Characteristic(CharacteristicBase):
+class Characteristic(object):
     implements(ICharacteristic)
     adapts(Interface)
 
     
 
-class PhysInterface(CharacteristicBase):
-    implements(IPhysInterface)
-    adapts(IHasPhysInterfaces)
+class PhysicalInterface(CharacteristicBase):
+    implements(IPhysicalInterface)
+    adapts(IHasPhysicalInterfaces)
     
     characteristicName = u'Interface'
 
