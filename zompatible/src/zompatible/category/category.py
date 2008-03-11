@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.app.folder.folder import Folder
-from zope.interface import implements
+from zope.interface import implements, implementer
 from zope.component import adapts, getUtility, adapter, getSiteManager, queryUtility
 from zope.app.intid.interfaces import IIntIds
 from zope.schema.vocabulary import SimpleTerm
@@ -11,8 +11,11 @@ from zompatible.skin.navigation.browser import PrettyName
 from zope.location import Location
 from zope.annotation.interfaces import IAnnotations
 from persistent.list import PersistentList
+from zope.component import ComponentLookupError
 
 from interfaces import *
+
+__package__ = u'zompatible.category'
 
 class Category(Folder):
     implements(ICategory)
@@ -107,7 +110,7 @@ class CategoryVocabularyFactory(object):
     def __call__(self, context):
         return CategoryVocabulary(context)
 
-CATEGORIES_KEY = 'zompatible.category'
+__categories_key__ = 'zompatible.category'
 
 class Categories(Location):
     u"""
@@ -121,10 +124,10 @@ class Categories(Location):
 
     def _get_categories(self):
         try:
-            return IAnnotations(self.context)[CATEGORIES_KEY]
+            return IAnnotations(self.context)[__categories_key__]
         except KeyError:
             categories = PersistentList()
-            IAnnotations(self.context)[CATEGORIES_KEY] = categories
+            IAnnotations(self.context)[__categories_key__] = categories
             return categories
 
     def _set_categories(self, categories):
@@ -134,26 +137,31 @@ class Categories(Location):
                 if parent not in categories:
                     categories.append(parent)
                 parent = parent.__parent__
-        IAnnotations(self.context)[CATEGORIES_KEY] = PersistentList(categories)
+        IAnnotations(self.context)[__categories_key__] = PersistentList(categories)
 
     categories = property(_get_categories, _set_categories)
     
-
+@implementer(IAvailableCategories)
 @adapter(ICategorizable)
 def AvailableCategories(context):
     u"""
     The adapter that returns the container (folder)
     where reside all the available categories for a particular object type.
     This allows to have a different category container for each content type
+    If the container does not exist yet, it is created.
     """
     utilityname = type(removeAllProxies(context)).__name__ + u'_categories'
     try: # the category container should be registered in the sitemanager for ICategories
-        return getUtility(IAvailableCategories, utilityname)
-    except: # we create and register a new category container for the object type"
+        return getUtility(IAvailableCategoriesContainer, utilityname)
+    except ComponentLookupError: # we create and register a new category container for the object type"
         sm = getSiteManager(context)
-        sm[utilityname] = AvailableCategoriesContainer()
-        sm.registerUtility(sm[utilityname], IAvailableCategories, utilityname)
-        return sm[utilityname]
+        try:
+            catfolder = sm[__package__]
+        except KeyError:
+            catfolder = sm[__package__] = Folder()
+        catfolder[utilityname] = AvailableCategoriesContainer()
+        sm.registerUtility(sm[__package__][utilityname], IAvailableCategories, utilityname)
+        return sm[__package__][utilityname]
 
 @adapter(ICategories)
 def CategoriesAvailableCategories(categories):

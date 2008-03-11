@@ -2,8 +2,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 import doctest
-from interfaces import *
+from category import AvailableCategories
 from zope.app.testing import placelesssetup
+from zope.component import provideAdapter
+
+def setUp(test):
+    #placelesssetup.setUp(test)
+    provideAdapter(AvailableCategories)
 
 def test_suite( ):
     # we create a testsuite
@@ -12,7 +17,7 @@ def test_suite( ):
     # we add the doctests contained in the zompatible.txt text file
     suite.addTest(doctest.DocFileSuite(
         'category.txt',
-         setUp = placelesssetup.setUp,
+         setUp = setUp,
          tearDown = placelesssetup.tearDown,
          optionflags = doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS))
     

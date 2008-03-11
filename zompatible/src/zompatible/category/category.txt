@@ -13,12 +13,13 @@ ANY object can be categorized, which means we can store an retrieve categories f
 The job is done by an adapter from ICategorizable to ICategories.
 So we must first register the adapter, then try to use categories::
 
+    >>> from zope.app.container.contained import Contained
     >>> from zompatible.category.interfaces import ICategorizable, ICategories
     >>> from zompatible.category.category import Categories
     >>> from zope.component import provideAdapter
     >>> provideAdapter(Categories, provides=ICategories)
 
-    >>> class MyObject(object):
+    >>> class MyObject(Contained):
     ...     pass
     >>> myobj = MyObject()
     >>> ICategories(myobj)
@@ -45,7 +46,7 @@ Now we can access the categories of the object::
     >>> ICategories(myobj)
     <zompatible.category.category.Categories object at ...>
     >>> categories = ICategories(myobj).categories
-    >>> list(categories)
+    >>> categories
     []
 
 We can add one or several categories::
@@ -56,12 +57,56 @@ We can add one or several categories::
 
 We can remove a category::
 
-    >>> 
+    >>> del categories[0]
+    >>> categories
+    []
+
+Storing categories
+~~~~~~~~~~~~~~~~~~
 
 Categories are plain objects stored in a category container, in a hierarchical manner.
 
-    >>>
+Register a global adapter needed to perform local lookups::
+(TODO: is there a way to avoid these lines?)
+
+    >>> from zope.component.interfaces import IComponentLookup
+    >>> from zope.component import getGlobalSiteManager
+    >>> from zope.interface import Interface
+    >>> gsm = getGlobalSiteManager()
+    >>> from zope.app.component.site import SiteManagerAdapter
+    >>> gsm.registerAdapter(SiteManagerAdapter, (Interface,), IComponentLookup)
+
+First we create a fake root with a site manager, and we store our object in the root folder::
+
+    >>> from zope.app.folder.folder import rootFolder
+    >>> from zope.app.component.site import LocalSiteManager
+    >>> root = rootFolder()
+    >>> sm = LocalSiteManager(root)
+    >>> root.setSiteManager(sm)
+    >>> root['myobj'] = myobj
+
+If we get all the possible available categories for our object, it should
+automatically create a category container in the site manager, and we should
+first get an empty folder.
+
+    >>> from zompatible.category.interfaces import IAvailableCategories
+    >>> available_categories = IAvailableCategories(myobj)
+    >>> available_categories
+    <zompatible.category.category.AvailableCategoriesContainer object at ...>
+    >>> list(sm)
+    [u'default', u'zompatible.category']
+    >>> list(sm[u'zompatible.category'])
+    [u'MyObject_categories']
+
+We can add possible categories
+
+    >>> available_categories['cat1'] = Category(u'cat1')
+    >>> available_categories['cat2'] = Category(u'cat2')
+    >>> len(available_categories)
+    2
     
+    
+
 A category can be marked as "inactive"
 
     >>>

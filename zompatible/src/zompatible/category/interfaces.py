@@ -19,12 +19,10 @@ class IAvailableCategoriesContainer(IContainer):
 class IAvailableCategories(Interface):
     u"""
     The interface of the registered utility that provides the available utilities
-    There is no schema, just an attribute
+    the utility is a container with all the categories in it.
     One can get the available categories of a categorizable object with IAvailableCategories(object)
     If object is a device, you'll get a different container than with a software, or any other categorizable object.
-    If the container does not exist yet, it is created.
     """
-    availablecategories = Attribute(u"all the categories that can be assigned to an object") 
 
 class ICategory(IContainer):
     u"""
