@@ -13,7 +13,8 @@ characteristics : A possible characteristic for a laptop is to have a DVD burner
 The dvd burner can have characteristics itself (weight), or features (burning speed)
 So a product can itself be a characteristic : the burner is at the same time a 
 characteristic of the laptop, and a product made by an organization.
-This could be made by letting a product implement ICharacteristic (?)
+This could be made by implementing an adapter from a product to ICharacteristic.
+querying the product as a characteristic will lookup the adapter.
 
 Warning: Characteristics are (are they?) different from features.
 Features are a functionnal description, and are used to describe
@@ -55,8 +56,8 @@ of characteristics::
 
     >>> from zope.interface import alsoProvides
     >>> alsoProvides(myobj, ICharacterizable)
-    >>> characteristics = ICharacteristics(myobj).characteristics
-    >>> characteristics
+    >>> characteristics = ICharacteristics(myobj)
+    >>> characteristics.characteristics
     []
 
 Characteristic object
@@ -77,164 +78,37 @@ implementation for each one. But there are different classes of characteristics:
  - or a text string : Colour of product : White
  - or even a compound characteristic :  Power supply type  :  AC 100 - 240 V, 50/60 Hz
 
-Let's try to implement a screen resolution and a physical interface::
+Let's try to implement several different characteristics::
 
     >>> from zompatible.characteristic.characteristic import Characteristic
-    >>> reso = Characteristic(name="Resolution", unit=("px","px") value=(1600, 1200)
-    >>> characteristics.append(reso)
-    >>> phys = Characteristic(name="PhysicalInterface", unit="", value=""(gender='Male')
-    >>> characteristics.append(phys)
-    >>> phys.gender
-    'Male'
+    >>> repl_pow = Characteristic(name=u'Replaceable power unit', value=True)
+    >>> line_out = Characteristic(name=u'line out maximum output', value=34, unit=u'dBV')
+    >>> reso = Characteristic(name=u'Resolution', value=(1600, 1200), unit=(u'px',u'px'))
+    >>> size = Characteristic(name=u'Size', value=(40, 50, 60), unit=u'mm')
+    >>> certif = Characteristic(name=u'Certifications', value=[ u'TCO\'03', u'ISO 13406-2', u'MPR III', u'CE', u'TÜV GS', u'FCC-B', u'UL/C-UL', u'VCCI-B'])
+    >>> freqs = Characteristic(name=u'Horizontal scan range', value=(24, 80), unit=u'kHz')
+    >>> color = Characteristic(name=u'Colour', value=u'White')
+    >>> phys = Characteristic(name=u'Connection Interface', value=u'VGA')
+    >>> valim = Characteristic(name=u'Voltage', value=(100, 240), unit=u'V')
+    >>> falim = Characteristic(name=u'Voltage Frequency', value=(50, 60), unit=u'Hz')
+
+Set a characteristics::
+    >>> characteristics.characteristics = [repl_pow]
+    >>> characteristics.characteristics[0].name
+    u'Replaceable power unit'
+    >>> characteristics.characteristics is ICharacteristics(myobj).characteristics
+    True
     
+Add others::
 
+    >>> characteristics.characteristics.extend([line_out, reso, size, certif, freqs, color, phys, valim, falim])
+    >>> reso.value
+    (1600, 1200)
+    >>> falim.unit
+    u'Hz'
+    >>> certif.name
+    u'Certifications'
+    >>> [c.unit for c in characteristics.characteristics]
+    [None, u'dBV', (u'px', u'px'), u'mm', None, u'kHz', None, None, u'V', u'Hz']
 
-
-We express the fact that the device can have physical interfaces by adding 
-a marker interface::
-
-    >>> from zope.interface import alsoProvides
-    >>> from zompatible.characteristic.interfaces import IHasPhysicalInterfaces
-    >>> alsoProvides(multi,IHasPhysicalInterfaces)
-
-Having IHasPhysicalInterfaces means that we can lookup an IPhysicalInterfaces adapter to manage the physical interfaces::
-
-    >>> from zompatible.characteristic.characteristic import PhysicalInterfaces
-    >>> provideAdapter(PhysicalInterface)
-    >>> physinterfaces = IPhysicalInterfaces(multi)
-    >>> physinterfaces
-    to fill: <class PhysicalInterfaces>
-    >>> IPhysicalInterfaces.providedBy(physinterfaces)
-    True
-
-For now, the physical interfaces is an empty list of PhysicalInterface objects.
-
-    >>> physinterfaces
-    []
-
-We can also list the characteristics, which is still an empty list::
-
-    >>> ICharacteristics(multi)
-    []
-
-The device has two communication ports: usb2 and parallel
-We create and add them to the list of phys interfaces::
-
-    >>> usb2 = PhysicalInterface(name=u'USB', version="2.0")
-    >>> parallel = PhysicalInterface(name=u'Parallel')
-    >>> physinterfaces.append(usb2)
-    >>> physinterfaces.append(parallel)
-    >>> physinterfaces
-    to fill: [<class PhysicalInterface>, <class PhysicalInterface>]
-
-A PhysicalInterface object must at least have a name::
-
-    >>> invalid = PhysicalInterface()
-    to fill: ERROR bidule
-
-We can be more precise to define a physical interface, say we have a bluetooth connection on the device.
-
-    >>> from zompatible.characteristic.characteristic import WirelessInterface
-    >>> IPhysicalInterface.implementedBy(WirelessInterface)
-    True
-    >>> bluetooth = WirelessInterface(name=u"Bluetooth", version="1.0")
-    >>> physinterfaces.append(bluetooth)
-
-We can also be more precise for the wired interfaces::
-
-    >>> from zompatible.characteristic.characteristic import WiredInterface
-    >>> physinterfaces.remove(usb2)
-    >>> usb2 = WiredInterface(name=u'USB', version="2.0")
-    >>> IPhysicalInterface.providedBy(usb2)
-    True
-    >>> physinterfaces.append(usb2)
-
-After having added these two communication ports, they appear as characteristics::
-
-    >>> ICharacteristics(multi)
-    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>]
-    
-Now we add the subproduct 'scanner' into the multifunction product.
-
-First we create a scanner product with the resolution characteristic::
-
-    >>> scanner = Product(name = u'Scanner')
-    >>> from zompatible.characteristic.interfaces import IResolution, IHasResolution, IResolutions
-    >>> from zompatible.characteristic.characteristic import Resolution, Resolutions
-    >>> alsoProvides(scanner, IHasResolution)
-
-We can get the resolutions provided by the scanner, as well as the best resolution
-
-    >>> provideAdapter(Resolutions)
-    >>> provideAdapter(Resolution) # FIXME, why not several kinds of resolution adapters: ScanResolution, PrintResolution, DisplayResolution?
-    >>> resolutions = IResolutions(scanner)
-    >>> ICharacteristics.providedBy(resolutions)
-    True
-    >>> resolutions.append(Resolution(x=200, y=200))
-    >>> resolutions.append(Resolution(x=2400, y=4800, unit='dpi'))
-    >>> resolutions
-    [ <class Resolution>, <class Resolution> ]
-
-So the scanner has several resolutions available, but we can get *the* resolution
-of the scanner, ie the best resolution.
-
-    >>> resolution = IResolution(scanner)
-    >>> resolution
-    <class Resolution>
-    >>> resolution.x
-    2400
-    >>> ICharacteristic.providedBy(resolution)
-    True
-    >>> resolution.unit
-    'dpi'
-
-We can list the characteristics of the scanner::
-
-    >>> ICharacteristics(scanner)
-    to fill: [ <Resolution ...> ]
-
-A product can have sub-products.
-We consider this scanner is part of the multifunction device,
-We add it as a sub-product::
-
-    >>> len(multi)
-    0
-    >>> multi[scanner.name] = scanner
-    >>> len(multi)
-    1
-
-Now the multifunction device has only the characteristics of itself,
-but we can retrieve all the characteristics recursively
-(retrieved as a list of Characteristic objects),
-as well as the characteristics of the scanner, as a single Characteristic*s* object.
-
-    >>> characteristics = ICharacteristics(multi)
-    >>> characteristics
-    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>]
-    >>> characteristics.get_recurse()
-    to fill: [<class PhysicalInterface>, <class WirelessInterface>, <class WiredInterface>, <class Characteristics>]
-
-We can know where the latter Characteristics object comes from::
-
-    >>> characteristics.get_recurse()[3].context.name
-    Scanner
-
-Or list the characteristics of the scanner::
-
-    >>> list(characteristics.get_recurse()[3])
-    to fill: [ <Resolution ...> ]
-
-Our multifunction device also has a flashcard reader
-...
-
-
-============
- COMPARISON
-============
-We check that the comparison between the printer and the scanner resolution works:
-    >>> IResolution(multi.get_product(u'Printer')) < IResolution(scanner)
-    False
-    >>> IResolution(scanner).x = 9600
-    >>> IResolution(multi.get_product(u'Printer')) < IResolution(scanner)
-    True
 

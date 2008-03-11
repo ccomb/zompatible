@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from zope.interface import Interface
-from zope.interface.interfaces import IInterface
-from zope.schema import Choice, TextLine, Int, List, Iterable
+from zope.schema import Choice, Int, List
 from zope.component.interface import  provideInterface
 from zope.annotation.interfaces import IAttributeAnnotatable
 
