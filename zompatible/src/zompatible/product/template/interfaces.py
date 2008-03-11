@@ -1,14 +1,11 @@
+# -*- coding: utf-8 -*-
 from zope.interface import Interface
 
-class ICategory(Interface):
-    pass
-
-class IIsPrinter(Interface):
-    """ Category marker interface
+class IProductTemplate(Interface):
     """
-    pass
-
-class IIsFlashCardReader(Interface):
-    """ Category marker interface
+    interface added to a product to make it a template usable
+    to create other products.
     """
-    pass
+    def create_product( ):
+        u"create a product from the template"
+

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 import doctest
-from interfaces import *
 from zope.app.testing import placelesssetup
 
 def test_suite( ):

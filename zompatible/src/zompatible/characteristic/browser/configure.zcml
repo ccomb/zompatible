@@ -2,44 +2,6 @@
     xmlns="http://namespaces.zope.org/browser"
     >
 
-<page
- 	for="zompatible.characteristic.interfaces.ICharacterizable"
-	name="editCharacterizable.html"
-    class=".characteristic.CharacterizableEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit Characteristic List"
-/>
 
-<page
- 	for="zompatible.characteristic.interfaces.IHasPhysInterfaces"
-	name="editPhysInterface.html"
-    class=".characteristic.PhysInterfaceEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit Interface"
-/>
-
-<page
- 	for="zompatible.characteristic.interfaces.IHasResolution"
-	name="editResolution.html"
-    class=".characteristic.ResolutionEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit Resolution"
-/>
-
-<page
- 	for="zompatible.characteristic.interfaces.IHasFlashCardSlots"
-	name="editFlashCardSlots.html"
-    class=".characteristic.FlashCardSlotsEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit FlashCardSlots"
-/>
-
-<page
- 	for="zompatible.characteristic.interfaces.IHasPaperFormat"
-	name="editPaperFormat.html"
-    class=".characteristic.PaperFormatEditForm"
-    permission="zope.ManageContent"
-    menu="zmi_views" title="Edit paper format"
-/>
 
 </configure>

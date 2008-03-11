@@ -6,7 +6,7 @@ from zope.annotation.interfaces import IAnnotations
 from persistent.list import PersistentList
 from interfaces import ICharacteristic, ICharacterizable, ICharacteristics
 
-CHARACTERISTICS_KEY = 'zompatible.characteristics'
+__characteristics_key__ = 'zompatible.characteristics'
 
 class Characteristics(Location):
     u"""
@@ -20,14 +20,14 @@ class Characteristics(Location):
 
     def _get_characteristics(self):
         try:
-            return IAnnotations(self.context)[CHARACTERISTICS_KEY]
+            return IAnnotations(self.context)[__characteristics_key__]
         except KeyError:
             characteristics = PersistentList()
-            IAnnotations(self.context)[CHARACTERISTICS_KEY] = characteristics
+            IAnnotations(self.context)[__characteristics_key__] = characteristics
             return characteristics
 
     def _set_characteristics(self, characteristics):
-        IAnnotations(self.context)[CHARACTERISTICS_KEY] = PersistentList(characteristics)
+        IAnnotations(self.context)[__characteristics_key__] = PersistentList(characteristics)
 
     characteristics = property(_get_characteristics, _set_characteristics)
 

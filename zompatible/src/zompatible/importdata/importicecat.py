@@ -48,10 +48,10 @@ class ImportICEcat(ImportFile):
         return dtd.validate(doc) == 1
     
     def categoryTree(self, cat, niv, car):
-        u"
+        u"""
         FIXME: add a description
         (however the description should go in the interface definition)
-        "
+        """
         s = ""
         for i in range(niv):
             s = s + "|  "
