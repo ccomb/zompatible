@@ -39,13 +39,14 @@ CategoryListSample.xml)::
 	>>> importFile.importCategories()
 	Category ID not found: 558...
 	>>> print importFile
-	|-- pointers
-	|  `-- wax candles
-	|-- dégrafeurs
-	|-- logiciels de graphiques
-	|-- stylos techniques
-	|-- telephone rests
+	|-- pointers (559)
+	|  `-- wax candles (1169)
+	|-- dégrafeurs (443)
+	|-- logiciels de graphiques (32)
+	|-- stylos techniques (1049)
+	|-- telephone rests (127)
 	<BLANKLINE>
+
 	
 Maintenant, analysons le fichier complet::
 

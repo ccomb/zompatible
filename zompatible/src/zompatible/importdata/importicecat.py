@@ -6,8 +6,9 @@ import os
 from lxml import etree
 
 class CategoryDesc(object):
-    def __init__(self, name, score, attrib):
+    def __init__(self, name, id, score, attrib):
         self.name = name
+        self.id = id
         self.score = score
         self.attrib = attrib
         self.children = []
@@ -48,15 +49,16 @@ class ImportICEcat(ImportFile):
         return dtd.validate(doc) == 1
     
     def categoryTree(self, cat, niv, car):
-        u"""
-        FIXME: add a description
-        (however the description should go in the interface definition)
+        u""" Return a tree of categories in a string form.
+        cat : root category
+        niv : level of the category
+        car : should be "|" but "`" for the las child of a category
         """
         s = ""
         for i in range(niv):
             s = s + "|  "
             
-        s = s + car + "-- %s" % cat.name + "\n"
+        s = s + car + "-- %s (%s)" % (cat.name, cat.id) + "\n"
         
         for c in cat.children:
             if c == cat.children[len(cat.children)-1]:
@@ -85,6 +87,7 @@ class ImportICEcat(ImportFile):
                    elt.attrib.has_key("langid") and \
                    elt.attrib["langid"] == "3":
                     cat_desc = CategoryDesc(name=elt.attrib.get('Value','').encode('utf-8'), 
+                                            id=cat.attrib['ID'],
                                             score=cat.attrib.get('Score',''),
                                             attrib=elt.attrib)
                     self.categories[cat.attrib['ID']] = cat_desc
