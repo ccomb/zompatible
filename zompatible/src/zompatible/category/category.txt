@@ -105,7 +105,12 @@ We can add possible categories
     >>> len(available_categories)
     2
     
-    
+Retrieving categories
+~~~~~~~~~~~~~~~~~~~~~
+	>>> from zompatible.category.category import CategoryVocabulary
+	>>> vocab = CategoryVocabulary(myobj)
+	>>> [cat for cat in vocab]
+
 
 A category can be marked as "inactive"
 
