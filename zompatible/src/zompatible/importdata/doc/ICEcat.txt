@@ -53,10 +53,9 @@ Maintenant, analysons le fichier complet::
 	>>> importFile2 = ImportICEcat(os.path.join(path,"CategoriesList.xml"))
 	>>> importFile2.importCategories()
 	>>> print importFile2
-	|-- 
-	|  |-- stockage
-	|  |  |-- lecteurs de disquettes
-	|  |  |-- lecteurs ZIP...
+	|--  (1)
+	|  |-- stockage (206)
+	|  |  |-- lecteurs de disquettes (211)...
 	
 	
 .. [#] voir http://cody.gorfou.fr/trac/wiki/OpenIceCat
