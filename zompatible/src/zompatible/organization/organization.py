@@ -23,7 +23,7 @@ class OrganizationContainer(BTreeContainer):
   implements(IOrganizationContainer)
   __name__ = __parent__ = None
 
-OrganizationContainerFactory = Factory(OrganizationContainer)
+organization_container_factory = Factory(OrganizationContainer)
     
 class Organization(BTreeContainer):
     implements(IOrganization,IContainer)

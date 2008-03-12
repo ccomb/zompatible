@@ -21,8 +21,8 @@ import string, urllib
 
 from interfaces import *
 from organization import Organization, OrgaSource
-from zompatible.software.browser import SoftwareView
-from zompatible.device.browser import DeviceView
+
+
 
 
 class MyMultiCheckBoxWidget(MultiCheckBoxWidget):

@@ -138,12 +138,12 @@
 />
 
 <zope:utility
-      component=".organization.organizationFactory"
+      component=".organization.organization_factory"
       name="zompatible.Organization"
 />
 
 <zope:utility
-      component=".organization.OrganizationContainerFactory"
+      component=".organization.organization_container_factory"
       name="zompatible.OrganizationContainer"
 />
 
