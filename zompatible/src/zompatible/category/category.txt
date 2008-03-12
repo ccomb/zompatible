@@ -2,6 +2,9 @@
 CATEGORIES
 ==========
 
+Category object
+~~~~~~~~~~~~~~~
+
 A category is just an object with a name defining the category::
 
     >>> from zompatible.category.category import Category
@@ -41,6 +44,9 @@ By beeing categorizable, our object becomes annotatable
     >>> IAnnotatable.providedBy(myobj) and IAttributeAnnotatable.providedBy(myobj)
     True
 
+Reading and writing categories on an object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Now we can access the categories of the object::
 
     >>> ICategories(myobj)
@@ -61,33 +67,19 @@ We can remove a category::
     >>> categories
     []
 
-Storing categories
-~~~~~~~~~~~~~~~~~~
+Available categories
+~~~~~~~~~~~~~~~~~~~~
 
 Categories are plain objects stored in a category container, in a hierarchical manner.
 
-Register a global adapter needed to perform local lookups::
-(TODO: is there a way to avoid these lines?)
-
-    >>> from zope.component.interfaces import IComponentLookup
-    >>> from zope.component import getGlobalSiteManager
-    >>> from zope.interface import Interface
-    >>> gsm = getGlobalSiteManager()
-    >>> from zope.app.component.site import SiteManagerAdapter
-    >>> gsm.registerAdapter(SiteManagerAdapter, (Interface,), IComponentLookup)
-
-First we create a fake root with a site manager, and we store our object in the root folder::
-
-    >>> from zope.app.folder.folder import rootFolder
-    >>> from zope.app.component.site import LocalSiteManager
-    >>> root = rootFolder()
-    >>> sm = LocalSiteManager(root)
-    >>> root.setSiteManager(sm)
+    >>> from zope.app.component.hooks import getSite
+    >>> root = getSite()
     >>> root['myobj'] = myobj
+    >>> sm = root.getSiteManager()
 
-If we get all the possible available categories for our object, it should
-automatically create a category container in the site manager, and we should
-first get an empty folder.
+When we get all the possible available categories for our object, it should
+automatically create a category container in the site manager if it doesn't exist,
+and we should first get an empty folder.
 
     >>> from zompatible.category.interfaces import IAvailableCategories
     >>> available_categories = IAvailableCategories(myobj)
@@ -95,22 +87,51 @@ first get an empty folder.
     <zompatible.category.category.AvailableCategoriesContainer object at ...>
     >>> list(sm)
     [u'default', u'zompatible.category']
-    >>> list(sm[u'zompatible.category'])
+    >>> list(sm['zompatible.category'])
     [u'MyObject_categories']
+
+If we perform a second lookup, the container should be the same::
+    >>> available_categories2 = IAvailableCategories(myobj)
+    >>> available_categories2 is available_categories
+    True
+    >>> available_categories is sm['zompatible.category'][u'MyObject_categories']
+    True
 
 We can add possible categories
 
     >>> available_categories['cat1'] = Category(u'cat1')
-    >>> available_categories['cat2'] = Category(u'cat2')
+    >>> available_categories['cat1']['cat2'] = Category(u'cat2')
     >>> len(available_categories)
-    2
-    
-Retrieving categories
-~~~~~~~~~~~~~~~~~~~~~
-	>>> from zompatible.category.category import CategoryVocabulary
-	>>> vocab = CategoryVocabulary(myobj)
-	>>> [cat for cat in vocab]
+    1
 
+    >>> from zope.component import getUtility
+    >>> from zope.app.intid.interfaces import IIntIds   
+    >>> getUtility(IIntIds).register(available_categories['cat1'])
+    0
+    >>> getUtility(IIntIds).register(available_categories['cat1']['cat2'])
+    1
+
+    
+Vocabulary of available categories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The vocabulary is used in the form to display a list of available categories to choose from.
+
+We first create a ICategories object (it should usually be an adapter)
+ 
+	>>> from zompatible.category.category import AvailableCategoriesVocabulary
+	>>> vocab = AvailableCategoriesVocabulary(ICategories(myobj))
+	>>> [term.title for term in vocab]
+	[u'cat1', u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat2']
+	>>> vocab = AvailableCategoriesVocabulary(ICategories(myobj))
+	>>> [term.token for term in vocab]
+	['0', '1']
+	>>> vocab = AvailableCategoriesVocabulary(ICategories(myobj))
+	>>> [term.value.name for term in vocab]
+	[u'cat1', u'cat2']
+
+Category Deletion
+~~~~~~~~~~~~~~~~~
 
 A category can be marked as "inactive"
 

@@ -7,7 +7,6 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IVocabularyFactory, IVocabularyTokenized
 from zope.component.factory import Factory
 from zope.proxy import removeAllProxies
-from zompatible.skin.navigation.browser import PrettyName
 from zope.location import Location
 from zope.annotation.interfaces import IAnnotations
 from persistent.list import PersistentList
@@ -36,15 +35,18 @@ class AvailableCategoriesContainer(Folder):
     implements(IAvailableCategoriesContainer)
 
 
-class CategoryVocabulary(object):
+class AvailableCategoriesVocabulary(object):
     """
     This is the vocabulary that provides the different available categories, depending on the context
     """
     implements(IVocabularyTokenized)
     index=0
-    def __init__(self, context):
-        "The context is the adapter to ICategories, because the form fields are created from ICategories"
-        self.context=context
+    def __init__(self, categories):
+        """
+        The context is the adapter from the categorizable object to ICategories,
+        because the form fields are created from ICategories
+        """
+        self.context=categories
         self._intid = getUtility(IIntIds) # used to create the unique tokens
         u"""
         Here we must retrieve the list of categories, depending in the context
@@ -57,11 +59,11 @@ class CategoryVocabulary(object):
     def getTerm(self, value):
         "here, value is a a category"
         token = self._intid.getId(value)
-        title = (len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + PrettyName(value, None)() # TODO: remplacer les "____" par un niveau de liste
+        title = (len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.name # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def getTermByToken(self, token):
         value=self._intid.getObject(int(token))
-        title=(len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + PrettyName(value, None)() # TODO: remplacer les "____" par un niveau de liste
+        title=(len(self.parent_iterators)-1)*u'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + value.name # TODO: remplacer les "____" par un niveau de liste
         return SimpleTerm(value, token, title)
     def __iter__(self):
         "The class is used as its own iterator. The next() method will use the last iterator in the parent_iterators list"
@@ -119,8 +121,8 @@ class Categories(Location):
     adapts(ICategorizable)
     implements(ICategories)
 
-    def __init__(self, context):
-        self.context = context
+    def __init__(self, categorizable):
+        self.context = categorizable
 
     def _get_categories(self):
         try:
@@ -160,7 +162,7 @@ def AvailableCategories(context):
         except KeyError:
             catfolder = sm[__package__] = Folder()
         catfolder[utilityname] = AvailableCategoriesContainer()
-        sm.registerUtility(sm[__package__][utilityname], IAvailableCategories, utilityname)
+        sm.registerUtility(sm[__package__][utilityname], IAvailableCategoriesContainer, utilityname)
         return sm[__package__][utilityname]
 
 @adapter(ICategories)
