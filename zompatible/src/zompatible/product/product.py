@@ -79,17 +79,22 @@ class Software(Product):
 
 @adapter(IProduct, IObjectRemovedEvent)
 def ProductRemovedEvent(product, event):
-    u"a subscriber that throws the product into the trash if it contains support objects, instead of deleting it"
+    u"""
+    a subscriber that throws the product into the trash if it contains support objects,
+    instead of deleting it
+    """
     if event.newParent is None and len(product.supports) != 0 :
         trash = getSite()['trash']
-        device_name = INameChooser(trash).chooseName(u"",product)
-        trash[device_name]=product
+        product_name = INameChooser(trash).chooseName(u"",product)
+        trash[product_name]=product
 
 class ProductNameChooser(NameChooser):
     u"""
-    adapter that allows to choose the name of the Product from the container point of view
+    adapter for the container of the product that allows it to choose the name
+    of the added Product. 
     The real name is stored in an attribute, but this name is important
-    as it appears in the URL and is used for traversing    """
+    as it appears in the URL and is used for traversing
+    """
     implements(INameChooser)
     adapts(IProduct)
     def chooseName(self, name, product):
@@ -105,7 +110,7 @@ class ProductNameChooser(NameChooser):
         else :
             return True
 
-class SoftwareNameChooser(ProductNameChooser): # FIXME: should be remove if software is turned into a category
+class SoftwareNameChooser(ProductNameChooser): # FIXME: should be removed if software is turned into a category
     u"slightly modified name chooser derived from the product name chooser"
     implements(INameChooser)
     adapts(ISoftware)

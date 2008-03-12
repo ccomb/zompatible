@@ -11,6 +11,7 @@ Let's create a new product (a multi function USB printer/scanner/card reader)::
 
 We can also create this Product using a factory::
 
+    >>> del multi
     >>> from zompatible.product.product import productFactory
     >>> multi = productFactory(u'Hewlett-Packard PhotoSmart C5180')
 
@@ -18,6 +19,9 @@ A product is basically a contained persistent object::
 
     >>> list(providedBy(multi))
     [<InterfaceClass zompatible.product.interfaces.IProduct>, <InterfaceClass zope.app.container.interfaces.IContained>, <InterfaceClass persistent.interfaces.IPersistent>]
+
+Product name and description
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The name of the product is available in the name attribute::
 
@@ -39,6 +43,9 @@ We can write a description of the object::
     >>> multi.description = u"This is a multifunction device"
     >>> multi.description
     u'This is a multifunction device'
+
+Organization that made the product
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The product is currently associated with no organization
 
@@ -64,3 +71,4 @@ the product is moved to the new organization::
     False
     >>> multi in orga2.values()
     True
+
