@@ -1,0 +1,3 @@
+#!/bin/bash
+./bin/python /usr/lib/python2.4/idlelib/idle.py
+
