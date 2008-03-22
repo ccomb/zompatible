@@ -38,10 +38,24 @@ class IOrganizationContainer(IContainer, IContained):
   a container for the organizations should only contain organizations
   """
   contains(IOrganization)
+
+  def getOrga(name):
+      u"""
+      It always returns an organization object.
+      Returns the organization named *name* following this algorithm::
+      1 - returns the organization which has a chosen name == chooseName(name)
+          (it is fast),
+      2 - else returns the first organization that has *name* in its names list
+          (it is slow).
+      3 - else the organization is not found. It is created and returned.
+      
+      TODO: optimize the way to search inside names list.
+      """
   
 class ISearchableTextOfOrganization(ISearchableText):
     u"""
-    on déclare un index juste pour cette interface de façon à indexer juste les organisations
+    This index interface is used to index only organizations.
+    The text indexed will be the *names* list uppercase of the organization
     """
 
 class IManufacturer(Interface):

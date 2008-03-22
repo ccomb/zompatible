@@ -103,3 +103,36 @@ It will be used for traversing and will appear in the URL::
     Traceback (most recent call last):
     ...
     UserError: The given name is already being used
+
+Indexation
+~~~~~~~~~~
+
+Organization names can be indexed::
+
+    >>> from zompatible.organization.organization import SearchableTextOfOrganization
+    >>> index = SearchableTextOfOrganization(nvidia)
+    >>> index.getSearchableText()
+    u'NVIDIA '
+    
+Organization Container
+~~~~~~~~~~~~~~~~~~~~~~
+
+An organization can be retreived from the organization container given its 
+name. First, we test the container choosen name::
+    >>> orga1 = orgas.getOrga(name=u'nvidia')
+    >>> orga1 is nvidia
+    True
+
+Then we test the lookup in organization names::
+    >>> orga2 = orgas.getOrga(name=u'NvIdIa')
+    >>> orga2 is nvidia
+    True
+    
+If the organization does not exist, it is created, stored in the container and 
+returned::
+    >>> orga3 = orgas.getOrga(name=u'Altec Lansing')
+    >>> INameChooser(orgas).chooseName(None, orga3) in orgas
+    True
+    >>> list(orgas.keys())
+    [u'altec-lansing', u'ati', u'nvidia']
+    

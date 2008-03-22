@@ -23,6 +23,20 @@ class OrganizationContainer(BTreeContainer):
   implements(IOrganizationContainer)
   __name__ = __parent__ = None
 
+  def getOrga(self, name):
+      if name in self.keys():
+          return self[name]
+      else:
+          for orga in self.values():
+              if name in orga.names:
+                  return orga
+          # the organization has not been found, we create it.
+          orga = Organization()
+          orga.name = name
+          name = INameChooser(self).chooseName(None, orga)
+          self[name] = orga
+          return orga
+
 organization_container_factory = Factory(OrganizationContainer)
     
 class Organization(BTreeContainer):
@@ -68,9 +82,14 @@ class OrganizationNameChooser(NameChooser):
     implements(INameChooser)
     adapts(IOrganizationContainer)
     def chooseName(self, name, organization):
-        chosenname = super(OrganizationNameChooser, self).chooseName(name, organization)
+        chosenname = super(OrganizationNameChooser,
+                           self).chooseName(name, organization)
         if organization is not None and len(organization.names)>0:
-            chosenname = string.lower(organization.names[0]).strip().replace(' ','-').replace(u'/',u'-').lstrip('+@')
+            chosenname = string.lower(organization.names[0]
+                                      ).strip(
+                                          ).replace(' ','-'
+                                                    ).replace(u'/',u'-'
+                                                              ).lstrip('+@')
         return chosenname
 
 class OrganizationInterfaces(object):
@@ -138,24 +157,35 @@ def InternalContainerFactory(i):
         
 class SearchableTextOfOrganization(object):
     u"""
-    l'adapter qui permet d'indexer les organizations
+    Allows organization names indexation.
+
+    TODO: We should define 2 types of index:
+    1 - index the object with the exact group of words for each name (usefull
+    for automatic update from external database),
+    2 - index the object with each word (usefull for user search tool)
     """
     implements(ISearchableTextOfOrganization)
     adapts(IOrganization)
     def __init__(self, context):
         self.context = context
     def getSearchableText(self):
-        sourcetext = texttoindex = u''
+        texttoindex = u''
         for word in self.context.names:
-            sourcetext ==  word + " "
-        for word in sourcetext.split():        
-            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>= 1 ]:
-                texttoindex ==  subword + " "
+            word = word.upper()
+            if texttoindex.find(word) < 0:
+                texttoindex = texttoindex + word + " "
+##        sourcetext = texttoindex = u''
+##        for word in self.context.names:
+##            sourcetext = sourcetext + word + " "
+##        for word in sourcetext.split():        
+##            for subword in [ word[i:] for i in xrange(len(word)) if len(word)>= 1 ]:
+##                texttoindex = texttoindex + subword + " "
         return texttoindex
 
 class OrganizationTypeVocabulary(object):
     """
-    This is the vocabulary that provides the different interfaces of Organization to choose from. (ISoftwareEditor and IManufacturer)
+    This is the vocabulary that provides the different interfaces of
+    Organization to choose from. (ISoftwareEditor and IManufacturer)
     """
     implements(IVocabularyTokenized)
     adapts('zompatible.organization.interfaces.IOrganization')
