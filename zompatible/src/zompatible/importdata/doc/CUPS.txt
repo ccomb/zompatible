@@ -1,0 +1,21 @@
+﻿======
+ CUPS
+======
+
+Le module `cups` est en charge de récupérer les données de compatibilité des
+imprimantes avec CUPS[#] depuis le site OpenPrinting[#] et de fournir une
+interface simple pour y accéder afin de mettre à jour une base de données
+locale.
+
+.. contents: Index
+
+ from interfaces import
+ from cups import cups_import_factory
+ cups_import = cups_import_factory()
+ printer = cups_import.printers()
+ printer.next()
+
+
+
+..[#] Common Unix Printing System
+..[#] voir https://www.linux-foundation.org/en/OpenPrinting/Database/Query

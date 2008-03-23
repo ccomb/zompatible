@@ -45,3 +45,9 @@ class IImportFile(Interface):
     fileupload = Attribute(u"the FileUpload object from which to read")
     def importfile():
         u"perform the import"
+
+class ICups(Interface):
+    u"""
+    
+    """
+    
