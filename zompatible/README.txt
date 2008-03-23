@@ -2,6 +2,10 @@
 Zompatible project
 ==================
 
+Requirements:
+ + python2.4
+ + gcc >= 4.0
+
 To start contributing to the project, you need to run some scripts to initialize
 the development environment::
 
