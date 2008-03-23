@@ -1,3 +1,16 @@
 #!/bin/bash
-./bin/python /usr/lib/python2.4/idlelib/idle.py
-
+# 
+# This script launches the IDLE python IDE.
+# It works on Linux and OSX systems. 
+#
+system=`uname -s`
+echo $system OS detected.
+if [[ $system == "Linux" ]]
+then
+		./bin/python /usr/lib/python2.4/idlelib/idle.py
+else if [[ $system == "Darwin" ]]
+	then
+		./bin/python /Library/Frameworks/Python.framework/Versions/2.4/lib/python2.4/idlelib/idle.py
+	else echo Don't know how to deals with the $system OS.
+	fi
+fi
