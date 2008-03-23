@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import Interface, Attribute
-from zope.schema import Text
+from zope.schema import Text, TextLine, List
 from zope.app.container.constraints import containers
 from zope.app.component.interfaces import ILocalSiteManager
 
@@ -46,8 +46,66 @@ class IImportFile(Interface):
     def importfile():
         u"perform the import"
 
+class ICupsPrinter(Interface):
+    u"""
+    Describes a printer with data provided by CUPS web site API.
+    """
+    identity  = TextLine(
+		title=u"Printer ID",
+		description=u"""Full printer name (manufacturer name followed
+		by the printer model name)""",
+		required=True,
+		readonly=True
+		)
+    manufacturer  = TextLine(
+		title=u"Manufacturer",
+		description=u"Printer manufacturer name",
+		required=True,
+		readonly=True
+		)
+    model  = TextLine(
+		title=u"Model",
+		description=u"Printer model name",
+		required=True,
+		readonly=True
+		)
+    compatibility = TextLine(
+		title=u"Compatibility",
+		description=u"Printer compatibility level",
+		required=True,
+		readonly=True
+		)
+    recommended_driver = TextLine(
+		title=u"Recommended driver",
+		description=u"Recommended printer driver to use with CUPS",
+		required=False,
+		readonly=True
+		)
+    drivers = List(
+                title=u"Drivers",
+                description=u"""List other drivers that can make the printer
+                work""",
+		required=False,
+		readonly=True,
+                value_type=TextLine(
+                            title=u"Driver",
+                            description=u"Driver name")
+                )
+    
+    
+
 class ICups(Interface):
     u"""
-    
+    This interface allows a simple access to data provided by CUPS
+    *openprinting* web site API.
     """
-    
+    def manufacturers():
+        u"Iterator on printer manufacturers."
+        
+    def printers():
+        u"""Iterator on printers. Returns an object providing ICupsPrinter
+        interface."""
+        
+    def drivers():
+        u"Iterator on drivers."
+

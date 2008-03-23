@@ -9,11 +9,18 @@ locale.
 
 .. contents: Index
 
- from interfaces import
- from cups import cups_import_factory
- cups_import = cups_import_factory()
- printer = cups_import.printers()
- printer.next()
+    >>> from cups import cups_import_factory
+    >>> cups_import = cups_import_factory()
+    >>> printers = cups_import.printers()
+    >>> print printers.next()
+    id:Alps-MD-1000, manuf:Alps, model:MD-1000, comp:A,recomm driver:ppmtomd
+    Driver list:
+    md2k
+    ppmtocpva
+    >>> print printers.next()
+    id:Alps-MD-1000,...
+    >>> print printers.next()
+    id:Alps-MD-1000,...
 
 
 
