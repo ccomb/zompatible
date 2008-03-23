@@ -11,6 +11,7 @@ then
 else if [[ $system == "Darwin" ]]
 	then
 		./bin/python /Library/Frameworks/Python.framework/Versions/2.4/lib/python2.4/idlelib/idle.py
-	else echo Don't know how to deals with the $system OS.
+	else 
+		echo "Don't know how to deals with the $system OS."
 	fi
 fi
