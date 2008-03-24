@@ -33,15 +33,16 @@ class Cups(object):
         u""
         p = Printer()
 
-        while (1):
-            p.identity = u"Alps-MD-1000"
-            p.manufacturer = u"Alps"
-            p.model = u"MD-1000"
-            p.compatibility = u"A"
-            p.recommended_driver = u"ppmtomd"
-            p.drivers = [ u"md2k",
-                          u"ppmtocpva" ]
 
+        p.identity = u"Alps-MD-1000"
+        p.manufacturer = u"Alps"
+        p.model = u"MD-1000"
+        p.compatibility = u"A"
+        p.recommended_driver = u"ppmtomd"
+        p.drivers = [ u"md2k",
+                      u"ppmtocpva" ]
+
+        while (1):
             yield p
 
 
