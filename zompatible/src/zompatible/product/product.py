@@ -134,7 +134,7 @@ class SoftwareNameChooser(ProductNameChooser): # FIXME: should be removed if sof
 
 class SearchableTextOfProduct(object):
     u"""
-    l'adapter qui permet d'indexer les devices. Il fournit le texte à indexer depuis le contenu d'un objet product.
+    l'adapter qui permet d'indexer les products. Il fournit le texte à indexer depuis le contenu d'un objet product.
     Il est possible d'indexer n'importe quels attributs,
     et même les traductions qui se trouvent dans des fichiers .po externes !!
     """

@@ -4,6 +4,7 @@ from zope.interface import implements
 from zope.component import adapter
 from zope.app.container.interfaces import IObjectRemovedEvent
 from zope.component.factory import Factory
+from persistent.list import PersistentList
 
 from interfaces import *
 
@@ -14,12 +15,13 @@ SupportContainerFactory = Factory(SupportContainer)
 
 class Support(Folder):
     implements(ISupport)
-    device = software = None
+    products = PersistentList()
 
 @adapter(ISupport, IObjectRemovedEvent)
 def SupportDeletion(support, event):
-    u"remove the two other symetric support objects remaining in the device and software"
-    del support.device.supports[support.software], support.software.supports[support.device]
+    u"remove the two other symetric support objects remaining in the products"
+    for product in support.products:
+        del product.support
 
 
 

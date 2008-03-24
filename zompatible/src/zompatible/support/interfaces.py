@@ -2,11 +2,11 @@
 from zope.interface import Interface, Attribute
 from zope.app.container.interfaces import IContainer, IContained
 from zope.app.container.constraints import contains
-from zope.schema import Choice
+from zope.schema import Choice, List
 
 class ISupported(Interface):
     u"""
-    Interface added to software and devices to let them have a compatibility list
+    Interface added to products to let them have a compatibility list
     """
     supports = Attribute("Compatibility List")
 
@@ -18,10 +18,13 @@ class ISupportContainer(IContainer, IContained):
 
 class ISupport(IContainer):
     u"""
-    object that links a software to a device
-    It contains references to the software and device objects
+    object that links a list of products
+    It contains references to products
     and a list of Report objects
     """
-    software = Choice(title=u'software', description=u'software', source="softwaresource")
-    device = Choice(title=u'device', description=u'a device', source="devicesource")
+    products = List(title = u'compatible products', 
+                    description = u'compatible products',
+                    value_type = Choice( title=u'product',
+                                         description=u'product',
+                                         source="productsource"))
     
