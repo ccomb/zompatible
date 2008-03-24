@@ -47,7 +47,7 @@ class IImportFile(Interface):
         u"perform the import"
 
 class ICupsPrinter(Interface):
-    u"""
+    """
     Describes a printer with data provided by CUPS web site API.
     """
     identity  = TextLine(
@@ -95,17 +95,17 @@ class ICupsPrinter(Interface):
     
 
 class ICups(Interface):
-    u"""
+    """
     This interface allows a simple access to data provided by CUPS
     *openprinting* web site API.
     """
     def manufacturers():
-        u"Iterator on printer manufacturers."
+        "Iterator on printer manufacturers."
         
     def printers():
-        u"""Iterator on printers. Returns an object providing ICupsPrinter
+        """Iterator on printers. Returns an object providing ICupsPrinter
         interface."""
         
     def drivers():
-        u"Iterator on drivers."
+        "Iterator on drivers."
 

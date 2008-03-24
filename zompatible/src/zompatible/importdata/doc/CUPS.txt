@@ -11,8 +11,13 @@ locale.
 
 TODO: we should not need to specify *zompatible.importdata.cups* but only
 *cups* (it used to work on OSX but not on Linux ???).
-    >>> from zompatible.importdata.cups import cups_import_factory
-    >>> cups_import = cups_import_factory()
+
+    >>> import zompatible
+    >>> from zompatible.importdata import cups
+    >>> from os.path import dirname
+    >>> printers_file = 'file://localhost' + dirname(zompatible.importdata.__file__) + '/doc/printers.xml'
+
+    >>> cups_import = cups.cups_import_factory(printers_file)
     >>> printers = cups_import.printers()
     >>> print printers.next()
     id:Alps-MD-1000, manuf:Alps, model:MD-1000, comp:A,recomm driver:ppmtomd
