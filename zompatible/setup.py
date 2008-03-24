@@ -48,6 +48,7 @@ setup(name='zompatible',
                         'zope.app.testing',
                         'zope.app.securitypolicy',
                         'zope.viewlet',
+			'zope.app.preview',
                         ],
       entry_points = """
       [console_scripts]
