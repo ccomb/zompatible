@@ -33,11 +33,4 @@
     permission="zope.Public"
     class=".browser.ProductSearchViewlet"
 />
-<browser:view
-    for="*"
-    name="pretty_name"
-    class=".browser.PrettyName"
-    permission="zope.Public"
-/>
-
 </configure>

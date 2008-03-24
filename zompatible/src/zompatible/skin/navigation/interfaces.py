@@ -8,7 +8,3 @@ class IToolboxManager(IViewletManager):
     """
 
 
-class IPrettyName(IBrowserView):
-    u"""
-    The view provided by any object that wants to be displayed with a pretty name
-    """

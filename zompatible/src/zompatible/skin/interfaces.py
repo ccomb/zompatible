@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-
-
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer, IBrowserView
 
 class IZompatibleSkin(IDefaultBrowserLayer):
   """
@@ -11,3 +9,7 @@ class IZompatibleSkin(IDefaultBrowserLayer):
   This skin is activated by default with overrides zcml
   """
 
+class IPrettyName(IBrowserView):
+    u"""
+    The view provided by any object that wants to be displayed with a pretty name
+    """
