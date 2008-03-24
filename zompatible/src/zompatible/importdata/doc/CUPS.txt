@@ -9,7 +9,9 @@ locale.
 
 .. contents: Index
 
-    >>> from cups import cups_import_factory
+TODO: we should not need to specify *zompatible.importdata.cups* but only
+*cups* (it used to work on OSX but not on Linux ???).
+    >>> from zompatible.importdata.cups import cups_import_factory
     >>> cups_import = cups_import_factory()
     >>> printers = cups_import.printers()
     >>> print printers.next()

@@ -4,6 +4,9 @@
 ##======
 from zope.interface import implements
 from zope.component.factory import Factory
+from urllib import urlopen
+from lxml import etree
+from lxml.etree import ElementTree as ET
 
 from interfaces import ICups, ICupsPrinter
 
@@ -29,11 +32,21 @@ recomm driver:%s\n" % (self.identity,
 class Cups(object):
     implements(ICups)
 
+    def __init__(self, infile=None):
+        self.infile=infile
+
     def printers(self):
         u""
         p = Printer()
 
-
+        if self.infile == None:
+            # Normal use: we get data from the internet
+            feed = urlopen("http://openprinting.org/query.cgi?type=printers&moreinfo=1&format=xml")
+            tree = etree.parse(feed)
+        else:
+            # Test use case: we get data from a file
+            doc = ET(self.infile)
+        
         p.identity = u"Alps-MD-1000"
         p.manufacturer = u"Alps"
         p.model = u"MD-1000"
