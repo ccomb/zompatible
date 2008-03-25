@@ -11,7 +11,7 @@
 #
 ##############################################
 
-
+# INDENTER TOUT SOUS LA CATEGORIE DEVICE ?
 Ordinateurs
     fixe, de bureau
     Serveur
@@ -77,5 +77,42 @@ Standalone Devices
         Wifi
     Téléphones, Smartphones  
     Calculatrices  
+
+
+# Initial Software categories
+#
+# Syntax :  names[0], names[1], names[2], ..., names[X]  : description
+# The first spaces are used to determine the subcategory level (group of 4 spaces)
+
+
+# INDENTER TOUT SOUS LA CATEGORIE SOFTWARE ?
+Operating System
+    for Server 
+    for Desktop
+    for Cluster
+    for Education
+    for Multimedia
+    Live CD/DVD
+    Multimedia
+    
+    Linux Distribution
+    Unix like
+    Windows or equivalent
+    BSD system
+    
+    
+Component, subsystem
+    Linux kernel
+    Linux kernel module
+    # à déplacer probablement dans les catégories d'usage
+    for Display
+    for Audio
+    for Printing
+    for Scanning
+    for Video
+    
+Games
+
+Other Software
 
 
