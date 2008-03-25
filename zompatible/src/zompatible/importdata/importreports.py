@@ -2,7 +2,6 @@
 from zope.component import adapts
 from zope.interface import implements
 from importdata import ImportFile
-from zompatible.software.interfaces import ISoftware
 from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 

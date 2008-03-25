@@ -1,80 +1,81 @@
-<configure xmlns:zope="http://namespaces.zope.org/zope" xmlns:browser="http://namespaces.zope.org/browser">
+<configure xmlns:zope="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
 
 
 <zope:class class=".category.AvailableCategoriesContainer">
-  <require permission="zope.View"          interface=".interfaces.IAvailableCategoriesContainer" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.IAvailableCategoriesContainer" />
+  <require permission="zope.View"
+           interface=".interfaces.IAvailableCategoriesContainer" />
+  <require permission="zope.ManageContent"
+           set_schema=".interfaces.IAvailableCategoriesContainer" />
 </zope:class>
 
 <zope:class class=".category.Category">
-  <require permission="zope.View"          interface=".interfaces.ICategory" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.ICategory" />
+  <require permission="zope.View"
+           interface=".interfaces.ICategory" />
+  <require permission="zope.ManageContent"
+           set_schema=".interfaces.ICategory" />
 </zope:class>
 
 <zope:class class=".category.Categories">
-  <require permission="zope.View"          interface=".interfaces.ICategories" />
-  <require permission="zope.ManageContent" set_schema=".interfaces.ICategories" />
+  <require permission="zope.View"
+           interface=".interfaces.ICategories" />
+  <require permission="zope.ManageContent"
+           set_schema=".interfaces.ICategories" />
   <!-- allow to access the adapted object (required in the CategorieVocabulary) -->
-  <require permission="zope.View"          attributes="context" />
+  <require permission="zope.View"
+           attributes="context" />
 </zope:class>
 
-<zope:utility
-    factory=".category.CategoryVocabularyFactory"
-    name="categories"
-/>
-<zope:utility
-    component=".category.categoryFactory"
-    name="zompatible.Category"
-    permission="zope.Public"
-/>
-<zope:adapter factory=".category.Categories" locate="yes" trusted="yes" />
-<zope:adapter factory=".category.AvailableCategories" provides=".interfaces.IAvailableCategories" locate="yes"  />
-<zope:adapter factory=".category.CategoriesAvailableCategories" provides=".interfaces.IAvailableCategories" locate="yes" />
+<zope:utility factory=".category.CategoryVocabularyFactory"
+              name="categories" />
+
+<zope:utility component=".category.categoryFactory"
+              name="zompatible.Category"
+              permission="zope.Public" />
+
+<zope:adapter factory=".category.Categories"
+              provides=".interfaces.ICategories"
+              locate="yes"
+              trusted="yes" />
+<zope:adapter factory=".category.AvailableCategories"
+              provides=".interfaces.IAvailableCategories"
+              locate="yes"  />
+<zope:adapter factory=".category.CategoriesAvailableCategories"
+              provides=".interfaces.IAvailableCategories"
+              locate="yes" />
 <zope:adapter factory=".category.SearchableTextOfCategorizable" />
 
-<browser:addMenuItem
-    title="Available Categories"
-    class=".category.AvailableCategoriesContainer"
-    permission="zope.ManageContent"
-
-/>
-<browser:addMenuItem
-    title="Category"
-    class=".category.Category"
-    permission="zope.ManageContent"
-/>
-<browser:page
-    name="edit_categories.html"
-    for=".interfaces.ICategorizable"
-    class=".browser.CategoriesEdit"
-    permission="zope.Public"
-    menu="my_actions" title="Edit categories"
-/>
-<browser:page
-    name="view_categories.html"
-    for=".interfaces.ICategorizable"
-    class=".browser.CategoriesView"
-    permission="zope.Public"
-    menu="my_actions" title="View categories"
-/>
-<browser:page
-    name="edit_available_categories.html"
-    for=".interfaces.ICategorizable"
-    class=".browser.AvailableCategoriesEdit"
-    permission="zope.ManageContent"
-    menu="my_actions" title="Available categories"
-/>
-<browser:menuItem
-    menu="my_actions"
-    for=".interfaces.IAvailableCategoriesContainer"
-    title="Add Category"
-    action="@@contents.html?type_name=BrowserAdd__zompatible.category.category.Category"
-/>
-<browser:menuItem
-    menu="my_actions"
-    for=".interfaces.ICategory"
-    title="Add Category"
-    action="@@contents.html?type_name=BrowserAdd__zompatible.category.category.Category"
-/>
+<browser:addMenuItem title="Available Categories"
+                     class=".category.AvailableCategoriesContainer"
+                     permission="zope.ManageContent" />
+<browser:addMenuItem title="Category"
+                     class=".category.Category"
+                     permission="zope.ManageContent" />
+<browser:page name="edit_categories.html"
+              for=".interfaces.ICategorizable"
+              class=".browser.CategoriesEdit"
+              permission="zope.Public"
+              menu="my_actions"
+              title="Edit categories" />
+<browser:page name="view_categories.html"
+              for=".interfaces.ICategorizable"
+              class=".browser.CategoriesView"
+              permission="zope.Public"
+              menu="my_actions"
+              title="View categories" />
+<browser:page name="edit_available_categories.html"
+              for=".interfaces.ICategorizable"
+              class=".browser.AvailableCategoriesEdit"
+              permission="zope.ManageContent"
+              menu="my_actions"
+              title="Available categories" />
+<browser:menuItem menu="my_actions"
+                  for=".interfaces.IAvailableCategoriesContainer"
+                  title="Add Category"
+                  action="@@contents.html?type_name=BrowserAdd__zompatible.category.category.Category"  />
+<browser:menuItem menu="my_actions"
+                  for=".interfaces.ICategory"
+                  title="Add Category"
+                  action="@@contents.html?type_name=BrowserAdd__zompatible.category.category.Category" />
 
 </configure>

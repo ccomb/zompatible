@@ -4,7 +4,7 @@ from zope.component import adapts
 from zope.component import provideAdapter
 
 from zompatible.ids.interfaces import  IDeviceId, IPciDeviceId, IUsbDeviceId
-from zompatible.device.interfaces import IDevice
+from zompatible.product.interfaces import IProduct
 
 class DeviceIdAbstract(object):
   
@@ -64,7 +64,7 @@ class DeviceId(DeviceIdAbstract):
    UsbDeviceId does. ????!!!!
    """
    implements(IDeviceId)
-   adapts(IDevice)
+   adapts(IProduct)
    def __init__(self,context):
       self.context=context
       DeviceIdAbstract.__init__(self,context)
@@ -73,7 +73,7 @@ class PciDeviceId(DeviceIdAbstract):
    u""" Adapter to be able to add IPciDeviceId interface to a device 
    """
    implements(IPciDeviceId)
-   adapts(IDevice)
+   adapts(IProduct)
    def __init__(self,context):
       self.context=context
       # First we create the attributes,
@@ -85,7 +85,7 @@ class UsbDeviceId(DeviceIdAbstract):
    u""" Adapter to be able to add IUsbDeviceId interface to a device 
    """
    implements(IUsbDeviceId)
-   adapts(IDevice)
+   adapts(IProduct)
    def __init__(self,context):
       self.context=context
       # First we create the attributes,

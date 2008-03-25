@@ -3,7 +3,6 @@
            i18n_domain="zompatible">
 
   <include package="zompatible" />
-  <apidoc:rootModule module="zompatible" />
 
   <!-- Remove this reference to disable the APIDoc tool.
        You should do this for production -->

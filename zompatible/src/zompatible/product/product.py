@@ -12,6 +12,7 @@ import string
 from BTrees.OOBTree import OOBTree
 from zope.app.container.contained import Contained
 from zope.app.container.interfaces import IContained, IContainer
+from zope.app.folder.folder import Folder
 from interfaces import *
 
 class Product(Persistent):
@@ -61,6 +62,16 @@ class Product(Persistent):
 productFactory = Factory( Product,
                           title = u"Product factory",
                           description = u"This factory instantiates a new Product.")
+
+class ProductContainer(Folder):
+    """
+    a folder that contains products
+    """
+    __name__=__parent__= None
+    implements(IProductContainer)
+
+
+
 
 class Device(Product):
     u"FIXME: should probably be removed since a device is a product category?"

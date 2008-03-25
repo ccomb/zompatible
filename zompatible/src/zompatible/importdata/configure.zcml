@@ -25,7 +25,7 @@
 <!-- à déplacer dans le module pciids -->
 <browser:page
     name="upload_pcimap.html"
-    for="zompatible.software.interfaces.ISoftware"
+    for="zompatible.product.interfaces.IProduct"
     class=".importreports.UploadModulesPciMap"
     permission="zope.Public"
 />

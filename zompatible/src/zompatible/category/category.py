@@ -118,8 +118,8 @@ class Categories(Location):
     u"""
     The adapter that writes and retrieves the categories put on any object
     """
-    adapts(ICategorizable)
     implements(ICategories)
+    adapts(ICategorizable)
 
     def __init__(self, categorizable):
         self.context = categorizable

@@ -1,11 +1,11 @@
-<configure xmlns:zope="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope">
 
 <!-- we define r/w permissions on the Product class -->
 <class class=".product.Product">
     <!-- We decide that Product objects are characterizable, categorizable, and are supported (ie carry a compatibility database) -->
     <implements interface="zompatible.support.interfaces.ISupported
                            zompatible.category.interfaces.ICategorizable
-                           zompatible.ids.interfaces.IProductId
+                           zompatible.ids.interfaces.IDeviceId
                            zompatible.characteristic.interfaces.ICharacterizable" />
     <require permission="zope.View"
              interface=".interfaces.IProduct" />
@@ -17,9 +17,9 @@
     <require permission="zope.ManageContent"
              set_schema="zompatible.support.interfaces.ISupported" />
     <require permission="zope.View"
-             interface="zompatible.ids.interfaces.IProductId" />
+             interface="zompatible.ids.interfaces.IDeviceId" />
     <require permission="zope.ManageContent"
-             set_schema="zompatible.ids.interfaces.IProductId" />
+             set_schema="zompatible.ids.interfaces.IDeviceId" />
 </class>
 
 <interface interface=".interfaces.IProduct"
@@ -30,8 +30,8 @@
          permission="zope.ManageContent" />
 
 <adapter factory=".product.SearchableTextOfProduct" />
-<adapter factory=".browser.ProductTerms" />
-<adapter factory=".browser.ProductQueryView" />
+<adapter factory=".browser.product.ProductTerms" />
+<adapter factory=".browser.product.ProductQueryView" />
 <adapter factory=".product.ProductNameChooser" />
 
 <subscriber handler=".product.ProductRemovedEvent" />
@@ -40,10 +40,6 @@
 <utility factory=".product.ProductVocabularyFactory"
          name="productsource" />
 
-<!-- a factory for products -->
-<utility component=".product.productFactory"
-         name="zompatible.Product"
-         permission="zope.Public" />
 
 <include package=".template" />
 <include package=".browser" />
