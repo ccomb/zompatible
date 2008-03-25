@@ -13,12 +13,14 @@ from zope.app.catalog.text import TextIndex
 from zope.component import createObject
 from zope.app.generations.utility import findObjectsProviding
 
+from os.path import dirname, join
 from organization.interfaces import ISearchableTextOfOrganization
-from product.interfaces import ISearchableTextOfProduct
+from product.interfaces import ISearchableTextOfProduct, IProduct
 from level.level import EasinessLevels, StabilityLevels
 from level.interfaces import ILevels
 from category.interfaces import ISearchableTextOfCategorizable
 from search.search import ObjectIndex
+import importdata
 from importdata.interfaces import IImportData
 from importdata.importcategories import ImportCategoryFile
 from importdata.importsoftware import ImportSoftwareFile
@@ -58,10 +60,10 @@ def ZompatibleInitialSetup(event):
     sm['unique integer IDs']=intid
     sm.registerUtility(intid, IIntIds)
 
-    # create and register the importdata utility
-    importdata = createObject("zompatible.importData")
-    sm['importdata']=importdata
-    sm.registerUtility(importdata, IImportData)
+    # create and register the import_data utility
+    import_data = createObject("zompatible.importData")
+    sm['importdata']=import_data
+    sm.registerUtility(import_data, IImportData)
     
     # then create the organizations folder
     event.object['organizations'] = createObject(u"zompatible.OrganizationContainer")
@@ -84,20 +86,20 @@ def ZompatibleInitialSetup(event):
     sm.registerUtility(sm['stability_levels'], ILevels, 'stability_levels')
      
     # then create and register the wanted indices in the catalog
-    catalog['device_text'] = TextIndex(interface=ISearchableTextOfDevice, field_name='getSearchableText', field_callable=True)
+    catalog['product_text'] = TextIndex(interface=ISearchableTextOfProduct, field_name='getSearchableText', field_callable=True)
     catalog['organization_text'] = TextIndex(interface=ISearchableTextOfOrganization, field_name='getSearchableText', field_callable=True)
-    catalog['software_text'] = TextIndex(interface=ISearchableTextOfSoftware, field_name='getSearchableText', field_callable=True)
+
     # catalog['all_searchable_text'] = TextIndex(interface=ISearchableText, field_name='getSearchableText', field_callable=True)
     catalog['categorizable_text'] = TextIndex(interface=ISearchableTextOfCategorizable, field_name='getSearchableText', field_callable=True)
     catalog['product_organization'] = ObjectIndex(interface=IProduct, field_name='organization', field_callable=False)
 
     # importcategories needs a context to be able to find its AvailableCategoriesContainer
     sm['temp'] = createObject("zompatible.Product")
-    ImportCategoryFile("../lib/python/zompatible/importdata/initial_product_categories.txt").do_import(sm['temp'])
+    ImportCategoryFile(join(dirname(importdata.__file__), 'initial_product_categories.txt')).do_import(sm['temp'])
     del sm['temp']
     
     # import initial software list
-    ImportSoftwareFile("../lib/python/zompatible/importdata/initial_software.txt").do_import(context=site)
+    ImportSoftwareFile(join(dirname(importdata.__file__), 'initial_software.txt')).do_import(context=site)
     
     #create an intid for all objects added in content space and site manager. (the intid is not yet active)"
     #KEEP THIS AT THE BOTTOM"
