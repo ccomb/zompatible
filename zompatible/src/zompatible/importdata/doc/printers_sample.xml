@@ -1,0 +1,42 @@
+<printers>
+  <printer id="printer/Alps-MD-1000">
+    <id>Alps-MD-1000</id>
+    <make>Alps</make>
+    <model>MD-1000</model>
+    <functionality>A</functionality>
+    <driver>ppmtomd</driver>
+    <drivers>
+      <driver>md2k</driver>
+      <driver>ppmtocpva</driver>
+      <driver>ppmtomd</driver>
+    </drivers>
+  </printer>
+  <printer id="printer/Apollo-P-1220_Barbie">
+    <id>Apollo-P-1220_Barbie</id>
+    <make>Apollo</make>
+    <model>P-1220 Barbie</model>
+    <functionality>A</functionality>
+    <driver>pcl3</driver>
+    <drivers>
+      <driver>hpdj</driver>
+      <driver>pcl3</driver>
+    </drivers>
+  </printer>
+  <printer id="printer/Samsung-ML-4600">
+    <id>Samsung-ML-4600</id>
+    <make>Samsung</make>
+    <model>ML-4600</model>
+    <functionality>A</functionality>
+    <driver>pxlmono</driver>
+    <drivers>
+      <driver>hpijs</driver>
+      <driver>gimp-print</driver>
+      <driver>gutenprint</driver>
+      <driver>lj4dith</driver>
+      <driver>lj5gray</driver>
+      <driver>lj5mono</driver>
+      <driver>ljet4</driver>
+      <driver>pxlmono</driver>
+    </drivers>
+  </printer>
+</printers>
