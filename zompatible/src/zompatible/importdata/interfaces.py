@@ -92,7 +92,17 @@ class ICupsPrinter(Interface):
                             description=u"Driver name")
                 )
     
-    
+
+class ICupsManufacturer(Interface):
+    """
+    Describes a manufacturer with data provided by CUPS web site API.
+    """
+    name  = TextLine(
+    		title=u"Name",
+		description=u"Printer manufacturer name",
+		required=True,
+		readonly=True
+		)
 
 class ICups(Interface):
     """

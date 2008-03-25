@@ -17,7 +17,7 @@ local sample file. For nrmal use, just leave parenthesis empty::
 
     >>> import os
     >>> from zompatible.importdata.cups import cups_import_factory
-    >>> cups_import = cups_import_factory(in_printers_file=os.path.join(path,"printers_sample.xml"))
+    >>> cups_import = cups_import_factory(in_printers_file=os.path.join(path,"printers_sample.xml"), in_manufacturers_file=os.path.join(path,"manufacturers_sample.xml"))
 
 Now, we can access printers reports (see interfaces.ICupsPrinter to know object
 attributes provided by cups_import.printers() generator)::
@@ -28,7 +28,15 @@ attributes provided by cups_import.printers() generator)::
     Apollo-P-1220_Barbie compatibility level: A
     Samsung-ML-4600 compatibility level: A
 
+Accessing the manufacturer list from CUPS::
 
+    >>> manufacturers = cups_import.manufacturers()
+    >>> for manuf in manufacturers: print manuf.name
+    Alps
+    Anitech
+    Apollo
+    Apple
+    ...
 
 ..[#] Common Unix Printing System
 ..[#] voir https://www.linux-foundation.org/en/OpenPrinting/Database/Query
