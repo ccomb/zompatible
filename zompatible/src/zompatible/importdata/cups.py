@@ -24,59 +24,60 @@ recomm driver:%s\n" % (self.identity,
                     self.model,
                     self.compatibility,
                     self.recommended_driver)
-        txt += u"Driver list:\n"
+        txt += u"Driver list:"
         for drv in self.drivers:
-            txt += drv + u"\n"
+            txt += u"\n" + drv 
         return txt
 
 class Cups(object):
     implements(ICups)
 
-    def __init__(self, infile=None):
-        self.infile=infile
+    def __init__(self, in_printers_file=None):
+        self.in_printers_file=in_printers_file
 
     def printers(self):
-        u""
-        p = Printer()
+        ""
 
-        if self.infile == None:
-            #print "uploading file"
+        if self.in_printers_file == None:
             # Normal use: we get data from the internet
             try:
-                feed = urlopen("http://openprinting.org/query.cgi?type=printers&moreinfo=1&format=xml")
+                file = urlopen("http://openprinting.org/query.cgi?type=printers&moreinfo=1&format=xml")
             except IOError, detail:
                 print "*** I/O error reading %s" % (detail)
-                yield None
-                
-            doc = etree.parse(feed)
+                return
         else:
-            #print "loading file % s " % self.infile
             # Test use case: we get data from a file
-            try:
-                doc = etree.ElementTree ( file=self.infile )
-            except etree.XMLSyntaxError, detail:
-                print "*** XML file not well-formed: %s" % detail
-                yield None
-            except IOError, detail:
-                print "*** I/O error reading '%s': %s" % (self.infile, detail)
-                yield None
+            file = self.in_printers_file
 
-            doc = etree.parse(self.infile)
+        
+        try:
+            doc = etree.parse(file)
+        except etree.XMLSyntaxError, detail:
+            print "*** XML file not well-formed: %s" % detail
+            return
+        except IOError, detail:
+            print "*** I/O error reading '%s': %s" % (self.in_printers_file, detail)
+            return
 
-#        for printer in doc.getiterator(tag="Printer"):
-#            for elt in cat:
-#                if elt.tag == "id":
-#                    p.identity = elt.text
-            p.identity=u"Alps-MD-1000"        
-            p.manufacturer = u"Alps"
-            p.model = u"MD-1000"
-            p.compatibility = u"A"
-            p.recommended_driver = u"ppmtomd"
-            p.drivers = [ u"md2k",
-                      u"ppmtocpva" ]
+        p = Printer()
 
-            while 1:
-                yield p
+        for printer in doc.getiterator(tag="printer"):
+            for elt in printer:
+                if elt.tag == u"id":
+                    p.identity = elt.text
+                if elt.tag == u"make":
+                    p.manufacturer = elt.text
+                if elt.tag == u"model":
+                    p.model = elt.text
+                if elt.tag == u"functionality":
+                    p.compatibility = elt.text
+                if elt.tag == u"driver":
+                    p.recommended_driver = elt.text
+                if elt.tag == u"drivers":
+                    p.drivers = [ drv.text for drv in elt if drv.tag == u"driver"]
+
+            yield p
+            
 
 
 cups_import_factory = Factory(Cups)
