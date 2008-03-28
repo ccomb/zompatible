@@ -3,6 +3,7 @@
 ## CUPS
 ##======
 from zope.interface import implements
+from zope.schema.fieldproperty import FieldProperty
 from zope.component.factory import Factory
 from urllib import urlopen
 from lxml import etree
@@ -16,9 +17,17 @@ _CUPS_MANUFACTURERS_REQUEST="http://openprinting.org/query.cgi?type=manufacturer
 class Printer(object):
     implements(ICupsPrinter)
 
-    identity = manufacturer = model = compatibility = u""
-    recommended_driver = u""
-    drivers = {}
+    identity = FieldProperty(ICupsPrinter['identity'])
+    manufacturer = FieldProperty(ICupsPrinter['manufacturer'])
+    model = FieldProperty(ICupsPrinter['model'])
+    compatibility = FieldProperty(ICupsPrinter['compatibility'])
+    recommended_driver = FieldProperty(ICupsPrinter['recommended_driver'])
+    drivers = FieldProperty(ICupsPrinter['drivers'])
+
+    def __init(self):
+        identity = manufacturer = model = compatibility = u""
+        recommended_driver = u""
+        drivers = {}
 
     def __str__(self):
         txt = u"id:%s, manuf:%s, model:%s, comp:%s,\
@@ -35,7 +44,7 @@ recomm driver:%s\n" % (self.identity,
 class Manufacturer(object):
     implements(ICupsManufacturer)
 
-    name = u""
+    name = FieldProperty(ICupsManufacturer['name'])
 
 class Cups(object):
     implements(ICups)
@@ -85,17 +94,17 @@ class Cups(object):
         for printer in doc.getiterator(tag="printer"):
             for elt in printer:
                 if elt.tag == u"id":
-                    p.identity = elt.text
+                    p.identity = unicode(elt.text)
                 if elt.tag == u"make":
-                    p.manufacturer = elt.text
+                    p.manufacturer = unicode(elt.text)
                 if elt.tag == u"model":
-                    p.model = elt.text
+                    p.model = unicode(elt.text)
                 if elt.tag == u"functionality":
-                    p.compatibility = elt.text
+                    p.compatibility = unicode(elt.text)
                 if elt.tag == u"driver":
-                    p.recommended_driver = elt.text
+                    p.recommended_driver = unicode(elt.text)
                 if elt.tag == u"drivers":
-                    p.drivers = [ drv.text for drv in elt if drv.tag == u"driver"]
+                    p.drivers = [ unicode(drv.text) for drv in elt if drv.tag == u"driver"]
 
             yield p
 
@@ -106,7 +115,12 @@ class Cups(object):
         manufacturer = Manufacturer()
         
         for manuf in doc.getiterator(tag="make"):
-            manufacturer.name = manuf.text
+            manufacturer.name = unicode(manuf.text)
             yield manufacturer
 
+    def drivers(self):
+        u"Not yet implemented"
+        return
+
+        
 cups_import_factory = Factory(Cups)
